@@ -1,0 +1,137 @@
+;
+; The following MACROs are defined in DACPDA.MAC:
+;
+; ASIC_SYNC is called after the board is reset to sync the DC and FC
+;  processors of the ASIC
+;
+; ID_DETECT MACRO does something , probably with ID
+;
+; SET_MEM_0 sets the memory pointer for the DAC to point to the
+;  first memory area selected by the PC.
+;
+; INIT_CNTRS moves the counter values from shared memory into DAC memory
+;  so the DO - LOOP construct can use them, and clears the running count
+;  seen by the PC
+;
+; KEEP_CLEAN clears the shift register, gets the temp, etc.
+;
+; CLEAR_ALL clears all the data memories (using J to tell how many)
+;
+; ACQ_PDA_SCN reads the data from the PDA.
+;
+; INC_MEM increments the DAC memory pointer by the amount specified
+;  by the PC host.
+
+;-------------------------------------------------------------------------;
+; ASIC_SYNC is called after the board is reset to sync the DC and FC
+; processors of the ASIC
+;-------------------------------------------------------------------------;
+
+ASIC_SYNC    MACRO
+        MOVE W  #FCINIT,FCPROG ASIC        ;SYNC. DAC W/ASIC.
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_FC
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_FC
+        MOVE W  #$FFFF,FCMASK ASIC
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+             ENDM
+
+
+ID_DETECT MACRO
+        WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCIDNT,FCPROG ASIC
+        MOVE W  #DCIDNT,DCPROG ASIC
+        MOVE L  #(SHUTID-STARTADDR), FBASE ASIC
+;        MOVE L  #(DETECTID-STARTADDR), FBASE ASIC
+             ENDM
+
+;-------------------------------------------------------------------------;
+; SET_MEM_0 sets the memory pointer for the DAC to point to the
+; first memory area selected by the PC.
+;-------------------------------------------------------------------------;
+
+SET_MEM_0 MACRO
+          MOVE L  FRAMEOFFS, DATAADDR        ; Copy Offset from driver
+          ENDM
+
+;-------------------------------------------------------------------------;
+; INIT_CNTRS moves the counter values from shared memory into DAC memory
+; so the DO - LOOP construct can use them, and clears the running count
+; seen by the PC
+;-------------------------------------------------------------------------;
+
+INIT_CNTRS MACRO
+        MOVE W H0ADDR,HCNTR               ; Init private counters
+        MOVE W I0ADDR,ICNTR               ; from max value from PC
+        MOVE W J0ADDR,JCNTR
+        MOVE W K0ADDR,KCNTR
+        MOVE W T0ADDR,TCNTR
+
+        MOVE W #0, I1ADDR
+        MOVE W #0, J1ADDR
+        MOVE W #0, K1ADDR
+        MOVE W #0, H1ADDR
+        MOVE W #0, T1ADDR
+        MOVE L SC_ADDRESS, NXTSCADDR      ;Zero source comp address
+        ADD  L #4, NXTSCADDR              ;Point to first live scomp
+
+        ENDM
+
+;-------------------------------------------------------------------------;
+;
+; KEEP_CLEAN clears the shift register, gets the temp, etc.
+;
+;-------------------------------------------------------------------------;
+
+KEEP_CLEAN MACRO
+        WAIT_DMA
+        MOVE W  #FCKC,FCPROG ASIC          ;Load keepclean address
+        MOVE W  #DCKC,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR), FBASE ASIC
+        MOVE L  SC_ADDRESS, NXTSCADDR      ;Zero scomp address
+        ENDM
+
+SLOW_CLEAN MACRO
+;       WAIT_DMA
+;       MOVE W  #FCKC,FCPROG ASIC          ;Load keepclean address
+;       MOVE W  #DCKC,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR), FBASE ASIC
+        MOVE L  SC_ADDRESS, NXTSCADDR      ;Zero scomp address
+
+        WAIT_DMA
+        RAPSCAN TBL_ONE         ; ??????????????
+
+        ENDM
+
+
+;-------------------------------------------------------------------------;
+;
+; CLEAR_ALL clears all the data memories (using J to tell how many)
+;
+;-------------------------------------------------------------------------;
+CLEAR_ALL   MACRO
+        ADD L   #STARTADDR, DATAADDR       ; Make into address we can use
+        DO JCNTR
+          CLR   DATAADDR, FRAMESIZE
+          ADD L FRAMESIZE, DATAADDR
+        LOOP
+        MOVE L  FRAMEOFFS, DATAADDR        ; Copy Offset from driver
+        ENDM
+
+;-------------------------------------------------------------------------;
+; INC_MEM increments the DAC memory pointer by the amount specified
+; by the PC host.
+;-------------------------------------------------------------------------;
+
+INC_MEM  MACRO
+        ADD L FRAMESIZE, DATAADDR         ;INC MEMORY POINTER
+        ENDM

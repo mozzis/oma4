@@ -1,0 +1,21 @@
+SCC = This is a Source Code Control file
+
+[DBG4000.MAK]
+SCC_Aux_Path = "E:\SS"
+SCC_Project_Name = "$/OMA4000/Main", JSAAAAAA
+
+[EMPOKE.MAK]
+SCC_Aux_Path = "E:\SS"
+SCC_Project_Name = "$/OMA4000/Main", JSAAAAAA
+
+[FILETEST.MAK]
+SCC_Aux_Path = "E:\SS"
+SCC_Project_Name = "$/OMA4000/Main", JSAAAAAA
+
+[msc6.mak]
+SCC_Aux_Path = "E:\SS"
+SCC_Project_Name = "$/OMA4000/Main", JSAAAAAA
+
+[OMA4DRV.MAK]
+SCC_Aux_Path = "E:\SS"
+SCC_Project_Name = "$/OMA4000/Main", JSAAAAAA

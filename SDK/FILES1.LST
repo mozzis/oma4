@@ -1,0 +1,71 @@
+[Disk 1 - Driver files and utilities]
+
+files1.lst         This file
+                   
+access4.c          ¿
+cache386.c         ³
+cmdtbl.c           ³
+cntrloma.c         ³
+detdriv.c          Source files for driver library
+himem.c            ³
+loadoma.c          ³
+oma4phys.c         ³
+wc32phys.c         Ù
+
+                   Source files for test programs
+oma4si.c           OMA4 static interface program
+testdriv.c         Example setup detector and run DA
+
+detdriv.h          ¿
+primtype.h         ³
+access4.h          ³
+asicodes.h         ³
+cache386.h         ³
+cmdtbl.h           ³
+cntrloma.h         ³
+counters.h         ³
+di_util.h          ³
+driverrs.h         Header files
+handy.h            Copy *all* to include directory
+himem.h            ³
+loadoma.h          ³
+loadrec.h          ³
+monitor.h          ³
+oma4scan.h         ³
+oma4phys.h         ³
+omaerror.h         ³
+omaregs.h          ³
+wc32phys.h         Ù
+                   
+mcdriv.lib         Microsoft C6.0 library for OMA4 detector
+tcdriv.lib         Same for Borland C/C++ 3.0 and later
+wcdriv.lib         And for Watcom C 386/32 ver 9.01 and later
+
+monitor.bin        ¿
+scans.abj          OMA4 board compiled code
+scans.dbj          Ù
+
+                   Turbo C make files - edit to make paths correct
+tcdriv.mak         Make file for driver library
+tcoma4si.mak       Make file for static interface
+ttstdriv.mak       Make file for example program
+tm.bat             Batch file to compile library and example
+
+                   Microsoft C make files - edit to correct paths
+mcdriv.mak         Make file for driver library
+mcoma4si.mak       Make file for static interface
+mtstdriv.mak       Make file for example program
+nm.bat             Batch file to compile library and example
+
+                   WATCOM C make files - edit to correct paths
+wcdriv.mak         Make file for driver library
+wcoma4si.mak       Make file for static interface
+wtstdriv.mak       Make file for example program
+wm.bat             Batch file to compile library and example
+
+                   Optional utilities
+port.exe           Write values to hardware I/O ports
+
+testdriv.exe       Executable demo programs     
+oma4si.exe
+

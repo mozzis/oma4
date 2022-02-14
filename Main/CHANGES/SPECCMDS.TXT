@@ -1,0 +1,32 @@
+Procedure SPEC_CMD(Command : String)
+  Send arbitrary command string to spectrograph.  Must use 1235 command syntax, 
+  not provided.
+
+Procedure SPEC_GETS(Var Response : String)
+  Get string response from spectrograph.  Must be preceded by SPEC_CMD with a 
+  command which will produce some output.
+
+Procedure SPEC_RESET()
+  Reset the spectrograph to values in method header, obtain model number from
+  spectrograph.  Every macro program which uses the spectrograph should use
+  this command first.
+
+Procedure SPEC_SELECT(Model : Integer)
+  Select the spectrograph specified by Model.  Zero deselects any spectrograph.
+  Same as Spectrograph field on menu.
+
+Procedure SPEC_OFFSET()
+  Assuming values have been entered into wavelength table, does same function as
+  RESET OFFSET field of menu.
+
+Procedure SPEC_GO()
+  Sends Center wavelength to spectrograph.  Same as GO field on menu. 
+
+Procedure SPEC_SET()
+  Miscellaneous setup.  Should be used immediately after SPEC_RESET.
+
+Procedure SPEC_WLEN(Wavelen : Real)
+  Change center wavelen of spectrograph.  Should follow with SPEC_GO.
+
+Procedure SPEC_GRATING(Grating : Integer)
+  Select grating of spectrograph.  

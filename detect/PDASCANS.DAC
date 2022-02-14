@@ -1,0 +1,306 @@
+LINK    'PDASCANS.ABJ'
+INCLUDE 'OPS.ADD'
+INCLUDE 'OMACP.INC'
+INCLUDE 'RAPDA.INC'
+INCLUDE 'HOOKS.INC'
+INCLUDE 'DACPDA.MAC'
+
+FRAMES  EQU     10
+MEMS    EQU     3
+IGNS    EQU     1
+PREPS   EQU     0
+
+;************************************************************************
+;*                                                                      *
+;*      INIT will synchronize the FC and DC processor execution         *
+;*                                                                      *
+;************************************************************************
+
+INIT    DAC_BLOCK  ! DAS_INIT
+
+        MOVE W #$FFFF, PGMINDX
+        ASIC_SYNC
+
+INIT1   EQU @
+
+        ID_DETECT
+
+        COMP W #$FFFF, PGMINDX
+        BEQ  INIT1
+
+        DONE
+
+;************************************************************************
+;*                                                                      *
+;*      CLEAN will read continuously scan the Rapda to keep             *
+;*      Dark current down during idle time                              *
+;*                                                                      *
+;************************************************************************
+CLEAN   DAC_BLOCK
+        MOVE W #$FFFF, PGMINDX                 ; "Bogus" program vector
+CLEAN1  EQU @                                  ; Bug - can't label macros!
+        ASIC_SYNC                              ; Make sure ASIC running OK
+
+        KEEP_CLEAN
+     
+CLEAN2  MOVE L  SC_ADDRESS, NXTSCADDR          ; Store scr comp at 1st addr.
+        TEST    DA_KEEPCLN                     ; If doing fast keepclean
+        BEQ     CLEAN3                         ; then skip the next line
+
+        SLOW_CLEAN                             ; Use the "same.et" 
+
+CLEAN3  ADD W #1, I1ADDR                       ; Do so Bigdump sees activity
+        WAIT_DMA
+
+        COMP W #$FFFF,PGMINDX                  ; Wait till PC changes program
+        BEQ    CLEAN1                          ; Loop till new program vector
+
+        DONE
+
+;************************************************************************
+;*                                                                      *
+;*      IDNT2 will identify splitmode detectors                         *
+;*                                                                      *
+;************************************************************************
+
+IDNT2   DAC_BLOCK
+
+        MOVE W #$FFFF, PGMINDX
+        
+IDNT2A  WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCIDX, FCPROG ASIC
+        MOVE W  #DCIDNT,DCPROG ASIC
+        MOVE L  #(SHUTID-STARTADDR), FBASE ASIC
+
+        COMP W #$FFFF, PGMINDX
+        BEQ  IDNT2A
+
+        DONE
+
+;*********************************************************
+;*                                                       *
+;*      ACCUM1 will read data from RAPDA                 *
+;*                                                       *
+;*********************************************************
+                                    ; microsec 
+STANDARD  DAC_BLOCK   ! DAS_1
+        SET_MEM_0                   ;           Set memory pointer to 0
+        INIT_CNTRS                  ;           Setup I, J, K etc.
+        CLEAR_ALL                   ; must clear: will always use add to mem.
+        DO JCNTR                    ; 8         Do Mems
+          MOVE W #0,I1ADDR          ; 5
+          DO ICNTR                  ; 8         Do Scans
+            RAPSCAN TBL_ONE         ; ??????????????
+            ADD W #1, I1ADDR        ; 6         Tell PC another scan done
+                                    ; loop/endloop
+          LOOP                      ; 6  / 7.75 End of scans loop
+          ADD W #1, J1ADDR          ; 6         Let PC track da seq.
+          INC_MEM                   ; 7         Inc memory pointer
+                                    ; loop/endloop
+        LOOP                        ; 6  / 7.75 End of mems loop
+
+        KEEP_CLEAN                  ; Park the ASIC in keepclean
+        WAIT_DMA                    ; Make sure in keep clean before done.
+        DONE                        ; 
+
+;*********************************************************
+
+SCNTR  DCW 0
+
+HCNTR  DCW  PREPS
+ICNTR  DCW  FRAMES
+JCNTR  DCW  MEMS
+KCNTR  DCW  IGNS
+LCNTR  DCW  0
+TCNTR  DCW  IGROUPS
+SCNTR  DCW  IGROUPS
+
+TKADDR DCL  $80574c
+NXADDR DCL  $000000
+NXTSCADDR DCL $0000000
+
+;***********************************************************
+;*  These tables are stuffed with the correct RAPDA scan   *
+;*  sequences by the driver to allow RAPDA_SCAN to operate *
+;*  correctly.                                             *
+;***********************************************************
+
+ONE_ENTRY MACRO
+          DCL 0                       ; FC and DC addresses.
+          DCL 0                       ; FBASE offset  
+          DCW 0                       ; Table 2 address
+          ENDM
+
+
+TBL_ONE DAC_BLOCK ! DAS_RAPDA_TBL1
+        DCL 0                         ; Number of events.
+   ; Actual table starts here         
+        ONE_ENTRY                     ; Table I entry number A0
+        ONE_ENTRY                     ; Table I entry number B0
+        ONE_ENTRY                     ; Table I entry number C0
+        ONE_ENTRY                     ; Table I entry number D0
+        ONE_ENTRY                     ; Table I entry number E0
+        ONE_ENTRY                     ; Table I entry number F0
+        ONE_ENTRY                     ; Table I entry number G0
+        ONE_ENTRY                     ; Table I entry number H0
+        ONE_ENTRY                     ; Table I entry number I0
+        ONE_ENTRY                     ; Table I entry number J0
+        ONE_ENTRY                     ; Table I entry number K0
+        ONE_ENTRY                     ; Table I entry number L0
+        ONE_ENTRY                     ; Table I entry number M0
+        ONE_ENTRY                     ; Table I entry number N0
+        ONE_ENTRY                     ; Table I entry number O0
+        ONE_ENTRY                     ; Table I entry number P0
+
+TWO_ENTRY MACRO
+          DCL 0                       ; FC and DC addresses.
+          DCL 0                       ; FBASE offset  
+          ENDM
+
+TBL_TWO DAC_BLOCK ! DAS_RAPDA_TBL2
+        TWO_ENTRY                     ; Table II entry number A0
+        TWO_ENTRY                     ; Table II entry number A1
+        TWO_ENTRY                     ; Table II entry number A2
+        TWO_ENTRY                     ; Table II entry number A3
+        TWO_ENTRY                     ; Table II entry number A4
+        TWO_ENTRY                     ; Table II entry number A5
+        TWO_ENTRY                     ; Table II entry number A6
+        TWO_ENTRY                     ; Table II entry number A7
+
+        TWO_ENTRY                     ; Table II entry number B0
+        TWO_ENTRY                     ; Table II entry number B1
+        TWO_ENTRY                     ; Table II entry number B2
+        TWO_ENTRY                     ; Table II entry number B3
+        TWO_ENTRY                     ; Table II entry number B4
+        TWO_ENTRY                     ; Table II entry number B5
+        TWO_ENTRY                     ; Table II entry number B6
+        TWO_ENTRY                     ; Table II entry number B7
+
+        TWO_ENTRY                     ; Table II entry number C0
+        TWO_ENTRY                     ; Table II entry number C1
+        TWO_ENTRY                     ; Table II entry number C2
+        TWO_ENTRY                     ; Table II entry number C3
+        TWO_ENTRY                     ; Table II entry number C4
+        TWO_ENTRY                     ; Table II entry number C5
+        TWO_ENTRY                     ; Table II entry number C6
+        TWO_ENTRY                     ; Table II entry number C7
+
+        TWO_ENTRY                     ; Table II entry number D0
+        TWO_ENTRY                     ; Table II entry number D1
+        TWO_ENTRY                     ; Table II entry number D2
+        TWO_ENTRY                     ; Table II entry number D3
+        TWO_ENTRY                     ; Table II entry number D4
+        TWO_ENTRY                     ; Table II entry number D5
+        TWO_ENTRY                     ; Table II entry number D6
+        TWO_ENTRY                     ; Table II entry number D7
+
+        TWO_ENTRY                     ; Table II entry number E0
+        TWO_ENTRY                     ; Table II entry number E1
+        TWO_ENTRY                     ; Table II entry number E2
+        TWO_ENTRY                     ; Table II entry number E3
+        TWO_ENTRY                     ; Table II entry number E4
+        TWO_ENTRY                     ; Table II entry number E5
+        TWO_ENTRY                     ; Table II entry number E6
+        TWO_ENTRY                     ; Table II entry number E7
+
+        TWO_ENTRY                     ; Table II entry number F0
+        TWO_ENTRY                     ; Table II entry number F1
+        TWO_ENTRY                     ; Table II entry number F2
+        TWO_ENTRY                     ; Table II entry number F3
+        TWO_ENTRY                     ; Table II entry number F4
+        TWO_ENTRY                     ; Table II entry number F5
+        TWO_ENTRY                     ; Table II entry number F6
+        TWO_ENTRY                     ; Table II entry number F7
+
+        TWO_ENTRY                     ; Table II entry number G0
+        TWO_ENTRY                     ; Table II entry number G1
+        TWO_ENTRY                     ; Table II entry number G2
+        TWO_ENTRY                     ; Table II entry number G3
+        TWO_ENTRY                     ; Table II entry number G4
+        TWO_ENTRY                     ; Table II entry number G5
+        TWO_ENTRY                     ; Table II entry number G6
+        TWO_ENTRY                     ; Table II entry number G7
+
+        TWO_ENTRY                     ; Table II entry number H0
+        TWO_ENTRY                     ; Table II entry number H1
+        TWO_ENTRY                     ; Table II entry number H2
+        TWO_ENTRY                     ; Table II entry number H3
+        TWO_ENTRY                     ; Table II entry number H4
+        TWO_ENTRY                     ; Table II entry number H5
+        TWO_ENTRY                     ; Table II entry number H6
+        TWO_ENTRY                     ; Table II entry number H7
+
+        TWO_ENTRY                     ; Table II entry number I0
+        TWO_ENTRY                     ; Table II entry number I1
+        TWO_ENTRY                     ; Table II entry number I2
+        TWO_ENTRY                     ; Table II entry number I3
+        TWO_ENTRY                     ; Table II entry number I4
+        TWO_ENTRY                     ; Table II entry number I5
+        TWO_ENTRY                     ; Table II entry number I6
+        TWO_ENTRY                     ; Table II entry number I7
+
+        TWO_ENTRY                     ; Table II entry number J0
+        TWO_ENTRY                     ; Table II entry number J1
+        TWO_ENTRY                     ; Table II entry number J2
+        TWO_ENTRY                     ; Table II entry number J3
+        TWO_ENTRY                     ; Table II entry number J4
+        TWO_ENTRY                     ; Table II entry number J5
+        TWO_ENTRY                     ; Table II entry number J6
+        TWO_ENTRY                     ; Table II entry number J7
+
+        TWO_ENTRY                     ; Table II entry number K0
+        TWO_ENTRY                     ; Table II entry number K1
+        TWO_ENTRY                     ; Table II entry number K2
+        TWO_ENTRY                     ; Table II entry number K3
+        TWO_ENTRY                     ; Table II entry number K4
+        TWO_ENTRY                     ; Table II entry number K5
+        TWO_ENTRY                     ; Table II entry number K6
+        TWO_ENTRY                     ; Table II entry number K7
+
+        TWO_ENTRY                     ; Table II entry number L0
+        TWO_ENTRY                     ; Table II entry number L1
+        TWO_ENTRY                     ; Table II entry number L2
+        TWO_ENTRY                     ; Table II entry number L3
+        TWO_ENTRY                     ; Table II entry number L4
+        TWO_ENTRY                     ; Table II entry number L5
+        TWO_ENTRY                     ; Table II entry number L6
+        TWO_ENTRY                     ; Table II entry number L7
+
+        TWO_ENTRY                     ; Table II entry number M0
+        TWO_ENTRY                     ; Table II entry number M1
+        TWO_ENTRY                     ; Table II entry number M2
+        TWO_ENTRY                     ; Table II entry number M3
+        TWO_ENTRY                     ; Table II entry number M4
+        TWO_ENTRY                     ; Table II entry number M5
+        TWO_ENTRY                     ; Table II entry number M6
+        TWO_ENTRY                     ; Table II entry number M7
+
+        TWO_ENTRY                     ; Table II entry number N0
+        TWO_ENTRY                     ; Table II entry number N1
+        TWO_ENTRY                     ; Table II entry number N2
+        TWO_ENTRY                     ; Table II entry number N3
+        TWO_ENTRY                     ; Table II entry number N4
+        TWO_ENTRY                     ; Table II entry number N5
+        TWO_ENTRY                     ; Table II entry number N6
+        TWO_ENTRY                     ; Table II entry number N7
+
+        TWO_ENTRY                     ; Table II entry number O0
+        TWO_ENTRY                     ; Table II entry number O1
+        TWO_ENTRY                     ; Table II entry number O2
+        TWO_ENTRY                     ; Table II entry number O3
+        TWO_ENTRY                     ; Table II entry number O4
+        TWO_ENTRY                     ; Table II entry number O5
+        TWO_ENTRY                     ; Table II entry number O6
+        TWO_ENTRY                     ; Table II entry number O7
+
+        TWO_ENTRY                     ; Table II entry number P0
+        TWO_ENTRY                     ; Table II entry number P1
+        TWO_ENTRY                     ; Table II entry number P2
+        TWO_ENTRY                     ; Table II entry number P3
+        TWO_ENTRY                     ; Table II entry number P4
+        TWO_ENTRY                     ; Table II entry number P5
+        TWO_ENTRY                     ; Table II entry number P6
+        TWO_ENTRY                     ; Table II entry number P7
+          DCW 0                       ; Table 2 ending - must be 0 !!
+
+;*********************************************************

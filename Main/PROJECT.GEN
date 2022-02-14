@@ -1,0 +1,29 @@
+# project.gen for oma4000 forms
+
+.PATH.c = c:\code\oma4000\main;c:\code\oma4000\macro;c:\code\forms
+
+.PATH.h = c:\code\forms\inc;c:\code\oma4000\inc
+
+# .PATH.inc = c:\code\oma4000\inc
+
+# generate dependencies all oma4000 object files
+
+oma4000.c   live.c      omaform1.c  formtabs.c  curvdraw.c  macres2.c
+tagcurve.c  omamenu.c   device.c    lineplot.c  macrores.c  baslnsub.c
+macnres.c   livedisk.c  macnres2.c  cache386.c  graphops.c  fileform.c
+grafmous.c  omazoom.c   omameth.c   access4.c   fkeyfunc.c  calib.c
+autopeak.c  macrecor.c  mathform.c  runforms.c  cursor.c    change.c
+config.c    gpibcom.c   backgrnd.c  macruntm.c  macnres3.c  spgraph.c
+fcolor.c    doplot.c    detdriv.c   points.c    tempdata.c  macrofrm.c
+hline.c     runsetup.c  pltsetup.c  macparse.c  mdatstak.c  coolstat.c
+filedos.c   plotbox.c   maccomp.c   omaerror.c  scanset.c   multi.c
+curvedir.c  macsymbl.c  formwind.c  scrngss.c   wintags.c   di_util.c
+mousegss.c  proclist.c  forms.c     keyibmpc.c  mousefrm.c  barmenu.c
+filemsg.c   intfld.c    fltfld.c    scfltfld.c  hxintfld.c  unintfld.c
+d16mphys.c  symbol.c    scrlform.c  tglfld.c    frmatfld.c  selctfld.c
+spline-3.c  formlist.c  malloc16.c  crvhdr35.c  curvbufr.c  detinfo.c
+crventry.c  basepath.c  autoscal.c  rapset.c    cntrloma.c  loadoma.c
+splitfrm.c  statform.c  ycalib.c    oma4tiff.c  cmdtbl.c
+
+# for graphical scan setup add : scangraf.c, grouplst.c, cursvbar.c
+#scangraf.c  grouplst.c  cursvbar.c

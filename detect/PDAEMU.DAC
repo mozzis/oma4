@@ -1,0 +1,47 @@
+;***********************************************************
+;*                                                         *
+;* This program will run the CCD in Reticon emulation mode *
+;*                                                         *
+;***********************************************************
+
+PDAEMU  DAC_BLOCK
+        INIT_CNTRS                         ;Set initial counter vals
+        SET_MEM_0                          ;Set memory pointer to 0
+        ADD L #STARTADDR, DATAADDR         ;Make into address we can use
+        CLR DATAADDR, FRAMESIZE            ;Clear first memory
+        MOVE L FRAMEOFFS, DATAADDR         ;Copy Offset from driver
+        DO_PREPS                           ;Do Preps if any
+        WAIT_DMA                           ;Open shutter
+        MOVE W #FCOP,FCPROG ASIC
+        MOVE W #DCOPEN,DCPROG ASIC
+        WAIT_DMA
+        MOVE W  #FCSIFM,FCPROG ASIC        ;Clean shift register and
+        MOVE W  #DCSIFM,DCPROG ASIC        ;Prepare addressing for readout
+
+        DO JCNTR                           ;Do Mems
+          MOVE W #0,I1ADDR
+
+          DO ICNTR
+
+            WAIT_DMA
+            MOVE W #FCSPDA,FCPROG ASIC     ;Shift spectrum out of mask
+            MOVE W #DCSPDA,DCPROG ASIC
+            MOVE L  DATAADDR,FBASE ASIC
+
+            ADD W #1, I1ADDR               ;Tell PC another scan done
+
+            DO_IGNS                        ;Do ignores if any
+          LOOP                             ;End of scans loop
+          INC_MEM                          ;Inc memory pointer
+          ADD W #1, L1ADDR                 ;Tell PC another scan done
+          ADD W #1, J1ADDR                 ;Let PC track da seq.
+        LOOP                               ;End of mems loop
+        WAIT_DMA                           ;Close Shutter
+        MOVE W #FCCLS,FCPROG ASIC
+        MOVE W #DCCLOS,DCPROG ASIC
+
+        SET_LCI
+        KEEP_CLEAN
+        DONE
+
+

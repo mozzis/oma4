@@ -1,0 +1,268 @@
+/* -----------------------------------------------------------------------
+/
+/  detdriv.h
+/
+/  Copyright (c) 1990,  EG&G Instruments Inc.
+/
+/  $Header: /WinX/PRODUCT/DLLs/PIXCM/OMA4DRIV.H 2     10/16/95 9:46a Dan $
+/  $Log: /WinX/PRODUCT/DLLs/PIXCM/OMA4DRIV.H $
+ * 
+ * 2     10/16/95 9:46a Dan
+ * Moved from $/WinX/PRODUCT/COMMON
+ * 
+ * 1     10/13/95 3:27p Admin
+ * Latest source from PVCS
+/
+*/
+
+#ifndef DETDRIV_INCLUDED     /* idempotent header */
+#define DETDRIV_INCLUDED
+
+#include "eggtype.h"
+
+/* command tables for detdriv, writesys, and macro language interfaces */
+
+/* enum array allows command string or routine lookup */
+/* last entry must be NUM_INT_CMDS! */
+
+enum det_command { DC_ACTIVE = 1,     /* 01 */  /* Whether acquisition is active */
+                   DC_ACTIVEX,        /* 02 */  /* Number of total active pixels in X axis */
+                   DC_ACTIVEY,        /* 03 */  /* Number of total active pixels in Y axis */
+                   DC_ADD,            /* 04 */  /* Action: add two memories */
+                   DC_ADPREC,         /* 05 */  /* Read/Set: A/D precision */
+                   DC_ANTIBLOOM,      /* 06 */  /* R/S: Antibloom percent */
+                   DC_BYTES,          /* 07 */  /* R:   number of bytes per track */
+                   DC_CLR,            /* 08 */  /* Act: Clear a memory region */
+                   DC_COOLSTAT,       /* 09 */  /* R:   Cooler status */
+                   DC_COOLLOCK,       /* 10 */  /* R:   Cooler locked status */
+                   DC_COOLONOFF,      /* 11 */  /* R/S: Cooler activated or not */
+                   DC_COOLTYPE,       /* 12 */  /* R:   Cooler type */
+                   DC_CONTROL,        /* 13 */  /* R:   Internal/External (shutter) Control */
+                   DC_DAMAX,          /* 14 */  /* R:   Index of last DA program loaded */
+                   DC_DAPROG,         /* 15 */  /* R/S: Index of DA program to run */
+                   DC_DELTAX,         /* 16 */  /* R/S: X group size of current group */
+                   DC_DELTAY,         /* 17 */  /* R/S: Y group size of current group */
+                   DC_DETPORT,        /* 18 */  /* R/S: I/O port address of board */
+                   DC_DMODEL,         /* 19 */  /* R:   Detector type ID index */
+                   DC_DTEMP,          /* 20 */  /* R/S: Cooler Temperature setting */
+                   DC_DERROR,         /* 21 */  /* R:   Last non-zero error occurred */
+                   DC_EXPROWS,        /* 22 */  /* R:   Streak mode exposed rows of CCD */
+                   DC_FRAME,          /* 23 */  /* R:   Frame corresponding to curve number */
+                   DC_FREQ,           /* 24 */  /* R/S: Line frequency index (not used) */
+                   DC_H,              /* 25 */  /* R/S: Number of prep frames */
+                   DC_HIMEM,          /* 26 */  /* R:   Index of last memory partially filled */
+                   DC_I,              /* 27 */  /* R/S: Number of scans per memory */
+                   DC_ID,             /* 28 */  /* R:   ID of controller board (1564) */
+                   DC_IMODE,          /* 29 */  /* R/S: Intensifier mode, Gate or CW */
+                   DC_INPIA,          /* 30 */  /* R:   PIA input bits word */
+                   DC_J,              /* 31 */  /* R/S: Number of memories */
+                   DC_K,              /* 32 */  /* R/S: Number of ignores */
+                   DC_L,              /* 33 */  /* R/S: Number of scans since last reset */
+                   DC_MAXMEM,         /* 34 */  /* R:   Index of last possible memory */
+                   DC_MEM,            /* 35 */  /* R/S: Index of first memory to use */
+                   DC_MASK,           /* 36 */  /* R/S: ASIC control word mask (not used) */
+                   DC_OUTPUTREG,      /* 37 */  /* R/S: CCD Shift register to use */
+                   DC_OUTREG,         /* 38 */  /* R/S: CCD Shift register to use */
+                   DC_OUTPIA,         /* 39 */  /* R/S: PIA output bits word     */
+                   DC_PAUDIO,         /* 40 */  /* R/S: Intensifier beeper off/on */
+                   DC_PLSR,           /* 41 */  /* R:   Shutter or Pulser type index */
+                   DC_PNTMODE,        /* 42 */  /* R/S: Points programmed uniform or random */
+                   DC_POINT,          /* 43 */  /* R/S: Current point being programmed */
+                   DC_POINTS,         /* 44 */  /* R/S: Number of points per track */
+                   DC_PRESCAN,        /* 45 */  /* R/S: Streak mode number of tracks to discard for pretrigger */
+                   DC_PTIME,          /* 46 */  /* R/S: Pixel A/D time index */
+                   DC_PTRIG,          /* 47 */  /* R/S: Unused */
+                   DC_PTRIGNUM,       /* 48 */  /* R/S: Pulser number of triggers per shot */
+                   DC_PTRIGSRC,       /* 49 */  /* R/S: Pulser trigger source index int/ext/optical etc. */
+                   DC_PTRIGTRSH,      /* 50 */  /* R/S: Pulser electrical trigger threshold index 0-255 */
+                   DC_REGIONS,        /* 51 */  /* R/S: Region count for RAPDA setup */
+                   DC_REGSIZE,        /* 52 */  /* R/S: Region size for RAPDA setup */
+                   DC_RUN,            /* 53 */  /* Act: Start acquistion */
+                   DC_SAMEET,         /* 54 */  /* R/S: Do normal/fast keepcleans */
+                   DC_SCITC,          /* 55 */  /* R/S: Source Comp integration time constant index */
+                   DC_SHFTMODE,       /* 56 */  /* R/S: Shift mode, simple or classic */
+                   DC_SHUTMODE,       /* 57 */  /* R/S: Shutter mode, normal, forced closed, forced open */
+                   DC_SPEED,          /* 58 */  /* R/S: Pixel A/D speed (obsolete) */
+                   DC_SRTREG,         /* 59 */  /* Act: Sort RAPDA regions by ascend. ET (when setup is done) */
+                   DC_STIME,          /* 60 */  /* R/S: Line shift time index */
+                   DC_STOP,           /* 61 */  /* Act: Stop acquisition */
+                   DC_STREAKMODE,     /* 62 */  /* R/S: Streak mode off or on */
+                   DC_SUBT,           /* 63 */  /* Act: Subtract two memories */
+                   DC_THERE,          /* 64 */  /* R:   Non-zero if OMA board detected */
+                   DC_TRACK,          /* 65 */  /* R/S: Current track being programmed */
+                   DC_TRACKS,         /* 66 */  /* R/S: Number of tracks per frame */
+                   DC_TRIGS,          /* 67 */  /* R/S: Main triggers off or on */
+                   DC_TRKMODE,        /* 68 */  /* R/S: Tracks programmed uniform or random */
+                   DC_WFTC,           /* 69 */  /* R/S: Wait for trigger after exposure no/yes */
+                   DC_WFTO,           /* 70 */  /* R/S: Wait for trigger before exposure no/yes */
+                   DC_X0,             /* 71 */  /* R/S: Starting pixel in X axis for tracks */
+                   DC_Y0,             /* 72 */  /* R/S: Starting pixel in Y axis for tracks */
+                   NUM_INT_CMDS,      /* 73 */  /*      */
+
+/* last entry must be NUMBER_INT_CMDS! */
+
+                   DC_ET = NUM_INT_CMDS,/* 73 */ /* R/S: Seconds to expose array */
+                   DC_FTIME,          /*  74 */  /* R:   Total seconds to acquire frame */
+                   DC_MAXET,          /*  75 */  /* R:   Maximum possible ET */
+                   DC_MINET,          /*  76 */  /* R:   Minimum possible ET */
+                   DC_PDELAY,         /*  77 */  /* R/S: Pulser initial delay seconds */
+                   DC_PDELINC,        /*  78 */  /* R/S: Pulser delay increment per shot seconds*/
+                   DC_PDELRANGE,      /*  79 */  /* R/S: Pulser delay to add to initial by last shot */
+                   DC_PWIDTH,         /*  80 */  /* R/S: Pulser pulse width */
+                   DC_PSTIME,         /*  81 */  /* R/S: Streakmode prescan time seconds */
+                   DC_REGET,          /*  82 */  /* R/S: ET for RAPDA Region in seconds */
+                   DC_SCMP,           /*  83 */  /* R/S: Source comp value for frame */
+                   DC_STTIME,         /*  84 */  /* R:   Streak mode time interval to streak array */
+                   DC_VER,            /*  85 */  /* R:   Driver version number */
+                   NUM_FLT_CMDS };    /*  86 */  /*
+                                           
+/* last entry must be NUMBER_FLT_CMDS! */ 
+                         
+/* Cmd types for GetOMAString, SetOMAString */
+enum OMA_strings { DS_DANAME = 1 } ;
+                         
+/* Detector type options - values for DMODEL command */
+/* These values are assigned based on the return code from the detector */
+/* See access4.c for the actual return codes */
+
+enum _dtypes {NO_CARD = 0, 
+              TSC_CCD,     /* 512 square single channel */
+              TSM_CCD,     /* 512 square dual channel (split mode) */
+              EEV_CCD,     /* 298 X 1152 or 256 X 1024 EEV CCD */
+              RAPDA,       /* 1024 Reticon PDA */
+              TSP_CCD,     /* 256 X 1024 Thomson single channel */
+              TS_1KSQ};    /* 1024 X 1024 Thomson single channel */
+
+/* Shutter forced mode options  - values for SHUTMODE command */
+enum shutter_modes {NORMAL_SHUTTER = 0, /* Shutter opens during expose */
+                    FORCED_CLOSE,       /* Shutter never opens */
+                    FORCED_OPEN };      /* Shutter never closes */
+
+/* Cooler type options - values for COOLTYPE command */
+enum cooltypes { COOLER_UNKNOWN = 0,
+                 COOLER_CRYO,
+                 COOLER_TE, };
+
+/* Cooler status options - values for COOLLOCK command */
+enum CoolerLockedStatus {UNLOCKED,      /* Cooler is unlocked */
+                         LOCKED,        /* Cooler is locked */
+                         FAKE };        /* No Cooler present */
+
+/* Cooler status options - values for COOLSTAT command */
+enum CoolerErrorStatus {COOL_OK,        /* No cooler error */
+                        HEAT_EXCHANGE,  /* Heat exch above max temp */
+                        TOO_HIGH,       /* DTEMP set value too high */
+                        DEWAR_EMPTY,    /* Cryo dewar above temp */
+                        DIFF_EXCEEDED,  /* Heat exch/cold finger ^T too hi */
+                        UNKNOWN_COOLER }; /* Bad status message - power off */
+
+/* Pulser or shutter type options  - values for PTYPE command */
+enum avail_plsrs {NO_PULSER = 0, /* no shutter or pulser */
+                  SHUTTER_REG,   /* normal type of shutter */
+                  PLSR_REG,      /* normal type of LCI */
+                  PLSR_OPT1,     /* future use for Timer-only LCI */
+                  PLSR_OPT2,     /* future use for Slower LCI */
+                  PLSR_OPT3 };   /* future use for Slowest LCI */
+
+/* Pulser trigger source options - values for PTRIGSRC command */
+enum _ptsrc {DISABLE = 0,    /* No trigger source accepted */
+             INTERN,         /* Internal trig from OPEN command */
+             OPTIC,          /* (Fiber) optic trigger input */
+             POS_SLOPE,      /* ETI positive going signal */
+             NEG_SLOPE };    /* ETI negative going signal */
+
+/* Pixel time options - values for PTIME command */
+enum ptimes { PTIME_NORMAL,
+              PTIME_FAST,
+              PTIME_SLOW };
+
+/************************************************************************/
+/*                           driver functions                           */
+/************************************************************************/
+  #ifdef _WINOMA_
+    #ifdef __cplusplus
+extern "C" {
+    #endif 
+    /* Typedefs for programs which use LoadLibrary to access these functions. */
+    /* To use them, define pointers to these types in your executable,        */
+    /* then store returns from GetProcedureInstance in the pointers.          */
+    /* As long as the names always track, you're typesafe!                    */
+typedef SHORT (FAR _pascal _export tGetParam)(enum det_command, float far *);
+typedef SHORT (FAR _pascal _export tSetParam)(enum det_command, float);
+typedef SHORT (FAR _pascal _export tGetIntParam)(enum det_command, SHORT far *);
+typedef SHORT (FAR _pascal _export tSetIntParam)(enum det_command, SHORT);
+typedef SHORT (FAR _pascal _export tSetPatch)(USHORT PatchTag, USHORT Value);
+typedef SHORT (FAR _pascal _export tGetPatch)(USHORT PatchTag, USHORT *Value);
+typedef SHORT (FAR _pascal _export tReadCurveFromMem)(void FAR * pData, SHORT len, USHORT curvenum);
+typedef SHORT (FAR _pascal _export tWriteCurveToMem)(void FAR * pData, SHORT len, USHORT curvenum);
+typedef SHORT (FAR _pascal _export tGetOMAString)(enum OMA_strings cmd, SHORT param, char far * lpszRStr);
+typedef SHORT (FAR _pascal _export tSetOMAString)(enum OMA_strings cmd, SHORT param, char far * lpszRStr);
+typedef SHORT (FAR _pascal _export tsetup_detector_interface)(USHORT port, ULONG addr, ULONG size);
+typedef void  (FAR _pascal _export tshutdown_detector_interface)(void);
+typedef void  (FAR _pascal _export tShutdownDetector)(void);
+typedef SHORT (FAR _pascal _export tInitDetector)(void);
+
+   /* Now the actual function declarations for programs which use IMPLIBS */
+tGetParam         GetParam;
+tSetParam         SetParam;
+tGetIntParam      GetIntParam;
+tSetIntParam      SetIntParam;
+tSetPatch         SetPatch;
+tGetPatch         GetPatch;
+tReadCurveFromMem ReadCurveFromMem;
+tWriteCurveToMem  WriteCurveToMem;
+tGetOMAString     GetOMAString;
+tSetOMAString     SetOMAString;
+tInitDetector     InitDetector;
+tShutdownDetector ShutdownDetector;
+
+    #ifdef __cplusplus
+}
+    #endif 
+  #else /* not WINOMA, just do normal extern declarations */
+SHORT _pascal GetParam(enum det_command, float *);
+SHORT _pascal SetParam(enum det_command, float);
+SHORT _pascal GetIntParam(enum det_command, SHORT *);
+SHORT _pascal SetIntParam(enum det_command, SHORT);
+SHORT _pascal SetPatch(USHORT PatchTag, USHORT Value);
+SHORT _pascal GetPatch(USHORT PatchTag, USHORT *Value);
+SHORT _pascal ReadCurveFromMem(void * pData, SHORT len, USHORT curvenum);
+SHORT _pascal WriteCurveToMem(void * pData, SHORT len, USHORT curvenum);
+SHORT _pascal setup_detector_interface(USHORT port, ULONG addr, ULONG size);
+void  _pascal shutdown_detector_interface(void);
+SHORT _pascal GetOMAString(enum OMA_strings Cmd, SHORT Param, char * lpszRStr);
+SHORT _pascal SetOMAString(enum OMA_strings Cmd, SHORT Param, char * lpszRStr);
+SHORT init_detector(USHORT port_address);
+SHORT _pascal InitDetector(void);
+  #endif
+
+/* Protected mode programs may use this function to access the data */
+/* directly, without using ReadCurveFromMem or WriteCurveToMem.     */
+/* It returns a pointer to the start of the data memory.            */
+  #ifdef _PROTECTED_MODE
+    #ifdef _WINOMA_
+      #ifdef __cplusplus
+  extern "C" {
+      #endif
+  typedef void __huge * (FAR __pascal _export tGetDataPointer)(void);
+  tGetDataPointer GetDataPointer;
+      #ifdef __cplusplus
+   }
+      #endif
+    #else /* not WINOMA */
+      #ifdef __cplusplus
+  extern "C" {
+      #endif
+void far * _pascal GetDataPointer(void);
+      #ifdef __cplusplus
+    }
+      #endif
+    #endif /* _WINOMA_ */
+  #endif /* _PROTECTED_ */
+
+/* obsolete functions */
+
+SHORT start_OMA_DA(SHORT DoLive);  /* now use SetParam(RUN, ...) */
+SHORT stop_OMA_DA(SHORT);          /* now use SetParam(STOP, ...) */
+
+#endif   /* DETDRIV_INCLUDED */

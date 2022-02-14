@@ -1,0 +1,205 @@
+\ --------------------------------------------------------------------------
+\
+\  mathpars.grm
+\
+\  A grammar for the OMA "Macro Language".  Similar in many ways to 
+\  Pascal, but not really Pascal - sort of a "modified subset".
+\  (Pascal programmers, please excuse the mutilation).  RECORDs are 
+\  not supported, except for the strange case of the pre-defined records 
+\  built in to the grammar for CURVEs.
+\  
+\  Written by:  TLB     Version 1.00       14 February 1990
+\  Changes by:  
+\  
+\ --------------------------------------------------------------------------
+
+Goal            ->  PerformList         #executenow    \ clear compile flag
+
+PerformList     ->  Compile
+                ->  Immediate
+
+Compile         ->  Program <stop>
+
+Immediate       ->  ImmStart VRList StmtList <stop>  #immend
+
+ImmStart        ->  <empty>                    #immstart
+
+Program         ->  ProgHead ; Pblock .        #progend
+
+ProgHead        ->  PROGRAM <identifier>       #progdecl
+
+Pblock          ->  DrLst VRList PList Pbegin StmtList END #pblock
+Pbegin          ->  BEGIN                      #pbegin
+
+DrLst           ->  Directives
+                ->  <empty>
+
+PList           ->  PList ProcDecl
+                ->  <empty>
+ProcDecl        ->  ProcHead ; VRList Block ;  #pbend
+ProcHead        ->  PROCEDURE <identifier>     #pdecl
+         
+Block           ->  BEGIN StmtList END
+
+VRList          ->  Var VList                  #varend
+                ->  <empty>
+Var             ->  VAR                        #varst
+VList           ->  VList  VarItem
+                ->  VarItem
+VarItem         ->  IdentList : Type ;         #vitem
+IdentList       ->  IdentList , <identifier>   #newident1
+                ->  <identifier>               #newident2
+     
+Type            ->  SimpType                   #TSimp
+                ->  ARRAY [ <integer> ] OF SimpType #arraytype
+     
+ \ REAL, BOOLEAN, INTEGER or another type name
+SimpType        ->  <identifier>               #simptype
+         
+StmtList        ->  StmtList ; Stmt
+                ->  Stmt
+
+Stmt            ->  IF Boolean Then Stmt       #ifth
+                ->  IF Boolean Then Stmt Else Stmt #ifthelse
+                ->  While Boolean Do Stmt      #whiledone
+                ->  Repeat StmtList UNTIL Boolean  #repuntildone
+                ->  FOR ForVar := Boolean To Boolean Fup Stmt #forend
+                ->  FOR ForVar := Boolean DownTo Boolean Fdown Stmt #dforend
+                ->  Variable := Parameter      #assign
+                ->  ProcCall                   #procstmt
+                ->  Block
+                ->  ReadWrite ( IOList )       #readwrl
+\                ->  CASE Boolean OF CaseList END  #casefield 
+                ->  <empty>
+
+While           ->  WHILE                      #whstart
+Then            ->  THEN                       #thent
+Else            ->  ELSE                       #elset
+Fup             ->  DO                         #forup
+Fdown           ->  DO                         #fordown
+Do              ->  DO                         #whiledo
+Repeat          ->  REPEAT                     #repstart
+To              ->  TO                         #forto
+DownTo          ->  DOWNTO                     #fordownto
+ForVar          ->  VarHead                    #forvarid
+
+ReadWrite       ->  READ                       #rwread
+                ->  READLN                     #rwreadln
+                ->  WRITE                      #rwwrite
+                ->  WRITELN                    #rwwriteln
+
+\ CaseList        -> CaseItem ; CaseList        #caselist
+\                 -> CaseItem
+\ CaseItem        -> ConstList : Stmt           #caseitem
+Directives      -> Directive Directives
+                -> Directive
+          
+Directive       ->  EXPLICIT                   #explicit
+                ->  NOEXPLICIT                 #noexplic
+          
+IOList          ->  IOList , Parameter         #iolist1
+                ->  Parameter                  #iolist2
+                ->  <empty>
+
+ProcCall        ->  <identifier> ProcParams    #proccall
+ProcParams      ->  ProcListSt ProcList )
+ProcListSt      ->  (                          #proclistst
+ProcList        ->  ProcList , Parameter       #proclist1
+                ->  Parameter                  #proclist2
+                ->  <empty>
+
+Parameter       ->  Boolean
+                ->  LitString
+
+LitString       ->  <string>                   #litstring
+
+Boolean         ->  BoolTerm
+                ->  Boolean OR BoolTerm        #orop
+                ->  Boolean XOR BoolTerm       #xorop
+BoolTerm        ->  BoolUnary
+                ->  BoolTerm AND BoolUnary     #andop
+BoolUnary       ->  BoolPri
+                ->  NOT BoolPri                #notop
+                ->  SHL BoolPri                #shleft
+                ->  SHR BoolPri                #shright
+BoolPri         ->  Expr
+                ->  Expr Relop Expr            #relop
+        
+Relop           ->  <                          #less
+                ->  >                          #gtr
+                ->  <=                         #leq
+                ->  >=                         #geq
+                ->  =                          #eq
+                ->  <>                         #neq
+      
+Expr            ->  Expr + Term                #add
+                ->  Expr - Term                #sub
+                ->  Term 
+
+Term            ->  Term * Unary               #mpy
+                ->  Term / Unary               #quot
+                ->  Term MOD Unary             #modulo
+                ->  Term DIV Unary             #divide
+                ->  Unary
+Unary           ->  Primary
+                ->  - Primary                  #neg
+Primary         ->  ( Boolean )
+                ->  ProcCall                   #rval_proc
+                ->  Variable
+                ->  LitString                   \ 3/7/91 DAI
+                ->  Constant                   #const
+
+Variable        ->  VarHead VarExtension       #varid
+                ->  Curve                      #curvevar
+VarHead         ->  <identifier>               #varh
+VarExtension    ->  [ Boolean ]                #varexta  \ array index
+                ->  <empty>
+
+Curve           ->  CurveSt CurveRef           #curveend
+CurveSt         ->  <empty>                    #curvest
+
+CurveRef        ->  CS CRVSETTrailer           #crvset
+                ->  MC CRVTrailer              #memcrv
+                ->  DC CRVTrailer              #dispcrv
+
+CRVSETTrailer   ->  CRVArr . CRVSETItems
+                ->  CRVArr                    #cvs_only
+
+CRVSETItems     ->  START_INDEX               #cvs_startind
+                ->  COUNT                     #cvs_count
+                ->  NAME                      #cvs_name
+                ->  PATH                      #cvs_path
+                ->  DESC                      #cvs_desc
+                ->  DISPLAY                   #cvs_disp
+                ->  CRVTrailer
+
+CRVTrailer      ->  CRVArr                    #cv_only
+                ->  CRVArr . CRVItems
+
+CRVItems        ->  POINT_COUNT               #cv_pointcnt
+                ->  TIME                      #cv_time
+                ->  SRC_COMP                  #cv_scmp
+                ->  FRAME                     #cv_frame
+                ->  TRACK                     #cv_track
+                ->  XMIN                      #cv_xmin
+                ->  XMAX                      #cv_xmax
+                ->  MIN                       #cv_min
+                ->  MAX                       #cv_max
+                ->  XUNITS                    #cv_xunits
+                ->  YUNITS                    #cv_yunits
+                ->  X CRVArr                  #cv_xpoint
+                ->  Y CRVArr                  #cv_ypoint
+
+CRVArr          ->  [ Boolean ]
+
+
+Constant        ->  <real>
+                ->  <integer>
+                ->  TRUE                       #ctrue
+                ->  FALSE                      #cfalse
+
+\ ConstList       ->  ConstList , Constant  \ but no REALs
+\                 ->  Constant
+
+
+

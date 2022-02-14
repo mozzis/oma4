@@ -1,0 +1,172 @@
+                Structure of OMA2000 version '11' files
+
+Definition of values for axis           Definition of values for
+and calibration units:                  interface type:
+                                        
+Counts          0                       0 = none
+Angstrom        1                       1 = AT 
+Nanometer       2                       2 = PS/2
+Micrometer      3                       3 = 1460
+Millimeter      4                       4 = OMA88 
+Centimeter      5                       5 = MAC
+Meter           6                       
+Wavenumber      7                       Definition of values for shiftmode:
+Rshift          8                       
+Electron Volt   9                       0 = CCD
+Joule          10                       1 = diode array
+Erg            11                       2 = streak camera 
+Herz           12
+Adjusted nm    13 (for spectrograph 
+                   control)
+
+Definition of values for data type in curve header:
+
+ Value in  Value in   Number     Data Type
+  Decimal   Hex      of bytes      Name
+
+    01       01         1      unsigned char
+    18       12         2      short integer
+    02       02         3      unsigned short
+    20       14         4      long integer
+    04       04         4      unsigned long
+    52       34         4      float
+    56       38         8      double float
+
+File consists of Method header followed by zero or more curves.
+
+Method header structure:
+
+ File  Number Size  Data               Meaning
+offset  of     of   type
+       items  each
+                   
+ 0      40     1   char     String identifying file as DATA, METHOD, etc. 
+ 40      1     1   char     Version of this structure, should be '11' 
+ 41      1     2   integer  Length of file = header length + group_tables 
+ 43      1     1   char     A user number or character 
+ 44     81     1   char     User description of file 
+ 125     1     2   integer  Number of curves stored in this file 
+ 127     1     1   char     Default data type (see above for definition)
+ 128     1     1   char     Interface type (see above for definition)
+ 129     1     2   integer  Detector type: 0, 1462, 1463, 1464, 156x
+ 131     1     2   integer  Detector temp in §C 
+ 133     1     1   char     Detector interface number 
+ 134     1     1   char     X axis units 
+ 135     1     1   char     Y axis units 
+ 136     1     1   char     Z axis units 
+ 137     1     4   float    Excitation wavelength for Raman Shift (nm) 
+ 141     1     4   float    Default pixel exposure time 
+ 145     1     2   integer  K - number of ignores
+ 147     1     2   integer  I - number of scans
+ 149     1     2   integer  J - number of memories
+ 151    77     1   char     File to look in for DAD code 
+ 228     1     1   char     Shiftmode: see above for definition
+ 229     1     2   integer  Detector gain value 
+ 231     1     2   integer  X0 of frame 
+ 233     1     2   integer  Number of active horizontal pixels 
+ 235     1     2   integer  Y0 of frame 
+ 237     1     2   integer  Number of active vertical pixels in detector 
+ 239     1     2   integer  Number of tracks 
+ 241     1     2   integer  Number of pixels per point 
+ 243     1     2   integer  Number of pixels per track 
+ 245     1     1   char     Not 0 = curves are normalized to some value 
+ 246     1     2   integer  Line freq, 50 or 60 
+ 248     1     1   char     Sync mode: normal = 0, line = 1, external = 2 
+ 249     1     1   char     Spectrograph units, wavelength or wavenumber, 
+ 250     4     4   float    Settings for 4 spectrographs in above units 
+ 266     4     4   float    Increment value in spectrograph units 
+                              for scanning spectrographs 
+ 282    16     4   float    Spectrograph slit width 
+ 346    12     4   float    X,Y,Z axis calibration coefficients 
+                              for least squares polynomial fitting 
+ 394     1     2   integer  Pulser type 
+ 396     1     2   integer  One pulse per experiment or multiples 
+ 398     1     2   integer  Which pixel will trigger the pulse 
+ 400     1     4   float    After trigger delay for pulse 
+ 404     1     4   float    Pulse width 
+ 408     1     4   float    Increment for multi-pulse experiment 
+ 412    77     1   char     Filename for background data 
+ 489    77     1   char     100 % Transmittance data file to be used for 
+                              ABS, %T and other calculations 
+ 566    77     1   char     General purpose input file 
+ 643    77     1   char     General purpose output file 
+ 720     1     4   float    Source compensation interval 
+ 724     1     4   float    Exposure or integration for source comp 
+ 728     1     4   float    Time constant for source compensation
+                              integration circuit 
+ 732     1     4   float    YT data point or scan interval. 
+ 736     1     4   float    YT delay before taking any measurements 
+ 740     2     2   integer  Starting PIA values 
+ 744    25     1   char     Null terminated X axis label 
+ 769    25     1   char     Null terminated Y axis label 
+ 794    25     1   char     Null terminated Z axis label 
+ 819    25     1   char     Null terminated Plot title 
+ 844     3     4   float    X, y, z axis minima 
+ 856     3     4   float    X, y, z axis maxima 
+ 868     1     1   char     DA Mode number 
+ 869     1     1   char     Slicemode: 0 = uniform, 1 = non-uniform  
+ 870     1     1   char     Trackmode: 0 = contiguous, 1 = random  
+ 871     1     1   char     Bytes per point 
+ 872     1     2   integer  Prep frames: assume = value of H  
+ 874     1     2   integer  Number of slices for current setup  
+ 876     1     2   integer  Predelay clock cycles 
+ 878     1     1   char     External start: 0 if internal, 1 ext. 
+ 879     1     1   char     Trig on  
+ 880     1     1   char     Shutter_open_sync;  
+ 881     1     1   char     Shutter_close_sync; TRUE = wait for sync  
+ 882     1     1   char     Shutter_forced_mode 0 1 or 2 norm closed open  
+ 883     1     1   char     Need expose: TRUE if need expose time
+ 884     1     1   char     Pulser enabled 
+ 885     1     1   char     External analog mode or Source Comp mode 
+ 886     1     4   float    Pixel time: 18us, 16us, what else???  
+ 890     1     1   char     Trigger polarity, 1 = high 
+ 891     1     2   integer  Software Version that wrote this file
+ 893    483    1   char     Reserved Area
+ 1376    1     2   integer  Number of Xpixel_groups in group tables 
+ 1378    1     2   integer  Number of Ypixel_groups in group tables 
+ 1380    1     2   integer  Number of Trigger_groups in group tables
+ 1382   ???    4   grp_tbl  Group_tables - Xpixel, Ypixel, trigger
+
+Xpixel group table structure:
+{
+int X0[Number of Xpixel groups];
+int DeltaX[Number of Xpixel groups];
+}
+
+Ypixel group table structure:
+{
+int Y0[Number of Ypixel groups];
+int DeltaY[Number of Ypixel groups];
+}
+
+Trigger group table structure:
+{
+int StartPixel[Number of Trigger groups];
+int Number of Pixels[Number of Trigger groups];
+}
+
+Data follows group tables as CURVEHDR CURVE; CURVEHDR CURVE ... <EOF>
+Curves consist of Y data followed by optional X data
+
+Curve header structure:
+
+ File  Number Size  Data                Meaning
+offset  of     of   type
+       items  each
+  0      1     2    integer    Number of points in this curve
+  2      1     1    char       X axis units (see above for definition)
+  3      1     4    pointer    If 0, no X axis data in file
+  7      1     1    char       Y axis units for this curve, 
+                               see above for values
+  8      1     2    integer    Data type (see above for definition)
+  10     1     2    integer    Related experiment number from the DAD file
+  12     1     4    float      Time in seconds from start of scan
+  16     1     4    long int   Source Compensation value
+  20     2     2    pia[2];    PIA port values
+  24     1     4    float      Min amplitude of points in curve
+  28     1     4    float      Max amplitude of points in curve
+  32     1     4    float      Min value of X axis
+  36     1     4    float      Max value of X axis
+
+  40    ???   ???   ????       Y data
+  ???   ???   ???   ????       X data if present

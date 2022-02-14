@@ -1,0 +1,19 @@
+vinstall.bat - Program to copy correct TSR to VESA.COM or VESA.EXE
+m.com        - Program to accept keystroke and return code in errorlevel
+vgainfo.exe  - Program to detect video controller type
+vesalist.exe - Program to list available VESA support
+vesatest.exe - Program to test if mode 105 works on your card & monitor
+evrxvesa.com - VESA TSR for Everex 
+gvesa.com    - VESA TSR for GENOA
+67vesa.com   - VESA TSR for Oak
+orchdvsa.com - VESA TSR for Orchid
+sigvesa.com  - VESA TSR for Sigma
+tlivesa.com  - VESA TSR for Tseng ET4000 and ET3000
+v7vesa.com   - VESA TSR for Video 7
+vesa452.com  - VESA TSR for Chips & Tech 82c452 chip set
+vgavesa.com  - VESA TSR for Tecmar
+vvesa.com    - VESA TSR for ATI
+apvesa.exe   - VESA TSR for Appian
+d2vesa.exe   - VESA TSR for Western Digital, such as Diamond 24X or Paradise
+tvesa.exe    - VESA TSR for Trident
+files.lst    - This file

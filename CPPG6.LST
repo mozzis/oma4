@@ -1,0 +1,11 @@
+datmgr\datmgr.cpp
+datmgr\wintcl.cpp
+datmgr\datmgr.def
+datmgr\datmgr.dll
+datmgr\datadir.h  
+datmgr\datmgr.h  
+datmgr\unimeth.h  
+datmgr\wintcl.h  
+datmgr\datmgr.lib
+datmgr\datmgr.mak
+

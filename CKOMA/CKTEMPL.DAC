@@ -1,0 +1,72 @@
+;****************************************************************        
+;*                                                              *
+;*      This program (CKTEMPL.DAC) will test the Detector       *
+;*      Controller's Temperature Locked Communication.          *
+;*                                                              *
+;****************************************************************
+
+LINK    'CKTEMPL.ABJ'
+INCLUDE 'OPS.ADD'              
+
+;------- ASIC register assignments. ----------------------------
+
+FCPROG  EQU     $30001                  ;FC Program register, 2 bytes.
+FCMASK  EQU     $30005                  ;FC Output Mask register, 2 bytes.
+DCPROG  EQU     $30009                  ;DC Program register, 2 bytes.
+BGBASE  EQU     $3000D                  ;Background Base register, 3 bytes.
+FBASE   EQU     $30013                  ;Frame Base Register, 3 bytes.
+
+MSG     EQU     $800000                 ;Message area.
+PCINT   EQU     $10000                  ;IBM Interrupt request area.
+MEMADDR EQU     $800090                 ;Address Pointer varible, L-word.
+
+;------- Erase data memory -------------------------------------
+
+BEGIN   DAC_BLOCK
+	MOVE L  #$800000,MEMADDR        ;Initialize address pointer.
+	DO #$20                         ;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Write Passed message ----------------------------------
+
+	MOVE W  #$2020,MSG              ;Space characters.
+	MOVE W  #$2020,MSG+2            ;Space characters.
+	MOVE W  #$2020,MSG+4            ;Space characters.
+	MOVE W  #$2020,MSG+6            ;Space characters.
+	MOVE W  #$2D20,MSG+8            ;Space characters.
+	MOVE W  #$5420,MSG+10           ; T characters.
+	MOVE W  #$6D65,MSG+12           ;em characters.
+	MOVE W  #$4C70,MSG+14           ;pL characters.
+	MOVE W  #$2020,MSG+16           ;   characters.
+	MOVE W  #$6554,MSG+18           ;Te characters.
+	MOVE W  #$7473,MSG+20           ;st characters.
+	MOVE W  #$203A,MSG+22           ;:  characters.
+	MOVE W  #$4150,MSG+24           ;PA characters.
+	MOVE W  #$5353,MSG+26           ;SS characters.
+	MOVE W  #$4445,MSG+28           ;ED characters.
+	MOVE W  #$0000,MSG+30           ;End of string.
+
+;------- Synchronize System ------------------------------------
+
+START   MOVE W  #FCINIT,FCPROG ASIC     ;Sync. DAC w/ASIC.
+	WAIT_FC
+	MOVE W  #FCINIT,FCPROG ASIC
+
+MASK    WAIT_FC                         ;No FC mask.
+	MOVE W  #$FFFF,FCMASK ASIC      
+	MOVE W  #FCINIT,FCPROG ASIC     
+	MOVE W  #DCINIT,DCPROG ASIC     
+
+INIT    WAIT_DMA                        ;Do Initialization.
+	MOVE W  #FCINIT,FCPROG ASIC     
+	MOVE W  #DCINIT,DCPROG ASIC     
+
+MAIN    WAIT_DMA                        ;Do Temp Locked test.
+	MOVE W  #FCTL,FCPROG ASIC
+	MOVE W  #DCTL,DCPROG ASIC
+
+	GOTO MAIN
+	
+	DONE

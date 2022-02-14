@@ -1,0 +1,1935 @@
+ASIC Monitor Pass 3                                                         1
+Source file: monitor.asm
+
+1      0                            |  	************************************************************************
+2      0                            |  	*                                                                      *
+3      0                            |  	* Monitor.asm - 68000 source for the DAC monitor program of the        *
+4      0                            |  	*               OMAIV system                                           *
+5      0                            |  	*                                                                      *
+6      0                            |  	*   this program responds to ASIC interrupts while there is no         *
+7      0                            |  	*   data acquisition going on by writing the correct vectors           *
+8      0                            |  	*   into the program registers and data address registers.             *
+9      0                            |  	*   When the PC interrupts the the 68000, the monitor responds,        *
+10     0                            |  	*   usually by launching the proper experiment sequence.               *
+11     0                            |  	*                                                                      *
+12     0                            |  	*   The run-time for the DAC language is also located here.  Each      *
+13     0                            |  	*   run time segment contains the code which will advance the          *
+14     0                            |  	*   execution pointer, get the address of the next segment to run,     *
+15     0                            |  	*   and jump to it.                                                    *
+16     0                            |  	*                                                                      *
+17     0                            |  	*   Version 1.0 - Jun 1989 M.Maynard                                   *
+18     0                            |  	*   Version 1.1 - Dec 1989 M.Maynard Bug fixes and add math functions  *
+19     0                            |  	*   Version 1.2 - Jun 1990 M.Maynard Bug fixes and add addressing modes*
+20     0                            |  	*   Version 1.3 - Sep 1990 M.Maynard Change structures to use with PC  *
+21     0                            |  	*                                    driver module                     *
+22     0                            |  	*                                                                      *
+23     0                            |  	**************************************************************************
+24     0                            |  	*                                                                        *
+25     0                            |  	* Compiled with the following options:                                   *
+26     0                            |  	*                                                                        *
+27     0                            |  	* A     = Resolve label or PC operands as absolute address               *
+28     0                            |  	* BRB   = Default branch size of 8 bits                                  *
+29     0                            |  	* EXT   = Allow Intermetrics extensions                                  *
+30     0                            |  	* FRS   = Forward references in absolute form assume 16 bit address      *
+31     0                            |  	* MEXG  = List macro expansions which genereate code                     *
+32     0                            |  	* NOPSA = Turn off expanded instruction listing                          *
+33     0                            |  	* PCO   = PC relative addressing on back refs within ORG sections        *
+34     0                            |  	* PCS   = PC relative addressing on instructions within SECTIONS         *
+35     0                            |  	* P     = Emit form feeds at ends of pages                               *
+36     0                            |  	*                                                                        *
+37     0                            |  	**************************************************************************
+38     0                            |  	*
+39     0                            |  	*          OPT     NOA,BRB,EXT,FRS,MEXG,NOPSA,PCO,PCS,P
+41     0                            |  	Monitor    IDNT    3,0
+43     0                            |  	*
+44     0                            |  	           XDEF    FCTBLPTR  
+45     0                            |  	           XDEF    FCTBLINX  
+46     0                            |  	           XDEF    FCCODPTR  
+47     0                            |  	
+48     0                            |  	           XDEF    DCTBLPTR  
+49     0                            |  	           XDEF    DCTBLINX  
+50     0                            |  	           XDEF    DCCODPTR  
+51     0                            |  	
+52     0                            |  	           XDEF    DACTBLPTR 
+53     0                            |  	           XDEF    DACTBLINX 
+54     0                            |  	           XDEF    DACCODPTR 
+55     0                            |  	           XDEF    LCTBLPTR  
+56     0                            |  	           XDEF    LCTBLINX  
+57     0                            |  	                   
+ASIC Monitor Pass 3                                                         2
+Source file: monitor.asm
+
+58     0                            |  	*
+59     0                            |  	* Macro for DACTBL *definition
+60     0                            |  	*
+61     0                            |  	KEY        MACRO
+62     0                            |  	           DC.B    \1
+63     0                            |  	           DC.W    \2
+64     0                            |  	           ENDM
+65     0                            |  	*
+66     0                            |  	* Macro for jump to next DACLIST routine
+67     0                            |  	*
+68     0                            |  	NEXT       MACRO
+69     0                            |  	           MOVEA.W (A4)+,A5
+70     0                            |  	           JMP     (A5)
+71     0                            |  	           ENDM
+72     0                            |  	*
+73     0                            |  	*
+74     0                            |  	**************************************************************************
+75     0                            |  	*                                                                        *
+76     0                            |  	* System Constants                                                       *
+77     0                            |  	*                                                                        *
+78     0        [$800000]           |  	DataMemStart  EQU     $800000       Actual start of data memory 8 Mb     *
+79     0        [$800000]           |  	SHARED_MEM_START EQU  DataMemStart                                       *
+80     0                            |  	*                                                                        *
+81     0        [$0]                |  	FCLIST     EQU     0             Address of FC code in (ASIC address space)
+82     0        [$0]                |  	DCLIST     EQU     0             Address of DC code in (ASIC address space)
+83     0                            |  	
+84     0        [$800000]           |  	DataStart  EQU     $800000       Address of OMA board data space
+85     0        [$3E8]              |  	LISTSIZE   EQU     500*2         500 entries per list                    *
+86     0        [$78]               |  	LOOPSIZE   EQU     30*4          10 Nested loops                         *
+87     0        [$FFFF]             |  	ENDLIST    EQU     $FFFF                                                 *
+88     0        [$FFFF]             |  	ALLENBLD   EQU     $FFFF                                                 *
+89     0        [$80]               |  	STACKSIZE  EQU     128                                                   *
+90     0                            |  	*                                                                        *
+91     0                            |  	**************************************************************************
+92     0                            |  	
+93     0                            |  	*
+94     0                            |  	* Codes received from driver when signalling monitor
+95     0                            |  	*
+96     0                            |  	
+97     0        [$0]                |  	SM_CLEAR      EQU  0
+98     0        [$1]                |  	SM_START_DA   EQU  1
+99     0        [$2]                |  	SM_SWITCH_DA  EQU  2
+100    0        [$3]                |  	SM_ABORT_DA   EQU  3
+101    0                            |  	
+102    0                            |  	*
+103    0                            |  	* Codes sent by monitor when signalling driver
+104    0                            |  	*
+105    0                            |  	
+106    0        [$0]                |  	MSPC_CLEAR    EQU 0                          No status
+107    0        [$1]                |  	MSPC_IN_DN    EQU 1                          Init Complete
+108    0        [$2]                |  	MSPC_DA_DN    EQU 2                          Da Complete
+109    0        [$3]                |  	MSPC_RESVD    EQU 3
+110    0                            |  	
+111    0                            |  	*
+112    0                            |  	* Codes sent by monitor when replying to driver signal
+ASIC Monitor Pass 3                                                         3
+Source file: monitor.asm
+
+113    0                            |  	*
+114    0                            |  	
+115    0        [$0]                |  	SMR_CLEAR     EQU 0
+116    0        [$1]                |  	SMR_CMD_DN    EQU 1                          Command done
+117    0        [$2]                |  	SMR_CMD_BG    EQU 2                          Command started
+118    0        [$3]                |  	SMR_CMD_UN    EQU 3                          Command unknown
+119    0        [$4]                |  	SMR_NRDY      EQU 4                          Not ready for command
+120    0        [$5]                |  	SMR_EXCEP     EQU 5                          Exception error
+121    0        [$6]                |  	SMR_NO_DA     EQU 6                          No DA in progress
+122    0                            |  	
+123    0                            |  	*
+124    0                            |  	* Codes received from driver when replying to monitor signal
+125    0                            |  	*
+126    0                            |  	
+127    0        [$0]                |  	MSPCR_CLEAR   EQU 0
+128    0        [$1]                |  	MSPCR_ACK     EQU 1                          Message received
+129    0                            |  	
+130    0                            |  	*
+131    0                            |  	* The shared memory construct for DAC - DRIVER communications
+132    0                            |  	*
+133    0                            |  	           OFFSET  SHARED_MEM_START
+134    800000                       |  	*
+135    800000                    >  |  	MSM_Act_RQ         DS.W 1 ( 0)  Monitor action requested by driver
+136    800002                    >  |  	MSM_Act_RQ_RPL     DS.W 1 ( 2)  Monitor reply to driver request
+137    800004                    >  |  	MSM_Sig_PC         DS.W 1 ( 4)  Driver action requested by monitor
+138    800006                    >  |  	MSM_Sig_PC_RPL     DS.W 1 ( 6)  Driver reply to monitor request
+139    800008                    >  |  	MSM_Pgm_Inx        DS.W 1 ( 8)  Which DAC program to run
+140    80000A                    >  |  	MSM_Data_Offset    DS.L 1 (10)  Offset of frame data (assume from 800000)
+141    80000E                    >  |  	MSM_Bgnd_Offset    DS.L 1 (14)  Offset of bkgnd data (assume from 800000)
+142    800012                    >  |  	MSM_Data_Size      DS.L 1 (18)  Size of data memory allocated for experiment
+143    800016                    >  |  	MSM_FC_OH          DS.W 1 (22)  Address of FC overhead routine to run          
+144    800018                    >  |  	Counter_H0         DS.W 1 (24)  Number of prep frames, by convention
+145    80001A                    >  |  	Counter_H1         DS.W 1 (36)  Run time value of H
+146    80001C                    >  |  	Counter_I0         DS.W 1 (28)  Number of frames/mem, by convention
+147    80001E                    >  |  	Counter_I1         DS.W 1 (30)  Run time value of I
+148    800020                    >  |  	Counter_J0         DS.W 1 (32)  Number of memories, by convention
+149    800022                    >  |  	Counter_J1         DS.W 1 (34)  Run time value of J
+150    800024                    >  |  	Counter_K0         DS.W 1 (36)  Number of ignored frames, by convention
+151    800026                    >  |  	Counter_K1         DS.W 1 (38)  Run time value of K
+152    800028                    >  |  	Counter_L0         DS.W 1 (40)  Aux. counter  may be array of counters
+153    80002A                    >  |  	Counter_L1         DS.W 1 (42)  Run time value of L
+154    80002C                    >  |  	Counter_T0         DS.W 1 (44)  Number of tracks (spectra) for DAC
+155    80002E                    >  |  	Counter_T1         DS.W 1 (46)  Run time value of T
+156    800030                    >  |  	Counter_S0         DS.W 1 (48)  Number of slices (points) for DAC
+157    800032                    >  |  	Counter_S1         DS.W 1 (50)  Run time value of S
+158    800034                    >  |  	MSM_FC_Scan_Mode   DS.W 1 (52)  FC program to run for frame readout
+159    800036                    >  |  	MSM_FC_StreakMode  DS.W 1 (54)  ASIC FC program to run for streak prescan
+160    800038                    >  |  	MSM_FC_StrkOTMode  DS.W 1 (56)  ASIC FC program to run for streak prescan
+161    80003A                    >  |  	MSM_DC_Add_Mode    DS.W 1 (58)  ASIC DC program to run to add data
+162    80003C                    >  |  	MSM_DC_Rep_Mode    DS.W 1 (60)  ASIC DC program to run to replace data
+163    80003E                    >  |  	MSM_DC_Sub_Mode    DS.W 1 (62)  ASIC DC program to run to subtract data
+164    800040                    >  |  	MSM_DC_Ign_Mode    DS.W 1 (64)  ASIC DC program to run to ignore data
+165    800042                    >  |  	MSM_DC_OH          DS.W 1 (66)  ASIC DC program to run during overhead
+166    800044                    >  |  	MSM_DC_StreakMode  DS.W 1 (68)  ASIC DC program to run for streak prescan
+167    800046                    >  |  	MSM_DA_Complete    DS.W 1 (70)  Flag that DA is complete
+ASIC Monitor Pass 3                                                         4
+Source file: monitor.asm
+
+168    800048                    >  |  	MSM_Serial_Mode    DS.W 1 (72)  Uniform = 0, Random = 1, others?
+169    80004A                    >  |  	MSM_Image_Mode     DS.W 1 (74)  Uniform = 0, Random = 1, others?
+170    80004C                    >  |  	MSM_Sort           DS.W 1 (76)  Flag is nonzero is sorting required
+171    80004E                    >  |  	MSM_Pointnum       DS.W 1 (78)  Number of points to sort in each treck
+172    800050                    >  |  	MSM_SC_Address     DS.L 1 (80)  Address of source comp array
+173    800054                    >  |  	MSM_PIA_Out        DS.W 1 (84)  Value to write to PIA
+174    800056                    >  |  	MSM_StreakMode     DS.W 1 (86)  Flag whether to do streaker prescan
+175    800058                       |  	* All the rest are written by ASIC so must be on 4-byte boundary  *
+176    800058                    >  |  	MSM_PIA_In         DS.L 1 (88)  Value read from PIA
+177    80005C                    >  |  	MSM_Cooler_Status  DS.L 1 (92)  Status byte from cooler at upper address
+178    800060                    >  |  	MSM_Shutter_ID     DS.L 1 (96)  Shutter or timer board ID
+179    800064                    >  |  	MSM_Detector_ID    DS.L 1 (100) Cooler stat and detector id at longword bound
+180    800068                       |  	
+181    800068                       |  	* Structure must end on LONGWORD boundary!
+182    800068                       |  	
+183    800068                       |  	*
+184    800068                       |  	* FP board Registers from the 68000 point of view
+185    800068                       |  	*
+186    800068   [$10000]            |  	HostAtn    EQU     $010000                   Interrupt Host - strobe
+187    800068   [$20000]            |  	HostAck    EQU     $020000                   Acknowledge IRQ from Host
+188    800068                       |  	*
+189    800068                       |  	* ASIC control registers
+190    800068                       |  	*
+191    800068   [$30001]            |  	asic0      EQU     $030001                   Base address
+192    800068                       |  	*
+193    800068                       |  	*
+194    800068                       |  	* Frame controller - write only
+195    800068                       |  	*
+196    800068                       |  	*
+197    800068   [$30001]            |  	frm0       EQU     asic0                     Base address (odd - must use move.b or movep)
+198    800068   [$0]                |  	frmpc      EQU     $0                        Program vector LSB, MSB
+199    800068   [$4]                |  	frmmsks    EQU     $4                        Mask for Msg Des., DMA Addr., Trigger
+200    800068                       |  	*
+201    800068   [$30009]            |  	dma0       EQU     $030009                   Address of DMA controller registers
+202    800068                       |  	*                                            First byte is reserved
+203    800068                       |  	*
+204    800068                       |  	* DMA controller - write only
+205    800068                       |  	*
+206    800068   [$8]                |  	dmapc      EQU     $8                        Program vector LSB, MSB
+207    800068                       |  	*
+208    800068   [$C]                |  	asicbbr    EQU     $0C                       Background Base Address Register - 24 bits
+209    800068                       |  	*
+210    800068   [$12]               |  	asicfbr    EQU     $12                       Frame Base Address Register - 24 Bits
+211    800068                       |  	*
+212    800068                       |  	*
+213    800068                       |  	* asic status register
+214    800068                       |  	*
+215    800068   [$40001]            |  	status     EQU     $40001
+216    800068                       |  	*
+217    800068                       |  	*
+218    800068                       |  	* Data Structures
+219    800068                       |  	*
+220    800068                       |  	* Supervisor data space
+221    800068                       |  	* Reset and exception vectors
+222    800068                       |  	*
+ASIC Monitor Pass 3                                                         5
+Source file: monitor.asm
+
+223    800068                       |  	
+224    800068                    >  |  	           ORG     0                         Absolute assembly here
+225    0                            |  	*
+226    0                         >  |  	           SECTION.S VTABLE,ABSOLUTE,"sdata"
+227    0                            |  	*
+228    0        {00000200}          |  	RESET.SP   DC.L    STACK.START               Reset stack pointer
+229    4        {00000666}          |  	RESET.PC   DC.L    STARTUP                   Reset program counter
+230    8        {00000666}          |  	V.BERR     DC.L    STARTUP                   Bus error
+231    C        {00000666}          |  	V.AERR     DC.L    STARTUP                   Address error
+232    10       {00000666}          |  	V.ILLG     DC.L    STARTUP                   Illegal instruction
+233    14       {00000666}          |  	V.ZRDV     DC.L    STARTUP                   Zero divide
+234    18       {00000666}          |  	V.CHKI     DC.L    STARTUP                   CHK instruction
+235    1C       {00000666}          |  	V.TRAPV    DC.L    STARTUP                   TRAPV instructon
+236    20       {00000666}          |  	V.PRIVIO   DC.L    STARTUP                   Privilege violation
+237    24       {00000666}          |  	V.TRACE    DC.L    STARTUP                   TRACE exception
+238    28       {00000666}          |  	V.L1010    DC.L    STARTUP                   Line 1010
+239    2C       {00000666}          |  	V.L1111    DC.L    STARTUP                   Line 1111
+240    30       {0000091E}{0000091  |  	V.MISC1    DCB.L   8,EX_DFLT                 Reserved and miscellaneous
+                E}{0000091E}{00000  |
+                91E}{0000091E}{000  |
+                0091E}{0000091E}{0  |
+                000091E}            |
+241    50       {00000666}          |  	V.SPURI    DC.L    STARTUP                   Spurious interrupt
+242    54       {00000666}          |  	V.IRQ1     DC.L    STARTUP                   Level 1 IRQ Autovector
+243    58       {00000666}          |  	V.IRQ2     DC.L    STARTUP                   Level 2 IRQ Autovector
+244    5C       {00000666}          |  	V.IRQ3     DC.L    STARTUP                   Level 3 IRQ Autovector
+245    60       {00000666}          |  	V.IRQ4     DC.L    STARTUP                   Level 4 IRQ Autovector
+246    64       {00000666}          |  	V.IRQ5     DC.L    STARTUP                   Level 5 IRQ Autovector
+247    68       {00000666}          |  	V.IRQ6     DC.L    STARTUP                   Level 6 IRQ Autovector
+248    6C       {00000666}          |  	V.IRQ7     DC.L    STARTUP                   Level 7 IRQ Autovector
+249    70       {00000666}          |  	V.TRAP0    DC.L    STARTUP                   Trap vectors
+250    74       {00000666}          |  	V.TRAP1    DC.L    STARTUP
+251    78       {00000666}          |  	V.TRAP2    DC.L    STARTUP
+252    7C       {00000666}          |  	V.TRAP3    DC.L    STARTUP
+253    80       {00000666}          |  	V.TRAP4    DC.L    STARTUP
+254    84       {00000666}          |  	V.TRAP5    DC.L    STARTUP
+255    88       {00000666}          |  	V.TRAP6    DC.L    STARTUP
+256    8C       {00000666}          |  	V.TRAP7    DC.L    STARTUP
+257    90       {00000666}          |  	V.TRAP8    DC.L    STARTUP
+258    94       {00000666}          |  	V.TRAP9    DC.L    STARTUP
+259    98       {00000666}          |  	V.TRAP10   DC.L    STARTUP
+260    9C       {00000666}          |  	V.TRAP11   DC.L    STARTUP
+261    A0       {00000666}          |  	V.TRAP12   DC.L    STARTUP
+262    A4       {00000666}          |  	V.TRAP13   DC.L    STARTUP
+263    A8       {00000666}          |  	V.TRAP14   DC.L    STARTUP
+264    AC       {00000666}          |  	V.TRAP15   DC.L    STARTUP
+265    B0                        >  |  	V.MISC2    DS.L    (256-48)                  Reserved, user interrupts, etc.
+266    3F0                          |  	*
+267    3F0                          |  	*
+268    3F0                          |  	* Stack (both SSP and USP)
+269    3F0                          |  	*
+270    3F0                          |  	*
+271    3F0                       >  |  	           SECTION.S STACK,,"sdata"
+272    0                            |  	*
+273    0        [{$0}]              |  	stackend   equ     *
+274    0                         >  |  	           ds.l    STACKSIZE
+275    200      [{$200}]            |  	STACK.START equ    *
+276    200                          |  	*
+277    200                          |  	*
+ASIC Monitor Pass 3                                                         6
+Source file: monitor.asm
+
+278    200                          |  	
+279    200                       >  |  	           SECTION.S POINTERS,,"pdata"       Set to $700 at locate time
+280    0                            |  	*
+281    0                            |  	* FC Table is a list of FC_BLOCK addresses
+282    0                            |  	* FC COD is the area where FC code lives (in ASIC memory)
+283    0                            |  	*
+284    0                            |  	
+285    0        {0100}              |  	FCTBLPTR   DC.W    FCTBL                     Points to beginning of FCTBL
+286    2        0000                |  	FCTBLINX   DC.W    0                         Index to next free FCTBL entry
+287    4        0000                |  	FCCODPTR   DC.W    FCLIST                    Points to next free FCCOD space
+288    6                            |  	
+289    6                            |  	*
+290    6                            |  	* DC Table is a list of DMA_BLOCK addresses
+291    6                            |  	* DC COD is the area where DC code lives (in ASIC memory)
+292    6                            |  	*
+293    6                            |  	
+294    6        {08D0}              |  	DCTBLPTR   DC.W    DCTBL                     Points to beginning of DCTBL
+295    8        0000                |  	DCTBLINX   DC.W    0                         Index to next free DCTBL entry
+296    A        0000                |  	DCCODPTR   DC.W    DCLIST                    Points to next free DCCOD space
+297    C                            |  	
+298    C                            |  	*
+299    C                            |  	* DAC Table is a list of DAC_BLOCK addresses
+300    C                            |  	* DAC COD is the area where DAC code lives (in 68000 memory)
+301    C                            |  	* DAC code is (for now) lists of addresses of DAC primitives
+302    C                            |  	* like MOVEWA, not the primitives themselves - the prims
+303    C                            |  	* live in the section labeled CODE in this file
+304    C                            |  	*
+305    C                            |  	
+306    C        {10A0}              |  	DACTBLPTR  DC.W    DACTBL                    Points to beginning of DACTBL
+307    E        0000                |  	DACTBLINX  DC.W    0                         Index to next free DACTBL entry
+308    10       {0928}              |  	DACCODPTR  DC.W    DACLIST                   Points to next free DACCOD space
+309    12                           |  	
+310    12                           |  	*
+311    12                           |  	* LC Table is a list of loop counter addresses
+312    12                           |  	* The loop counters may be in FC, DC or DAC code space
+313    12                           |  	* Loop counters determine things like exposure time,
+314    12                           |  	* #pixels in a region, and # of frames in a memory.
+315    12                           |  	*
+316    12                           |  	
+317    12       {1870}              |  	LCTBLPTR   DC.W    LCTBL                     Points to beginning of LCTBL
+318    14       0000                |  	LCTBLINX   DC.W    0                         Index into LC table
+319    16                           |  	
+320    16       00800000            |  	DATAADDR   DC.L    DataStart
+321    1A       00800000            |  	BGNDADDR   DC.L    DataStart
+322    1E                           |  	
+323    1E       4F4D4134204D6F6E69  |  	VERSION_LABEL  DC.B 'OMA4 Monitor version 3.0 ',0 Used to see if monitor present
+                746F72207665727369  |
+                6F6E20332E302000    |
+324    38                           |  	
+325    38                           |  	*
+326    38                           |  	* Begin storage of run time data objects
+327    38                           |  	*
+328    38                           |  	
+329    38                        >  |  	           SECTION.S DATA,,"udata"
+330    0                            |  	
+331    0                            |  	*
+332    0                            |  	* Flag for DAC condition code operations
+ASIC Monitor Pass 3                                                         7
+Source file: monitor.asm
+
+333    0                            |  	*
+334    0                            |  	
+335    0                         >  |  	RESFLG     DS.W    1
+336    2                            |  	
+337    2                            |  	*
+338    2                            |  	* Data storage for memory test routine
+339    2                            |  	*
+340    2                            |  	
+341    2        FFFF0000            |  	INITPATT   DC.L    $FFFF0000
+342    6        00000000            |  	PATT       DC.L    0
+343    A        0000                |  	QUIKTEST   DC.W    0
+344    C        0000                |  	SUCCESS    DC.W    0
+345    E                            |  	
+346    E                            |  	*
+347    E                            |  	* The loopstack is used by the DO...LOOP DAC primitives
+348    E                            |  	*
+349    E                            |  	
+350    E                         >  |  	LOOPSTACK  DS.W    LOOPSIZE                  Addresses to loop to
+351    FE       {0086}              |  	LOOPTR     DC.W    LOOPSTACK+LOOPSIZE        Stack pointer for loop
+352    100                          |  	
+353    100                          |  	*
+354    100                          |  	* Here are the tables pointed to by addresses in the
+355    100                          |  	* "sacred pointers" area
+356    100                          |  	*
+357    100                          |  	
+358    100      FFFFFFFFFFFFFFFFFF  |  	FCTBL      DCB.W   LISTSIZE,ENDLIST          List of FC code block addresses
+                FFFFFFFFFFFFFF      |
+359    8D0      [{$8D0}]            |  	FCEND      EQU     *                         in ASIC code space
+360    8D0                          |  	
+361    8D0                          |  	*
+362    8D0                          |  	
+363    8D0      FFFFFFFFFFFFFFFFFF  |  	DCTBL      DCB.W   LISTSIZE,ENDLIST          List of DMA code block addresses
+                FFFFFFFFFFFFFF      |
+364    10A0     [{$10A0}]           |  	DMAEND     EQU     *                         in ASIC code space
+365    10A0                         |  	
+366    10A0                         |  	*
+367    10A0                         |  	
+368    10A0     FFFFFFFFFFFFFFFFFF  |  	DACTBL     DCB.W   LISTSIZE,ENDLIST          List of DAC code block addresses
+                FFFFFFFFFFFFFF      |
+369    1870     [{$1870}]           |  	DACEND     EQU     *                         in 68000 code space
+370    1870                         |  	
+371    1870                         |  	*
+372    1870                         |  	
+373    1870     FFFFFFFFFFFFFFFFFF  |  	LCTBL      DCB.W   LISTSIZE,ENDLIST          List of loop counter addresses
+                FFFFFFFFFFFFFF      |
+374    2040     [{$2040}]           |  	LCEND      EQU     *      
+375    2040                         |  	
+376    2040                         |  	*
+377    2040                         |  	
+378    2040                      >  |  	IN_DA      DS.W    1                         Flag that DA is in progress
+379    2042                      >  |  	PC_INPROG  DS.W    1                         Flag that I asked PC to do s/t
+380    2044                      >  |  	PC_MAILBOX DS.W    1
+381    2046                         |  	*
+382    2046                         |  	* Begin code section
+383    2046                         |  	*
+384    2046                      >  |  	           SECTION.S CODE,,"sprogram"
+385    0                            |  	*
+386    0                            |  	***********************************************************
+387    0                            |  	*                                                         *
+ASIC Monitor Pass 3                                                         8
+Source file: monitor.asm
+
+388    0                            |  	* Data Acquistion routines                                *
+389    0                            |  	* Register useage:                                        *
+390    0                            |  	*                                                         *
+391    0                            |  	*     A4 - Address of next entry in DACLIST               *
+392    0                            |  	*     A5 - Address of current routine                     *
+393    0                            |  	*     A6 - Loop stack pointer                             *
+394    0                            |  	*     A7 - SSP, eventual RTE returns to HALT              *
+395    0                            |  	*     All other address and data registers currently free *
+396    0                            |  	*     for use by other routines                           *
+397    0                            |  	*                                                         *
+398    0                            |  	***********************************************************
+399    0                            |  	
+400    0                            |  	*
+401    0                            |  	* Add immediate byte
+402    0                            |  	*
+403    0        301C                |  	_ADDIB     MOVE.W  (A4)+,D0
+404    2        205C                |  	           MOVE.L  (A4)+,A0
+405    4        D110                |  	           ADD.B   D0,(A0)
+406    6                            |  	           NEXT
+407    A                            |  	*
+408    A                            |  	* Add immediate word
+409    A                            |  	*
+410    A        301C                |  	_ADDIW     MOVE.W  (A4)+,D0
+411    C        205C                |  	           MOVE.L  (A4)+,A0
+412    E        D150                |  	           ADD.W   D0,(A0)
+413    10                           |  	           NEXT
+414    14                           |  	*
+415    14                           |  	* Add immediate long
+416    14                           |  	*
+417    14       201C                |  	_ADDIL     MOVE.L  (A4)+,D0
+418    16       205C                |  	           MOVE.L  (A4)+,A0
+419    18       D190                |  	           ADD.L   D0,(A0)
+420    1A                           |  	           NEXT
+421    1E                           |  	
+422    1E                           |  	*
+423    1E                           |  	* Add immediate byte indirect
+424    1E                           |  	*
+425    1E       301C                |  	_ADDIBN    MOVE.W  (A4)+,D0
+426    20       205C                |  	           MOVEA.L (A4)+,A0
+427    22       2050                |  	           MOVEA.L (A0),A0
+428    24       D110                |  	           ADD.B   D0,(A0)
+429    26                           |  	           NEXT
+430    2A                           |  	*
+431    2A                           |  	* Add immediate word indirect
+432    2A                           |  	*
+433    2A       301C                |  	_ADDIWN    MOVE.W  (A4)+,D0
+434    2C       205C                |  	           MOVE.L  (A4)+,A0
+435    2E       2050                |  	           MOVEA.L (A0),A0
+436    30       D150                |  	           ADD.W   D0,(A0)
+437    32                           |  	           NEXT
+438    36                           |  	*
+439    36                           |  	* Add immediate long indirect
+440    36                           |  	*
+441    36       201C                |  	_ADDILN    MOVE.L  (A4)+,D0
+442    38       205C                |  	           MOVE.L  (A4)+,A0
+ASIC Monitor Pass 3                                                         9
+Source file: monitor.asm
+
+443    3A       2050                |  	           MOVEA.L (A0),A0
+444    3C       D190                |  	           ADD.L   D0,(A0)
+445    3E                           |  	           NEXT
+446    42                           |  	*
+447    42                           |  	* Add byte at location A to byte at location B
+448    42                           |  	*
+449    42       205C                |  	_ADDAB     MOVE.L  (A4)+,A0
+450    44       1010                |  	           MOVE.B  (A0),D0
+451    46       225C                |  	           MOVE.L  (A4)+,A1
+452    48       D111                |  	           ADD.B   D0,(A1)
+453    4A                           |  	           NEXT
+454    4E                           |  	*
+455    4E                           |  	* Add word at location A to word at location B
+456    4E                           |  	*
+457    4E       205C                |  	_ADDAW     MOVEA.L (A4)+,A0
+458    50       3010                |  	           MOVE.W  (A0),D0
+459    52       225C                |  	           MOVEA.L (A4)+,A1
+460    54       D151                |  	           ADD.W   D0,(A1)
+461    56                           |  	           NEXT
+462    5A                           |  	*
+463    5A                           |  	* Add longword at location A to longword at location B
+464    5A                           |  	*
+465    5A       205C                |  	_ADDAL     MOVEA.L (A4)+,A0
+466    5C       2010                |  	           MOVE.L  (A0),D0
+467    5E       225C                |  	           MOVEA.L (A4)+,A1
+468    60       D191                |  	           ADD.L   D0,(A1)
+469    62                           |  	           NEXT
+470    66                           |  	*
+471    66                           |  	* Add byte at location A to byte at location in B
+472    66                           |  	*
+473    66       205C                |  	_ADDABTN   MOVE.L  (A4)+,A0
+474    68       1010                |  	           MOVE.B  (A0),D0
+475    6A       225C                |  	           MOVEA.L (A4)+,A1
+476    6C       2251                |  	           MOVEA.L (A1),A1
+477    6E       D111                |  	           ADD.B   D0,(A1)
+478    70                           |  	           NEXT
+479    74                           |  	*
+480    74                           |  	* Add word at location A to word at location in B
+481    74                           |  	*
+482    74       205C                |  	_ADDAWTN   MOVE.L  (A4)+,A0
+483    76       3010                |  	           MOVE.W  (A0),D0
+484    78       225C                |  	           MOVE.L  (A4)+,A1
+485    7A       2251                |  	           MOVEA.L (A1),A1
+486    7C       D151                |  	           ADD.W   D0,(A1)
+487    7E                           |  	           NEXT
+488    82                           |  	*
+489    82                           |  	* Add longword at location A to longword at location in B
+490    82                           |  	*
+491    82       205C                |  	_ADDALTN   MOVE.L  (A4)+,A0
+492    84       2010                |  	           MOVE.L  (A0),D0
+493    86       225C                |  	           MOVE.L  (A4)+,A1
+494    88       2251                |  	           MOVEA.L (A1),A1
+495    8A       D191                |  	           ADD.L   D0,(A1)
+496    8C                           |  	           NEXT
+497    90                           |  	*
+ASIC Monitor Pass 3                                                        10
+Source file: monitor.asm
+
+498    90                           |  	* Add byte at location in A to byte at location B
+499    90                           |  	*
+500    90       205C                |  	_ADDABFN   MOVE.L  (A4)+,A0
+501    92       2050                |  	           MOVEA.L (A0),A0
+502    94       1010                |  	           MOVE.B  (A0),D0
+503    96       225C                |  	           MOVEA.L (A4)+,A1
+504    98       D111                |  	           ADD.B   D0,(A1)
+505    9A                           |  	           NEXT
+506    9E                           |  	*
+507    9E                           |  	* Add word at location in A to word at location B
+508    9E                           |  	*
+509    9E       205C                |  	_ADDAWFN   MOVE.L  (A4)+,A0
+510    A0       2050                |  	           MOVEA.L (A0),A0
+511    A2       3010                |  	           MOVE.W  (A0),D0
+512    A4       225C                |  	           MOVE.L  (A4)+,A1
+513    A6       D151                |  	           ADD.W   D0,(A1)
+514    A8                           |  	           NEXT
+515    AC                           |  	*
+516    AC                           |  	* Add longword at location in A to longword at location B
+517    AC                           |  	*
+518    AC       205C                |  	_ADDALFN   MOVE.L  (A4)+,A0
+519    AE       2050                |  	           MOVEA.L (A0),A0
+520    B0       2010                |  	           MOVE.L  (A0),D0
+521    B2       225C                |  	           MOVE.L  (A4)+,A1
+522    B4       D191                |  	           ADD.L   D0,(A1)
+523    B6                           |  	           NEXT
+524    BA                           |  	*
+525    BA                           |  	* Add byte at location in A to byte at location in B
+526    BA                           |  	*
+527    BA       205C                |  	_ADDABDN   MOVE.L  (A4)+,A0
+528    BC       2050                |  	           MOVEA.L (A0),A0
+529    BE       1010                |  	           MOVE.B  (A0),D0
+530    C0       225C                |  	           MOVEA.L (A4)+,A1
+531    C2       2251                |  	           MOVEA.L (A1),A1
+532    C4       D111                |  	           ADD.B   D0,(A1)
+533    C6                           |  	           NEXT
+534    CA                           |  	*
+535    CA                           |  	* Add word at location in A to word at location in B
+536    CA                           |  	*
+537    CA       205C                |  	_ADDAWDN   MOVE.L  (A4)+,A0
+538    CC       2050                |  	           MOVEA.L (A0),A0
+539    CE       3010                |  	           MOVE.W  (A0),D0
+540    D0       225C                |  	           MOVE.L  (A4)+,A1
+541    D2       2251                |  	           MOVEA.L (A1),A1
+542    D4       D151                |  	           ADD.W   D0,(A1)
+543    D6                           |  	           NEXT
+544    DA                           |  	*
+545    DA                           |  	* Add longword at location in A to longword at location in B
+546    DA                           |  	*
+547    DA       205C                |  	_ADDALDN   MOVE.L  (A4)+,A0
+548    DC       2050                |  	           MOVEA.L (A0),A0
+549    DE       2010                |  	           MOVE.L  (A0),D0
+550    E0       225C                |  	           MOVE.L  (A4)+,A1
+551    E2       2251                |  	           MOVEA.L (A1),A1
+552    E4       D191                |  	           ADD.L   D0,(A1)
+ASIC Monitor Pass 3                                                        11
+Source file: monitor.asm
+
+553    E6                           |  	           NEXT
+554    EA                           |  	
+555    EA                           |  	*
+556    EA                           |  	* Sub immediate byte
+557    EA                           |  	*
+558    EA       301C                |  	_SUBIB     MOVE.W  (A4)+,D0
+559    EC       205C                |  	           MOVE.L  (A4)+,A0
+560    EE       9110                |  	           SUB.B   D0,(A0)
+561    F0                           |  	           NEXT
+562    F4                           |  	*
+563    F4                           |  	* Sub immediate word
+564    F4                           |  	*
+565    F4       301C                |  	_SUBIW     MOVE.W  (A4)+,D0
+566    F6       205C                |  	           MOVE.L  (A4)+,A0
+567    F8       9150                |  	           SUB.W   D0,(A0)
+568    FA                           |  	           NEXT
+569    FE                           |  	*
+570    FE                           |  	* Sub immediate long
+571    FE                           |  	*
+572    FE       201C                |  	_SUBIL     MOVE.L  (A4)+,D0
+573    100      205C                |  	           MOVE.L  (A4)+,A0
+574    102      9190                |  	           SUB.L   D0,(A0)
+575    104                          |  	           NEXT
+576    108                          |  	*
+577    108                          |  	* Sub immediate byte indirect
+578    108                          |  	*
+579    108      301C                |  	_SUBIBN    MOVE.W  (A4)+,D0
+580    10A      205C                |  	           MOVEA.L (A4)+,A0
+581    10C      2050                |  	           MOVEA.L (A0),A0
+582    10E      9110                |  	           SUB.B   D0,(A0)
+583    110                          |  	           NEXT
+584    114                          |  	*
+585    114                          |  	* Sub immediate word indirect
+586    114                          |  	*
+587    114      301C                |  	_SUBIWN    MOVE.W  (A4)+,D0
+588    116      205C                |  	           MOVE.L  (A4)+,A0
+589    118      2050                |  	           MOVEA.L (A0),A0
+590    11A      9150                |  	           SUB.W   D0,(A0)
+591    11C                          |  	           NEXT
+592    120                          |  	*
+593    120                          |  	* Sub immediate long indirect
+594    120                          |  	*
+595    120      201C                |  	_SUBILN    MOVE.L  (A4)+,D0
+596    122      205C                |  	           MOVE.L  (A4)+,A0
+597    124      2050                |  	           MOVEA.L (A0),A0
+598    126      9190                |  	           SUB.L   D0,(A0)
+599    128                          |  	           NEXT
+600    12C                          |  	*
+601    12C                          |  	* Sub byte at location A from byte at location B
+602    12C                          |  	*
+603    12C      205C                |  	_SUBAB     MOVE.L  (A4)+,A0
+604    12E      1010                |  	           MOVE.B  (A0),D0
+605    130      225C                |  	           MOVE.L  (A4)+,A1
+606    132      9111                |  	           SUB.B   D0,(A1)
+607    134                          |  	           NEXT
+ASIC Monitor Pass 3                                                        12
+Source file: monitor.asm
+
+608    138                          |  	*
+609    138                          |  	* Sub word at location A from word at location B
+610    138                          |  	*
+611    138      205C                |  	_SUBAW     MOVE.L  (A4)+,A0
+612    13A      3010                |  	           MOVE.W  (A0),D0
+613    13C      225C                |  	           MOVE.L  (A4)+,A1
+614    13E      9151                |  	           SUB.W   D0,(A1)
+615    140                          |  	           NEXT
+616    144                          |  	*
+617    144                          |  	* Sub longword at location A from longword at location B
+618    144                          |  	*
+619    144      205C                |  	_SUBAL     MOVE.L  (A4)+,A0
+620    146      2010                |  	           MOVE.L  (A0),D0
+621    148      225C                |  	           MOVE.L  (A4)+,A1
+622    14A      9191                |  	           SUB.L   D0,(A1)
+623    14C                          |  	           NEXT
+624    150                          |  	*
+625    150                          |  	* Sub byte at location A from byte at location in B
+626    150                          |  	*
+627    150      205C                |  	_SUBABTN   MOVE.L  (A4)+,A0
+628    152      1010                |  	           MOVE.B  (A0),D0
+629    154      225C                |  	           MOVEA.L (A4)+,A1
+630    156      2251                |  	           MOVEA.L (A1),A1
+631    158      9111                |  	           SUB.B   D0,(A1)
+632    15A                          |  	           NEXT
+633    15E                          |  	*
+634    15E                          |  	* Sub word at location A from word at location in B
+635    15E                          |  	*
+636    15E      205C                |  	_SUBAWTN   MOVE.L  (A4)+,A0
+637    160      3010                |  	           MOVE.W  (A0),D0
+638    162      225C                |  	           MOVE.L  (A4)+,A1
+639    164      2251                |  	           MOVEA.L (A1),A1
+640    166      9151                |  	           SUB.W   D0,(A1)
+641    168                          |  	           NEXT
+642    16C                          |  	*
+643    16C                          |  	* Sub longword at location A from longword at location in B
+644    16C                          |  	*
+645    16C      205C                |  	_SUBALTN   MOVE.L  (A4)+,A0
+646    16E      2010                |  	           MOVE.L  (A0),D0
+647    170      225C                |  	           MOVE.L  (A4)+,A1
+648    172      2251                |  	           MOVEA.L (A1),A1
+649    174      9191                |  	           SUB.L   D0,(A1)
+650    176                          |  	           NEXT
+651    17A                          |  	*
+652    17A                          |  	* Sub byte at location in A from byte at location B
+653    17A                          |  	*
+654    17A      205C                |  	_SUBABFN   MOVE.L  (A4)+,A0
+655    17C      2050                |  	           MOVEA.L (A0),A0
+656    17E      1010                |  	           MOVE.B  (A0),D0
+657    180      225C                |  	           MOVEA.L (A4)+,A1
+658    182      9111                |  	           SUB.B   D0,(A1)
+659    184                          |  	           NEXT
+660    188                          |  	*
+661    188                          |  	* Sub word at location in A from word at location B
+662    188                          |  	*
+ASIC Monitor Pass 3                                                        13
+Source file: monitor.asm
+
+663    188      205C                |  	_SUBAWFN   MOVE.L  (A4)+,A0
+664    18A      2050                |  	           MOVEA.L (A0),A0
+665    18C      3010                |  	           MOVE.W  (A0),D0
+666    18E      225C                |  	           MOVE.L  (A4)+,A1
+667    190      9151                |  	           SUB.W   D0,(A1)
+668    192                          |  	           NEXT
+669    196                          |  	*
+670    196                          |  	* Sub longword at location in A from longword at location B
+671    196                          |  	*
+672    196      205C                |  	_SUBALFN   MOVE.L  (A4)+,A0
+673    198      2050                |  	           MOVEA.L (A0),A0
+674    19A      2010                |  	           MOVE.L  (A0),D0
+675    19C      225C                |  	           MOVE.L  (A4)+,A1
+676    19E      9191                |  	           SUB.L   D0,(A1)
+677    1A0                          |  	           NEXT
+678    1A4                          |  	*
+679    1A4                          |  	* Sub byte at location in A from byte at location in B
+680    1A4                          |  	*
+681    1A4      205C                |  	_SUBABDN   MOVE.L  (A4)+,A0
+682    1A6      2050                |  	           MOVEA.L (A0),A0
+683    1A8      1010                |  	           MOVE.B  (A0),D0
+684    1AA      225C                |  	           MOVEA.L (A4)+,A1
+685    1AC      2251                |  	           MOVEA.L (A1),A1
+686    1AE      9111                |  	           SUB.B   D0,(A1)
+687    1B0                          |  	           NEXT
+688    1B4                          |  	*
+689    1B4                          |  	* Sub word at location in A from word at location in B
+690    1B4                          |  	*
+691    1B4      205C                |  	_SUBAWDN   MOVE.L  (A4)+,A0
+692    1B6      2050                |  	           MOVEA.L (A0),A0
+693    1B8      3010                |  	           MOVE.W  (A0),D0
+694    1BA      225C                |  	           MOVE.L  (A4)+,A1
+695    1BC      2251                |  	           MOVEA.L (A1),A1
+696    1BE      9151                |  	           SUB.W   D0,(A1)
+697    1C0                          |  	           NEXT
+698    1C4                          |  	*
+699    1C4                          |  	* Sub longword at location in A from longword at location in B
+700    1C4                          |  	*
+701    1C4      205C                |  	_SUBALDN   MOVE.L  (A4)+,A0
+702    1C6      2050                |  	           MOVEA.L (A0),A0
+703    1C8      2010                |  	           MOVE.L  (A0),D0
+704    1CA      225C                |  	           MOVE.L  (A4)+,A1
+705    1CC      2251                |  	           MOVEA.L (A1),A1
+706    1CE      9191                |  	           SUB.L   D0,(A1)
+707    1D0                          |  	           NEXT
+708    1D4                          |  	*
+709    1D4                          |  	* And immediate byte
+710    1D4                          |  	*
+711    1D4      301C                |  	_ANDIB     MOVE.W  (A4)+,D0
+712    1D6      205C                |  	           MOVE.L  (A4)+,A0
+713    1D8      C110                |  	           AND.B   D0,(A0)
+714    1DA                          |  	           NEXT
+715    1DE                          |  	*
+716    1DE                          |  	* And immediate word
+717    1DE                          |  	*
+ASIC Monitor Pass 3                                                        14
+Source file: monitor.asm
+
+718    1DE      301C                |  	_ANDIW     MOVE.W  (A4)+,D0
+719    1E0      205C                |  	           MOVE.L  (A4)+,A0
+720    1E2      C150                |  	           AND.W   D0,(A0)
+721    1E4                          |  	           NEXT
+722    1E8                          |  	*
+723    1E8                          |  	* And immediate long
+724    1E8                          |  	*
+725    1E8      201C                |  	_ANDIL     MOVE.L  (A4)+,D0
+726    1EA      205C                |  	           MOVE.L  (A4)+,A0
+727    1EC      C190                |  	           AND.L   D0,(A0)
+728    1EE                          |  	           NEXT
+729    1F2                          |  	*
+730    1F2                          |  	* And byte at location A to byte at location B
+731    1F2                          |  	*
+732    1F2      205C                |  	_ANDAB     MOVE.L  (A4)+,A0
+733    1F4      1010                |  	           MOVE.B  (A0),D0
+734    1F6      225C                |  	           MOVE.L  (A4)+,A1
+735    1F8      C191                |  	           AND.L   D0,(A1)
+736    1FA                          |  	           NEXT
+737    1FE                          |  	*
+738    1FE                          |  	* And word at location A to word at location B
+739    1FE                          |  	*
+740    1FE      205C                |  	_ANDAW     MOVE.L  (A4)+,A0
+741    200      3010                |  	           MOVE.W  (A0),D0
+742    202      225C                |  	           MOVE.L  (A4)+,A1
+743    204      C191                |  	           AND.L   D0,(A1)
+744    206                          |  	           NEXT
+745    20A                          |  	*
+746    20A                          |  	* And longword at location A to longword at location B
+747    20A                          |  	*
+748    20A      205C                |  	_ANDAL     MOVE.L  (A4)+,A0
+749    20C      2010                |  	           MOVE.L  (A0),D0
+750    20E      225C                |  	           MOVE.L  (A4)+,A1
+751    210      C191                |  	           AND.L   D0,(A1)
+752    212                          |  	           NEXT
+753    216                          |  	*
+754    216                          |  	* Branch instructions
+755    216                          |  	*
+756    216      4A79{00000000}      |  	_BEQ       TST.W   RESFLG
+757    21C      6706                |  	           BEQ.S   GO
+758    21E                          |  	*
+759    21E      301C                |  	           MOVE    (A4)+,D0
+760    220                          |  	           NEXT
+761    224                          |  	*
+762    224      3854                |  	GO         MOVEA.W  (A4),A4
+763    226                          |  	           NEXT
+764    22A                          |  	*
+765    22A      4A79{00000000}      |  	_BGT       TST.W   RESFLG
+766    230      6EF2                |  	           BGT.S   GO
+767    232      301C                |  	           MOVE    (A4)+,D0
+768    234                          |  	           NEXT
+769    238                          |  	*
+770    238      4A79{00000000}      |  	_BLT       TST.W   RESFLG
+771    23E      6DE4                |  	           BLT.S   GO
+772    240      301C                |  	           MOVE    (A4)+,D0
+ASIC Monitor Pass 3                                                        15
+Source file: monitor.asm
+
+773    242                          |  	           NEXT
+774    246                          |  	
+775    246                          |  	*
+776    246                          |  	* Operations on result flag
+777    246                          |  	*
+778    246      4279{00000000}      |  	CLRFLG     CLR.W   RESFLG
+779    24C                          |  	           NEXT
+780    250                          |  	*
+781    250      33FCFFFF{00000000}  |  	MINFLG     MOVE.W  #$FFFF,RESFLG
+782    258                          |  	           NEXT
+783    25C                          |  	*
+784    25C      33FC0001{00000000}  |  	PLSFLG     MOVE.W  #1,RESFLG
+785    264                          |  	           NEXT
+786    268                          |  	*
+787    268                          |  	* Compare immediate long values
+788    268                          |  	*
+789    268      201C                |  	_CMPRIL    MOVE.L  (A4)+,D0
+790    26A      205C                |  	           MOVE.L  (A4)+,A0
+791    26C      B090                |  	           CMP.L   (A0),D0
+792    26E      67D6                |  	           BEQ     CLRFLG
+793    270      6EEA                |  	           BGT     PLSFLG
+794    272      6DDC                |  	           BLT     MINFLG
+795    274                          |  	*
+796    274                          |  	* Compare immediate word values
+797    274                          |  	*
+798    274      301C                |  	_CMPRIW    MOVE.W  (A4)+,D0
+799    276      205C                |  	           MOVE.L  (A4)+,A0
+800    278      B050                |  	           CMP.W   (A0),D0
+801    27A      67CA                |  	           BEQ     CLRFLG
+802    27C      6EDE                |  	           BGT     PLSFLG
+803    27E      6DD0                |  	           BLT     MINFLG
+804    280                          |  	*
+805    280                          |  	* Compare immediate byte values
+806    280                          |  	*
+807    280      301C                |  	_CMPRIB    MOVE.W  (A4)+,D0
+808    282      205C                |  	           MOVE.L  (A4)+,A0
+809    284      B010                |  	           CMP.B   (A0),D0
+810    286      67BE                |  	           BEQ     CLRFLG
+811    288      6ED2                |  	           BGT     PLSFLG
+812    28A      6DC4                |  	           BLT     MINFLG
+813    28C                          |  	*
+814    28C                          |  	* Compare from mem. long values
+815    28C                          |  	*
+816    28C      205C                |  	_CMPRL     MOVE.L  (A4)+,A0              CMPM.x must be used instead of CMP.x
+817    28E      225C                |  	           MOVE.L  (A4)+,A1              since 68000 does not allow mem-to-mem
+818    290      B388                |  	           CMPM.L  (A0)+,(A1)+           compares otherwise
+819    292      67B2                |  	           BEQ     CLRFLG                The postincrement mode is the only 
+820    294      6EC6                |  	           BGT     PLSFLG
+821    296      6DB8                |  	           BLT     MINFLG                legal mode with CMPM.x
+822    298                          |  	*
+823    298                          |  	* Compare from mem. word values
+824    298                          |  	*
+825    298      205C                |  	_CMPRW     MOVE.L  (A4)+,A0
+826    29A      225C                |  	           MOVE.L  (A4)+,A1
+827    29C      B348                |  	           CMPM.W  (A0)+,(A1)+
+ASIC Monitor Pass 3                                                        16
+Source file: monitor.asm
+
+828    29E      67A6                |  	           BEQ     CLRFLG
+829    2A0      6EBA                |  	           BGT     PLSFLG
+830    2A2      6DAC                |  	           BLT     MINFLG
+831    2A4                          |  	*
+832    2A4                          |  	* Compare from mem. byte values
+833    2A4                          |  	*
+834    2A4      205C                |  	_CMPRB     MOVE.L  (A4)+,A0
+835    2A6      225C                |  	           MOVE.L  (A4)+,A1
+836    2A8      B308                |  	           CMPM.B  (A0)+,(A1)+
+837    2AA      679A                |  	           BEQ     CLRFLG
+838    2AC      6EAE                |  	           BGT     PLSFLG
+839    2AE      6DA0                |  	           BLT     MINFLG
+840    2B0                          |  	*
+841    2B0                          |  	* Set result flag
+842    2B0                          |  	*
+843    2B0      205C                |  	_TEST      MOVE.L  (A4)+,A0
+844    2B2      4A50                |  	           TST.W   (A0)
+845    2B4      6790                |  	           BEQ     CLRFLG
+846    2B6      6EA4                |  	           BGT     PLSFLG
+847    2B8      6D96                |  	           BLT     MINFLG
+848    2BA                          |  	*
+849    2BA                          |  	* Store a 32 bit value into memory
+850    2BA                          |  	*
+851    2BA      201C                |  	_MOVELI    MOVE.L  (A4)+,D0                  Get Value to store
+852    2BC      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+853    2BE      2280                |  	           MOVE.L  D0,(A1)                   Store value
+854    2C0                          |  	           NEXT                              Get next exec address & do it!
+855    2C4                          |  	*
+856    2C4                          |  	* Store a 16 bit value into memory
+857    2C4                          |  	*
+858    2C4      301C                |  	_MOVEWI    MOVE.W  (A4)+,D0                  Get Value to store
+859    2C6      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+860    2C8      3280                |  	           MOVE.W  D0,(A1)                   Store value
+861    2CA                          |  	           NEXT                              Get next exec address & do it!
+862    2CE                          |  	*
+863    2CE                          |  	* Store an 8 bit value into memory
+864    2CE                          |  	*
+865    2CE      301C                |  	_MOVEBI    MOVE.W  (A4)+,D0                  Get Value to store
+866    2D0      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+867    2D2      1280                |  	           MOVE.B  D0,(A1)                   Store value
+868    2D4                          |  	           NEXT                              Get next exec address do it!
+869    2D8                          |  	*
+870    2D8                          |  	* Store a 32 bit value into memory using 'TO' indirection
+871    2D8                          |  	*
+872    2D8      201C                |  	_MOVELIN   MOVE.L  (A4)+,D0                  Get Value to store
+873    2DA      225C                |  	           MOVEA.L (A4)+,A1                  Get Pointer to Address
+874    2DC      2251                |  	           MOVEA.L (A1),A1                   Get address to store at
+875    2DE      2280                |  	           MOVE.L  D0,(A1)                   Store value
+876    2E0                          |  	           NEXT                              Get next exec address & do it!
+877    2E4                          |  	*
+878    2E4                          |  	* Store a 16 bit value into memory using 'TO' indirection
+879    2E4                          |  	*
+880    2E4      301C                |  	_MOVEWIN   MOVE.W  (A4)+,D0                  Get Value to store
+881    2E6      225C                |  	           MOVEA.L (A4)+,A1                  Get Pointer to Address
+882    2E8      2251                |  	           MOVEA.L (A1),A1                   Get address to store at
+ASIC Monitor Pass 3                                                        17
+Source file: monitor.asm
+
+883    2EA      3280                |  	           MOVE.W  D0,(A1)                   Store value
+884    2EC                          |  	           NEXT                              Get next exec address & do it!
+885    2F0                          |  	*
+886    2F0                          |  	* Store an 8 bit value into memory using 'TO' indirection
+887    2F0                          |  	*
+888    2F0      301C                |  	_MOVEBIN   MOVE.W  (A4)+,D0                  Get Value to store
+889    2F2      225C                |  	           MOVEA.L (A4)+,A1                  Get Pointer to Address
+890    2F4      2251                |  	           MOVEA.L (A1),A1                   Get address to store at
+891    2F6      1280                |  	           MOVE.B  D0,(A1)                   Store value
+892    2F8                          |  	           NEXT                              Get next exec address do it!
+893    2FC                          |  	*
+894    2FC                          |  	* Store a 24 bit value into an ASIC register
+895    2FC                          |  	*
+896    2FC      201C                |  	_MOVELIA   MOVE.L  (A4)+,D0                  Get Value to store
+897    2FE      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+898    300      1280                |  	           MOVE.B  D0,(A1)                   Write LSB
+899    302      E040                |  	           ASR.W   #8,D0                     Get next byte of address
+900    304      13400002            |  	           MOVE.B  D0,2(A1)                  Write NSB
+901    308      4840                |  	           SWAP    D0                        Get next byte of address
+902    30A      13400004            |  	           MOVE.B  D0,4(A1)                  Write MSB
+903    30E                          |  	           NEXT                              Get next exec address & do it!
+904    312                          |  	*
+905    312                          |  	* Store a 16 bit value into an ASIC register
+906    312                          |  	*
+907    312      301C                |  	_MOVEWIA   MOVE.W  (A4)+,D0                  Get Value to store
+908    314      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+909    316      1280                |  	           MOVE.B  D0,(A1)                   Write LSB
+910    318      E040                |  	           ASR.W   #8,D0                     Get next byte of address
+911    31A      13400002            |  	           MOVE.B  D0,2(A1)                  Write NSB
+912    31E                          |  	           NEXT                              Get next exec address & do it!
+913    322                          |  	*
+914    322                          |  	* Store an 8 bit value into an ASIC register
+915    322                          |  	*
+916    322      301C                |  	_MOVEBIA   MOVE.W  (A4)+,D0                  Get Value to store
+917    324      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+918    326      1280                |  	           MOVE.B  D0,(A1)                   Store value
+919    328                          |  	           NEXT                              Get next exec address & do it!
+920    32C                          |  	*
+921    32C                          |  	* Move a 32 bit value in memory
+922    32C                          |  	*
+923    32C      205C                |  	_MOVEL     MOVEA.L (A4)+,A0                  Get from Address
+924    32E      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+925    330      2290                |  	           MOVE.L  (A0),(A1)                 Move longword
+926    332                          |  	           NEXT                              Get next exec address & do it!
+927    336                          |  	*
+928    336                          |  	* Move a 16 bit value in memory
+929    336                          |  	*
+930    336      205C                |  	_MOVEW     MOVEA.L (A4)+,A0                  Get from Address
+931    338      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+932    33A      3290                |  	           MOVE.W  (A0),(A1)                 Move word
+933    33C                          |  	           NEXT                              Get next exec address & do it!
+934    340                          |  	*
+935    340                          |  	* Move an 8 bit value in memory
+936    340                          |  	*
+937    340      205C                |  	_MOVEB     MOVEA.L (A4)+,A0                  Get from Address
+ASIC Monitor Pass 3                                                        18
+Source file: monitor.asm
+
+938    342      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+939    344      1290                |  	           MOVE.B  (A0),(A1)                 Move byte
+940    346                          |  	           NEXT                              Get next exec address do it!
+941    34A                          |  	*
+942    34A                          |  	* Move 24 bit value from mem to an ASIC register
+943    34A                          |  	*
+944    34A      205C                |  	_MOVELA    MOVEA.L (A4)+,A0                  Get Address to store from
+945    34C      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+946    34E      2010                |  	           MOVE.L  (A0),D0
+947    350      1280                |  	           MOVE.B  D0,(A1)                   Write LSB
+948    352      E040                |  	           ASR.W   #8,D0
+949    354      13400002            |  	           MOVE.B  D0,2(A1)                  Write NSB
+950    358      4840                |  	           SWAP    D0     
+951    35A      13400004            |  	           MOVE.B  D0,4(A1)                  Write MSB
+952    35E                          |  	           NEXT                              Get next exec address & do it!
+953    362                          |  	*
+954    362                          |  	* Move a 16 bit value from mem to an ASIC register
+955    362                          |  	*
+956    362      205C                |  	_MOVEWA    MOVEA.L (A4)+,A0                  Get Value to store from
+957    364      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+958    366      3010                |  	           MOVE.W  (A0),D0
+959    368      1280                |  	           MOVE.B  D0,(A1)                   Write LSB
+960    36A      E040                |  	           ASR.W   #8,D0
+961    36C      13400002            |  	           MOVE.B  D0,2(A1)                Write NSB
+962    370                          |  	           NEXT                              Get next exec address & do it!
+963    374                          |  	*
+964    374                          |  	* Move an 8 bit value from mem to an ASIC register
+965    374                          |  	*
+966    374      205C                |  	_MOVEBA    MOVEA.L (A4)+,A0                  Get Value to store
+967    376      225C                |  	           MOVEA.L (A4)+,A1                  Get Address to store at
+968    378      1290                |  	           MOVE.B  (A0),(A1)                 Store value
+969    37A                          |  	           NEXT                              Get next exec address & do it!
+970    37E                          |  	*
+971    37E                          |  	* Move a 32 bit value using source indirection
+972    37E                          |  	*
+973    37E      205C                |  	_MOVELFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+974    380      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+975    382      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+976    384      2290                |  	           MOVE.L  (A0),(A1)                 Move longword
+977    386                          |  	           NEXT                              Get next exec address & do it!
+978    38A                          |  	*
+979    38A                          |  	* Move a 16 bit value using source indirection
+980    38A                          |  	*
+981    38A      205C                |  	_MOVEWFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+982    38C      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+983    38E      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+984    390      3290                |  	           MOVE.W  (A0),(A1)                 Move longword
+985    392                          |  	           NEXT                              Get next exec address & do it!
+986    396                          |  	*
+987    396                          |  	* Move an 8 bit value using source indirection
+988    396                          |  	*
+989    396      205C                |  	_MOVEBFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+990    398      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+991    39A      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+992    39C      1290                |  	           MOVE.B  (A0),(A1)                 Move longword
+ASIC Monitor Pass 3                                                        19
+Source file: monitor.asm
+
+993    39E                          |  	           NEXT                              Get next exec address & do it!
+994    3A2                          |  	*
+995    3A2                          |  	* Move a 24 bit value to ASIC using source indirection
+996    3A2                          |  	*
+997    3A2      205C                |  	_MOVELNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+998    3A4      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+999    3A6      2010                |  	           MOVE.L  (A0),D0                   Get data to move
+1000   3A8      225C                |  	           MOVEA.L (A4)+,A1                  Get to address
+1001   3AA      1280                |  	           MOVE.B  D0,(A1)
+1002   3AC      E040                |  	           ASR.W   #8,D0
+1003   3AE      13400002            |  	           MOVE.B  D0,2(A1)
+1004   3B2      4840                |  	           SWAP    D0
+1005   3B4      13400004            |  	           MOVE.B  D0,4(A1)
+1006   3B8                          |  	           NEXT                              Get next exec address & do it!
+1007   3BC                          |  	*
+1008   3BC                          |  	* Move a 16 bit value to ASIC using source indirection
+1009   3BC                          |  	*
+1010   3BC      205C                |  	_MOVEWNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+1011   3BE      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+1012   3C0      3010                |  	           MOVE.W  (A0),D0                   Fix for reverse order
+1013   3C2      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1014   3C4      1280                |  	           MOVE.B  D0,(A1)
+1015   3C6      E040                |  	           ASR.W   #8,D0
+1016   3C8      13400002            |  	           MOVE.B  D0,2(A1)
+1017   3CC                          |  	           NEXT                              Get next exec address & do it!
+1018   3D0                          |  	*
+1019   3D0                          |  	*
+1020   3D0                          |  	* Move an 8 bit value to ASIC using source indirection
+1021   3D0                          |  	*
+1022   3D0      205C                |  	_MOVEBNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+1023   3D2      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+1024   3D4      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1025   3D6      3010                |  	           MOVE.W  (A0),D0
+1026   3D8      1280                |  	           MOVE.B  D0,(A1)                   Move longword
+1027   3DA                          |  	           NEXT                              Get next exec address & do it!
+1028   3DE                          |  	*
+1029   3DE                          |  	* Move a 32 bit value using dest indirection
+1030   3DE                          |  	*
+1031   3DE      205C                |  	_MOVELTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+1032   3E0      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1033   3E2      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1034   3E4      2290                |  	           MOVE.L  (A0),(A1)                 Move longword
+1035   3E6                          |  	           NEXT                              Get next exec address & do it!
+1036   3EA                          |  	*
+1037   3EA                          |  	* Move a 16 bit value using dest indirection
+1038   3EA                          |  	*
+1039   3EA      205C                |  	_MOVEWTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+1040   3EC      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1041   3EE      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1042   3F0      3290                |  	           MOVE.W  (A0),(A1)                 Move longword
+1043   3F2                          |  	           NEXT                              Get next exec address & do it!
+1044   3F6                          |  	*
+1045   3F6                          |  	* Move an 8 bit value using dest indirection
+1046   3F6                          |  	*
+1047   3F6      205C                |  	_MOVEBTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+ASIC Monitor Pass 3                                                        20
+Source file: monitor.asm
+
+1048   3F8      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1049   3FA      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1050   3FC      1290                |  	           MOVE.B  (A0),(A1)                 Move longword
+1051   3FE                          |  	           NEXT                              Get next exec address & do it!
+1052   402                          |  	*
+1053   402                          |  	* Move a 32 bit value using double indirection
+1054   402                          |  	*
+1055   402      205C                |  	_MOVELDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+1056   404      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+1057   406      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1058   408      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1059   40A      2290                |  	           MOVE.L  (A0),(A1)                 Move longword
+1060   40C                          |  	           NEXT                              Get next exec address & do it!
+1061   410                          |  	*
+1062   410                          |  	* Move a 16 bit value using double indirection
+1063   410                          |  	*
+1064   410      205C                |  	_MOVEWDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+1065   412      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+1066   414      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1067   416      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1068   418      3290                |  	           MOVE.W  (A0),(A1)                 Move longword
+1069   41A                          |  	           NEXT                              Get next exec address & do it!
+1070   41E                          |  	*
+1071   41E                          |  	* Move an 8 bit value using double indirection
+1072   41E                          |  	*
+1073   41E      205C                |  	_MOVEBDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+1074   420      2050                |  	           MOVEA.L (A0),A0                   Now get real addr.
+1075   422      225C                |  	           MOVEA.L (A4)+,A1                  Get to Address
+1076   424      2251                |  	           MOVEA.L (A1),A1                   Now get real addr.
+1077   426      1290                |  	           MOVE.B  (A0),(A1)                 Move longword
+1078   428                          |  	           NEXT                              Get next exec address & do it!
+1079   42C                          |  	*
+1080   42C                          |  	* Get new DA execution sequence
+1081   42C                          |  	*
+1082   42C                          |  	* _NEXT_DA   JMP DA_SWITCH           
+1083   42C                          |  	           
+1084   42C                          |  	*
+1085   42C                          |  	* Or immediate byte
+1086   42C                          |  	*
+1087   42C      301C                |  	_ORIB      MOVE.W  (A4)+,D0
+1088   42E      205C                |  	           MOVE.L  (A4)+,A0
+1089   430      8110                |  	           OR.B    D0,(A0)
+1090   432                          |  	           NEXT
+1091   436                          |  	*
+1092   436                          |  	* Or immediate word
+1093   436                          |  	*
+1094   436      301C                |  	_ORIW      MOVE.W  (A4)+,D0
+1095   438      205C                |  	           MOVE.L  (A4)+,A0
+1096   43A      8150                |  	           OR.W    D0,(A0)
+1097   43C                          |  	           NEXT
+1098   440                          |  	*
+1099   440                          |  	* Or immediate long
+1100   440                          |  	*
+1101   440      201C                |  	_ORIL      MOVE.L  (A4)+,D0
+1102   442      205C                |  	           MOVE.L  (A4)+,A0
+ASIC Monitor Pass 3                                                        21
+Source file: monitor.asm
+
+1103   444      8190                |  	           OR.L    D0,(A0)
+1104   446                          |  	           NEXT
+1105   44A                          |  	*
+1106   44A                          |  	* Or byte at location A to byte at location B
+1107   44A                          |  	*
+1108   44A      205C                |  	_ORAB      MOVE.L  (A4)+,A0
+1109   44C      1010                |  	           MOVE.B  (A0),D0
+1110   44E      225C                |  	           MOVE.L  (A4)+,A1
+1111   450      8111                |  	           OR.B    D0,(A1)
+1112   452                          |  	           NEXT
+1113   456                          |  	*
+1114   456                          |  	* Or word at location A to word at location B
+1115   456                          |  	*
+1116   456      205C                |  	_ORAW      MOVE.L  (A4)+,A0
+1117   458      3010                |  	           MOVE.W  (A0),D0
+1118   45A      225C                |  	           MOVE.L  (A4)+,A1
+1119   45C      8151                |  	           OR.W    D0,(A1)
+1120   45E                          |  	           NEXT
+1121   462                          |  	*
+1122   462                          |  	* Or longword at location A to longword at location B
+1123   462                          |  	*
+1124   462      205C                |  	_ORAL      MOVE.L  (A4)+,A0
+1125   464      2010                |  	           MOVE.L  (A0),D0
+1126   466      225C                |  	           MOVE.L  (A4)+,A1
+1127   468      8191                |  	           OR.L    D0,(A1)
+1128   46A                          |  	           NEXT
+1129   46E                          |  	*
+1130   46E                          |  	* Wait for Frame Controller to signal end of frame
+1131   46E                          |  	*
+1132   46E      207C00040001        |  	_WAIT_FC   MOVEA.L #status,A0                ASIC status register
+1133   474      08100000            |  	WAIT1      BTST    #0,(A0)                   Bit 0 defines FC status
+1134   478      67FA                |  	           BEQ.S   WAIT1                     Set when end of frame (ASIC)
+1135   47A                          |  	           NEXT
+1136   47E                          |  	*
+1137   47E                          |  	* Wait for DMA Controller to signal end of frame
+1138   47E                          |  	*
+1139   47E      207C00040001        |  	_WAIT_DMA  MOVEA.L #status,A0                ASIC status register
+1140   484      08100001            |  	WAIT2      BTST    #1,(A0)                   Bit 1 defines DMA status
+1141   488      67FA                |  	           BEQ.S   WAIT2                     Set when end of frame (ASIC)
+1142   48A                          |  	           NEXT
+1143   48E                          |  	
+1144   48E                          |  	************************************************************************
+1145   48E                          |  	* Set up a new loop through DACLIST                                    *
+1146   48E                          |  	* Structure for a loop record:                                         *
+1147   48E                          |  	*                                                                      *
+1148   48E                          |  	*           What is stored | What it does                              *
+1149   48E                          |  	*             in DACLIST   |                                           *
+1150   48E                          |  	*                          |                                           *
+1151   48E                          |  	*               DO         |  (Address of DO routine)                  *
+1152   48E                          |  	*               Addr       |  (Addr of counter if not immed)           *
+1153   48E                          |  	*               16 bit #   |  (Number of times to LOOP)                *
+1154   48E                          |  	* Address------>16 bit #   |  (Number of iterations left in this loop) *
+1155   48E                          |  	* stored on     .          |                                           *
+1156   48E                          |  	* LOOPSTACK     .          |  (Body of loop)                           *
+1157   48E                          |  	* points here   .          |                                           *
+ASIC Monitor Pass 3                                                        22
+Source file: monitor.asm
+
+1158   48E                          |  	*               .          |                                           *
+1159   48E                          |  	*               LOOP       |  (Address of LOOP routine)                *
+1160   48E                          |  	*                                                                      *
+1161   48E                          |  	* At DA start, the monitor loads the address of the top of the loop    *
+1162   48E                          |  	* stack into register A6, and also stores it at LOOPPTR (for post-     *
+1163   48E                          |  	* mortems?)                                                            *
+1164   48E                          |  	* During DA, a loop is set up by                                       *
+1165   48E                          |  	*                                                                      *
+1166   48E                          |  	*   1) Move the initial count value (from the next execute address     *
+1167   48E                          |  	*      if DOI or else from the indicated address) to the current       *
+1168   48E                          |  	*      count address                                                   *
+1169   48E                          |  	*   2) Store the address of the current count on the LOOP stack        *
+1170   48E                          |  	*   3) Point the execution pointer past the current count location     *
+1171   48E                          |  	*                                                                      *
+1172   48E                          |  	* The LOOP primitive then must                                         *
+1173   48E                          |  	*                                                                      *
+1174   48E                          |  	*   1) Get the address of the counter from the loop stack into the     *
+1175   48E                          |  	*      register used as the execution pointer                          *
+1176   48E                          |  	*   2) Decrement the counter and increment the address                 *
+1177   48E                          |  	*   3) If the counter was non zero, continue using the execution       *
+1178   48E                          |  	*      pointer (it now points just past the counter)                   *
+1179   48E                          |  	*   4) If the counter was zero, get the old execution pointer back     *
+1180   48E                          |  	*      and use it.                                                     *
+1181   48E                          |  	*                                                                      *
+1182   48E                          |  	* The compiler deals with the depth of loop nesting, etc.  There is    *
+1183   48E                          |  	* room for 10 entries on the loop stack, and I do not do run-time      *
+1184   48E                          |  	* checking. Also note that every loop runs once - maybe I should       *
+1185   48E                          |  	* provide a WHILE-WEND, which might be a less efficient loop, but a    *
+1186   48E                          |  	* counter of zero is legal.                                            *
+1187   48E                          |  	*                                                                      *
+1188   48E                          |  	************************************************************************
+1189   48E                          |  	
+1190   48E      389C                |  	_DOI       MOVE.W  (A4)+,(A4)                Init counter
+1191   490      3D0C                |  	           MOVE.W  A4,-(A6)                  Push address of loop top
+1192   492      544C                |  	           ADDQ.W  #2,A4                     Get past it
+1193   494                          |  	           NEXT                              Get next EXEC address
+1194   498                          |  	*
+1195   498      365C                |  	_DOAT      MOVEA.W (A4)+,A3                  Get Addr of counter
+1196   49A      38D3                |  	           MOVE.W  (A3),(A4)+                Set max count
+1197   49C      3D0C                |  	           MOVE.W  A4,-(A6)                  Push address of loop top
+1198   49E      38D3                |  	           MOVE.W  (A3),(A4)+                Set present count
+1199   4A0                          |  	           NEXT                              Get next EXEC address
+1200   4A4                          |  	*
+1201   4A4      365C                |  	_DOATN     MOVEA.W (A4)+,A3                  Get Addr of counter address
+1202   4A6      3653                |  	           MOVEA.W (A3),A3                   Get addr of counter
+1203   4A8      38D3                |  	           MOVE.W  (A3),(A4)+                Copy it to max count
+1204   4AA      3D0C                |  	           MOVE.W  A4,-(A6)                  Push address of loop top
+1205   4AC      38D3                |  	           MOVE.W  (A3),(A4)+                Set present count = Max
+1206   4AE                          |  	           NEXT                              Get next EXEC address
+1207   4B2                          |  	*
+1208   4B2                          |  	*
+1209   4B2                          |  	* Test loop counter and loop back if needed
+1210   4B2                          |  	*
+1211   4B2      364C                |  	_LOOP      MOVE.W  A4,A3                     Save A4
+1212   4B4      3856                |  	           MOVEA.W (A6),A4                   Get address of counter in A4
+ASIC Monitor Pass 3                                                        23
+Source file: monitor.asm
+
+1213   4B6      535C                |  	           SUBQ.W  #1,(A4)+                  Dec counter
+1214   4B8      6704                |  	           BEQ.S   NOLOOP
+1215   4BA                          |  	*
+1216   4BA                          |  	           NEXT                              Execute loop code again
+1217   4BE                          |  	*
+1218   4BE      544E                |  	NOLOOP     ADDQ.W  #2,A6                     Pop loop stack entry
+1219   4C0      384B                |  	           MOVE.W  A3,A4                     Get exec pointer back
+1220   4C2                          |  	           NEXT                              Do next thing after loop
+1221   4C6                          |  	*
+1222   4C6                          |  	* Goto DACLIST location
+1223   4C6                          |  	*
+1224   4C6      3854                |  	_GOTO      MOVEA.W (A4),A4                   Replace A4 with operand
+1225   4C8                          |  	           NEXT                              Exec at new location
+1226   4CC                          |  	
+1227   4CC                          |  	*
+1228   4CC                          |  	* Do nothing
+1229   4CC                          |  	*
+1230   4CC                          |  	
+1231   4CC                          |  	_DONOT     NEXT
+1232   4D0                          |  	
+1233   4D0                          |  	
+1234   4D0                          |  	*
+1235   4D0                          |  	* Do a RAPDA scan
+1236   4D0                          |  	*
+1237   4D0                          |  	* Uses D0, D1, D2, D3, D4, D5, D6, D7, A0, A1, A2, A3
+1238   4D0                          |  	*
+1239   4D0                          |  	
+1240   4D0      00800000            |  	FBASE.AD   DC.L    DataMemStart      Temp address of start of active scan.
+1241   4D4                          |  	
+1242   4D4      205C                |  	_RAPSCAN   MOVE.L  (A4)+,A0            1.25  Address of SCAN_TABLE.
+1243   4D6      2A18                |  	           MOVE.L  (A0)+,D5           1.5    Number of delay/reads in scan
+1244   4D8      2C08                |  	           MOVE.L  A0,D6               .5    Save address of scan starts.
+1245   4DA      7E0A                |  	           MOVEQ.L #10,D7              .5    D7 holds Table 1 offset
+1246   4DC      9C47                |  	           SUB.W   D7,D6               .5    Adjust initial value
+1247   4DE      207C00030001        |  	           MOVEA.L #asic0,A0          1.5    FC Reg 0 addr
+1248   4E4      247C00040001        |  	           MOVEA.L #status,A2         1.5    ASIC status register
+1249   4EA      47F9{000004D0}      |  	           LEA.L   FBASE.AD,A3       1.5     Frame base addr is 24 bit
+1250   4F0      2639{00000016}      |  	           MOVE.L  DATAADDR,D3        2.5    Start of frame
+1251   4F6      7200                |  	           MOVEQ.L #0,D1               .5    D1 holds the event number
+1252   4F8                          |  	
+1253   4F8      2401                |  	SCANLOOP   MOVE.L  D1,D2               .5    Copy of event number
+1254   4FA      3246                |  	           MOVE.W  D6,A1               .5    Address of SCAN_TABLE - 10
+1255   4FC                          |  	
+1256   4FC      E24A                |  	LOOPER     LSR.W   #1,D2               1     Looking for 0 in bit 0.
+1257   4FE      D2C7                |  	           ADDA.W  D7,A1               1     Address of next entry
+1258   500      65FA                |  	           BCS.S   LOOPER           1.25/1   If bit 0 is 1, keep looking.
+1259   502                          |  	
+1260   502      08120001            |  	READ_TBL1  BTST    #1,(A2)             1     Bit 1 defines DMA status
+1261   506      67FA                |  	           BEQ.S   READ_TBL1        1.25/1   Set when end of frame (ASIC)
+1262   508                          |  	
+1263   508      11590002            |  	           MOVE.B  (A1)+,2(A0)         2     If found, this is the event.
+1264   50C      1099                |  	           MOVE.B  (A1)+,(A0)        1.5     So start loading ASIC.
+1265   50E      1159000A            |  	           MOVE.B  (A1)+,10(A0)        2
+1266   512      11590008            |  	           MOVE.B  (A1)+,8(A0)         2
+1267   516      2803                |  	           MOVE.L  D3,D4              .5     Start of frame
+ASIC Monitor Pass 3                                                        24
+Source file: monitor.asm
+
+1268   518      D899                |  	           ADD.L   (A1)+,D4          1.75    Start of this area.
+1269   51A      2684                |  	           MOVE.L  D4,(A3)             1     Store in RAM
+1270   51C      116B00010016        |  	           MOVE.B  1(A3),22(A0)       2.5
+1271   522      116B00020014        |  	           MOVE.B  2(A3),20(A0)       2.5
+1272   528      116B00030012        |  	           MOVE.B  3(A3),18(A0)       2.5    18.25 usec to stuff ASIC
+1273   52E                          |  	
+1274   52E      3251                |  	           MOVEA.W (A1),A1             1     Address of entry in table 2.
+1275   530      4A51                |  	READ_TBL2  TST.W   (A1)                1     Check FC program addr
+1276   532      672E                |  	           BEQ.S   LOOP_END         1.25/1   Address of 0 indicates done.
+1277   534                          |  	
+1278   534      08120001            |  	WAIT_DC    BTST    #1,(A2)             1     Bit 1 defines DMA status
+1279   538      67FA                |  	           BEQ.S   WAIT_DC          1.25/1   Set when end of frame (ASIC)
+1280   53A                          |  	
+1281   53A      11590002            |  	           MOVE.B  (A1)+,2(A0)         2     Store the FC address
+1282   53E      1099                |  	           MOVE.B  (A1)+,(A0)        1.5
+1283   540      1159000A            |  	           MOVE.B  (A1)+,10(A0)        2     Store DC program addr.
+1284   544      11590008            |  	           MOVE.B  (A1)+,8(A0)         2
+1285   548      2803                |  	           MOVE.L  D3,D4              .5     Start of frame
+1286   54A      D899                |  	           ADD.L   (A1)+,D4          1.75    Start of this area.
+1287   54C      2684                |  	           MOVE.L  D4,(A3)             1     Store in RAM 
+1288   54E      116B00010016        |  	           MOVE.B  1(A3),22(A0)       2.5    Frame base addr is 24 bit;
+1289   554      116B00020014        |  	           MOVE.B  2(A3),20(A0)       2.5    Load Frame Base Addr.
+1290   55A      116B00030012        |  	           MOVE.B  3(A3),18(A0)       2.5
+1291   560                          |  	
+1292   560      60CE                |  	           BRA.S   READ_TBL2         1.25
+1293   562                          |  	   
+1294   562      5281                |  	LOOP_END   ADDQ.L  #1,D1               1     Next event.
+1295   564      5385                |  	           SUBQ.L  #1,D5               1     Count down the events
+1296   566      6E90                |  	           BGT.S   SCANLOOP         1.25/1   If still positive, more to do   
+1297   568                          |  	           
+1298   568                          |  	           NEXT                        2
+1299   56C                          |  	*
+1300   56C                          |  	*
+1301   56C                          |  	*
+1302   56C                          |  	* Test 68000 data memory (a guru function)
+1303   56C                          |  	*
+1304   56C                          |  	*
+1305   56C                          |  	
+1306   56C      4279{0000000C}      |  	_TESTMEM   CLR.W   SUCCESS                   Assume Failure
+1307   572      45FA{FA92}          |  	           LEA.L   PATT(PC),A2               A2 points to current start pattern
+1308   576      741F                |  	           MOVEQ.L #31,D2                    D2 counts number of loops
+1309   578      281C                |  	           MOVE.L  (A4)+,D4                  D4 is storage for memsize (bytes)
+1310   57A      3A3A{FA8E}          |  	           MOVE.W  QUIKTEST(PC),D5
+1311   57E      24BA{FA82}          |  	           MOVE.L  INITPATT(PC),(A2)         Initialize start pattern
+1312   582      267C00800000        |  	TMEM0      MOVE.L  #DataStart,A3             A3 Points to memory to test
+1313   588      2012                |  	           MOVE.L  (A2),D0                   D0 has bit pattern to write
+1314   58A      2604                |  	           MOVE.L  D4,D3                     D3 is byte counter for loop
+1315   58C      36C0                |  	TMEM1      MOVE.W  D0,(A3)+                  Initialize memory with pattern
+1316   58E      E398                |  	           ROL.L   #1,D0                     Walks 1's through pattern
+1317   590      4A40                |  	           TST.W   D0
+1318   592      6602                |  	           BNE     TMEM1A
+1319   594      E398                |  	           ROL.L   #1,D0
+1320   596      5583                |  	TMEM1A     SUBQ.L  #2,D3                     count down words
+1321   598      6EF2                |  	           BGT.S   TMEM1
+1322   59A      267C00800000        |  	           MOVE.L  #DataStart,A3             Check memory written with pattern
+ASIC Monitor Pass 3                                                        25
+Source file: monitor.asm
+
+1323   5A0      2012                |  	           MOVE.L  (A2),D0                   Get start pattern for this cycle back
+1324   5A2      2604                |  	           MOVE.L  D4,D3
+1325   5A4      B05B                |  	TMEM2      CMP.W   (A3)+,D0
+1326   5A6      6622                |  	           BNE.S   TMEMERR                   If compare fails, go to error
+1327   5A8      E398                |  	           ROL.L   #1,D0                     Walks 1's through pattern
+1328   5AA      4A40                |  	           TST.W   D0
+1329   5AC      6602                |  	           BNE     TMEM1B
+1330   5AE      E398                |  	           ROL.L   #1,D0
+1331   5B0      5583                |  	TMEM1B     SUBQ.L  #2,D3                     count down words
+1332   5B2      6EF0                |  	           BGT.S   TMEM2
+1333   5B4      2012                |  	           MOVE.L  (A2),D0
+1334   5B6      E398                |  	           ROL.L   #1,D0
+1335   5B8      2480                |  	           MOVE.L  D0,(A2)
+1336   5BA      4A45                |  	           TST.W   D5
+1337   5BC      57CAFFC4            |  	           DBEQ    D2,TMEM0                  Do 15 times unless QUIKTEST was set
+1338   5C0                          |  	*                                            Here only if all compares succeeded
+1339   5C0      5279{0000000C}      |  	           ADDQ.W  #1,SUCCESS                Flag success
+1340   5C6                          |  	           NEXT
+1341   5CA                          |  	*
+1342   5CA                          |  	TMEMERR    NEXT                              Here if a compare fails
+1343   5CE                          |  	*
+1344   5CE                          |  	
+1345   5CE                          |  	
+1346   5CE                          |  	*
+1347   5CE                          |  	* Clear memory from address for count bytes (count must be multiple of 4)
+1348   5CE                          |  	*
+1349   5CE      245C                |  	_CLRMEM    MOVE.L  (A4)+,A2
+1350   5D0      2452                |  	           MOVE.L  (A2),A2
+1351   5D2      265C                |  	           MOVE.L  (A4)+,A3
+1352   5D4      2013                |  	           MOVE.L  (A3),D0
+1353   5D6      429A                |  	CLRMEM0    CLR.L   (A2)+
+1354   5D8      5980                |  	           SUBQ.L  #4,D0
+1355   5DA      6EFA                |  	           BGT.S   CLRMEM0
+1356   5DC                          |  	           NEXT
+1357   5E0                          |  	
+1358   5E0                          |  	*
+1359   5E0                          |  	* Sort data in a track acquired by split mode detectors
+1360   5E0                          |  	*
+1361   5E0      265C                |  	_SORTTRK   MOVEA.L (A4)+,A3     Address of High Address
+1362   5E2      260B                |  	           MOVE.L  A3,D3        Save address of address
+1363   5E4      2653                |  	           MOVEA.L (A3),A3      Get High Address
+1364   5E6      244B                |  	           MOVEA.L A3,A2        Copy of High address in A2
+1365   5E8      588B                |  	           ADDQ.L  #4,A3        Prep for pre-decrement
+1366   5EA                          |  	
+1367   5EA      4280                |  	           CLR.L   D0
+1368   5EC      225C                |  	           MOVEA.L (A4)+,A1     Get address of point count
+1369   5EE      3011                |  	           MOVE.W  (A1),D0      Get Point Count
+1370   5F0                          |  	
+1371   5F0      2200                |  	           MOVE.L  D0,D1        Copy of point count in D1
+1372   5F2      E581                |  	           ASL.L   #2,D1        D0 = number of points, each is 4 bytes
+1373   5F4      95C1                |  	           SUBA.L  D1,A2        A2 becomes Low Address
+1374   5F6      280A                |  	           MOVE.L  A2,D4        Save for next round
+1375   5F8      E280                |  	           ASR.L   #1,D0        Do 2 points per loop
+1376   5FA                          |  	
+1377   5FA      2223                |  	SORTTRK0   MOVE.L  -(A3),D1     14 clks +R   Get data from High Address
+ASIC Monitor Pass 3                                                        26
+Source file: monitor.asm
+
+1378   5FC      2692                |  	           MOVE.L  (A2),(A3)    20 clks +R/W Move Low to High
+1379   5FE      24C1                |  	           MOVE.L  D1,(A2)+     12 clks +W   Move High to Low
+1380   600      51C8FFF8            |  	           DBRA    D0,SORTTRK0  10 clks (last one is 14 clks)
+1381   604      2443                |  	           MOVEA.L D3,A2                     Get back address of High Address
+1382   606      2484                |  	           MOVE.L  D4,(A2)                   save new address
+1383   608                          |  	           NEXT                 -------
+1384   60C                          |  	*                               56 clks = 7 usec  (EXECUTES #POINTS/2 TIMES)
+1385   60C                          |  	
+1386   60C                          |  	*
+1387   60C                          |  	*
+1388   60C      207C00040001        |  	INIT_DAC   MOVEA.L #status,A0                ASIC status register
+1389   612      227C00030001        |  	           MOVEA.L #asic0,A1                 ASIC base address
+1390   618      267C00000012        |  	           MOVEA.L #asicfbr,A3
+1391   61E                          |  	
+1392   61E      32BC0000            |  	           MOVE.W  #0,frmpc(A1)
+1393   622                          |  	
+1394   622      08100000            |  	           BTST    #0,(A0)                   Bit 0 defines FC status
+1395   626      67FA                |  	           BEQ.S   *-4                       Set when end of frame (ASIC)
+1396   628                          |  	
+1397   628      32BC0000            |  	           MOVE.W  #0,frmpc(A1)
+1398   62C                          |  	
+1399   62C      08100000            |  	           BTST    #0,(A0)                   Bit 0 defines FC status
+1400   630      67FA                |  	           BEQ.S   *-4                       Set when end of frame (ASIC)
+1401   632                          |  	
+1402   632      337CFFFF0004        |  	           MOVE.W  #$FFFF,frmmsks(A1)        Unmask
+1403   638      32BC0000            |  	           MOVE.W  #0,frmpc(A1)              Reset 'DONE' bits
+1404   63C      337C00000008        |  	           MOVE.W  #0,dmapc(A1)              Reset 'DONE' bits
+1405   642                          |  	
+1406   642      08100001            |  	           BTST    #1,(A0)                   Bit 1 defines DC status
+1407   646      67FA                |  	           BEQ.S   *-4                       Set when end of frame (ASIC)
+1408   648                          |  	
+1409   648      32BC0000            |  	           MOVE.W  #0,frmpc(A1)              Reset 'DONE' bits
+1410   64C      337C00000008        |  	           MOVE.W  #0,dmapc(A1)              Reset 'DONE' bits
+1411   652                          |  	
+1412   652      303900800008        |  	           MOVE.W  MSM_Pgm_Inx,D0            Get index from shared mem
+1413   658      E340                |  	           ASL.W   #1,D0                     Make into byte offset
+1414   65A      60000096            |  	           BRA.L   DASTART1
+1415   65E                          |  	
+1416   65E                          |  	*
+1417   65E                          |  	* Switch to different Data Acquisition
+1418   65E                          |  	*
+1419   65E                          |  	
+1420   65E      50F9{00002041}      |  	DA_SWITCH  ST.B    IN_DA+1                   (Just marks DA in progress,
+1421   664      6066                |  	           BRA.S   DA_START                   skips test)
+1422   666                          |  	
+1423   666                          |  	*
+1424   666                          |  	* Startup runs on first reset after monitor is loaded
+1425   666                          |  	*
+1426   666                          |  	
+1427   666      007C0700            |  	STARTUP    ORI.W   #$0700,SR                 Disable interrupts
+1428   66A      4A7900020000        |  	           TST.W   HostAck                   Clear pending interrupts
+1429   670      33FC000400800002    |  	           MOVE.W  #SMR_NRDY,MSM_Act_RQ_RPL
+1430   678      33FC000000800004    |  	           MOVE.W  #MSPC_CLEAR,MSM_Sig_PC
+1431   680                          |  	
+1432   680      43FA{19C4}          |  	           LEA     ETABLE(PC),A1             Now init exception vector table
+ASIC Monitor Pass 3                                                        27
+Source file: monitor.asm
+
+1433   684      41F80008            |  	           LEA     V.BERR,A0                 Address of first routine in A0
+1434   688      7221                |  	           MOVEQ   #33,D1                    Init 33 exception vectors
+1435   68A      20D9                |  	EX_INIT    MOVE.L  (A1)+,(A0)+               Install routine address
+1436   68C      B0FC0030            |  	           CMPA.W  #V.MISC1,A0               Need to skip this area?
+1437   690      6604                |  	           BNE.S   EXINIT2                   No, branch
+1438   692      D0FC0030            |  	           ADDA.W  #48,A0                    Skip the reserved area
+1439   696      51C9FFF2            |  	EXINIT2    DBRA    D1,EX_INIT                And loop
+1440   69A                          |  	*
+1441   69A      007C0700            |  	RESTART    ORI.W   #$0700,SR                 Disable interrupts
+1442   69E      21FC{0000069A}0004  |  	           MOVE.L  #RESTART,RESET.PC         Set new reset vector
+1443   6A6      2E7C{00000200}      |  	           MOVEA.L #STACK.START,A7           Reset stack pointer
+1444   6AC      427900020000        |  	           CLR.W   HostAck                   Clear pending interrupts
+1445   6B2      4279{00002040}      |  	           CLR.W   IN_DA
+1446   6B8      33FC000000800002    |  	           MOVE.W  #SMR_CLEAR,MSM_Act_RQ_RPL
+1447   6C0      33FC000000800004    |  	           MOVE.W  #MSPC_CLEAR,MSM_Sig_PC
+1448   6C8      027CF8FF            |  	           ANDI.W  #$F8FF,SR                 Enable interrupts
+1449   6CC                          |  	*
+1450   6CC                          |  	* Begin new Data Acquisition
+1451   6CC                          |  	*
+1452   6CC      41FA{FA30}          |  	DA_START   LEA     LOOPTR(PC),A0             Get address of loop pointer
+1453   6D0      43FA{F9B4}          |  	           LEA     LOOPSTACK+LOOPSIZE(PC),A1 Get address of top of stack
+1454   6D4      3089                |  	           MOVE.W  A1,(A0)                   Init stack pointer
+1455   6D6      2C49                |  	           MOVEA.L A1,A6                     Init SP register
+1456   6D8                          |  	
+1457   6D8      207C00040001        |  	           MOVEA.L #status,A0                ASIC status register
+1458   6DE      227C00030001        |  	           MOVEA.L #asic0,A1                 ASIC base address
+1459   6E4      267C00000012        |  	           MOVEA.L #asicfbr,A3
+1460   6EA                          |  	           
+1461   6EA      303900800008        |  	DASTART2   MOVE.W  MSM_Pgm_Inx,D0            Get index from shared mem
+1462   6F0      E340                |  	           ASL.W   #1,D0                     Make into byte offset
+1463   6F2                          |  	
+1464   6F2      49FA{F918}          |  	DASTART1   LEA     DACTBLPTR(PC),A4          Get list of programs
+1465   6F6      3854                |  	           MOVEA.W (A4),A4                   Get address of table of da seqs
+1466   6F8      38740000            |  	           MOVEA.W 0(A4,D0.W),A4             Load start interp address from table
+1467   6FC                          |  	
+1468   6FC      33FC000200800002    |  	           MOVE.W  #SMR_CMD_BG,MSM_Act_RQ_RPL Tell PC Action started
+1469   704                          |  	           
+1470   704                          |  	           NEXT                              Do it!
+1471   708                          |  	*
+1472   708                          |  	*
+1473   708                          |  	* DONE statement in DAC returns here
+1474   708                          |  	*
+1475   708      33FC0002{00002044}  |  	_DONE      MOVE.W  #SMR_CMD_BG,PC_MAILBOX
+1476   710      33FCFFFF00800046    |  	           MOVE.W  #$FFFF,MSM_DA_Complete
+1477   718      60B2                |  	           BRA.S   DA_START
+1478   71A                          |  	
+1479   71A                          |  	*
+1480   71A                          |  	* Routine to handle PC IRQ's
+1481   71A                          |  	*
+1482   71A                          |  	
+1483   71A      007C0700            |  	PC_ISR     ORI.W   #$0700,SR                 Mask all interrupts
+1484   71E      4A7900020000        |  	           TST.W   HostAck                   Clear interrupt
+1485   724      33FC000400800002    |  	           MOVE.W  #SMR_NRDY,MSM_Act_RQ_RPL
+1486   72C                          |  	
+1487   72C      303900800000        |  	           MOVE.W  MSM_Act_RQ,D0             Action Requested?
+ASIC Monitor Pass 3                                                        28
+Source file: monitor.asm
+
+1488   732      673E                |  	           BEQ.S   ISR_GETRPL                No, check your mail
+1489   734                          |  	
+1490   734      0C400001            |  	           CMPI.W  #SM_START_DA,D0           Is it Start DA?  
+1491   738      6722                |  	           BEQ.S   ISR_DO_ACT                Yes, do it
+1492   73A                          |  	
+1493   73A      0C400003            |  	           CMPI.W  #SM_ABORT_DA,D0           Is command Abort DA?
+1494   73E      671C                |  	           BEQ.S   ISR_DO_ACT                Yes, do it
+1495   740                          |  	
+1496   740      0C400002            |  	           CMPI.W  #SM_SWITCH_DA,D0          Or is command Switch DA?
+1497   744      6716                |  	           BEQ.S   ISR_DO_ACT                Yes, do it
+1498   746                          |  	
+1499   746      33FC000300800002    |  	ISR_ERR    MOVE.W  #SMR_CMD_UN,MSM_Act_RQ_RPL
+1500   74E      4A7900010000        |  	           TST.W   HostAtn                   Tell PC he has mail
+1501   754      4279{00002044}      |  	           CLR.W   PC_MAILBOX
+1502   75A      4E73                |  	ENDISR0    RTE                               Return to prev state
+1503   75C                          |  	
+1504   75C      027CF8FF            |  	ISR_DO_ACT ANDI.W  #$F8FF,SR                 Enable interrupts
+1505   760      2E7C{00000200}      |  	           MOVEA.L #STACK.START,A7           Reset stack pointer
+1506   766                          |  	*           PEA     RESTART(PC)
+1507   766      4A7900010000        |  	           TST.W   HostAtn                   Tell PC he has mail
+1508   76C      4EF9{000006CC}      |  	           JMP     DA_START                  Go do action 
+1509   772                          |  	
+1510   772      4A7900800004        |  	ISR_GETRPL TST.W   MSM_Sig_PC                Is PC doing something?
+1511   778      67CC                |  	           BEQ.S   ISR_ERR                   No, shouldn't have IRQ'd
+1512   77A                          |  	
+1513   77A      303900800006        |  	           MOVE.W  MSM_Sig_PC_RPL,D0         Is there a message?
+1514   780      67C4                |  	           BEQ.S   ISR_ERR                   No, shouldn't have IRQ'd
+1515   782                          |  	
+1516   782      0C400001            |  	           CMPI.W  #MSPCR_ACK,D0             Was message ACK?
+1517   786      66BE                |  	           BNE.S   ISR_ERR                   No, unrecognized message
+1518   788                          |  	
+1519   788      427900800006        |  	           CLR.W   MSM_Sig_PC_RPL            Yes, then PC is done
+1520   78E      427900800004        |  	           CLR.W   MSM_Sig_PC                No command to do
+1521   794      4E73                |  	           RTE                               Go back to HALT state
+1522   796                          |  	
+1523   796                          |  	************************************************************************
+1524   796                          |  	*                                                                      *
+1525   796                          |  	* End of Normal Processing code                                        *
+1526   796                          |  	*                                                                      *
+1527   796                          |  	************************************************************************
+1528   796                          |  	           
+1529   796                          |  	************************************************************************
+1530   796                          |  	*
+1531   796                          |  	* Generic exception handler
+1532   796                          |  	*
+1533   796                          |  	*
+1534   796      33FCA1A100801428    |  	EX_ERR     MOVE.W  #$A1A1,$801428
+1535   79E      48F8FFFF{20D0}      |  	           MOVEM.L A0-A7/D0-D7,SAVREGS       Save the registers
+1536   7A4      3038{20CE}          |  	           MOVE.W  ECODE,D0                  D0 is table index
+1537   7A8      0C400021            |  	           CMPI.W  #33,D0                    Any message for this exception?
+1538   7AC      6306                |  	           BLS.S   PMSG0                     Yes, get its address
+1539   7AE      41FA{1B4B}          |  	           LEA     DFLTMSG(PC),A0            No, get the default message
+1540   7B2      600A                |  	           BRA.S   PMSG1
+1541   7B4      E340                |  	PMSG0      ASL.W   #1,D0                     Form offset
+1542   7B6      41FA{1B56}          |  	           LEA     EMSGTBL(PC),A0            List of msg addresses
+ASIC Monitor Pass 3                                                        29
+Source file: monitor.asm
+
+1543   7BA      30700000            |  	           MOVEA.W 0(A0,D0.W),A0             Point to this message
+1544   7BE      43FA{1950}          |  	PMSG1      LEA     EMSGBUF(PC),A1            Where to put message
+1545   7C2      7220                |  	           MOVEQ   #32,D1                    Max message length
+1546   7C4      12D8                |  	PRINTMSG   MOVE.B  (A0)+,(A1)+               Move message bytes
+1547   7C6      57C9FFFC            |  	           DBEQ    D1,PRINTMSG               Till end found or D1 empty
+1548   7CA      6F08                |  	           BLE.S   EX_ERR2                   Space left in buffer?
+1549   7CC      12FC0020            |  	PMSG2      MOVE.B  #$20,(A1)+                Yes, fill with blanks
+1550   7D0      51C9FFFA            |  	           DBRA    D1,PMSG2
+1551   7D4                          |  	*EX_ERR2    BRA     STARTUP
+1552   7D4      4E722700            |  	EX_ERR2    STOP    #$2700 
+1553   7D8                          |  	*
+1554   7D8                          |  	*
+1555   7D8                          |  	* Routines for 'unexpected' exceptions
+1556   7D8                          |  	*
+1557   7D8                          |  	*
+1558   7D8      31FC0000{20CE}      |  	EX_BERR    MOVE.W  #0,ECODE                  Bus error
+1559   7DE      60B6                |  	           BRA     EX_ERR
+1560   7E0                          |  	*
+1561   7E0      31FC0001{20CE}      |  	EX_AERR    MOVE.W  #1,ECODE                  Address error
+1562   7E6      60AE                |  	           BRA     EX_ERR
+1563   7E8                          |  	*
+1564   7E8      31FC0002{20CE}      |  	EX_ILLG    MOVE.W  #2,ECODE                  Illegal instruction
+1565   7EE      60A6                |  	           BRA     EX_ERR
+1566   7F0                          |  	*
+1567   7F0      31FC0003{20CE}      |  	EX_ZRDV    MOVE.W  #3,ECODE                  Zero divide
+1568   7F6      609E                |  	           BRA     EX_ERR
+1569   7F8                          |  	*
+1570   7F8      31FC0004{20CE}      |  	EX_CHKI    MOVE.W  #4,ECODE                  CHK instruction
+1571   7FE      6096                |  	           BRA     EX_ERR
+1572   800                          |  	*
+1573   800      31FC0005{20CE}      |  	EX_TRAPV   MOVE.W  #5,ECODE                  TRAPV instructon
+1574   806      608E                |  	           BRA     EX_ERR
+1575   808                          |  	*
+1576   808      31FC0006{20CE}      |  	EX_PRIVIO  MOVE.W  #6,ECODE                  Privilege violation
+1577   80E      6086                |  	           BRA     EX_ERR
+1578   810                          |  	*
+1579   810      31FC0007{20CE}      |  	EX_TRACE   MOVE.W  #7,ECODE                  TRACE exception
+1580   816      6000FF7E            |  	           BRA     EX_ERR
+1581   81A                          |  	*
+1582   81A      31FC0008{20CE}      |  	EX_L1010   MOVE.W  #8,ECODE                  Line 1010
+1583   820      6000FF74            |  	           BRA     EX_ERR
+1584   824                          |  	*
+1585   824      31FC0009{20CE}      |  	EX_L1111   MOVE.W  #9,ECODE                  Line 1111
+1586   82A      6000FF6A            |  	           BRA     EX_ERR
+1587   82E                          |  	*
+1588   82E      31FC000A{20CE}      |  	EX_SPURI   MOVE.W  #10,ECODE                 Spurious interrupt
+1589   834      6000FF60            |  	           BRA     EX_ERR
+1590   838                          |  	*
+1591   838      31FC000B{20CE}      |  	EX_IRQ1    MOVE.W  #11,ECODE                 Level 1 IRQ Autovector
+1592   83E      6000FF56            |  	           BRA     EX_ERR
+1593   842                          |  	*
+1594   842      31FC000C{20CE}      |  	EX_IRQ2    MOVE.W  #12,ECODE                 Level 2 IRQ Autovector
+1595   848      6000FF4C            |  	           BRA     EX_ERR
+1596   84C                          |  	*
+1597   84C      31FC000D{20CE}      |  	EX_IRQ3    MOVE.W  #13,ECODE                 Level 3 IRQ Autovector
+ASIC Monitor Pass 3                                                        30
+Source file: monitor.asm
+
+1598   852      6000FF42            |  	           BRA     EX_ERR
+1599   856                          |  	*
+1600   856      31FC000E{20CE}      |  	EX_IRQ4    MOVE.W  #14,ECODE                 Level 4 IRQ Autovector
+1601   85C      6000FF38            |  	           BRA     EX_ERR
+1602   860                          |  	*
+1603   860      31FC000F{20CE}      |  	EX_IRQ5    MOVE.W  #15,ECODE                 Level 5 IRQ Autovector
+1604   866      6000FF2E            |  	           BRA     EX_ERR
+1605   86A                          |  	*
+1606   86A      31FC0010{20CE}      |  	EX_IRQ6    MOVE.W  #16,ECODE                 Level 6 IRQ Autovector
+1607   870      6000FF24            |  	           BRA     EX_ERR
+1608   874                          |  	*
+1609   874      31FC0011{20CE}      |  	EX_IRQ7    MOVE.W  #17,ECODE                 Level 7 IRQ Autovector
+1610   87A      6000FF1A            |  	           BRA     EX_ERR
+1611   87E                          |  	*
+1612   87E      31FC0012{20CE}      |  	EX_TRAP0   MOVE.W  #18,ECODE                 Trap vectors
+1613   884      6000FF10            |  	           BRA     EX_ERR
+1614   888                          |  	*
+1615   888      31FC0013{20CE}      |  	EX_TRAP1   MOVE.W  #19,ECODE
+1616   88E      6000FF06            |  	           BRA     EX_ERR
+1617   892                          |  	*
+1618   892      31FC0014{20CE}      |  	EX_TRAP2   MOVE.W  #20,ECODE
+1619   898      6000FEFC            |  	           BRA     EX_ERR
+1620   89C                          |  	*
+1621   89C      31FC0015{20CE}      |  	EX_TRAP3   MOVE.W  #21,ECODE
+1622   8A2      6000FEF2            |  	           BRA     EX_ERR
+1623   8A6                          |  	*
+1624   8A6      31FC0016{20CE}      |  	EX_TRAP4   MOVE.W  #22,ECODE
+1625   8AC      6000FEE8            |  	           BRA     EX_ERR
+1626   8B0                          |  	*
+1627   8B0      31FC0017{20CE}      |  	EX_TRAP5   MOVE.W  #23,ECODE
+1628   8B6      6000FEDE            |  	           BRA     EX_ERR
+1629   8BA                          |  	*
+1630   8BA      31FC0018{20CE}      |  	EX_TRAP6   MOVE.W  #24,ECODE
+1631   8C0      6000FED4            |  	           BRA     EX_ERR
+1632   8C4                          |  	*
+1633   8C4      31FC0019{20CE}      |  	EX_TRAP7   MOVE.W  #25,ECODE
+1634   8CA      6000FECA            |  	           BRA     EX_ERR
+1635   8CE                          |  	*
+1636   8CE      31FC001A{20CE}      |  	EX_TRAP8   MOVE.W  #26,ECODE
+1637   8D4      6000FEC0            |  	           BRA     EX_ERR
+1638   8D8                          |  	*
+1639   8D8      31FC001B{20CE}      |  	EX_TRAP9   MOVE.W  #27,ECODE
+1640   8DE      6000FEB6            |  	           BRA     EX_ERR
+1641   8E2                          |  	*
+1642   8E2      31FC001C{20CE}      |  	EX_TRAP10  MOVE.W  #28,ECODE
+1643   8E8      6000FEAC            |  	           BRA     EX_ERR
+1644   8EC                          |  	*
+1645   8EC      31FC001D{20CE}      |  	EX_TRAP11  MOVE.W  #29,ECODE
+1646   8F2      6000FEA2            |  	           BRA     EX_ERR
+1647   8F6                          |  	*
+1648   8F6      31FC001E{20CE}      |  	EX_TRAP12  MOVE.W  #30,ECODE
+1649   8FC      6000FE98            |  	           BRA     EX_ERR
+1650   900                          |  	*
+1651   900      31FC001F{20CE}      |  	EX_TRAP13  MOVE.W  #31,ECODE
+1652   906      6000FE8E            |  	           BRA     EX_ERR
+ASIC Monitor Pass 3                                                        31
+Source file: monitor.asm
+
+1653   90A                          |  	*
+1654   90A      31FC0020{20CE}      |  	EX_TRAP14  MOVE.W  #32,ECODE
+1655   910      6000FE84            |  	           BRA     EX_ERR
+1656   914                          |  	*
+1657   914      31FC0021{20CE}      |  	EX_TRAP15  MOVE.W  #33,ECODE
+1658   91A      6000FE7A            |  	           BRA     EX_ERR
+1659   91E                          |  	*
+1660   91E      31FC0022{20CE}      |  	EX_DFLT    MOVE.W  #34,ECODE
+1661   924      6000FE70            |  	           BRA     EX_ERR
+1662   928                          |  	*
+1663   928                          |  	* Table of exception routine addresses for Reset initialization
+1664   928                          |  	*
+1665   928                       >  |  	           RESUME DATA
+1666   2046                         |  	*
+1667   2046                         |  	*
+1668   2046     [{$2046}]           |  	ETABLE     EQU     *
+1669   2046                         |  	*
+1670   2046     {000007D8}          |  	           DC.L    EX_BERR                  0  (Bus error)
+1671   204A     {000007E0}          |  	           DC.L    EX_AERR                  1  (Address error)
+1672   204E     {000007E8}          |  	           DC.L    EX_ILLG                  2  (Illegal instruction)
+1673   2052     {000007F0}          |  	           DC.L    EX_ZRDV                  3  (Zero divide)
+1674   2056     {000007F8}          |  	           DC.L    EX_CHKI                  4  (CHK instruction)
+1675   205A     {00000800}          |  	           DC.L    EX_TRAPV                 5  (TRAPV instructon)
+1676   205E     {00000808}          |  	           DC.L    EX_PRIVIO                6  (Privilege violation)
+1677   2062     {00000810}          |  	           DC.L    EX_TRACE                 7  (TRACE exception)
+1678   2066     {0000081A}          |  	           DC.L    EX_L1010                 8  (Line 1010)
+1679   206A     {00000824}          |  	           DC.L    EX_L1111                 9  (Line 1111)
+1680   206E     {0000082E}          |  	           DC.L    EX_SPURI                 10 (Spurious interrupt)
+1681   2072     {0000071A}          |  	           DC.L    PC_ISR                   11 (Level 1 IRQ Autovector)
+1682   2076     {00000842}          |  	           DC.L    EX_IRQ2                  12 (Level 2 IRQ Autovector)
+1683   207A     {0000071A}          |  	           DC.L    PC_ISR                   13 (Level 3 IRQ Autovector)
+1684   207E     {00000856}          |  	           DC.L    EX_IRQ4                  14 (Level 4 IRQ Autovector)
+1685   2082     {0000071A}          |  	           DC.L    PC_ISR                   15 (Level 5 IRQ Autovector)
+1686   2086     {0000086A}          |  	           DC.L    EX_IRQ6                  16 (Level 6 IRQ Autovector)
+1687   208A     {0000071A}          |  	           DC.L    PC_ISR                   17 (Level 7 IRQ Autovector)
+1688   208E     {0000087E}          |  	           DC.L    EX_TRAP0                 18 (Trap vectors)
+1689   2092     {00000888}          |  	           DC.L    EX_TRAP1                 19
+1690   2096     {00000892}          |  	           DC.L    EX_TRAP2                 20
+1691   209A     {0000089C}          |  	           DC.L    EX_TRAP3                 21
+1692   209E     {000008A6}          |  	           DC.L    EX_TRAP4                 22
+1693   20A2     {000008B0}          |  	           DC.L    EX_TRAP5                 23
+1694   20A6     {000008BA}          |  	           DC.L    EX_TRAP6                 24
+1695   20AA     {000008C4}          |  	           DC.L    EX_TRAP7                 25
+1696   20AE     {000008CE}          |  	           DC.L    EX_TRAP8                 26
+1697   20B2     {000008D8}          |  	           DC.L    EX_TRAP9                 27
+1698   20B6     {000008E2}          |  	           DC.L    EX_TRAP10                28
+1699   20BA     {000008EC}          |  	           DC.L    EX_TRAP11                29
+1700   20BE     {000008F6}          |  	           DC.L    EX_TRAP12                30
+1701   20C2     {00000900}          |  	           DC.L    EX_TRAP13                31
+1702   20C6     {0000090A}          |  	           DC.L    EX_TRAP14                32
+1703   20CA     {00000914}          |  	           DC.L    EX_TRAP15                33
+1704   20CE                         |  	*
+1705   20CE                      >  |  	ECODE      DS.W    1                         16 bit exception code
+1706   20D0                      >  |  	SAVREGS    DS.L    16                        Room for registers
+1707   2110                      >  |  	EMSGBUF    DS.B    32                        Message buffer
+ASIC Monitor Pass 3                                                        32
+Source file: monitor.asm
+
+1708   2130                         |  	*
+1709   2130                         |  	*
+1710   2130                         |  	* Error message table
+1711   2130                         |  	*
+1712   2130                         |  	*
+1713   2130     [{$2130}]           |  	EMSGS      EQU     *
+1714   2130     427573206572726F72  |  	EMSG0      DC.B    'Bus error',0
+                00                  |
+1715   213A     416464726573732065  |  	EMSG1      DC.B    'Address error',0
+                72726F7200          |
+1716   2148     496C6C6567616C2069  |  	EMSG2      DC.B    'Illegal instruction',0
+                6E737472756374696F  |
+                6E00                |
+1717   215C     5A65726F2064697669  |  	EMSG3      DC.B    'Zero divide',0
+                646500              |
+1718   2168     43484B20696E737472  |  	EMSG4      DC.B    'CHK instruction',0
+                756374696F6E00      |
+1719   2178     545241505620696E73  |  	EMSG5      DC.B    'TRAPV instructon',0
+                74727563746F6E00    |
+1720   2189     50726976696C656765  |  	EMSG6      DC.B    'Privilege violation',0
+                2076696F6C6174696F  |
+                6E00                |
+1721   219D     545241434520657863  |  	EMSG7      DC.B    'TRACE exception',0
+                657074696F6E00      |
+1722   21AD     4C696E652031303130  |  	EMSG8      DC.B    'Line 1010',0
+                00                  |
+1723   21B7     4C696E652031313131  |  	EMSG9      DC.B    'Line 1111',0
+                00                  |
+1724   21C1     53707572696F757320  |  	EMSG10     DC.B    'Spurious interrupt',0
+                696E74657272757074  |
+                00                  |
+1725   21D4     4C6576656C20312049  |  	EMSG11     DC.B    'Level 1 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1726   21EB     4C6576656C20322049  |  	EMSG12     DC.B    'Level 2 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1727   2202     4C6576656C20332049  |  	EMSG13     DC.B    'Level 3 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1728   2219     4C6576656C20342049  |  	EMSG14     DC.B    'Level 4 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1729   2230     4C6576656C20352049  |  	EMSG15     DC.B    'Level 5 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1730   2247     4C6576656C20362049  |  	EMSG16     DC.B    'Level 6 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1731   225E     4C6576656C20372049  |  	EMSG17     DC.B    'Level 7 IRQ Autovector',0
+                5251204175746F7665  |
+                63746F7200          |
+1732   2275     5472617020233000    |  	EMSG18     DC.B    'Trap #0',0
+1733   227D     5472617020233100    |  	EMSG19     DC.B    'Trap #1',0
+1734   2285     5472617020233200    |  	EMSG20     DC.B    'Trap #2',0
+1735   228D     5472617020233300    |  	EMSG21     DC.B    'Trap #3',0
+1736   2295     5472617020233400    |  	EMSG22     DC.B    'Trap #4',0
+1737   229D     5472617020233500    |  	EMSG23     DC.B    'Trap #5',0
+1738   22A5     5472617020233600    |  	EMSG24     DC.B    'Trap #6',0
+1739   22AD     5472617020233700    |  	EMSG25     DC.B    'Trap #7',0
+1740   22B5     5472617020233800    |  	EMSG26     DC.B    'Trap #8',0
+1741   22BD     5472617020233900    |  	EMSG27     DC.B    'Trap #9',0
+1742   22C5     547261702023313000  |  	EMSG28     DC.B    'Trap #10',0
+1743   22CE     547261702023313100  |  	EMSG29     DC.B    'Trap #11',0
+1744   22D7     547261702023313200  |  	EMSG30     DC.B    'Trap #12',0
+1745   22E0     547261702023313300  |  	EMSG31     DC.B    'Trap #13',0
+1746   22E9     547261702023313400  |  	EMSG32     DC.B    'Trap #14',0
+1747   22F2     547261702023313500  |  	EMSG33     DC.B    'Trap #15',0
+1748   22FB     457863657074696F6E  |  	DFLTMSG    DC.B    'Exception Error',0
+                204572726F7200      |
+1749   230C     0000                |  	           DC.W    0
+1750   230E                         |  	*
+1751   230E                         |  	* Addresses of exception messages
+1752   230E                         |  	*
+1753   230E     [{$230E}]           |  	EMSGTBL    EQU     *
+1754   230E     {2130}              |  	           DC.W    EMSG0
+1755   2310     {213A}              |  	           DC.W    EMSG1
+1756   2312     {2148}              |  	           DC.W    EMSG2
+1757   2314     {215C}              |  	           DC.W    EMSG3
+1758   2316     {2168}              |  	           DC.W    EMSG4
+1759   2318     {2178}              |  	           DC.W    EMSG5
+1760   231A     {2189}              |  	           DC.W    EMSG6
+1761   231C     {219D}              |  	           DC.W    EMSG7
+1762   231E     {21AD}              |  	           DC.W    EMSG8
+ASIC Monitor Pass 3                                                        33
+Source file: monitor.asm
+
+1763   2320     {21B7}              |  	           DC.W    EMSG9
+1764   2322     {21C1}              |  	           DC.W    EMSG10
+1765   2324     {21D4}              |  	           DC.W    EMSG11
+1766   2326     {21EB}              |  	           DC.W    EMSG12
+1767   2328     {2202}              |  	           DC.W    EMSG13
+1768   232A     {2219}              |  	           DC.W    EMSG14
+1769   232C     {2230}              |  	           DC.W    EMSG15
+1770   232E     {2247}              |  	           DC.W    EMSG16
+1771   2330     {225E}              |  	           DC.W    EMSG17
+1772   2332     {2275}              |  	           DC.W    EMSG18
+1773   2334     {227D}              |  	           DC.W    EMSG19
+1774   2336     {2285}              |  	           DC.W    EMSG20
+1775   2338     {228D}              |  	           DC.W    EMSG21
+1776   233A     {2295}              |  	           DC.W    EMSG22
+1777   233C     {229D}              |  	           DC.W    EMSG23
+1778   233E     {22A5}              |  	           DC.W    EMSG24
+1779   2340     {22AD}              |  	           DC.W    EMSG25
+1780   2342     {22B5}              |  	           DC.W    EMSG26
+1781   2344     {22BD}              |  	           DC.W    EMSG27
+1782   2346     {22C5}              |  	           DC.W    EMSG28
+1783   2348     {22CE}              |  	           DC.W    EMSG29
+1784   234A     {22D7}              |  	           DC.W    EMSG30
+1785   234C     {22E0}              |  	           DC.W    EMSG31
+1786   234E     {22E9}              |  	           DC.W    EMSG32
+1787   2350     {22F2}              |  	           DC.W    EMSG33
+1788   2352     {22FB}              |  	           DC.W    DFLTMSG
+1789   2354                         |  	
+1790   2354                      >  |  	           RESUME CODE
+1791   928                          |  	*
+1792   928      {04CC}{04CC}{04CC}  |  	DACLIST    DCB.W   LISTSIZE,_DONOT     Rest of memory is DAC Addresses
+                {04CC}{04CC}{04CC}  |
+                {04CC}{04CC}        |
+1793   10F8                         |  	*
+1794   10F8                         |  	* KEY    <'ADDIB   '>,_ADDIB           Addresses of DAD 'primitives'
+1795   10F8                         |  	*
+1796   10F8     [{$10F8}]           |  	VERYLAST   EQU     *
+1797   10F8                         |  	           END

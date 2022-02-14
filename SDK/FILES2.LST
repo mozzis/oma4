@@ -1,0 +1,71 @@
+[Disk 2 - Detector code files and utilities]
+
+files2.lst          This file
+
+monitor.bin        68000 supervisor code
+scans.abj          Default compiled ASIC program
+scans.dbj          Default compiled DAC programs
+
+mmscans.dac        Source for Thomson 512 X 512 CCD
+mmscans.asc
+eevscans.dac       Source for EEV 256 X 1024 CCD
+eevscans.asc
+specscan.dac       Source for Thomson 256 X 1024 CCD 
+specscan.asc
+smscans.dac        Source for Thomson 512 X 512 dual shiftreg CCD
+smscans.asc
+1ksqscan.dac       Source for Thomson 1024 X 1024 CCD
+1ksqscan.asc
+
+sccommon.asc       ASIC source common to single shiftreg detectors
+alccommon.asc      ASIC source common to all CCD detectors
+
+standard.dac       DA mode 1
+ontrig.dac         DA mode 2
+darkrate.dac       DA mode for darkrate test
+gain.dac           DA mode for gain test
+ident2.dac         DA mode to ID "foreign" detectors
+init.dac           DA mode to init ASIC (DA mode 0)
+kclean.dac         DA mode to do keep clean
+linear.dac         DA mode for linearity test
+noise.dac          DA mode for noise test
+autoback.dac       DA mode to do acquisition with SIC background subtract
+piatest.dac        DA mode to control acquisition with PIA bits
+user.dac           Stub file; may be used to add da modes
+
+omacp.inc          Constants for OMA controller board
+hooks.inc          "Tags" and Monitor variables
+dac.mac            MACROS for CCD DAC programs
+ops.add            Address of monitor routines for DAC programs
+ccd512tc.inc       Constants for 512X512 Thomson CCD
+ccd512ts.inc       Constants for 512X512 Thomson dual channel CCD
+ccd512sp.inc       Constants for 256X1024 Thomson CCD
+ccdeev.inc         Constants for 256X1024 EEV CCD
+ccd1ksq.inc        Constants for 1024X1024 Thomson CCD
+
+The driver will load the correct set of these files if the default
+files (scans.abj and scans.dbj) do not match the detector.
+
+mmscans.dbj        Compiled DAC programs for Thomson 512X512 CCD
+mmscans.abj        Compiled ASIC programs for Thomson 512X512 CCD
+
+eevscans.dbj       Compiled DAC programs for EEV 298X1152 CCD
+eevscans.abj       Compiled ASIC programs for EEV 298X1152 CCD
+
+specscan.dbj       Compiled DAC programs for Thomson 256X1024 CCD
+specscan.abj       Compiled ASIC programs for Thomson 256X1024 CCD
+
+smscans.dbj        Compiled DAC programs for Thomson 512X512 dual
+smscans.abj        Compiled ASIC programs for Thomson 512X512 dual
+
+pdascans.dbj       Compiled DAC programs for Reticon 1024X1 RAPDA
+pdascans.abj       Compiled ASIC programs for Reticon 1024X1 RAPDA
+
+Optional utilities
+
+bigdump.exe        Dump extended memory to screen
+port.exe           Write values to PC I/O ports
+oma4.exe           Compiler for ASIC and DAC code
+oma4c.bat          Batch file to compile ASIC and DAC files, copy them
+                   to scans.abj and scans.dbj.  Use "OMA4C mmscans -a"
+                   for example.

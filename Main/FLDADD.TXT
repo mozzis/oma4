@@ -1,0 +1,33 @@
+How to add a field to a form:
+
+Create a local data object to hold the field data.
+Add the address of the data object to the data registry for the form.
+If the field is a toggle, also create a string array and add it to
+  the toggle registry for the form.
+If the field is an action field, create a code routine to run when
+  the field changes, and add it to the code registry for the form.
+Add enums for the field and the label in the enum before the form.
+Add the field (if possible, copy an existing field and modify)
+Change the exit vectors for the new field and for fields which come
+  before and after the new field.
+Add the label field if any.
+Add code to initialize the data object on form entry.
+Add code to copy the data object externally when the form exits
+  (unless the field has a verifier routine which runs when it
+   changes)
+Add an entry for the field to ksindex in the proper place.
+Put the ksindex entry into the field.
+Add an entry for the field to the FieldNames array in formlist.c
+If necessary, change the form's entry in the FormBounds array in 
+  formlist.c
+Make sure that field functions correctly during keystroke record and 
+  playback.
+Add a macro function to get and set the field's value.
+Refer to helpindx.h and oma40000.hlp to create a new help file entry
+for the field, and put the index of that entry into the field definition.
+If the new field affects method data, make sure that the method file
+correctly saves and loads this data. If it affects detector data, make
+sure that the detector driver gets updated with the field value. If it
+affects plotting, make sure that the SetPlotStyle and GetPlotStyle 
+macros support it.
+

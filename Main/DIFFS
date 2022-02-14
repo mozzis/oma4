@@ -1,0 +1,79 @@
+   spgraph2.c (30 Jun 1994 14:07:02)
+           spgraph.c (07 Jul 1994 10:51:22)
+===================
++            930  | /* This resets "P0" and "RelPixelWidth" after a wavelength calibration,
++            931  |  * and should not overwrite the a[0] and a[1].  It gets RelPixelWidth by
++            932  |  * calculating real coverage and dividing that by the calculated coverage.
++            933  |  * P0 is calculated using W0, WV, and RelPixelWidth from equation 1.
++            934  |*/
+-    931          | /* reset after a wavelength calibration, so */
+-    932          | /* please don't overwrite the a[0] and a[1] */
+===================
++            942  |                                      /* New center wavelength, WV */  
++            943  |    WV = 0.5F * (DataPtToLambda(0) + DataPtToLambda((int)Points));
++            944  |    temp = (W0 + GrPtr[0] + W0 * GrPtr[1] - WV) / (GrPtr[2] + W0 * GrPtr[3]);
++            945  |    InitialMethod->RelPixelWidth =    /* RelPxlWdth = real_nm / calc_nm.*/
+-    940          |    temp = (W0 + GrPtr[0] + W0 * GrPtr[1] -
+-    941          |      0.5F * (DataPtToLambda(0) + DataPtToLambda((int)Points))) /
+-    942          |      (GrPtr[2] + W0 * GrPtr[3]);
+> (  950)    946  |    RelPixelWidth =
+> (  951)    947  |           (DataPtToLambda ((int)Points) - DataPtToLambda (0))/
+> (  952)    948  |                     (Points * (GrPtr[2] + GrPtr[3] * W0));
++            949  |    temp /= RelPixelWidth;            /* Account for less than 25 micorn*/
+===================
+-    944          |{
+===================
+-    946          |      temp = -temp;
+-    947          |  }
+-    948          |    P0[GrNo] = (DataPtToChnl(0) + 0.5F * DataPtToChnl((int)Points)) + temp;
+> (  720)    952  |
++            953  |    InitialMethod->GratingCenterChnl[GrNo] =
++            954  |    P0[GrNo] = 0.5F * (DataPtToChnl(0) + DataPtToChnl((int)Points)) + temp;
+===================
+-    954          |  InitialMethod->GratingCenterChnl[GrNo] = P0[GrNo];
+===================
+-   1055          |
+===================
+> (  949)   1057  |
+===================
+> ( 1112)   1109  |    /* ChangeGrating can change CalibUnits!!! */
+===================
+-   1111          |
+===================
+-   1119          |      float ft1, ft2;
+===================
++           1119  |      WV = 0.5F * (DataPtToLambda(0)+ DataPtToLambda(Points));
+-   1122          |      ft1 = DataPtToLambda(0);
+-   1123          |      ft2 = DataPtToLambda(Points);
+-   1124          |      ftemp = ((ft1 - ft2) * 0.5F);
+-   1125          |      ftemp = ft2 + ftemp;
+-   1126          |      WV = ftemp;
+===================
++           1126  |      if (RelPixelWidth < F0)
+===================
+-   1139          |
+===================
+-   1141          |
+===================
+> (  953)   1136  |
++           1137  |                                      /* If method had one, use it. */
++           1138  |      if (InitialMethod->RelPixelWidth)
++           1139  |        RelPixelWidth = InitialMethod->RelPixelWidth;
+===================
++           1142  |      W0 =  (WV + RelPixelWidth * GrPtr[2] * DeltaP - GrPtr[0])  /
++           1143  |            (1.0F + GrPtr[1] - RelPixelWidth * GrPtr[3] * DeltaP);
+-   1146          |
+-   1147          |      W0 = WV + RelPixelWidth * GrPtr[2] * DeltaP;
+-   1148          |      W0 = W0 - GrPtr[0];
+-   1149          |  ftemp = 1.0F + GrPtr[1];
+-   1150          |      ftemp -= RelPixelWidth * GrPtr[3] * DeltaP;
+-   1151          |      W0 = W0 / ftemp;
+-   1152          |
+-   1153          |      if (M1235_W0 != W0)
+-   1154          |{
+> ( 1051)   1144  |
++           1145  |      if (M1235_W0 != W0)             /* If 1235 different from calc'd W0, */
++           1146  |        {                             /* move 1235; otherwise don't. */
+===================
+-   1157          |//        RedoCalCoeffs();
+===================

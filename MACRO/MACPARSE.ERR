@@ -1,0 +1,294 @@
+QPARSER LALR(1) Parser Generator Report
+
+----------------------
+Productions
+
+  1 \ --------------------------------------------------------------------------
+  1 \
+  1 \  mathpars.grm
+  1 \
+  1 \  A grammar for the OMA "Macro Language".  Similar in many ways to 
+  1 \  Pascal, but not really Pascal - sort of a "modified subset".
+  1 \  (Pascal programmers, please excuse the mutilation).  RECORDs are 
+  1 \  not supported, except for the strange case of the pre-defined records 
+  1 \  built in to the grammar for CURVEs.
+  1 \  
+  1 \  Written by:  TLB     Version 1.00       14 February 1990
+  1 \  Changes by:  
+  1 \  
+  1 \ --------------------------------------------------------------------------
+  1 
+  1 Goal            ->  PerformList         #executenow    \ clear compile flag
+  2 
+  2 PerformList     ->  Compile
+  3                 ->  Immediate
+  4 
+  4 Compile         ->  Program <stop>
+  5 
+  5 Immediate       ->  ImmStart VRList StmtList <stop>  #immend
+  6 
+  6 ImmStart        ->  <empty>                    #immstart
+  7 
+  7 Program         ->  ProgHead ; Pblock .        #progend
+  8 
+  8 ProgHead        ->  PROGRAM <identifier>       #progdecl
+  9 
+  9 Pblock          ->  DrLst VRList PList Pbegin StmtList END #pblock
+ 10 Pbegin          ->  BEGIN                      #pbegin
+ 11 
+ 11 DrLst           ->  Directives
+ 12                 ->  <empty>
+ 13 
+ 13 PList           ->  PList ProcDecl
+ 14                 ->  <empty>
+ 15 ProcDecl        ->  ProcHead ; VRList Block ;  #pbend
+ 16 ProcHead        ->  PROCEDURE <identifier>     #pdecl
+ 17          
+ 17 Block           ->  BEGIN StmtList END
+ 18 
+ 18 VRList          ->  Var VList                  #varend
+ 19                 ->  <empty>
+ 20 Var             ->  VAR                        #varst
+ 21 VList           ->  VList  VarItem
+ 22                 ->  VarItem
+ 23 VarItem         ->  IdentList : Type ;         #vitem
+ 24 IdentList       ->  IdentList , <identifier>   #newident1
+ 25                 ->  <identifier>               #newident2
+ 26      
+ 26 Type            ->  SimpType                   #TSimp
+ 27                 ->  ARRAY [ <integer> ] OF SimpType #arraytype
+ 28      
+ 28  \ REAL, BOOLEAN, INTEGER or another type name
+ 28 SimpType        ->  <identifier>               #simptype
+ 29          
+ 29 StmtList        ->  StmtList ; Stmt
+ 30                 ->  Stmt
+ 31 
+ 31 Stmt            ->  IF Boolean Then Stmt       #ifth
+ 32                 ->  IF Boolean Then Stmt Else Stmt #ifthelse
+ 33                 ->  While Boolean Do Stmt      #whiledone
+ 34                 ->  Repeat StmtList UNTIL Boolean  #repuntildone
+ 35                 ->  FOR ForVar := Boolean To Boolean Fup Stmt #forend
+ 36                 ->  FOR ForVar := Boolean DownTo Boolean Fdown Stmt #dforend
+ 37                 ->  Variable := Parameter      #assign
+ 38                 ->  ProcCall                   #procstmt
+ 39                 ->  Block
+ 40                 ->  ReadWrite ( IOList )       #readwrl
+ 41 \                ->  CASE Boolean OF CaseList END  #casefield 
+ 41                 ->  <empty>
+ 42 
+ 42 While           ->  WHILE                      #whstart
+ 43 Then            ->  THEN                       #thent
+ 44 Else            ->  ELSE                       #elset
+ 45 Fup             ->  DO                         #forup
+ 46 Fdown           ->  DO                         #fordown
+ 47 Do              ->  DO                         #whiledo
+ 48 Repeat          ->  REPEAT                     #repstart
+ 49 To              ->  TO                         #forto
+ 50 DownTo          ->  DOWNTO                     #fordownto
+ 51 ForVar          ->  VarHead                    #forvarid
+ 52 
+ 52 ReadWrite       ->  READ                       #rwread
+ 53                 ->  READLN                     #rwreadln
+ 54                 ->  WRITE                      #rwwrite
+ 55                 ->  WRITELN                    #rwwriteln
+ 56 
+ 56 \ CaseList        -> CaseItem ; CaseList        #caselist
+ 56 \                 -> CaseItem
+ 56 \ CaseItem        -> ConstList : Stmt           #caseitem
+ 56 Directives      -> Directive Directives
+ 57                 -> Directive
+ 58           
+ 58 Directive       ->  EXPLICIT                   #explicit
+ 59                 ->  NOEXPLICIT                 #noexplic
+ 60           
+ 60 IOList          ->  IOList , Parameter         #iolist1
+ 61                 ->  Parameter                  #iolist2
+ 62                 ->  <empty>
+ 63 
+ 63 ProcCall        ->  <identifier> ProcParams    #proccall
+ 64 ProcParams      ->  ProcListSt ProcList )
+ 65 ProcListSt      ->  (                          #proclistst
+ 66 ProcList        ->  ProcList , Parameter       #proclist1
+ 67                 ->  Parameter                  #proclist2
+ 68                 ->  <empty>
+ 69 
+ 69 Parameter       ->  Boolean
+ 70                 ->  LitString
+ 71 
+ 71 LitString       ->  <string>                   #litstring
+ 72 
+ 72 Boolean         ->  BoolTerm
+ 73                 ->  Boolean OR BoolTerm        #orop
+ 74                 ->  Boolean XOR BoolTerm       #xorop
+ 75 BoolTerm        ->  BoolUnary
+ 76                 ->  BoolTerm AND BoolUnary     #andop
+ 77 BoolUnary       ->  BoolPri
+ 78                 ->  NOT BoolPri                #notop
+ 79                 ->  SHL BoolPri                #shleft
+ 80                 ->  SHR BoolPri                #shright
+ 81 BoolPri         ->  Expr
+ 82                 ->  Expr Relop Expr            #relop
+ 83         
+ 83 Relop           ->  <                          #less
+ 84                 ->  >                          #gtr
+ 85                 ->  <=                         #leq
+ 86                 ->  >=                         #geq
+ 87                 ->  =                          #eq
+ 88                 ->  <>                         #neq
+ 89       
+ 89 Expr            ->  Expr + Term                #add
+ 90                 ->  Expr - Term                #sub
+ 91                 ->  Term 
+ 92 
+ 92 Term            ->  Term * Unary               #mpy
+ 93                 ->  Term / Unary               #quot
+ 94                 ->  Term MOD Unary             #modulo
+ 95                 ->  Term DIV Unary             #divide
+ 96                 ->  Unary
+ 97 Unary           ->  Primary
+ 98                 ->  - Primary                  #neg
+ 99 Primary         ->  ( Boolean )
+100                 ->  ProcCall                   #rval_proc
+101                 ->  Variable
+102                 ->  LitString                   \ 3/7/91 DAI
+103                 ->  Constant                   #const
+104 
+104 Variable        ->  VarHead VarExtension       #varid
+105                 ->  Curve                      #curvevar
+106 VarHead         ->  <identifier>               #varh
+107 VarExtension    ->  [ Boolean ]                #varexta  \ array index
+108                 ->  <empty>
+109 
+109 Curve           ->  CurveSt CurveRef           #curveend
+110 CurveSt         ->  <empty>                    #curvest
+111 
+111 CurveRef        ->  CS CRVSETTrailer           #crvset
+112                 ->  MC CRVTrailer              #memcrv
+113                 ->  DC CRVTrailer              #dispcrv
+114 
+114 CRVSETTrailer   ->  CRVArr . CRVSETItems
+115                 ->  CRVArr                    #cvs_only
+116 
+116 CRVSETItems     ->  START_INDEX               #cvs_startind
+117                 ->  COUNT                     #cvs_count
+118                 ->  NAME                      #cvs_name
+119                 ->  PATH                      #cvs_path
+120                 ->  DESC                      #cvs_desc
+121                 ->  DISPLAY                   #cvs_disp
+122                 ->  CRVTrailer
+123 
+123 CRVTrailer      ->  CRVArr                    #cv_only
+124                 ->  CRVArr . CRVItems
+125 
+125 CRVItems        ->  POINT_COUNT               #cv_pointcnt
+126                 ->  TIME                      #cv_time
+127                 ->  SRC_COMP                  #cv_scmp
+128                 ->  FRAME                     #cv_frame
+129                 ->  TRACK                     #cv_track
+130                 ->  XMIN                      #cv_xmin
+131                 ->  XMAX                      #cv_xmax
+132                 ->  MIN                       #cv_min
+133                 ->  MAX                       #cv_max
+134                 ->  XUNITS                    #cv_xunits
+135                 ->  YUNITS                    #cv_yunits
+136                 ->  X CRVArr                  #cv_xpoint
+137                 ->  Y CRVArr                  #cv_ypoint
+138 
+138 CRVArr          ->  [ Boolean ]
+139 
+139 
+139 Constant        ->  <real>
+140                 ->  <integer>
+141                 ->  TRUE                       #ctrue
+142                 ->  FALSE                      #cfalse
+143 
+143 \ ConstList       ->  ConstList , Constant  \ but no REALs
+143 \                 ->  Constant
+143 
+143 
+
+End of production parsing
+State building complete
+Mixed read-reduce states split
+530 LALR items required
+READS completed
+INCLUDES completed: max stack= 11
+530 LALR list items
+------------------------
+LOOKAHEAD conflict on tokens ) , ; <stop> ELSE END UNTIL 
+95: LOOK , insymbol LitString
+   On { } => 231
+   On { ) , ; <stop> ELSE END UNTIL } => 232
+   On { ) * + , - / ; < <= <> <stop> = > >= AND DIV ELSE END MOD OR UNTIL XOR } => 233
+232: REDUCE , insymbol LitString
+  70 [Parameter -> LitString |]
+233: REDUCE , insymbol LitString
+  102 [Primary -> LitString |]
+ ... fully resolved by PRODUCTION ORDER
+Lookahead state AFTER resolution:
+95: LOOK , insymbol LitString
+   On { } => 231
+   On { ) , ; <stop> ELSE END UNTIL } => 232
+   On { * + - / < <= <> = > >= AND DIV MOD OR XOR } => 233
+------------------------
+LOOKAHEAD conflict on tokens ELSE 
+152: LOOK , insymbol Stmt
+   On { ELSE } => 264
+   On { ; <stop> ELSE END UNTIL } => 265
+264: READ , insymbol Stmt
+  44 [Else -> | ELSE] => 154
+ *32 [Stmt -> IF Boolean Then Stmt | Else Stmt] => 155
+265: REDUCE , insymbol Stmt, flag IFTH= 48
+  31 [Stmt -> IF Boolean Then Stmt |]
+ ... fully resolved in favor of READ
+Lookahead state AFTER resolution:
+152: LOOK , insymbol Stmt
+   On { ELSE } => 264
+   On { ; <stop> END UNTIL } => 265
+------------------------
+LOOKAHEAD conflict on tokens <identifier> 
+79: LOOK , insymbol VList
+   On { <identifier> } => 350
+   On { ; <identifier> <stop> BEGIN CS DC FOR IF MC PROCEDURE READ READLN REPEAT 
+  WHILE WRITE WRITELN } => 351
+350: READ , insymbol VList
+  25 [IdentList -> | <identifier>] => 76
+  24 [IdentList -> | IdentList , <identifier>] => 77
+  23 [VarItem -> | IdentList : Type ;]
+ *21 [VList -> VList | VarItem] => 106
+351: REDUCE , insymbol VList, flag VAREND= 94
+  18 [VRList -> Var VList |]
+ ... fully resolved in favor of READ
+Lookahead state AFTER resolution:
+79: LOOK , insymbol VList
+   On { <identifier> } => 350
+   On { ; <stop> BEGIN CS DC FOR IF MC PROCEDURE READ READLN REPEAT WHILE WRITE 
+  WRITELN } => 351
+3 conflicts found and resolved.
+ PLEASE EXAMINE THE CONFLICT REPORT
+  ... parser may not do what you expect
+Resolution complete
+Untagged single productions removed
+Useless or inaccessible state: -7
+Useless or inaccessible state: -3
+Useless or inaccessible state: -193
+Useless or inaccessible state: -65
+Useless or inaccessible state: -38
+Useless or inaccessible state: -62
+Useless or inaccessible state: -61
+Useless or inaccessible state: -78
+Useless or inaccessible state: -32
+Useless or inaccessible state: -19
+Useless or inaccessible state: -59
+Useless or inaccessible state: -58
+Useless or inaccessible state: -55
+Useless or inaccessible state: -54
+Useless or inaccessible state: -231
+Inaccessible states removed
+Read tables compressed
+Reduce tables compressed
+Parser table reduction complete
+States renumbered
+
+3 ERRORS

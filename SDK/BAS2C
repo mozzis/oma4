@@ -1,0 +1,2685 @@
+======================================================================
+              HOW TO PASS PARAMETERS BETWEEN BASIC AND C
+======================================================================
+
+
+ --------------------------------------------------------------------
+| INFORMATION PROVIDED IN THIS DOCUMENT AND ANY SOFTWARE THAT MAY    |
+| ACCOMPANY THIS DOCUMENT (collectively referred to as an            |
+| Application Note) IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY      |
+| KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO    |
+| THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A     |
+| PARTICULAR PURPOSE. The user assumes the entire risk as to the     |
+| accuracy and the use of this Application Note. This Application    |
+| Note may be copied and distributed subject to the following        |
+| conditions: 1) All text must be copied without modification and    |
+| all pages must be included; 2) If software is included, all files  |
+| on the disk(s) must be copied without modification (the DOS        |
+| utility DISKCOPY is appropriate for this purpose); 3) All          |
+| components of this Application Note must be distributed together;  |
+| and 4) This Application Note may not be distributed for profit.    |
+|                                                                    |
+| Copyright 1990 Microsoft Corporation. All Rights Reserved.         |
+| Microsoft and the Microsoft logo are registered trademarks of      |
+| Microsoft Corporation.                                             |
+ --------------------------------------------------------------------
+
+This application note explains how Microsoft BASIC programs can
+pass parameters to and from Microsoft C programs. It assumes
+that you have a basic understanding of the BASIC and C
+languages.
+
+Microsoft BASIC supports calls to routines written in Microsoft
+C, FORTRAN, and Pascal. This application note describes the
+necessary syntax for calling Microsoft C routines and contains
+a series of examples demonstrating the interlanguage calling
+capabilities between BASIC and C. The sample programs apply to
+the following Microsoft products:
+
+1. Microsoft QuickBASIC versions 4.00, 4.00b, and 4.50 for MS-DOS
+
+2. Microsoft BASIC Compiler versions 6.00 and 6.00b for MS-DOS and MS
+   OS/2
+
+3. Microsoft BASIC Professional Development System (PDS) versions 7.00
+   and 7.10 for MS-DOS and OS/2
+
+4. Microsoft C Optimizing Compiler versions 5.00, 5.10, and 6.00 for
+   MS-DOS and MS OS/2
+
+5. Microsoft QuickC versions 1.00, 1.01, 2.00, 2.01, and 2.50 for MS-
+   DOS
+
+   The following table specifies which versions of Microsoft BASIC
+   can be linked with specific versions of Microsoft C or QuickC:
+
+                      BASIC
+      QuickBASIC      Compiler  <->       C         QuickC
+      ----------      --------  ---       -         ------
+
+      4.00              --      <->       5.00      1.00
+        --            6.00      <->       5.10      1.01
+      4.00b      or   6.00b     <->       5.10      1.01
+      4.50       or   7.00      <->       5.10      2.00 or 2.01
+        --            7.10      <->       6.00      2.50
+
+In QuickBASIC versions 1.00, 1.01, 1.02, 2.00, 2.01, and 3.00, you can
+call only QuickBASIC subprograms or Microsoft Macro Assembler routines
+(and cannot call C).
+
+For more information about interlanguage calling, refer to the
+Microsoft Mixed-Language Programming Guide for the MS-DOS Operating
+System. This guide is available with C 5.00 and 5.10 and MASM 5.00 and
+5.10.
+
+This document contains the following sections:
+
+   Making Mixed-Language Calls
+   Naming Convention Requirements
+   Calling Convention Requirements
+   Parameter-Passing Requirements
+   Restrictions on Calls from BASIC
+   The BASIC Interface to C
+   C Calls to BASIC
+   Compiling and Linking
+   Data Types
+   Debugging Mixed-Language Programs
+   Compiling and Linking the Sample Programs
+   Appendix: Common Pitfalls
+
+
+                     MAKING MIXED-LANGUAGE CALLS
+                     ===========================
+
+Mixed-language programming always involves a call; specifically, it
+involves a function or subprogram call. For example, a BASIC main
+module may need to execute a specific task that you would like to
+program separately. In addition to calling a BASIC subprogram or
+function, you can call a C function.
+
+Mixed-language calls necessarily involve multiple modules. Instead of
+compiling all of your source modules with the same compiler, you use
+different compilers. In the example mentioned above, you would compile
+the main-module source file with the BASIC compiler, compile another
+source file (written in C) with the C compiler, and then link the two
+object files.
+
+There are two types of routines that can be called. The principle
+difference is that some kinds of routines return values, and others do
+not. (Note: In this article, "routine" refers to any function or
+subprogram procedure that can be called from another module.)
+
+The following table compares the types of routine calls in C and
+BASIC:
+
+   Language      Returned Value    No Returned Value
+   --------      --------------    -----------------
+
+   BASIC         FUNCTION          subprogram (SUB ... END SUB)
+   C             function          void function
+
+  Note: BASIC DEF FN functions and GOSUB subroutines cannot be
+  called from another language.
+
+
+                    NAMING CONVENTION REQUIREMENTS
+                    ==============================
+
+The term "naming convention" refers to the way that a compiler alters
+the name of the routine before placing it into an object file.
+
+It is important that you adopt a compatible naming convention when you
+issue a mixed-language call. If the name of the called routine is
+stored differently in each object file, the linker will not be able to
+find a match. Instead, it will report an unresolved external
+reference.
+
+When Microsoft compilers place machine code into object files, they
+also include the names of all routines and variables that need to be
+accessed publicly. That way, the linker can compare the name of a
+routine called in one module to the name of a routine defined in
+another module and can recognize a match.
+
+BASIC and C use different naming conventions. BASIC translates each
+letter to uppercase and drops the declaration character (%, &, !, #,
+$). BASIC recognizes the first 40 characters of a routine name.
+
+C uses a different convention; the C compiler does not translate any
+letters to uppercase but inserts a leading underscore (_) in front of
+the name of each routine. C recognizes the first 31 characters of a
+name.
+
+When linking, it is important not to use the /NOIGNORE linker option.
+Differences in naming conventions are taken care of for you
+automatically by mixed-language keywords as long as you do not use the
+/NOIGNORE linker option. Using this option causes the linker to
+distinguish among routines with different capitalization; for example,
+routines named "Prn" and "prn" would cause problems when linking BASIC
+and C programs.
+
+The CL driver and Microsoft QuickC automatically use the /NOIGNORE
+option when linking. To solve the problems created by this behavior,
+either link separately with the LINK utility or use all uppercase
+letters in your C modules (when not using CDECL, BASIC translates all
+routine names to uppercase).
+
+  Note: Microsoft BASIC Professional Development System (PDS)
+  versions 7.00 and 7.10 can safely be linked with the /NOI
+  switch. However, because names in Microsoft BASIC are not case
+  sensitive, this option can have minimal importance. You should
+  not use the /NOI option when linking a protected mode custom
+  run-time module or a protected mode program without the /O
+  option.
+
+
+                   CALLING CONVENTION REQUIREMENTS
+                   ===============================
+
+The term "calling convention" refers to the way that a language
+implements a call. The choice of calling convention affects the actual
+machine instructions that a compiler generates to execute (and return
+from) a function or subprogram call.
+
+The use of a calling convention affects programming in two ways:
+
+1. The calling routine uses a calling convention to determine what
+   order in which to pass arguments (parameters) to another routine.
+   The calling convention can usually be specified in a mixed-language
+   interface.
+
+2. The called routine uses a calling convention to determine the order
+   in which to receive the parameters that were passed to it. In most
+   languages, this convention can be specified in the routine's
+   heading. BASIC, however, always uses its own convention to receive
+   parameters.
+
+BASIC and C use different calling conventions. BASIC's calling
+convention pushes parameters onto the stack in the order in which they
+appear in the source code. For example, the BASIC statement CALL
+Calc(A, B) pushes argument A onto the stack before it pushes B. This
+convention also specifies that the stack is restored by the called
+routine, just before returning control to the caller. (The stack is
+restored by removing the parameters.)
+
+The C calling convention pushes parameters onto the stack in the
+reverse order in which they appear in the source code. For example,
+the C function calc(a, b); pushes b onto the stack before it pushes a.
+In contrast with BASIC, the C calling convention specifies that a
+calling routine always restores the stack immediately after the called
+routine returns control.
+
+When declaring a function in C, the pascal keyword can be used to
+indicate the calling convention used by BASIC (BASIC and Pascal both
+use the same calling convention). For example:
+
+   extern pascal int function1(int, int);
+
+When declaring a function in BASIC, the CDECL keyword can be used to
+declare the function as using the C calling convention. For example:
+
+   DECLARE FUNCTION Function1% CDECL (BYVAL N AS INTEGER)
+
+
+                    PARAMETER-PASSING REQUIREMENTS
+                    ==============================
+
+Microsoft compilers support three methods for passing a parameter, as
+explained in the following table:
+
+    Method          Description
+    ------          -----------
+
+    Near reference  Passes a variable's near (offset) address.
+
+                    This method gives the called routine direct
+                    access to the variable itself. Any change the
+                    routine makes to the parameter will be
+                    reflected in the calling routine.
+
+                    Note: BASIC assumes that all variables are
+                    passed by near (offset) address off of
+                    DGROUP. This means that all C data passed to
+                    BASIC must be in the near data segment.
+
+    Far reference   Passes a variable's far (segmented) address.
+
+                    This method is similar to passing by near
+                    reference, except that the segment as well as
+                    the offset is passed. This allows the
+                    variable to reside anywhere in memory.
+
+    By value        Passes only the variable's value, not its
+                    address.
+
+                    With this method, the called routine knows
+                    the value of the parameter but has no access
+                    to the original variable. Changes to the
+                    value parameter have no effect on the value
+                    of the parameter in the calling routine once
+                    the called routine terminates.
+
+The fact that there are different parameter-passing methods has two
+implications for mixed-language programming:
+
+1. You need to make sure that the called routine and the calling
+   routine use the same method for passing each parameter (argument).
+   In most cases, you must check the parameter-passing defaults used
+   by each language and possibly make adjustments. Each language has
+   keywords or language features that allow you to change the
+   parameter-passing method.
+
+2. You may want to use a particular parameter-passing method rather
+   than using the default for the language.
+
+The following table summarizes the parameter-passing defaults for C
+and BASIC:
+
+   Language     Near Reference    Far Reference   Value
+   --------     --------------    -------------   -----
+
+   BASIC        All
+   C            Near arrays       Far arrays      Everything else
+
+Each of these default methods can be overridden, as shown in the 
+following sections.
+
+
+BASIC ARGUMENTS
+===============
+
+The default for BASIC is to pass all arguments by near reference. This
+can be overridden by using the SEG directive or by using CALLS instead
+of CALL. Both of these cause BASIC to pass both the segment and
+offset. These can be used only to call non-BASIC routines because
+BASIC receives all parameters by near reference.
+
+  Note: Although BASIC can pass parameters to other languages by
+  far reference using either the SEG directive or CALLS, BASIC
+  routines can be called only from other languages when
+  parameters are passed by near reference. You cannot DECLARE or
+  CALL a BASIC routine with parameters that have SEG or BYVAL
+  attributes. SEG and BYVAL are used only for parameters of non-
+  BASIC routines. However, BASIC PDS version 7.10 allows a BASIC
+  routine to be passed parameters by value.
+
+
+Passing BASIC Arguments by Value
+--------------------------------
+
+In BASIC, the BYVAL keyword is used to pass arguments by value. An
+argument is passed by value when the called routine is first declared
+with a DECLARE statement, and the BYVAL keyword is applied to the
+argument. For example:
+
+   DECLARE SUB CRoutine CDECL (BYVAL a AS INTEGER)
+
+
+Passing BASIC Arguments by Near Reference
+-----------------------------------------
+
+The BASIC default is to pass by near reference. The use of SEG, BYVAL,
+or CALLS changes this default.
+
+
+Passing BASIC Arguments by Far Reference
+----------------------------------------
+
+BASIC passes each argument in a call by far reference when CALLS is
+used to invoke a routine. Using SEG to modify a parameter in a
+preceding DECLARE statement also causes a BASIC CALL to pass
+parameters by far reference.
+
+  Note: CALLS cannot be used to call a routine that is named in a
+  DECLARE statement. Because of this, CDECL (an option of the
+  DECLARE statement) cannot be specified when using CALLS. This
+  means that CALLS always passes parameters using the Pascal
+  calling convention.
+
+
+C ARGUMENTS
+===========
+
+The default for C is to pass all arrays by reference (near or far,
+depending on the memory model) and all other data types by value. C
+uses far data pointers for compact, large, and huge models, and near
+data pointers for small and medium models.
+
+
+Passing C Arguments by Value
+----------------------------
+
+The C default is to pass everything except arrays by value.
+
+
+Passing C Arguments by Reference (Near or Far)
+----------------------------------------------
+
+In C, passing a pointer to an object is equivalent to passing the
+object itself by reference. After control is passed to the called
+function, each reference to the parameter itself is prefixed by * (an
+asterisk).
+
+  Note: To pass a pointer to an object, prefix the parameter in
+  the CALL statement with &. To receive a pointer to an object,
+  prefix the parameter's declaration with *. In the latter case,
+  this may mean adding a second * to a parameter that already has
+  an *. For example, to receive a pointer by value, declare it as
+
+     inct   *ptr;
+
+  but to receive the same pointer by reference, declare it as
+  follows:
+
+     int    **ptr;
+
+The default for arrays is to pass by reference.
+
+
+Effect of C Memory Models on Size of Reference
+----------------------------------------------
+
+Near reference is the default for passing pointers in small and medium
+model C. Far reference is the default in the compact, large, and huge
+models.
+
+  Note: All C programs that are called from BASIC must be
+  compiled with the medium or large memory models.
+
+Near pointers can be specified with the near keyword, which overrides
+the default pointer size. However, if you are going to override the
+default pointer size of a parameter, you must explicitly declare the
+parameter type in function declarations as well as function
+definitions. Far pointers can be specified with the far keyword.
+
+
+                   RESTRICTIONS ON CALLS FROM BASIC
+                   ================================
+
+BASIC has a much more complex environment and initialization procedure
+than C. Interlanguage calling between BASIC and C is possible only
+because BASIC intercepts a number of C library function calls and
+handles them in its own way. Because of this, BASIC must be the
+initial environment that the program starts in, and from there, C
+routines can be called (which can, in turn, call BASIC routines). This
+means that a program cannot start up with C main-module code and then
+call BASIC routines.
+
+BASIC creates a host environment in which the C routines can function.
+However, BASIC is limited in its ability to handle some C function
+calls. These limitations are as follows:
+
+
+MEMORY ALLOCATION
+=================
+
+If your C module is a medium model and you do dynamic memory
+allocation with malloc(), or if you execute explicit calls to
+_nmalloc() with any memory model, you must include the following lines
+in your BASIC source code before you call C:
+
+   DIM mallocbuf%(2048)
+   COMMON SHARED /NMALLOC/ mallocbuf%()
+
+The array can have any name; only the size of the array is
+significant. However, the name of the COMMON block must be NMALLOC. In
+the QuickBASIC in-memory environment, you must put this declaration in
+a module that you load into a resident Quick library.
+
+The example above has the effect of reserving 4K in the COMMON block
+NMALLOC (integers take 2 bytes each, and there are 2048 integers
+allocated). When BASIC intercepts C malloc calls, BASIC allocates
+space out of this COMMON block.
+
+  Warning: When you use the BASIC statement CLEAR, all space
+  allocated with near malloc calls will be lost. If you use CLEAR
+  at all, use it only before any calls to malloc.
+
+When you make far-memory requests in mixed-language programs, you may
+find it useful to first call the BASIC function SETMEM. This function
+can be used to reduce the amount of memory BASIC is using, thus
+freeing up memory for far allocations.
+
+
+INCOMPATIBLE FUNCTIONS
+======================
+
+The following C functions are incompatible with BASIC and should be
+avoided:
+
+1. All forms of spawn() and exec()
+
+2. system()
+
+3. getenv()
+
+4. putenv()
+
+In addition, you should not link with the CVARSTCK.OBJ, SVARSTCK.OBJ,
+MVARSTCK.OBJ, or LVARSTCK.OBJ modules (which correspond to compact,
+small, medium, and large memory models). C provides these modules to
+allocate memory from the stack.
+
+  Note: The C graphics library, GRAPHICS.LIB, and the QuickC
+  presentation graphics library PGCHART.LIB, are not compatible
+  with QuickBASIC or the BASIC compiler. Many of the C graphics
+  routines conflict with the BASIC graphics routines. If graphics
+  need to be done, they should be done in BASIC.
+
+  Linking with Microsoft C graphics routines gives many
+  "Duplicate Definition" errors, even if you LINK with the /NOE
+  option.
+
+
+                       THE BASIC INTERFACE TO C
+                       ========================
+
+The BASIC DECLARE statement provides a flexible and convenient
+interface to C. When you call a function, the DECLARE statement syntax
+is as follows:
+
+   DECLARE FUNCTION name [CDECL][ALIAS "aliasname"][(parameter-list)]
+
+The name field is the name of the function or subprogram that you want
+to call, as it appears in the BASIC source file. The following are the
+recommended steps for using the DECLARE statement when calling C:
+
+1. For each distinct C routine you plan to call, put a DECLARE
+   statement in your BASIC source file before the routine is called.
+
+2. Use CDECL in the DECLARE statement (unless the C routine is
+   declared with the pascal or fortran keywords or the /Gc compile
+   switch).
+
+3. If you are calling a C routine with a name longer than 31
+   characters, use the ALIAS feature. The use of ALIAS is explained in
+   the following section.
+
+4. Use the parameter list to determine how each parameter is to be
+   passed. The use of the parameter list is explained in the section,
+   "Using the Parameter List."
+
+5. Once the routine is properly declared, call it just as you would a
+   BASIC subprogram or function.
+
+
+USING ALIAS
+===========
+
+The use of ALIAS may be necessary because C places the first 31
+characters of a name into an object file, whereas BASIC places up to
+40 characters of a name into an object file.
+
+  Note: You do not need the ALIAS feature to remove type
+  declaration characters (%, &, !, #, $). BASIC automatically
+  removes these characters when it generates object code. Thus,
+  Fact% in BASIC matches FACT in C.
+
+The ALIAS keyword directs BASIC to place aliasname into the object
+file, instead of name. The BASIC source file still contains calls to
+name. However, these calls are interpreted as if they were actually
+calls to aliasname. This is used when a BASIC name is longer than 31
+characters and must be called from C. For example:
+
+   DECLARE FUNCTION QuadraticPolynomialFunctionLeastSquares%_
+                    ALIAS "QUADRATI" (a, b, c)
+
+QUADRATI, the alias name, contains the first eight characters of the
+name QuadraticPolynomialFunctionLeastSquares%. This causes BASIC to
+place QUADRATI into the object file, thereby mimicking C's behavior.
+(Note: If the CDECL keyword was used in the DECLARE statement, BASIC
+would take care of this automatically.)
+
+
+USING THE PARAMETER LIST
+========================
+
+The parameter list syntax is as follows:
+
+   [BYVAL | SEG] variable [AS type]...,
+
+You can use BYVAL or SEG, but not both. Explanations of each field are
+as follows:
+
+1. Use the BYVAL keyword to declare a value parameter. When such a
+   function is called, the corresponding argument will be passed by
+   value (the default method for C modules).
+
+     Note: BASIC provides two ways of "passing by value." The
+     usual method of passing by value is to use an extra set of
+     parentheses, as in:
+
+         CALL HOLM((A))
+
+     This extra-parentheses method actually creates a temporary
+     value whose address is passed. The BYVAL keyword method
+     provides a true method of passing by value because the value
+     itself, not an address, is passed. Only by using BYVAL will
+     a BASIC program be compatible with a C routine that expects
+     a value parameter.
+
+2. Use the SEG keyword to declare a far-reference parameter. When the
+   function is called, the far (segmented) address of the
+   corresponding argument will be passed.
+
+3. You can choose any legal name for the variable, but only the type
+   associated with the name has any significance to BASIC. As with
+   other variables, the type can be indicated with a type declaration
+   character (%, &, !, #, $) or the implicit declaration.
+
+4. You can use the "AS type" clause to override the type declaration
+   of variable. type can be INTEGER, LONG, SINGLE, DOUBLE, STRING, a
+   user-defined type, or ANY (which directs BASIC to permit any type
+   of data to be passed as the argument). For example:
+
+      DECLARE FUNCTION Calc2! CDECL (BYVAL a%, BYVAL b%,_
+                       BYVAL c!)
+
+In the example above, Calc2 is declared as a C routine that takes
+three arguments: the first two are integers passed by value, and the
+last is a SINGLE-precision real number passed by value.
+
+
+ALTERNATIVE BASIC INTERFACES
+============================
+
+Instead of modifying the behavior of BASIC with CDECL, you can modify
+the behavior of C by applying the pascal or fortran keyword to the
+function definition heading. (These two keywords are functionally
+equivalent.) Or, you can compile the C module with the /Gc option,
+which specifies that all C functions, calls, and public symbols use
+the conventions of BASIC.
+
+For example, the following C function uses the BASIC conventions to
+receive an integer parameter:
+
+   int pascal fun1(int n)
+
+You can specify parameter-passing methods without using a DECLARE
+statement or by using a DECLARE statement and omitting the parameter
+list.
+
+1. You can make the call with the CALLS statement. The CALLS statement
+   causes each parameter to be passed by far reference.
+
+2. You can use the BYVAL and SEG keywords in the actual parameter list
+   when you make the call. For example:
+
+      CALL Fun2(BYVAL Term1, BYVAL Term2, SEG Sum)
+
+In the example above, BYVAL and SEG have the same meaning that they
+have in a BASIC DECLARE statement. When you use BYVAL and SEG this
+way, however, you must be careful because neither the type nor the
+number of parameters will be checked as they would be in a DECLARE
+statement.
+
+
+                           C CALLS TO BASIC
+                           ================
+
+No BASIC routine can be executed unless the main program is in BASIC
+because a BASIC routine requires an initialization environment that is
+unique to BASIC. C will not perform this special initialization.
+
+However, it is possible for a program to start up in BASIC, call a C
+function that does most of the work of the program, and then call
+BASIC subprograms and functions as needed.
+
+The following rules are recommended when you call BASIC from C:
+
+1. Start up in a BASIC main module. You must use the DECLARE statement
+   to provide an interface to the C module.
+
+2. In the C module, declare the BASIC routine as extern and include
+   type information for parameters. Use either the fortran or pascal
+   keyword to modify the routine itself or compile the C routine with
+   the /Gc switch.
+
+3. Make sure that all data is passed as a near pointer. BASIC can pass
+   data in a variety of ways but is unable to receive data in any form
+   other than near reference.
+
+     Note: BASIC PDS 7.10 allows a BASIC routine to be passed
+     parameters by value, using the BYVAL parameter attribute.
+
+   With near pointers, the program assumes that the data is in the
+   default data segment. If you want to pass data that is not in the
+   default data segment, then first copy the data to a variable that
+   is in the default data segment.
+
+4. Compile the C module in medium or large model.
+
+
+                        COMPILING AND LINKING
+                        =====================
+
+After you have written your source files and resolved the issues
+raised in the above sections, you are ready to compile individual
+modules and link them together.
+
+Before linking, each program module must be compiled with the
+appropriate compiler. The C modules must be compiled in medium or
+large model.
+
+In many cases, linking modules compiled with C and BASIC can be done
+easily. Any of the following measures will ensure that all of the
+required libraries are linked in the correct order:
+
+1. Put all language libraries in the same directory as the source
+   files.
+
+2. List directories containing all needed libraries in the LIB
+   environment variable.
+
+3. Let the linker prompt you for libraries.
+
+In each of the above cases, the linker finds the libraries in the
+order that it requires them. If you enter the libraries on the command
+line, the BASIC libraries must precede all others.
+
+When linking, the /NOE switch should be used. This prevents "Duplicate
+Definition" errors.
+
+/NOE is for NO Extended library search. Normally, if a module in a
+library uses routines in another module, then both of the modules are
+automatically pulled in without searching the library for the second
+module. /NOE makes the linker search for the second module.
+
+When the linker automatically pulls in these secondary modules, it can
+pull in duplicate modules from two libraries. /NOE causes the linker
+to search for the secondary modules. This means the linker always
+pulls in the module from the first library the module resides in.
+Since two duplicate modules won't be brought in, this solves most
+duplicate definition errors.
+
+If the linker is still generating duplicate definition errors, then
+use the /NOD switch as well as the /NOE switch. /NOD is for NO Default
+library search. An object file contains references to libraries that
+it will need. The linker automatically pulls in these libraries unless
+/NOD is used. If the /NOD switch is used, the BASIC and C libraries
+must be explicitly defined on the link command line. For example, to
+link a medium model Microsoft C program with a stand-alone Microsoft
+BASIC Compiler version 6.00 program using the /NOD switch, the
+following link line could be used:
+
+   LINK /NOE /NOD basicprg cprog,,,bcom60er.lib mlibce.lib;
+
+
+                              DATA TYPES
+                              ==========
+
+
+NUMERICAL FORMATS
+=================
+
+Numerical data formats are the simplest kinds of data to pass between
+C and BASIC. The following chart shows the equivalent data types in
+each language:
+
+   BASIC           C
+   -----           -
+
+   x%, INTEGER     short, int
+   ...             unsigned short, --> Not available
+                   unsigned        --> in BASIC.
+   x&, LONG        long
+   x!, SINGLE      float
+   x#, DOUBLE      double
+   STRING * 1      char (inside a structure)
+   x%, INTEGER     char (outside a structure)
+
+     Warning: C sometimes performs automatic data conversions
+     that BASIC does not. You can prevent C from performing such
+     conversions by declaring a variable as the only member of a
+     structure and then passing this structure. For example, you
+     can pass variable x of type float by declaring the structure
+     as follows:
+
+        struct {
+             float x;
+        } x_struct;
+
+If you pass a variable of type char or float by value and do not take
+this precaution, then the C conversion may cause the program to fail.
+
+
+STRING FORMATS
+==============
+
+
+Variable-Length Near Strings
+----------------------------
+
+Variable-length near strings in BASIC have 4-byte string descriptors:
+
+        +-------------------------------------+
+        |      Length      | Address (offset) |
+        +-------------------------------------+
+              (2 bytes)          (2 bytes)
+
+The first field of the string descriptor contains a 2-byte integer
+indicating the length of the actual string text. The second field
+contains the address of the text. This address is an offset into the
+default data area and is assigned by BASIC's string-space management
+routines. These management routines must be available to reassign this
+address whenever the length of the string changes, yet these
+management routines are available only to BASIC. Therefore, a C
+routine should not alter the length of a BASIC variable-length string.
+
+  Note: Fixed-length strings do not have string descriptors.
+
+
+C String Format
+---------------
+
+C stores strings as simple arrays of bytes and uses a null character
+(numerical 0, ASCII NUL) as the delimiter. For example, consider the
+string declared as follows:
+
+   char str[] = "String of text"
+
+The string is stored in 15 bytes of memory as
+
+        +------------------------------+
+        |S|t|r|i|n|g| |o|f| |t|e|x|t|\0|
+        +------------------------------+
+
+Since str is an array like any other, it is passed by reference, just
+as other C arrays are.
+
+
+Passing Near String Descriptors from BASIC
+------------------------------------------
+
+When a BASIC string (such as A$) appears in an argument list, BASIC
+passes a string descriptor rather than the string data itself. The
+BASIC string descriptor is not compatible with the string format of C.
+
+  Warning: When you pass a string from BASIC to C, the called
+  routine should under no circumstances alter the length or
+  address of the string.
+
+  The routine that receives the string must be aware that if any
+  BASIC routine is called, BASIC's string-space management
+  routines may change the location of the string data without
+  warning. In this case, the calling routine must note that the
+  values in the string descriptor may change.
+
+The SADD and LEN functions extract parts of the string descriptor.
+SADD extracts the address of the actual string data, and LEN extracts
+the length. The results of these functions can then be passed to C.
+
+BASIC should pass the result of the SADD function by value. Bear in
+mind that the string's address, not the string itself, is passed by
+value. This amounts to passing the string itself by reference. The
+BASIC module passes the string's address, and the other module
+receives the string's address. The address returned by SADD is
+declared as type INTEGER, but is actually equivalent to a C near
+pointer.
+
+Before attempting to pass a BASIC string to C, you may want to first
+append a null byte to the end, with an instruction such as the
+following:
+
+   A$ = A$ + CHR$(0)
+
+The string now conforms to the C string format.
+
+There are two methods for passing a string from BASIC to C. The first
+method is to pass the string address and string length as separate
+arguments, using the SADD and LEN functions. If you are linking to a C
+library routine, this is the only workable method. C must receive a
+near pointer since only the near (offset) address is being passed by
+BASIC.
+
+The second method is to pass the string descriptor itself, with a call
+statement such as the following:
+
+   CALL CRoutine(A$)
+
+In this case, the C routine must declare a structure for the
+parameter, which has the appropriate fields (length and address) for a
+BASIC string descriptor. The C routine should then expect to receive a
+pointer to a structure of this type.
+
+
+Far Variable-Length Strings
+---------------------------
+
+Microsoft BASIC PDS 7.00 and 7.10 allow for the use of far strings.
+Information on using far strings with other languages is covered in
+Chapter 13, "Mixed-Language Programming with Far Strings," of the
+"Microsoft BASIC 7.0: Programmer's Guide" for versions 7.00 and 7.10.
+
+
+Fixed-Length Strings
+--------------------
+
+Fixed-length strings in BASIC are stored simply as arrays of
+contiguous bytes of characters, with no terminating character. There
+is no string descriptor for a fixed-length string.
+
+To pass a fixed-length string to a routine, the string must be put
+into a user-defined type. For example:
+
+   TYPE FixType
+      A AS STRING * 10
+   END TYPE
+
+
+Passing a String Descriptor from C
+----------------------------------
+
+To pass a C string to BASIC, first allocate a string in C. Then,
+create a structure identical to a BASIC string descriptor. Pass this
+structure by near reference. Make sure that the string originates in
+C, not in BASIC. Otherwise, BASIC may attempt to move the string
+around in memory.
+
+
+ARRAYS
+======
+
+There are three special problems that you must be aware of when
+passing arrays between BASIC and C:
+
+1. Arrays are implemented differently in BASIC, so you must take
+   special precautions when passing an array from BASIC to C.
+
+2. Arrays are declared differently in C and BASIC.
+
+3. Passed arrays must be created in BASIC.
+
+
+Passing Arrays from BASIC
+-------------------------
+
+BASIC uses an array descriptor, which is similar in some respects to a
+string descriptor. The array descriptor is necessary because BASIC may
+shift the location of array data in memory. Therefore, you can safely
+pass arrays from BASIC only if you follow three rules:
+
+1. Pass the array's address by applying the VARPTR function to the
+   first element of the array and passing the result by value (with
+   BYVAL). To pass the far address of the array, apply both the VARPTR
+   and VARSEG functions and pass each result by value (with BYVAL). C
+   gets the address of the first element and considers it the address
+   of the entire array.
+
+2. The routine that receives the array must not, under any
+   circumstances, make a call back to BASIC. If it does, then the
+   location of the array may change, and the address that was passed
+   to the routine becomes meaningless.
+
+3. BASIC can pass any member of an array by value. With this method,
+   the above precautions do not apply.
+
+
+Array Ordering
+--------------
+
+BASIC and C differ in the way that arrays are ordered (or indexed).
+This issue affects only arrays with more then one dimension. There are
+two types of ordering: row-major and column-major.
+
+BASIC uses column-major ordering, in which the leftmost dimension
+changes fastest. C uses row-major ordering, in which the rightmost
+dimension changes fastest.
+
+When you compile a BASIC program with the BC command line, you can
+select the /R compile option, which specifies that row-major order is
+to be used, rather than column-major order.
+
+
+Passed Arrays Must Be Created in BASIC
+--------------------------------------
+
+BASIC keeps track of all arrays by using a special structure called an
+array descriptor. The array descriptor is unique to BASIC and is not
+available in any other language. Because of this, to pass an array
+from C to BASIC, the array must first be created in BASIC and then
+passed to the C routine. The C routine can then alter the values in
+the array, but it cannot change the length of the array.
+
+
+STRUCTURES, RECORDS, AND USER-DEFINED TYPES
+===========================================
+
+The C struct type and the BASIC user-defined type are equivalent.
+However, these types may be affected by the storage method. By
+default, C uses word alignment (unpacked storage) for all data except
+byte-sized objects and arrays of byte-sized objects. This storage
+method specifies that occasional bytes can be added as padding, so
+that word and double-word objects start on an even boundary. (In
+addition, all nested structures and records start on a word boundary.)
+
+When passing structures, the C routine should be compiled with packing
+turned on to make it compatible with BASIC. This is done by specifying
+the /Zp switch on the CL compile line.
+
+
+COMMON BLOCKS
+=============
+
+You can pass individual members of a BASIC common block in an argument
+list, just as you can any data. However, you can also give a C routine
+access to the entire COMMON block at once.
+
+C can reference the items of a COMMON block by first declaring a
+structure with fields that correspond to the COMMON block variables.
+Having defined a structure with the appropriate fields, the C routine
+must then get the address of the COMMON block.
+
+To pass the address of the COMMON block, pass the address of the first
+variable in the block. The C routine should expect to receive a
+structure by reference.
+
+Passing arrays through the COMMON block is done in a similar fashion.
+However, only static arrays can be passed to C through COMMON.
+
+  Note: Microsoft does not support passing dynamic arrays through
+  COMMON to C (since this depends upon a Microsoft proprietary
+  dynamic array descriptor format that changes from version to
+  version). Dynamic arrays can be passed to C only as parameters
+  in a CALL statement.
+
+
+CALLING DOS I/O ROUTINES
+DOES NOT AFFECT QUICKBASIC CURSOR POSITION
+==========================================
+
+C Routines LINKed with a QuickBASIC program that does screen output
+(by using printf, puts, and so on) do not update the cursor position
+after returning to the calling QuickBASIC program. (Note: This also
+applies to using the CALL INTERRUPT statement in QuickBASIC).
+
+For example, after doing the following, the next PRINT statement goes
+directly after the last QuickBASIC PRINT statement, ignoring the new
+line position from calling the C routine:
+
+1. Doing a PRINT from QuickBASIC
+
+2. Calling a C routine that does some string display functions
+   (printf)
+
+3. Returning to QuickBASIC
+
+This is expected behavior. C routines should not change the BASIC
+cursor position.
+
+
+                  DEBUGGING MIXED-LANGUAGE PROGRAMS
+                  =================================
+
+CodeView is very useful when trying to debug mixed-language programs.
+With it, you can trace through the source code of both C and BASIC and
+watch variables in both languages.
+
+To compile programs for use with CodeView, use the /Zi switch on the
+compile line for both the C and BASIC compilers. Then when linking,
+use the /CO switch.
+
+CodeView is a multilanguage source-code debugger supplied with
+Microsoft BASIC Compiler versions 6.00 and 6.00b, Microsoft C
+Optimizing Compiler versions 5.00 and 5.10, Microsoft Macro Assembler
+versions 5.00 and 5.10, Microsoft Pascal Compiler version 4.00, and
+Microsoft FORTRAN Compiler versions 4.00 and 5.00.
+
+
+              COMPILING AND LINKING THE SAMPLE PROGRAMS
+              =========================================
+
+Following the appendix is a series of examples that demonstrate the
+interlanguage calling capabilities between BASIC and C.
+
+When compiling the sample BASIC programs, you can compile with or
+without the /O (BCOM stand-alone library) option. The following uses
+the BCOM library to produce a stand-alone BASIC program:
+
+   BC /O BASICprogramname;
+
+The following uses the BRUN library, so that the compiled program
+needs the BRUN run-time library on disk when it is executed:
+
+   BC BASICprogramname
+
+When compiling the sample C programs, one of the following compile
+lines should be used:
+
+   Compile Line               Used For
+   ------------               --------
+
+   CL /c /AM Cprogramname;    C 5.00 and C 5.10
+
+   QCL /c /AM Cprogramname;   QuickC
+
+     Note: For convenience, the medium memory model is used for
+     the C programs. If the large memory model were used instead
+     (/AL instead of /AM), all pointers would have to be
+     explicitly defined as near.
+
+To link the programs, use the following link line:
+
+   LINK /NOE BASICprogramname Cprogramname;
+
+
+
+                      APPENDIX: COMMON PITFALLS
+                      =========================
+
+The following common pitfalls are all explained in more detail in the
+main text. Use this appendix as a checklist when you encounter
+problems while doing mixed-language programming.
+
+1. Make certain the version numbers of the two languages are
+   compatible.
+
+   The following table specifies which versions of Microsoft BASIC can
+   be linked with specific versions of Microsoft C or QuickC:
+
+                    BASIC
+      QuickBASIC    Compiler  <->    C       QuickC
+      ----------    --------  ---    -       ------
+
+      4.00            --      <->    5.00    1.00
+        --          6.00      <->    5.10    1.01
+      4.00b    or   6.00b     <->    5.10    1.01
+      4.50     or   7.00      <->    5.10    2.00 or 2.01
+        --          7.10      <->    6.00    2.50
+
+2. Make certain that a C routine is declared with CDECL in BASIC or
+   that in C the pascal directive is used when defining the procedure.
+   This ensures the same calling convention is being used.
+
+3. Make sure that the graphic libraries are not included in the C
+   libraries. If the graphic libraries are included, duplicate
+   definition errors will occur.
+
+4. Use the /NOE switch when linking to avoid duplicate definition
+   errors. If duplicate definition errors still occur, also use the
+   /NOD switch when linking.
+
+5. Watch for incompatible C functions such as system() and getenv().
+
+6. When passing strings to C, check for two things:
+
+   a. If a C function will use the string, it should be NULL (CHR$(0))
+      terminated.
+
+   b. SADD should be used instead of VARPTR to pass the actual address
+      of the string. VARPTR returns the offset to the string
+      descriptor, not to the string itself.
+
+7. The C routine should be compiled in the medium or large memory
+   model. If the large memory model is used, then all pointers to
+   BASIC variables must be explicitly defined as near.
+
+8. When using VARSEG, VARPTR, or SADD to pass addresses to C, it is
+   important to check the function definition. Since BASIC normally
+   passes all parameters by reference, any parameter that is an
+   address should be declared using BYVAL. If BYVAL is not used, then
+   BASIC creates a temporary variable to hold the address and then
+   passes a pointer to this variable (in effect, BASIC passes a
+   pointer to a pointer).
+
+9. If you enter the libraries on the link line, then the BASIC
+   libraries must precede all others.
+
+
+     PASSING NUMERIC VARIABLES FROM BASIC TO C BY NEAR REFERENCE
+     ===========================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB NumericNear CDECL (a%,b&,c!,d#)
+
+a% = 32767
+b& = 32769
+c! = 123.312
+d# = 129381.333#
+
+CLS
+CALL NumericNear(a%, b&, c!, d#)
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void NumericNear(int *a, long *b, float *c, double *d) {
+   printf("INTEGER %d\n", *a);
+   printf("LONG    %ld\n", *b);
+   printf("FLOAT   %f\n", *c);
+   printf("DOUBLE  %lf\n", *d);
+}
+
+
+Output
+------
+
+INTEGER  32767
+LONG     32769
+FLOAT    123.311996
+DOUBLE   129381.333000
+
+
+    PASSING NUMERIC VARIABLES BETWEEN BASIC AND C BY FAR REFERENCE
+    ==============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB NumericFar CDECL (_
+        BYVAL p1o AS INTEGER, BYVAL p1s AS INTEGER,_
+        BYVAL p2o AS INTEGER, BYVAL p2s AS INTEGER,_
+        BYVAL p3o AS INTEGER, BYVAL p3s AS INTEGER,_
+        BYVAL p4o AS INTEGER, BYVAL p4s AS INTEGER)
+
+a% = 32767
+b& = 32769
+c! = 123.312
+d# = 129381.333#
+
+CLS
+CALL NumericFar(VARPTR(a%), VARSEG(a%),_
+                VARPTR(b&), VARSEG(b&),_
+                VARPTR(c!), VARSEG(c!),_
+                VARPTR(d#), VARSEG(d#))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+void NumericFar(int far *a, long far *b, float far *c, double far *d)
+{
+   printf("INTEGER  %d\n", *a);
+   printf("LONG     %ld\n", *b);
+   printf("FLOAT    %f\n", *c);
+   printf("DOUBLE   %lf\n", *d);
+}
+
+
+Output
+------
+
+INTEGER  32767
+LONG     32769
+FLOAT    123.311996
+DOUBLE   129381.333000
+
+
+          PASSING NUMERIC VARIABLES FROM BASIC TO C BY VALUE
+          ==================================================
+
+
+BASIC Program
+-------------
+
+
+DECLARE SUB NumericValue CDECL (_
+            BYVAL p1 AS INTEGER,_
+            BYVAL p2 AS LONG,_
+            BYVAL p3 AS SINGLE,_
+            BYVAL p4 AS DOUBLE)
+
+a% = 32767
+b& = 32769
+c! = 123.312
+d# = 129381.333#
+
+CLS
+CALL NumericValue(a%, b&, c!, d#)
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct struct_int {
+   int x;
+};
+
+struct struct_long {
+   long x;
+};
+
+struct struct_float {
+   float x;
+};
+
+struct struct_double {
+   double x;
+};
+
+void NumericValue(struct struct_int a, struct struct_long b,
+                  struct struct_float c, struct struct_double d) {
+   printf("INTEGER  %d\n", a.x);
+   printf("LONG     %ld\n", b.x);
+   printf("FLOAT    %f\n", c.x);
+   printf("DOUBLE   %lf\n", d.x);
+}
+
+
+Output
+------
+
+INTEGER  32767
+LONG     32769
+FLOAT    123.311996
+DOUBLE   129381.333000
+
+
+                      PASSING A C CHAR TO BASIC
+                      =========================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB CSUB CDECL()
+
+TYPE chartype
+   character AS STRING *1
+END TYPE
+
+CALL CSUB
+
+END
+
+SUB BASSUB(cchar AS chartype)
+   PRINT cchar.character
+   PRINT LEN(cchar.character)
+END SUB
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct character {
+   char thechar;
+};
+
+extern void pascal bassub(struct character *baschar);
+
+struct character *c_char;
+
+void csub() {
+   c_char->thechar = 'A';
+   bassub(c_char);
+}
+
+
+Output
+------
+
+A
+ 1
+
+
+    PASSING A BASIC VARIABLE-LENGTH STRING TO C BY NEAR REFERENCE
+    =============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringNear CDECL (_
+        BYVAL p1o AS INTEGER,_
+        p3 AS INTEGER)
+
+CLS
+a$ = "This is a test" + CHR$(0)
+CALL StringNear(SADD(a$), LEN(a$))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringNear(char *a, int *len) {
+   int i;
+   printf("The string is : %s \n\n",a);
+   printf(" Index       Value       Character\n");
+
+   for (i=0;i < *len; i++) {
+      printf("  %2d          %3d            %c\n",i,a[i],a[i]);
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+ Index       Value       Character
+   0           84            T
+   1          104            h
+   2          105            i
+   3          115            s
+   4           32
+   5          105            i
+   6          115            s
+   7           32
+   8           97            a
+   9           32
+  10          116            t
+  11          101            e
+  12          115            s
+  13          116            t
+  14            0
+
+
+     PASSING A BASIC VARIABLE-LENGTH STRING TO C BY FAR REFERENCE
+     ============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringFar CDECL (_
+        BYVAL p1o AS INTEGER,_
+        BYVAL p1s AS INTEGER,_
+        p3 AS INTEGER)
+
+CLS
+a$ = "This is a test" + CHR$(0)
+CALL StringFar(SADD(a$), VARSEG(a$), LEN(a$))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringFar(char far *a, int *len) {
+   int i;
+   printf("The string is : %s \n\n",a);
+   printf(" Index       Value       Character\n");
+
+   for (i=0;i < *len; i++) {
+      printf("  %2d          %3d            %c\n", i, a[i], a[i]);
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+ Index       Value       Character
+   0           84            T
+   1          104            h
+   2          105            i
+   3          115            s
+   4           32
+   5          105            i
+   6          115            s
+   7           32
+   8           97            a
+   9           32
+  10          116            t
+  11          101            e
+  12          115            s
+  13          116            t
+  14            0
+
+
+                PASSING A BASIC STRING DESCRIPTOR TO C
+                ======================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringNear CDECL (a$)
+
+CLS
+array$ = "This is a test" + CHR$(0)
+CALL StringNear(array$)
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct struct_string {
+   int length;
+   char *address;
+};
+
+void StringNear(struct struct_string *string) {
+   int i;
+   printf("The string is : %s\n\n",string->address);
+   printf(" Index       Value       Character\n");
+
+   for (i=0;i < string->length; i++) {
+      printf("  %2d          %3d            %c\n", i,
+             string->address[i], string->address[i]);
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+ Index       Value       Character
+   0           84            T
+   1          104            h
+   2          105            i
+   3          115            s
+   4           32
+   5          105            i
+   6          115            s
+   7           32
+   8           97            a
+   9           32
+  10          116            t
+  11          101            e
+  12          115            s
+  13          116            t
+  14            0
+
+
+      PASSING A BASIC FIXED-LENGTH STRING TO C BY NEAR REFERENCE
+      ==========================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringNear CDECL (_
+            BYVAL p1o AS INTEGER,_
+            p3 AS INTEGER)
+
+DIM a AS STRING * 15
+
+CLS
+a = "This is a test" + CHR$(0)
+CALL StringNear(VARPTR(a), LEN(a))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringNear(char *a, int *len) {
+   int i;
+   printf("The string is : %s \n\n",a);
+   printf(" Index       Value       Character\n");
+
+   for (i=0;i < *len; i++) {
+      printf("  %2d          %3d            %c\n", i, a[i], a[i]);
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+ Index       Value       Character
+   0           84            T
+   1          104            h
+   2          105            i
+   3          115            s
+   4           32
+   5          105            i
+   6          115            s
+   7           32
+   8           97            a
+   9           32
+  10          116            t
+  11          101            e
+  12          115            s
+  13          116            t
+  14            0
+
+
+      PASSING A BASIC FIXED-LENGTH STRING TO C BY FAR REFERENCE
+      =========================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringFar CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER,_
+            p3 AS INTEGER)
+
+DIM a AS STRING * 15
+
+CLS
+a = "This is a test" + CHR$(0)
+CALL StringFar(VARPTR(a), VARSEG(a), LEN(a))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringFar(char far *a, int *len) {
+   int i;
+   printf("The string is : %s \n\n", array);
+   printf(" Index       Value       Character\n");
+
+   for (i=0;i < *len; i++) {
+      printf("  %2d          %3d            %c\n", i, a[i], a[i]);
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+ Index       Value       Character
+   0           84            T
+   1          104            h
+   2          105            i
+   3          115            s
+   4           32
+   5          105            i
+   6          115            s
+   7           32
+   8           97            a
+   9           32
+  10          116            t
+  11          101            e
+  12          115            s
+  13          116            t
+  14            0
+
+
+                   PASSING A STRING FROM C TO BASIC
+                   ================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB CSUB CDECL()
+
+TYPE fixstringtype
+   B AS STRING * 26
+END TYPE
+
+CALL CSUB
+
+END
+
+SUB BASSUB(A$, B AS fixstringtype)
+   PRINT A$
+   PRINT LEN(A$)
+   PRINT B.B
+   PRINT LEN(B.B)
+END SUB
+
+
+C Routine
+---------
+
+#include <string.h>
+
+struct stringdesc {
+   int length;
+   char *string;
+};
+
+extern void pascal bassub(struct stringdesc *basstring,
+                          char *basfixstring);
+
+struct stringdesc *std;
+char thesecondstring[26];
+
+void csub() {
+   std->length = 18;
+   strcpy(std->string, "This is the string");
+   strcpy(thesecondstring, "This is the second string");
+   bassub(std, thesecondstring);
+}
+
+
+Output
+------
+
+This is the string
+ 18
+This is the second string
+ 26
+
+
+       PASSING A BASIC USER-DEFINED TYPE TO C BY NEAR REFERENCE
+       ========================================================
+
+
+BASIC Program
+-------------
+
+TYPE record
+   a AS INTEGER
+   b AS STRING * 20
+   c AS SINGLE
+END TYPE
+
+DECLARE SUB TypeReference CDECL (p1 AS record)
+
+CLS
+DIM element AS record
+element.a = 128
+element.b = DATE$ + CHR$(0)
+element.c = 39.6
+CALL TypeReference(element)
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct record {
+   int a;
+   char b[20];
+   float c;
+};
+
+void TypeReference(struct record *element) {
+   printf("Record.A = %d\n", element->a);
+   printf("Record.B = %s\n", element->b);
+   printf("Record.C = %f\n", element->c);
+}
+
+
+Output
+------
+
+Record.A = 128
+Record.B = 02-02-1988
+Record.C = 39.599998
+
+
+       PASSING A BASIC USER-DEFINED TYPE TO C BY FAR REFERENCE
+       =======================================================
+
+
+BASIC Program
+-------------
+
+TYPE record
+   a AS INTEGER
+   b AS STRING * 20
+   c AS SINGLE
+END TYPE
+
+DECLARE SUB TypeReference CDECL (BYVAL p1o AS INTEGER, _
+                                 BYVAL p1s AS INTEGER)
+
+CLS
+DIM element AS record
+element.a = 128
+element.b = DATE$ + CHR$(0)
+element.c = 39.6
+CALL TypeReference(VARPTR(element), VARSEG(element))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct record {
+   int a;
+   char b[20];
+   float c;
+};
+
+void TypeReference(struct record *element) {
+   printf("Record.A = %d\n", element->a);
+   printf("Record.B = %s\n", element->b);
+   printf("Record.C = %f\n", element->c);
+}
+
+
+Output
+------
+
+Record.A = 128
+Record.B = 02-02-1988
+Record.C = 39.599998
+
+
+         PASSING A BASIC INTEGER ARRAY TO C BY FAR REFERENCE
+         ===================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB IntArray CDECL (_
+            BYVAL p1 AS INTEGER,_
+            BYVAL p2 AS INTEGER)
+
+DEFINT A-Z
+DIM i AS INTEGER
+DIM array(10) AS INTEGER
+
+CLS
+
+FOR i = 1 TO 10
+   array(i) = i
+NEXT i
+
+'Array must be a FAR pointer, so offset and segment must be passed:
+CALL IntArray(VARPTR(array(0)), VARSEG(array(0)))
+LOCATE 15, 1
+
+WHILE INKEY$ = "": WEND
+
+PRINT "Back in BASIC"
+
+FOR i = 1 TO 10
+   PRINT i, array(i)
+NEXT i
+
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void IntArray (int far *array) {
+   int i;
+
+   printf("Index         Value\n");
+
+   for (i=0; i < 11; i++) {
+      printf("  %d          %d\n", i, array[i]);
+      array[i] = array[i] + 100;
+   };
+
+}
+
+
+Output
+------
+
+Index      Value
+ 0          0
+ 1          1
+ 2          2
+ 3          3
+ 4          4
+ 5          5
+ 6          6
+ 7          7
+ 8          8
+ 9          9
+ 10         10
+
+Back in BASIC
+ 1             101
+ 2             102
+ 3             103
+ 4             104
+ 5             105
+ 6             106
+ 7             107
+ 8             108
+ 9             109
+ 10            110
+
+
+     PASSING A BASIC ARRAY OF LONG INTEGERS TO C BY FAR REFERENCE
+     ============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB LongArray CDECL (_
+            BYVAL p1 AS INTEGER,_
+            BYVAL p2 AS INTEGER)
+
+DEFINT A-Z
+DIM i AS LONG
+DIM array(10) AS LONG
+
+CLS
+
+FOR i = 1 TO 10
+   array(i) = i + 100
+NEXT i
+
+'Array must be a FAR pointer, so offset and segment must be passed:
+CALL LongArray(VARPTR(array(0)), VARSEG(array(0)))
+LOCATE 15, 1
+PRINT "Back in BASIC"
+
+FOR i = 1 TO 10
+   PRINT i, array(i)
+NEXT i
+
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void LongArray(long far *array) {
+   int i;
+   printf("Index         Value\n");
+
+   for (i=0; i < 11; i++) {
+      printf("  %d          %ld\n", i, array[i]);
+      array[i] = array[i] + 100;
+   };
+
+}
+
+
+Output
+------
+
+Index         Value
+  0          0
+  1          101
+  2          102
+  3          103
+  4          104
+  5          105
+  6          106
+  7          107
+  8          108
+  9          109
+  10          110
+
+Back in BASIC
+ 1             201
+ 2             202
+ 3             203
+ 4             204
+ 5             205
+ 6             206
+ 7             207
+ 8             208
+ 9             209
+ 10            210
+
+
+     PASSING A BASIC SINGLE-PRECISION ARRAY TO C BY FAR REFERENCE
+     ============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB FloatArray CDECL (_
+            BYVAL p1 AS INTEGER,_
+            BYVAL p2 AS INTEGER)
+
+DEFINT A-Z
+DIM i AS SINGLE
+DIM array(10) AS SINGLE
+
+CLS
+
+FOR i = 1 TO 10
+   array(i) = i + 100
+NEXT i
+
+'Array must be a FAR pointer, so offset and segment must be passed:
+CALL FloatArray(VARPTR(array(0)), VARSEG(array(0)))
+LOCATE 15, 1
+PRINT "Back in BASIC"
+
+FOR i = 1 TO 10
+   PRINT i, array(i)
+NEXT i
+
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void FloatArray(float far *array) {
+   int i;
+
+   printf("Index         Value\n");
+
+   for (i=0; i < 11; i++) {
+      printf("  %d          %f\n", i, array[i]);
+      array[i] = array[i]+100;
+   };
+
+}
+
+
+Output
+------
+
+Index         Value
+ 0          0.000000
+ 1          101.000000
+ 2          102.000000
+ 3          103.000000
+ 4          104.000000
+ 5          105.000000
+ 6          106.000000
+ 7          107.000000
+ 8          108.000000
+ 9          109.000000
+ 10          110.000000
+
+Back in BASIC
+ 1             201
+ 2             202
+ 3             203
+ 4             204
+ 5             205
+ 6             206
+ 7             207
+ 8             208
+ 9             209
+ 10            210
+
+
+     PASSING A BASIC DOUBLE-PRECISION ARRAY TO C BY FAR REFERENCE
+     ============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB DoubleArray CDECL (_
+            BYVAL p1 AS INTEGER,_
+            BYVAL p2 AS INTEGER)
+
+DEFINT A-Z
+DIM i AS DOUBLE
+DIM array(10) AS DOUBLE
+
+CLS
+
+FOR i = 1 TO 10
+   array(i) = i + 100
+NEXT i
+
+'Array must be a FAR pointer, so offset and segment must be passed:
+CALL DoubleArray(VARPTR(array(0)), VARSEG(array(0)))
+LOCATE 15, 1
+PRINT "Back in BASIC"
+
+FOR i = 1 TO 10
+   PRINT i, array(i)
+NEXT i
+
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void DoubleArray(double far *array) {
+   int i;
+
+   printf("Index         Value\n");
+
+   for (i=0; i < 11; i++) {
+      printf("  %d          %lf\n", i, array[i]);
+      array[i] = array[i] + 100;
+   };
+
+}
+
+
+Output
+------
+
+Index         Value
+ 0          0.000000
+ 1          101.000000
+ 2          102.000000
+ 3          103.000000
+ 4          104.000000
+ 5          105.000000
+ 6          106.000000
+ 7          107.000000
+ 8          108.000000
+ 9          109.000000
+ 10          110.000000
+
+Back in BASIC
+ 1             201
+ 2             202
+ 3             203
+ 4             204
+ 5             205
+ 6             206
+ 7             207
+ 8             208
+ 9             209
+ 10            210
+
+
+        PASSING A BASIC ARRAY OF VARIABLE-LENGTH STRINGS TO C
+        =====================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringArray CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p2s AS INTEGER)
+
+DIM array$(10)
+
+CLS
+
+FOR i = 0 TO 10
+  array$(i) = STRING$(9, 65 + i) + CHR$(0)
+NEXT i
+
+CALL StringArray(VARPTR(array$(0)), VARSEG(array$(0)))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct struct_string {   // structure that looks like a
+   int length;           // string descriptor
+   char *address;
+};
+
+void StringArray(struct struct_string far *string) {
+   int i;
+
+   printf(" Index  Length    String\n");
+
+   for (i=0; i < 10; i++) {
+      printf("  %2d     %3d     %s\n", i, string->length,
+             string->address);
+      string++;
+   };
+
+}
+
+
+Output
+------
+
+ Index  Length    String
+   0      10     AAAAAAAAA
+   1      10     BBBBBBBBB
+   2      10     CCCCCCCCC
+   3      10     DDDDDDDDD
+   4      10     EEEEEEEEE
+   5      10     FFFFFFFFF
+   6      10     GGGGGGGGG
+   7      10     HHHHHHHHH
+   8      10     IIIIIIIII
+   9      10     JJJJJJJJJ
+
+
+          PASSING A BASIC ARRAY OF FIXED-LENGTH STRINGS TO C
+          ==================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringFar CDECL (_
+        length%,_
+        num%,_
+        BYVAL p3o AS INTEGER,_
+        BYVAL p3s AS INTEGER)
+
+DIM array(10) AS STRING * 10
+
+CLS
+length% = 10
+num% = 3
+
+FOR i = 0 TO 10
+   array(i) = STRING$(9, 65 + i) + CHR$(0)
+NEXT i
+
+CALL StringFar(length%, num%, VARPTR(array(0)), VARSEG(array(0)))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringFar(int *len, int *num, char far *array) {
+   int i;
+   printf("The string length is : %d \n\n",*len);
+   printf("The number of elements is : %d \n\n",*num);
+   printf(" Index        String\n");
+   for (i=0; i < *num; i++) {
+      printf("  %2d         %s\n", i, array);
+      array=array+*len;
+   };
+
+}
+
+
+Output
+------
+
+The string length is : 10
+
+The number of elements is : 3
+
+ Index        String
+   0         AAAAAAAAA
+   1         BBBBBBBBB
+   2         CCCCCCCCC
+
+
+           PASSING A BASIC ARRAY OF USER-DEFINED TYPE TO C
+           ===============================================
+
+
+BASIC Program
+-------------
+
+TYPE record
+   a AS INTEGER
+   b AS STRING * 20
+   c AS SINGLE
+END TYPE
+
+DECLARE SUB TypeArray CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER)
+
+DIM element(10) AS record
+
+CLS
+
+FOR I = 0 TO 10
+   element(I).a = 128 + I
+   element(I).b = STR$(I) + ". " + DATE$ + CHR$(0)
+   element(I).c = 39.6 * I
+NEXT I
+
+CALL TypeArray(VARPTR(element(0)), VARSEG(element(0)))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct record {
+   int a;
+   char b[20];
+   float c;
+};
+
+void TypeArray(struct record far *element) {
+   int i;
+
+   for (i=0; i<3; i++) {
+      printf("Record[%d].A = %d\n", i, element->a);
+      printf("Record[%d].B = %s\n", i, element->b);
+      printf("Record[%d].C = %f\n", i, element->c);
+      printf("\n");
+      element++;
+   };
+
+ }
+
+
+Output
+------
+
+Record[0].A = 128
+Record[0].B =  0. 02-02-1988
+Record[0].C = 0.000000
+
+Record[1].A = 129
+Record[1].B =  1. 02-02-1988
+Record[1].C = 39.599998
+
+Record[2].A = 130
+Record[2].B =  2. 02-02-1988
+Record[2].C = 79.199997
+
+
+ PASSING A BASIC TWO-DIMENSIONAL INTEGER ARRAY TO C BY FAR REFERENCE
+ ===================================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB TwoIntArray CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER)
+
+DIM x(4, 4) AS INTEGER
+
+CLS
+
+FOR i = 0 TO 4
+
+   FOR j = 0 TO 4
+       x(i, j) = i * j
+   NEXT j
+
+NEXT i
+
+CALL TwoIntArray(VARPTR(x(0, 0)), VARSEG(x(0, 0)))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct two_int_array {
+   int a[5][5];
+};
+
+void TwoIntArray(struct two_int_array far *x) {
+   int i,j;
+
+   for (i = 0; i < 5; i++) {
+
+      for (j = 0; j < 5; j++) {
+         printf("  %3d   ",x->a[i][j]);
+      };
+
+     printf("\n");
+   };
+
+ }
+
+
+Output
+------
+
+    0       0       0       0       0
+    0       1       2       3       4
+    0       2       4       6       8
+    0       3       6       9      12
+    0       4       8      12      16
+
+
+  PASSING A BASIC TWO-DIMENSIONAL VARIABLE-LENGTH STRING ARRAY TO C
+  =================================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB TwoStringArray CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER)
+
+DIM array$(4, 1)
+
+CLS
+
+FOR i = 0 TO 1
+
+   FOR j = 0 TO 4
+      array$(j, i) = STRING$(5, 65 + (i + j)) + CHR$(0)
+   NEXT j
+
+NEXT i
+
+CALL TwoStringArray(VARPTR(array$(0, 0)), VARSEG(array$(0, 0)))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct struct_string {
+   int length;
+   char *address;
+};
+
+struct string_array{
+   struct struct_string x[2][5];
+};
+
+void TwoStringArray(struct string_array far *array) {
+   int i,j;
+
+   for (i = 0; i < 2; i++) {
+
+      for(j = 0;j < 5; j++) {
+         printf("  %s  ",array->x[i][j].address);
+      };
+
+      printf("\n");
+   };
+
+}
+
+
+Output
+------
+
+  AAAAA    BBBBB    CCCCC    DDDDD    EEEEE
+  BBBBB    CCCCC    DDDDD    EEEEE    FFFFF
+
+
+       PASSING A COMMON BLOCK FROM BASIC TO C BY FAR REFERENCE
+       =======================================================
+
+
+
+BASIC Program
+-------------
+
+DECLARE SUB RCommon CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER)
+
+COMMON SHARED element1 AS INTEGER, element2 AS STRING * 20,_
+              element3 AS SINGLE
+
+element1 = 23
+element2 = "DATE : " + DATE$ + CHR$(0)
+element3 = 309.03
+CALL RCommon(VARPTR(element1), VARSEG(element1))
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct common_block {   // structure that looks like the BASIC
+   int a;               // common block
+   char b[20];
+   float c;
+};
+
+void RCommon(struct common_block far *pointer) {
+   printf("Element1 = %d\n", pointer->a);
+   printf("Element2 = %s\n", pointer->b);
+   printf("Element3 = %f\n", pointer->c);
+}
+
+
+Output
+------
+
+Element1 = 23
+Element2 = DATE : 02-02-1988
+Element3 = 309.029999
+
+
+    PASSING A FIXED-LENGTH STRING FROM C TO BASIC BY FAR REFERENCE
+    ==============================================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB StringFar CDECL (_
+            BYVAL p1o AS INTEGER,_
+            BYVAL p1s AS INTEGER,_
+            p3 AS INTEGER)
+
+DIM array AS STRING * 15
+
+CLS
+array = "This is a test" + CHR$(0)
+CALL StringFar(VARPTR(array), VARSEG(array), LEN(array))
+LOCATE 20,20
+PRINT array
+END
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+void StringFar(char far *a, int *len) {
+   int i;
+
+   printf("The string is : %s \n\n",a);
+   printf(" Index       Value       Character\n");
+
+   for (i = 0;i < *len; i++) {
+      printf("  %2d       %3d      %c\n", i, a[i], a[i]);
+   };
+
+/* This loop writes over the end of the string */
+   for (i = 10; i < *len; i++) {
+      a[i] = 64;    // ASCII value for '@'
+   };
+
+}
+
+
+Output
+------
+
+The string is : This is a test
+
+Index       Value       Character
+ 0           84          T
+ 1          104          h
+ 2          105          i
+ 3          115          s
+ 4           32
+ 5          105          i
+ 6          115          s
+ 7           32
+ 8                       a
+ 9           32
+10          116          t
+11          101          e
+12          115          s
+13          116          t
+
+
+
+                    This is a @@@@
+
+
+
+               C FUNCTIONS RETURNING NUMERICS TO BASIC
+               =======================================
+
+
+BASIC Program
+-------------
+
+DECLARE FUNCTION cintfunc% CDECL ()
+DECLARE FUNCTION clongfunc& CDECL ()
+DECLARE FUNCTION cdoublefunc# CDECL ()
+
+PRINT "Integer: "; cintfunc
+PRINT "Long   : "; clongfunc
+PRINT "Double : "; cdoublefunc
+
+
+C Routines
+----------
+
+int cintfunc(void) {
+   int theint = 32767;
+   return(theint);
+}
+
+long clongfunc(void) {
+   long thelong = 32769;
+   return(thelong);
+}
+
+double cdoublefunc(void) {
+   double thedouble = 129381.123;
+   return(thedouble);
+}
+
+
+Output
+------
+
+Integer:  32767
+Long   :  32769
+Double :  129381.123
+
+
+  Note: It is not currently possible to have a C function return
+  a SINGLE-precision number to BASIC. Microsoft is researching
+  this problem and will post new information as it becomes
+  available.
+
+
+
+               A BASIC FUNCTION RETURNING A STRING TO C
+               ========================================
+
+
+BASIC Program
+-------------
+
+DECLARE SUB CSUB CDECL ()
+
+CALL CSUB
+
+END
+
+FUNCTION basvarfunc$(dummy%)
+   basvarfunc$ = "This is the string"
+END FUNCTION
+
+
+C Routine
+---------
+
+#include <stdio.h>
+
+struct stringdesc {
+   int length;
+   char *string;
+};
+
+extern struct stringdesc * pascal basvarfunc(int *dummy);
+
+struct stringdesc *std;
+
+void csub() {
+   int i;
+
+   std = basvarfunc(0);
+   printf("Length of string: %2d\r\n", std->length);
+
+   for(i = 0; i < std->length; i++)
+      printf("%c", std->string[i]);
+
+   printf("\r\n");
+}
+
+
+Output
+------
+
+Length of string: 18
+This is the string
+
+
+
+               A C FUNCTION RETURNING A STRING TO BASIC
+               ========================================
+
+
+BASIC Program
+-------------
+
+DECLARE FUNCTION CFUNC$ CDECL ()
+a$ = CFUNC$
+PRINT a$
+PRINT len(a$)
+
+
+C Routine
+---------
+
+#include <string.h>
+
+struct stringdesc {
+   int length;        // length of the string
+   char *string;      // near pointer to the string
+};
+
+struct stringdesc *std;
+char thestring[18];      /* In the medium memory model this
+                            string will be in DGROUP - which
+                            is required for BASIC    */
+
+struct stringdesc *cfunc() {
+   std->length = 18;      // length of the string
+   strcpy(thestring, "This is the string");
+   std->string = thestring;
+   return(std);           // return pointer to string descriptor
+}
+
+
+Output
+------
+
+This is the string
+8
+

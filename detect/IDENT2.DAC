@@ -1,0 +1,21 @@
+;************************************************************************
+;*                                                                      *
+;*      This program will identify splitmode detectors                  *
+;*                                                                      *
+;************************************************************************
+
+IDNT2   DAC_BLOCK
+
+        MOVE W #$FFFF, PGMINDX
+        
+IDNT2A  WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCIDX, FCPROG ASIC
+        MOVE W  #DCIDNT,DCPROG ASIC
+        MOVE L  #(SHUTID-STARTADDR), FBASE ASIC
+
+        COMP W #$FFFF, PGMINDX
+        BEQ  IDNT2A
+
+        DONE
+
+

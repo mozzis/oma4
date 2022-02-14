@@ -1,0 +1,1730 @@
+************************************************************************
+*                                                                      *
+* Monitor.asm - 68000 source for the DAC monitor program of the        *
+*               OMAIV system                                           *
+*                                                                      *
+*   this program responds to ASIC interrupts while there is no         *
+*   data acquisition going on by writing the correct vectors           *
+*   into the program registers and data address registers.             *
+*   When the PC interrupts the the 68000, the monitor responds,        *
+*   usually by launching the proper experiment sequence.               *
+*                                                                      *
+*   The run-time for the DAC language is also located here.  Each      *
+*   run time segment contains the code which will advance the          *
+*   execution pointer, get the address of the next segment to run,     *
+*   and jump to it.                                                    *
+*                                                                      *
+*   Version 1.0 - Jun 1989 M.Maynard                                   *
+*   Version 1.1 - Dec 1989 M.Maynard Bug fixes and add math functions  *
+*   Version 1.2 - Jun 1990 M.Maynard Bug fixes and add addressing modes*
+*   Version 1.3 - Sep 1990 M.Maynard Change structures to use with PC  *
+*                                    driver module                     *
+*                                                                      *
+**************************************************************************
+*                                                                        *
+* Compiled with the following options:                                   *
+*                                                                        *
+* A     = Resolve label or PC operands as absolute address               *
+* BRB   = Default branch size of 8 bits                                  *
+* EXT   = Allow Intermetrics extensions                                  *
+* FRS   = Forward references in absolute form assume 16 bit address      *
+* MEXG  = List macro expansions which genereate code                     *
+* NOPSA = Turn off expanded instruction listing                          *
+* PCO   = PC relative addressing on back refs within ORG sections        *
+* PCS   = PC relative addressing on instructions within SECTIONS         *
+* P     = Emit form feeds at ends of pages                               *
+*                                                                        *
+**************************************************************************
+*
+*          OPT     NOA,BRB,EXT,FRS,MEXG,NOPSA,PCO,PCS,P
+           OPT     A,BRB,EXT,FRS,NOPSA,PCO,PCS,P
+Monitor    IDNT    3,0
+           TTL     ASIC Monitor Pass 3
+*
+           XDEF    FCTBLPTR  
+           XDEF    FCTBLINX  
+           XDEF    FCCODPTR  
+
+           XDEF    DCTBLPTR  
+           XDEF    DCTBLINX  
+           XDEF    DCCODPTR  
+
+           XDEF    DACTBLPTR 
+           XDEF    DACTBLINX 
+           XDEF    DACCODPTR 
+           XDEF    LCTBLPTR  
+           XDEF    LCTBLINX  
+                   
+*
+* Macro for DACTBL *definition
+*
+KEY        MACRO
+           DC.B    \1
+           DC.W    \2
+           ENDM
+*
+* Macro for jump to next DACLIST routine
+*
+NEXT       MACRO
+           MOVEA.W (A4)+,A5
+           JMP     (A5)
+           ENDM
+*
+*
+**************************************************************************
+*                                                                        *
+* System Constants                                                       *
+*                                                                        *
+DataMemStart  EQU     $800000       Actual start of data memory 8 Mb     *
+SHARED_MEM_START EQU  DataMemStart                                       *
+*                                                                        *
+FCLIST     EQU     0             Address of FC code in (ASIC address space)
+DCLIST     EQU     0             Address of DC code in (ASIC address space)
+
+DataStart  EQU     $800000       Address of OMA board data space
+LISTSIZE   EQU     500*2         500 entries per list                    *
+LOOPSIZE   EQU     30*4          10 Nested loops                         *
+ENDLIST    EQU     $FFFF                                                 *
+ALLENBLD   EQU     $FFFF                                                 *
+STACKSIZE  EQU     128                                                   *
+*                                                                        *
+**************************************************************************
+
+*
+* Codes received from driver when signalling monitor
+*
+
+SM_CLEAR      EQU  0
+SM_START_DA   EQU  1
+SM_SWITCH_DA  EQU  2
+SM_ABORT_DA   EQU  3
+
+*
+* Codes sent by monitor when signalling driver
+*
+
+MSPC_CLEAR    EQU 0                          No status
+MSPC_IN_DN    EQU 1                          Init Complete
+MSPC_DA_DN    EQU 2                          Da Complete
+MSPC_RESVD    EQU 3
+
+*
+* Codes sent by monitor when replying to driver signal
+*
+
+SMR_CLEAR     EQU 0
+SMR_CMD_DN    EQU 1                          Command done
+SMR_CMD_BG    EQU 2                          Command started
+SMR_CMD_UN    EQU 3                          Command unknown
+SMR_NRDY      EQU 4                          Not ready for command
+SMR_EXCEP     EQU 5                          Exception error
+SMR_NO_DA     EQU 6                          No DA in progress
+
+*
+* Codes received from driver when replying to monitor signal
+*
+
+MSPCR_CLEAR   EQU 0
+MSPCR_ACK     EQU 1                          Message received
+
+*
+* The shared memory construct for DAC - DRIVER communications
+*
+           OFFSET  SHARED_MEM_START
+*
+MSM_Act_RQ         DS.W 1 ( 0)  Monitor action requested by driver
+MSM_Act_RQ_RPL     DS.W 1 ( 2)  Monitor reply to driver request
+MSM_Sig_PC         DS.W 1 ( 4)  Driver action requested by monitor
+MSM_Sig_PC_RPL     DS.W 1 ( 6)  Driver reply to monitor request
+MSM_Pgm_Inx        DS.W 1 ( 8)  Which DAC program to run
+MSM_Data_Offset    DS.L 1 (10)  Offset of frame data (assume from 800000)
+MSM_Bgnd_Offset    DS.L 1 (14)  Offset of bkgnd data (assume from 800000)
+MSM_Data_Size      DS.L 1 (18)  Size of data memory allocated for experiment
+MSM_PIA_In_Val     DS.W 1 (22)  Value read from PIA
+MSM_PIA_Out_Val    DS.W 1 (24)  Value to write to PIA
+MSM_Dummy          DS.W 1 (26)  Status byte from cooler at upper address
+MSM_Cooler_Status  DS.L 1 (28)  Status byte from cooler at upper address
+MSM_Detector_ID    DS.L 1 (32)  Status byte from cooler at upper address
+Counter_H0         DS.W 1 (36)  Number of prep frames, by convention
+Counter_H1         DS.W 1 (38)
+Counter_I0         DS.W 1 (40)  Number of frames/mem, by convention
+Counter_I1         DS.W 1 (42)
+Counter_J0         DS.W 1 (44)  Number of memories, by convention
+Counter_J1         DS.W 1 (46)
+Counter_K0         DS.W 1 (48)  Number of ignored frames, by convention
+Counter_K1         DS.W 1 (50)
+Counter_L0         DS.W 1 (52)  Aux. counter  may be array of counters
+Counter_L1         DS.W 1 (54)
+Counter_T0         DS.W 1 (56)  Number of tracks (spectra) for DAC
+Counter_T1         DS.W 1 (58)
+Counter_S0         DS.W 1 (60)  Number of slices (points) for DAC
+Counter_S1         DS.W 1 (62)
+MSM_FC_Scan_Mode   DS.W 1 (64)  Which ASIC program to run
+MSM_DC_Add_Mode    DS.W 1 (66)  Which ASIC program to run
+MSM_DC_Rep_Mode    DS.W 1 (68)  Which ASIC program to run
+MSM_DC_Sub_Mode    DS.W 1 (70)  Which ASIC program to run
+MSM_DC_Ign_Mode    DS.W 1 (72)  Which ASIC program to run
+MSM_DA_Complete    DS.W 1 (74)  Flag that DA is complete
+MSM_Serial_Mode    DS.W 1 (76)  Uniform = 0, Random = 1, others?
+MSM_Image_Mode     DS.W 1 (78)  Uniform = 0, Random = 1, others?
+MSM_SC_Address     DS.L 1 (80)  Address of source comp array
+
+* Structure must end on LONGWORD boundary!
+
+*
+* FP board Registers from the 68000 point of view
+*
+HostAtn    EQU     $010000                   Interrupt Host - strobe
+HostAck    EQU     $020000                   Acknowledge IRQ from Host
+*
+* ASIC control registers
+*
+asic0      EQU     $030001                   Base address
+*
+*
+* Frame controller - write only
+*
+*
+frm0       EQU     asic0                     Base address (odd - must use move.b or movep)
+frmpc      EQU     $0                        Program vector LSB, MSB
+frmmsks    EQU     $4                        Mask for Msg Des., DMA Addr., Trigger
+*
+dma0       EQU     $030009                   Address of DMA controller registers
+*                                            First byte is reserved
+*
+* DMA controller - write only
+*
+dmapc      EQU     $8                        Program vector LSB, MSB
+*
+asicbbr    EQU     $0C                       Background Base Address Register - 24 bits
+*
+asicfbr    EQU     $12                       Frame Base Address Register - 24 Bits
+*
+*
+* asic status register
+*
+status     EQU     $40001
+*
+*
+* Data Structures
+*
+* Supervisor data space
+* Reset and exception vectors
+*
+
+           ORG     0                         Absolute assembly here
+*
+           SECTION.S VTABLE,ABSOLUTE,"sdata"
+*
+RESET.SP   DC.L    STACK.START               Reset stack pointer
+RESET.PC   DC.L    STARTUP                   Reset program counter
+V.BERR     DC.L    STARTUP                   Bus error
+V.AERR     DC.L    STARTUP                   Address error
+V.ILLG     DC.L    STARTUP                   Illegal instruction
+V.ZRDV     DC.L    STARTUP                   Zero divide
+V.CHKI     DC.L    STARTUP                   CHK instruction
+V.TRAPV    DC.L    STARTUP                   TRAPV instructon
+V.PRIVIO   DC.L    STARTUP                   Privilege violation
+V.TRACE    DC.L    STARTUP                   TRACE exception
+V.L1010    DC.L    STARTUP                   Line 1010
+V.L1111    DC.L    STARTUP                   Line 1111
+V.MISC1    DCB.L   8,EX_DFLT                 Reserved and miscellaneous
+V.SPURI    DC.L    STARTUP                   Spurious interrupt
+V.IRQ1     DC.L    STARTUP                   Level 1 IRQ Autovector
+V.IRQ2     DC.L    STARTUP                   Level 2 IRQ Autovector
+V.IRQ3     DC.L    STARTUP                   Level 3 IRQ Autovector
+V.IRQ4     DC.L    STARTUP                   Level 4 IRQ Autovector
+V.IRQ5     DC.L    STARTUP                   Level 5 IRQ Autovector
+V.IRQ6     DC.L    STARTUP                   Level 6 IRQ Autovector
+V.IRQ7     DC.L    STARTUP                   Level 7 IRQ Autovector
+V.TRAP0    DC.L    STARTUP                   Trap vectors
+V.TRAP1    DC.L    STARTUP
+V.TRAP2    DC.L    STARTUP
+V.TRAP3    DC.L    STARTUP
+V.TRAP4    DC.L    STARTUP
+V.TRAP5    DC.L    STARTUP
+V.TRAP6    DC.L    STARTUP
+V.TRAP7    DC.L    STARTUP
+V.TRAP8    DC.L    STARTUP
+V.TRAP9    DC.L    STARTUP
+V.TRAP10   DC.L    STARTUP
+V.TRAP11   DC.L    STARTUP
+V.TRAP12   DC.L    STARTUP
+V.TRAP13   DC.L    STARTUP
+V.TRAP14   DC.L    STARTUP
+V.TRAP15   DC.L    STARTUP
+V.MISC2    DS.L    (256-48)                  Reserved, user interrupts, etc.
+*
+*
+* Stack (both SSP and USP)
+*
+*
+           SECTION.S STACK,,"sdata"
+*
+stackend   equ     *
+           ds.l    STACKSIZE
+STACK.START equ    *
+*
+*
+
+           SECTION.S POINTERS,,"pdata"       Set to $700 at locate time
+*
+* FC Table is a list of FC_BLOCK addresses
+* FC COD is the area where FC code lives (in ASIC memory)
+*
+
+FCTBLPTR   DC.W    FCTBL                     Points to beginning of FCTBL
+FCTBLINX   DC.W    0                         Index to next free FCTBL entry
+FCCODPTR   DC.W    FCLIST                    Points to next free FCCOD space
+
+*
+* DC Table is a list of DMA_BLOCK addresses
+* DC COD is the area where DC code lives (in ASIC memory)
+*
+
+DCTBLPTR   DC.W    DCTBL                     Points to beginning of DCTBL
+DCTBLINX   DC.W    0                         Index to next free DCTBL entry
+DCCODPTR   DC.W    DCLIST                    Points to next free DCCOD space
+
+*
+* DAC Table is a list of DAC_BLOCK addresses
+* DAC COD is the area where DAC code lives (in 68000 memory)
+* DAC code is (for now) lists of addresses of DAC primitives
+* like MOVEWA, not the primitives themselves - the prims
+* live in the section labeled CODE in this file
+*
+
+DACTBLPTR  DC.W    DACTBL                    Points to beginning of DACTBL
+DACTBLINX  DC.W    0                         Index to next free DACTBL entry
+DACCODPTR  DC.W    DACLIST                   Points to next free DACCOD space
+
+*
+* LC Table is a list of loop counter addresses
+* The loop counters may be in FC, DC or DAC code space
+* Loop counters determine things like exposure time,
+* #pixels in a region, and # of frames in a memory.
+*
+
+LCTBLPTR   DC.W    LCTBL                     Points to beginning of LCTBL
+LCTBLINX   DC.W    0                         Index into LC table
+
+
+VERSION_LABEL  DC.B 'OMA4 Monitor version 2.2 ',0 Used to see if monitor present
+
+*
+* Begin storage of run time data objects
+*
+
+           SECTION.S DATA,,"udata"
+
+*
+* Flag for DAC condition code operations
+*
+
+RESFLG     DS.W    1
+
+*
+* Data storage for memory test routine
+*
+
+INITPATT   DC.L    $FFFF0000
+PATT       DC.L    0
+QUIKTEST   DC.W    0
+SUCCESS    DC.W    0
+
+*
+* The loopstack is used by the DO...LOOP DAC primitives
+*
+
+LOOPSTACK  DS.W    LOOPSIZE                  Addresses to loop to
+LOOPTR     DC.W    LOOPSTACK+LOOPSIZE        Stack pointer for loop
+
+*
+* Here are the tables pointed to by addresses in the
+* "sacred pointers" area
+*
+
+FCTBL      DCB.W   LISTSIZE,ENDLIST          List of FC code block addresses
+FCEND      EQU     *                         in ASIC code space
+
+*
+
+DCTBL      DCB.W   LISTSIZE,ENDLIST          List of DMA code block addresses
+DMAEND     EQU     *                         in ASIC code space
+
+*
+
+DACTBL     DCB.W   LISTSIZE,ENDLIST          List of DAC code block addresses
+DACEND     EQU     *                         in 68000 code space
+
+*
+
+LCTBL      DCB.W   LISTSIZE,ENDLIST          List of loop counter addresses
+LCEND      EQU     *      
+
+*
+
+IN_DA      DS.W    1                         Flag that DA is in progress
+PC_INPROG  DS.W    1                         Flag that I asked PC to do s/t
+PC_MAILBOX DS.W    1
+*
+* Begin code section
+*
+           SECTION.S CODE,,"sprogram"
+*
+***********************************************************
+*                                                         *
+* Data Acquistion routines                                *
+* Register useage:                                        *
+*                                                         *
+*     A4 - Address of next entry in DACLIST               *
+*     A5 - Address of current routine                     *
+*     A6 - Loop stack pointer                             *
+*     A7 - SSP, eventual RTE returns to HALT              *
+*     All other address and data registers currently free *
+*     for use by other routines                           *
+*                                                         *
+***********************************************************
+
+*
+* Add immediate byte
+*
+_ADDIB     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           ADD.B   D0,(A0)
+           NEXT
+*
+* Add immediate word
+*
+_ADDIW     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           ADD.W   D0,(A0)
+           NEXT
+*
+* Add immediate long
+*
+_ADDIL     MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           ADD.L   D0,(A0)
+           NEXT
+
+*
+* Add immediate byte indirect
+*
+_ADDIBN    MOVE.W  (A4)+,D0
+           MOVEA.L (A4)+,A0
+           MOVEA.L (A0),A0
+           ADD.B   D0,(A0)
+           NEXT
+*
+* Add immediate word indirect
+*
+_ADDIWN    MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           ADD.W   D0,(A0)
+           NEXT
+*
+* Add immediate long indirect
+*
+_ADDILN    MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           ADD.L   D0,(A0)
+           NEXT
+*
+* Add byte at location A to byte at location B
+*
+_ADDAB     MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVE.L  (A4)+,A1
+           ADD.B   D0,(A1)
+           NEXT
+*
+* Add word at location A to word at location B
+*
+_ADDAW     MOVEA.L (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVEA.L (A4)+,A1
+           ADD.W   D0,(A1)
+           NEXT
+*
+* Add longword at location A to longword at location B
+*
+_ADDAL     MOVEA.L (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVEA.L (A4)+,A1
+           ADD.L   D0,(A1)
+           NEXT
+*
+* Add byte at location A to byte at location in B
+*
+_ADDABTN   MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.B   D0,(A1)
+           NEXT
+*
+* Add word at location A to word at location in B
+*
+_ADDAWTN   MOVE.L  (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.W   D0,(A1)
+           NEXT
+*
+* Add longword at location A to longword at location in B
+*
+_ADDALTN   MOVE.L  (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.L   D0,(A1)
+           NEXT
+*
+* Add byte at location in A to byte at location B
+*
+_ADDABFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           ADD.B   D0,(A1)
+           NEXT
+*
+* Add word at location in A to word at location B
+*
+_ADDAWFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           ADD.W   D0,(A1)
+           NEXT
+*
+* Add longword at location in A to longword at location B
+*
+_ADDALFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           ADD.L   D0,(A1)
+           NEXT
+*
+* Add byte at location in A to byte at location in B
+*
+_ADDABDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.B   D0,(A1)
+           NEXT
+*
+* Add word at location in A to word at location in B
+*
+_ADDAWDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.W   D0,(A1)
+           NEXT
+*
+* Add longword at location in A to longword at location in B
+*
+_ADDALDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           ADD.L   D0,(A1)
+           NEXT
+
+*
+* Sub immediate byte
+*
+_SUBIB     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           SUB.B   D0,(A0)
+           NEXT
+*
+* Sub immediate word
+*
+_SUBIW     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           SUB.W   D0,(A0)
+           NEXT
+*
+* Sub immediate long
+*
+_SUBIL     MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           SUB.L   D0,(A0)
+           NEXT
+*
+* Sub immediate byte indirect
+*
+_SUBIBN    MOVE.W  (A4)+,D0
+           MOVEA.L (A4)+,A0
+           MOVEA.L (A0),A0
+           SUB.B   D0,(A0)
+           NEXT
+*
+* Sub immediate word indirect
+*
+_SUBIWN    MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           SUB.W   D0,(A0)
+           NEXT
+*
+* Sub immediate long indirect
+*
+_SUBILN    MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           SUB.L   D0,(A0)
+           NEXT
+*
+* Sub byte at location A from byte at location B
+*
+_SUBAB     MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVE.L  (A4)+,A1
+           SUB.B   D0,(A1)
+           NEXT
+*
+* Sub word at location A from word at location B
+*
+_SUBAW     MOVE.L  (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           SUB.W   D0,(A1)
+           NEXT
+*
+* Sub longword at location A from longword at location B
+*
+_SUBAL     MOVE.L  (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           SUB.L   D0,(A1)
+           NEXT
+*
+* Sub byte at location A from byte at location in B
+*
+_SUBABTN   MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.B   D0,(A1)
+           NEXT
+*
+* Sub word at location A from word at location in B
+*
+_SUBAWTN   MOVE.L  (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.W   D0,(A1)
+           NEXT
+*
+* Sub longword at location A from longword at location in B
+*
+_SUBALTN   MOVE.L  (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.L   D0,(A1)
+           NEXT
+*
+* Sub byte at location in A from byte at location B
+*
+_SUBABFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           SUB.B   D0,(A1)
+           NEXT
+*
+* Sub word at location in A from word at location B
+*
+_SUBAWFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           SUB.W   D0,(A1)
+           NEXT
+*
+* Sub longword at location in A from longword at location B
+*
+_SUBALFN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           SUB.L   D0,(A1)
+           NEXT
+*
+* Sub byte at location in A from byte at location in B
+*
+_SUBABDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.B  (A0),D0
+           MOVEA.L (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.B   D0,(A1)
+           NEXT
+*
+* Sub word at location in A from word at location in B
+*
+_SUBAWDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.W   D0,(A1)
+           NEXT
+*
+* Sub longword at location in A from longword at location in B
+*
+_SUBALDN   MOVE.L  (A4)+,A0
+           MOVEA.L (A0),A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           MOVEA.L (A1),A1
+           SUB.L   D0,(A1)
+           NEXT
+*
+* And immediate byte
+*
+_ANDIB     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           AND.B   D0,(A0)
+           NEXT
+*
+* And immediate word
+*
+_ANDIW     MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           AND.W   D0,(A0)
+           NEXT
+*
+* And immediate long
+*
+_ANDIL     MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           AND.L   D0,(A0)
+           NEXT
+*
+* And byte at location A to byte at location B
+*
+_ANDAB     MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVE.L  (A4)+,A1
+           AND.L   D0,(A1)
+           NEXT
+*
+* And word at location A to word at location B
+*
+_ANDAW     MOVE.L  (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           AND.L   D0,(A1)
+           NEXT
+*
+* And longword at location A to longword at location B
+*
+_ANDAL     MOVE.L  (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           AND.L   D0,(A1)
+           NEXT
+*
+* Branch instructions
+*
+_BEQ       TST.W   RESFLG
+           BEQ.S   GO
+*
+           MOVE    (A4)+,D0
+           NEXT
+*
+GO         MOVEA.W  (A4),A4
+           NEXT
+*
+_BGT       TST.W   RESFLG
+           BGT.S   GO
+           MOVE    (A4)+,D0
+           NEXT
+*
+_BLT       TST.W   RESFLG
+           BLT.S   GO
+           MOVE    (A4)+,D0
+           NEXT
+
+*
+* Operations on result flag
+*
+CLRFLG     CLR.W   RESFLG
+           NEXT
+*
+MINFLG     MOVE.W  #$FFFF,RESFLG
+           NEXT
+*
+PLSFLG     MOVE.W  #1,RESFLG
+           NEXT
+*
+* Compare immediate long values
+*
+_CMPRIL    MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           CMP.L   (A0),D0
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Compare immediate word values
+*
+_CMPRIW    MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           CMP.W   (A0),D0
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Compare immediate byte values
+*
+_CMPRIB    MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           CMP.B   (A0),D0
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Compare from mem. long values
+*
+_CMPRL     MOVE.L  (A4)+,A0              CMPM.x must be used instead of CMP.x
+           MOVE.L  (A4)+,A1              since 68000 does not allow mem-to-mem
+           CMPM.L  (A0)+,(A1)+           compares otherwise
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Compare from mem. word values
+*
+_CMPRW     MOVE.L  (A4)+,A0
+           MOVE.L  (A4)+,A1
+           CMPM.W  (A0)+,(A1)+
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Compare from mem. byte values
+*
+_CMPRB     MOVE.L  (A4)+,A0
+           MOVE.L  (A4)+,A1
+           CMPM.B  (A0)+,(A1)+
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Set result flag
+*
+_TEST      MOVE.L  (A4)+,A0
+           TST.W   (A0)
+           BEQ     CLRFLG
+           BLT     MINFLG
+           BGT     PLSFLG
+*
+* Store a 32 bit value into memory
+*
+_MOVELI    MOVE.L  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.L  D0,(A1)                   Store value
+           NEXT                              Get next exec address & do it!
+*
+* Store a 16 bit value into memory
+*
+_MOVEWI    MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.W  D0,(A1)                   Store value
+           NEXT                              Get next exec address & do it!
+*
+* Store an 8 bit value into memory
+*
+_MOVEBI    MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.B  D0,(A1)                   Store value
+           NEXT                              Get next exec address do it!
+*
+* Store a 32 bit value into memory using 'TO' indirection
+*
+_MOVELIN   MOVE.L  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Pointer to Address
+           MOVEA.L (A1),A1                   Get address to store at
+           MOVE.L  D0,(A1)                   Store value
+           NEXT                              Get next exec address & do it!
+*
+* Store a 16 bit value into memory using 'TO' indirection
+*
+_MOVEWIN   MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Pointer to Address
+           MOVEA.L (A1),A1                   Get address to store at
+           MOVE.W  D0,(A1)                   Store value
+           NEXT                              Get next exec address & do it!
+*
+* Store an 8 bit value into memory using 'TO' indirection
+*
+_MOVEBIN   MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Pointer to Address
+           MOVEA.L (A1),A1                   Get address to store at
+           MOVE.B  D0,(A1)                   Store value
+           NEXT                              Get next exec address do it!
+*
+* Store a 24 bit value into an ASIC register
+*
+_MOVELIA   MOVE.L  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.B  D0,(A1)                   Write LSB
+           ASR.L   #8,D0                     Get next byte of address
+           MOVE.B  D0,2(A1)                  Write NSB
+           ASR.L   #8,D0                     Get next byte of address
+           MOVE.B  D0,4(A1)                  Write MSB
+           NEXT                              Get next exec address & do it!
+*
+* Store a 16 bit value into an ASIC register
+*
+_MOVEWIA   MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.B  D0,(A1)                   Write LSB
+           ASR.L   #8,D0                     Get next byte of address
+           MOVE.B  D0,2(A1)                  Write NSB
+           NEXT                              Get next exec address & do it!
+*
+* Store an 8 bit value into an ASIC register
+*
+_MOVEBIA   MOVE.W  (A4)+,D0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.B  D0,(A1)                   Store value
+           NEXT                              Get next exec address & do it!
+*
+* Move a 32 bit value in memory
+*
+_MOVEL     MOVEA.L (A4)+,A0                  Get from Address
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.L  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value in memory
+*
+_MOVEW     MOVEA.L (A4)+,A0                  Get from Address
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.W  (A0),(A1)                 Move word
+           NEXT                              Get next exec address & do it!
+*
+* Move an 8 bit value in memory
+*
+_MOVEB     MOVEA.L (A4)+,A0                  Get from Address
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.B  (A0),(A1)                 Move byte
+           NEXT                              Get next exec address do it!
+*
+* Move 24 bit value from mem to an ASIC register
+*
+_MOVELA    MOVEA.L (A4)+,A0                  Get Address to store from
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.L  (A0),D0
+           MOVE.B  D0,(A1)                   Write LSB
+           ASR.L   #8,D0
+           MOVE.B  D0,2(A1)                  Write NSB
+           ASR.L   #8,D0
+           MOVE.B  D0,4(A1)                  Write MSB
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value from mem to an ASIC register
+*
+_MOVEWA    MOVEA.L (A4)+,A0                  Get Value to store from
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.W  (A0),D0
+           MOVE.B  D0,(A1)                   Write LSB
+           ASR.L   #8,D0
+           MOVE.B  D0,2(A1)                Write NSB
+           NEXT                              Get next exec address & do it!
+*
+* Move an 8 bit value from mem to an ASIC register
+*
+_MOVEBA    MOVEA.L (A4)+,A0                  Get Value to store
+           MOVEA.L (A4)+,A1                  Get Address to store at
+           MOVE.B  (A0),(A1)                 Store value
+           NEXT                              Get next exec address & do it!
+*
+* Move a 32 bit value using source indirection
+*
+_MOVELFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.L  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value using source indirection
+*
+_MOVEWFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.W  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move an 8 bit value using source indirection
+*
+_MOVEBFN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.B  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 24 bit value to ASIC using source indirection
+*
+_MOVELNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVE.L  (A0),D0                   Get data to move
+           MOVEA.L (A4)+,A1                  Get to address
+           MOVE.B  D0,(A1)
+           ASR.L   #8,D0
+           MOVE.B  D0,2(A1)
+           ASR.L   #8,D0
+           MOVE.B  D0,4(A1)
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value to ASIC using source indirection
+*
+_MOVEWNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVE.W  (A0),D0                   Fix for reverse order
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.B  D0,(A1)
+           ASR.L   #8,D0
+           MOVE.B  D0,2(A1)
+           NEXT                              Get next exec address & do it!
+*
+*
+* Move an 8 bit value to ASIC using source indirection
+*
+_MOVEBNA   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVE.W  (A0),D0
+           MOVE.B  D0,(A1)                   Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 32 bit value using dest indirection
+*
+_MOVELTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.L  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value using dest indirection
+*
+_MOVEWTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.W  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move an 8 bit value using dest indirection
+*
+_MOVEBTN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.B  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 32 bit value using double indirection
+*
+_MOVELDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.L  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move a 16 bit value using double indirection
+*
+_MOVEWDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.W  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Move an 8 bit value using double indirection
+*
+_MOVEBDN   MOVEA.L (A4)+,A0                  Get from Address' addr
+           MOVEA.L (A0),A0                   Now get real addr.
+           MOVEA.L (A4)+,A1                  Get to Address
+           MOVEA.L (A1),A1                   Now get real addr.
+           MOVE.B  (A0),(A1)                 Move longword
+           NEXT                              Get next exec address & do it!
+*
+* Get new DA execution sequence
+*
+* _NEXT_DA   JMP DA_SWITCH           
+           
+*
+* Or immediate byte
+*
+_ORIB      MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           OR.B    D0,(A0)
+           NEXT
+*
+* Or immediate word
+*
+_ORIW      MOVE.W  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           OR.W    D0,(A0)
+           NEXT
+*
+* Or immediate long
+*
+_ORIL      MOVE.L  (A4)+,D0
+           MOVE.L  (A4)+,A0
+           OR.L    D0,(A0)
+           NEXT
+*
+* Or byte at location A to byte at location B
+*
+_ORAB      MOVE.L  (A4)+,A0
+           MOVE.B  (A0),D0
+           MOVE.L  (A4)+,A1
+           OR.B    D0,(A1)
+           NEXT
+*
+* Or word at location A to word at location B
+*
+_ORAW      MOVE.L  (A4)+,A0
+           MOVE.W  (A0),D0
+           MOVE.L  (A4)+,A1
+           OR.W    D0,(A1)
+           NEXT
+*
+* Or longword at location A to longword at location B
+*
+_ORAL      MOVE.L  (A4)+,A0
+           MOVE.L  (A0),D0
+           MOVE.L  (A4)+,A1
+           OR.L    D0,(A1)
+           NEXT
+*
+* Wait for Frame Controller to signal end of frame
+*
+_WAIT_FC   MOVEA.L #status,A0                ASIC status register
+WAIT1      BTST    #0,(A0)                   Bit 0 defines FC status
+           BEQ.S   WAIT1                     Set when end of frame (ASIC)
+           NEXT
+*
+* Wait for DMA Controller to signal end of frame
+*
+_WAIT_DMA  MOVEA.L #status,A0                ASIC status register
+WAIT2      BTST    #1,(A0)                   Bit 1 defines DMA status
+           BEQ.S   WAIT2                     Set when end of frame (ASIC)
+           NEXT
+
+************************************************************************
+* Set up a new loop through DACLIST                                    *
+* Structure for a loop record:                                         *
+*                                                                      *
+*           What is stored | What it does                              *
+*             in DACLIST   |                                           *
+*                          |                                           *
+*               DO         |  (Address of DO routine)                  *
+*               Addr       |  (Addr of counter if not immed)           *
+*               16 bit #   |  (Number of times to LOOP)                *
+* Address------>16 bit #   |  (Number of iterations left in this loop) *
+* stored on     .          |                                           *
+* LOOPSTACK     .          |  (Body of loop)                           *
+*               .          |                                           *
+*               .          |                                           *
+*               LOOP       |  (Address of LOOP routine)                *
+*                                                                      *
+* At DA start, the monitor loads the address of the top of the loop    *
+* stack into register A6, and also stores it at LOOPPTR (for post-     *
+* mortems?)                                                            *
+* During DA, a loop is set up by                                       *
+*                                                                      *
+*   1) Move the initial count value (from the next execute address     *
+*      if DOI or else from the indicated address) to the current       *
+*      count address                                                   *
+*   2) Store the address of the current count on the LOOP stack        *
+*   3) Point the execution pointer past the current count location     *
+*                                                                      *
+* The LOOP primitive then must                                         *
+*                                                                      *
+*   1) Get the address of the counter from the loop stack into the     *
+*      register used as the execution pointer                          *
+*   2) Decrement the counter and increment the address                 *
+*   3) If the counter was non zero, continue using the execution       *
+*      pointer (it now points just past the counter)                   *
+*   4) If the counter was zero, get the old execution pointer back     *
+*      and use it.                                                     *
+*                                                                      *
+* The compiler deals with the depth of loop nesting, etc.  There is    *
+* room for 10 entries on the loop stack, and I do not do run-time      *
+* checking. Also note that every loop runs once - maybe I should       *
+* provide a WHILE-WEND, which might be a less efficient loop, but a    *
+* counter of zero is legal.                                            *
+*                                                                      *
+************************************************************************
+
+_DOI       MOVE.W  (A4)+,(A4)                Init counter
+           MOVE.W  A4,-(A6)                  Push address of loop top
+           ADDQ.W  #2,A4                     Get past it
+           NEXT                              Get next EXEC address
+*
+_DOAT      MOVEA.W (A4)+,A3                  Get Addr of counter
+           MOVE.W  (A3),(A4)+                Set max count
+           MOVE.W  A4,-(A6)                  Push address of loop top
+           MOVE.W  (A3),(A4)+                Set present count
+           NEXT                              Get next EXEC address
+*
+_DOATN     MOVEA.W (A4)+,A3                  Get Addr of counter address
+           MOVEA.W (A3),A3                   Get addr of counter
+           MOVE.W  (A3),(A4)+                Copy it to max count
+           MOVE.W  A4,-(A6)                  Push address of loop top
+           MOVE.W  (A3),(A4)+                Set present count = Max
+           NEXT                              Get next EXEC address
+*
+*
+* Test loop counter and loop back if needed
+*
+_LOOP      MOVE.W  A4,A3                     Save A4
+           MOVEA.W (A6),A4                   Get address of counter in A4
+           SUBQ.W  #1,(A4)+                  Dec counter
+           BEQ.S   NOLOOP
+*
+           NEXT                              Execute loop code again
+*
+NOLOOP     ADDQ.W  #2,A6                     Pop loop stack entry
+           MOVE.W  A3,A4                     Get exec pointer back
+           NEXT                              Do next thing after loop
+*
+* Goto DACLIST location
+*
+_GOTO      MOVEA.W (A4),A4                   Replace A4 with operand
+           NEXT                              Exec at new location
+
+*
+* Do nothing
+*
+
+_DONOT     NEXT
+
+*
+*
+*
+* Test 68000 data memory (a guru function)
+*
+*
+
+_TESTMEM   CLR.W   SUCCESS                   Assume Failure
+           LEA.L   PATT(PC),A2               A2 points to current start pattern
+           MOVEQ.L #31,D2                    D2 counts number of loops
+           MOVE.L  (A4)+,D4                  D4 is storage for memsize (bytes)
+           MOVE.W  QUIKTEST(PC),D5
+           MOVE.L  INITPATT(PC),(A2)         Initialize start pattern
+TMEM0      MOVE.L  #DataStart,A3             A3 Points to memory to test
+           MOVE.L  (A2),D0                   D0 has bit pattern to write
+           MOVE.L  D4,D3                     D3 is byte counter for loop
+TMEM1      MOVE.W  D0,(A3)+                  Initialize memory with pattern
+           ROL.L   #1,D0                     Walks 1's through pattern
+           TST.W   D0
+           BNE     TMEM1A
+           ROL.L   #1,D0
+TMEM1A     SUBQ.L  #2,D3                     count down words
+           BGT.S   TMEM1
+           MOVE.L  #DataStart,A3             Check memory written with pattern
+           MOVE.L  (A2),D0                   Get start pattern for this cycle back
+           MOVE.L  D4,D3
+TMEM2      CMP.W   (A3)+,D0
+           BNE.S   TMEMERR                   If compare fails, go to error
+           ROL.L   #1,D0                     Walks 1's through pattern
+           TST.W   D0
+           BNE     TMEM1B
+           ROL.L   #1,D0
+TMEM1B     SUBQ.L  #2,D3                     count down words
+           BGT.S   TMEM2
+           MOVE.L  (A2),D0
+           ROL.L   #1,D0
+           MOVE.L  D0,(A2)
+           TST.W   D5
+           DBEQ    D2,TMEM0                  Do 15 times unless QUIKTEST was set
+*                                            Here only if all compares succeeded
+           ADDQ.W  #1,SUCCESS                Flag success
+           NEXT
+*
+TMEMERR    NEXT                              Here if a compare fails
+*
+
+
+*
+* Clear memory from address for count bytes (count must be multiple of 4)
+*
+_CLRMEM    MOVE.L  (A4)+,A2
+           MOVE.L  (A2),A2
+           MOVE.L  (A4)+,A3
+           MOVE.L  (A3),D0
+CLRMEM0    CLR.L   (A2)+
+           SUBQ.L  #4,D0
+           BGT.S   CLRMEM0
+           NEXT
+
+*
+*
+*
+INIT_DAC   MOVEA.L #status,A0                ASIC status register
+           MOVEA.L #asic0,A1                 ASIC base address
+
+           MOVE.W  #0,frmpc(A1)
+
+           BTST    #0,(A0)                   Bit 0 defines FC status
+           BEQ.S   *-4                       Set when end of frame (ASIC)
+
+           MOVE.W  #0,frmpc(A1)
+
+           BTST    #0,(A0)                   Bit 0 defines FC status
+           BEQ.S   *-4                       Set when end of frame (ASIC)
+
+           MOVE.W  #$FFFF,frmmsks(A1)        Unmask
+           MOVE.W  #0,frmpc(A1)               Reset 'DONE' bits
+           MOVE.W  #0,dmapc(A1)              Reset 'DONE' bits
+
+           BTST    #1,(A0)                   Bit 1 defines DC status
+           BEQ.S   *-4                       Set when end of frame (ASIC)
+
+           MOVE.W  #0,frmpc(A1)               Reset 'DONE' bits
+           MOVE.W  #0,dmapc(A1)              Reset 'DONE' bits
+
+           MOVE.W  MSM_Pgm_Inx,D0            Get index from shared mem
+           ASL.W   #1,D0                     Make into byte offset
+           BRA.S   DASTART1
+
+*
+* Begin new Data Acquisition
+*
+
+DA_START   TAS.B   IN_DA+1
+*                                            BNE.S   DA_OVERRUN
+
+DASTART0   LEA     LOOPTR(PC),A0             Get address of loop pointer
+           LEA     LOOPSTACK+LOOPSIZE(PC),A1 Get address of top of stack
+           MOVE.W  A1,(A0)                   Init stack pointer
+           MOVEA.L A1,A6                     Init SP register
+           
+           MOVE.W  MSM_Pgm_Inx,D0            Get index from shared mem
+           ASL.W   #1,D0                     Make into byte offset
+
+DASTART1   LEA     DACTBLPTR(PC),A4          Get list of programs
+           MOVEA.W (A4),A4                   Get address of table of da seqs
+           MOVEA.W 0(A4,D0.W),A4             Load start interp address from table
+
+           MOVEA.L #status,A0                ASIC status register
+           MOVEA.L #asic0,A1                 ASIC base address
+           MOVEA.L #asicfbr,A3
+
+*           MOVE.B  #0,(A3)
+*           MOVE.B  #$18,(A3)                 Write $1800 to data address
+*           MOVE.B  #0,4(A3)
+
+           MOVE.W  #SMR_CMD_BG,MSM_Act_RQ_RPL Tell PC Action started
+           TST.W   HostAtn                   Tell Host he has mail
+           
+           NEXT                              Do it!
+
+DA_OVERRUN MOVE.W  #SMR_NRDY,PC_MAILBOX
+           RTS
+
+*
+* Switch to different Data Acquisition
+*
+
+DA_SWITCH  ST.B    IN_DA+1                   (Just marks DA in progress,
+           BRA.S   DASTART0                   skips test)
+
+*
+*
+* DONE statement in DAC returns here
+*
+
+_DONE      EQU *
+
+END_DA     MOVE.W  #SMR_CMD_BG,PC_MAILBOX
+           MOVE.W  #$FFFF,MSM_DA_Complete
+           RTS
+
+END_DA_ERR MOVE.W  #SMR_NO_DA,PC_MAILBOX     
+           RTS
+
+
+
+*************************************************************************
+*                                                                       *
+* PC <-> DAC Communications protocol:                                   *
+*                                                                       *
+* PC  loads MSM_Act_RQ with action code                                 *
+* PC  IRQ's DAC                                                         *
+* DAC checks action code                                                *
+*                                                                       *
+*************************************************************************
+
+*
+* Routine to handle PC IRQ's
+*
+
+PC_ISR     ORI.W   #$0700,SR                 Mask all interrupts
+           TST.W   HostAck                   Clear interrupt
+           MOVE.W  #SMR_NRDY,MSM_Act_RQ_RPL
+
+           MOVE.W  MSM_Act_RQ,D0             Action Requested?
+           BEQ.S   ISR_GETRPL                No, check your mail
+
+           CMPI.W  #SM_START_DA,D0           Is it Start DA?  
+           BEQ.S   ISR_DO_ACT                Yes, do it
+
+           CMPI.W  #SM_ABORT_DA,D0           Is command Abort DA?
+           BEQ.S   ISR_DO_ACT                Yes, do it
+
+           CMPI.W  #SM_SWITCH_DA,D0          Or is command Switch DA?
+           BEQ.S   ISR_DO_ACT                Yes, do it
+
+ISR_ERR    MOVE.W  #SMR_CMD_UN,MSM_Act_RQ_RPL
+           TST.W   HostAtn                   Tell PC he has mail
+           CLR.W   PC_MAILBOX
+ENDISR0    RTE                               Return to prev state
+
+ISR_DO_ACT CLR.W   PC_MAILBOX
+           ANDI.W  #$F8FF,SR                 Enable interrupts
+           MOVEA.L #STACK.START,A7           Reset stack pointer
+           PEA     RESTART(PC)
+           JMP     DA_START                  Go do action 
+
+ISR_GETRPL TST.W   MSM_Sig_PC                Is PC doing something?
+           BEQ.S   ISR_ERR                   No, shouldn't have IRQ'd
+
+           MOVE.W  MSM_Sig_PC_RPL,D0         Is there a message?
+           BEQ.S   ISR_ERR                   No, shouldn't have IRQ'd
+
+           CMPI.W  #MSPCR_ACK,D0             Was message ACK?
+           BNE.S   ISR_ERR                   No, unrecognized message
+
+           CLR.W   MSM_Sig_PC_RPL            Yes, then PC is done
+           CLR.W   MSM_Sig_PC                No command to do
+           RTE                               Go back to HALT state
+
+*
+* Startup code runs on reset
+*
+
+STARTUP    ORI.W   #$0700,SR                 Disable interrupts
+           TST.W   HostAck                   Clear pending interrupts
+           MOVE.W  #SMR_NRDY,MSM_Act_RQ_RPL
+           MOVE.W  #MSPC_CLEAR,MSM_Sig_PC
+
+           LEA     ETABLE(PC),A1             Now init exception vector table
+           LEA     V.BERR,A0                 Address of first routine in A0
+           MOVEQ   #33,D1                    Init 33 exception vectors
+EX_INIT    MOVE.L  (A1)+,(A0)+               Install routine address
+           CMPA.W  #V.MISC1,A0               Need to skip this area?
+           BNE.S   EXINIT2                   No, branch
+           ADDA.W  #48,A0                    Skip the reserved area
+EXINIT2    DBRA    D1,EX_INIT                And loop
+*
+RESTART    ORI.W   #$0700,SR                 Disable interrupts
+           MOVE.L  #RESTART,RESET.PC         Set new reset vector
+           MOVEA.L #STACK.START,A7           Reset stack pointer
+           CLR.W   HostAck                   Clear pending interrupts
+           CLR.W   PC_MAILBOX
+           CLR.W   IN_DA
+           MOVE.W  #SMR_CLEAR,MSM_Act_RQ_RPL
+           MOVE.W  #MSPC_CLEAR,MSM_Sig_PC
+           ANDI.W  #$F8FF,SR                 Enable interrupts
+           
+*           BSR     INIT_DAC 
+           
+RESTART1   BSR     DA_SWITCH
+           CLR.W   PC_MAILBOX
+           CLR.W   IN_DA
+           BRA     RESTART1
+
+************************************************************************
+*                                                                      *
+* End of Normal Processing code                                        *
+*                                                                      *
+************************************************************************
+           
+************************************************************************
+*
+* Generic exception handler
+*
+*
+EX_ERR     MOVEM.L A0-A7/D0-D7,SAVREGS       Save the registers
+           MOVE.W  ECODE,D0                  D0 is table index
+           CMPI.W  #33,D0                    Any message for this exception?
+           BLS.S   PMSG0                     Yes, get its address
+           LEA     DFLTMSG(PC),A0            No, get the default message
+           BRA.S   PMSG1
+PMSG0      ASL.W   #1,D0                     Form offset
+           LEA     EMSGTBL(PC),A0            List of msg addresses
+           MOVEA.W 0(A0,D0.W),A0             Point to this message
+PMSG1      LEA     EMSGBUF(PC),A1            Where to put message
+           MOVEQ   #32,D1                    Max message length
+PRINTMSG   MOVE.B  (A0)+,(A1)+               Move message bytes
+           DBEQ    D1,PRINTMSG               Till end found or D1 empty
+           BLE.S   EX_ERR2                   Space left in buffer?
+PMSG2      MOVE.B  #$20,(A1)+                Yes, fill with blanks
+           DBRA    D1,PMSG2
+EX_ERR2    BRA     STARTUP
+*
+*
+* Routines for 'unexpected' exceptions
+*
+*
+EX_BERR    MOVE.W  #0,ECODE                  Bus error
+           BRA     EX_ERR
+*
+EX_AERR    MOVE.W  #1,ECODE                  Address error
+           BRA     EX_ERR
+*
+EX_ILLG    MOVE.W  #2,ECODE                  Illegal instruction
+           BRA     EX_ERR
+*
+EX_ZRDV    MOVE.W  #3,ECODE                  Zero divide
+           BRA     EX_ERR
+*
+EX_CHKI    MOVE.W  #4,ECODE                  CHK instruction
+           BRA     EX_ERR
+*
+EX_TRAPV   MOVE.W  #5,ECODE                  TRAPV instructon
+           BRA     EX_ERR
+*
+EX_PRIVIO  MOVE.W  #6,ECODE                  Privilege violation
+           BRA     EX_ERR
+*
+EX_TRACE   MOVE.W  #7,ECODE                  TRACE exception
+           BRA     EX_ERR
+*
+EX_L1010   MOVE.W  #8,ECODE                  Line 1010
+           BRA     EX_ERR
+*
+EX_L1111   MOVE.W  #9,ECODE                  Line 1111
+           BRA     EX_ERR
+*
+EX_SPURI   MOVE.W  #10,ECODE                 Spurious interrupt
+           BRA     EX_ERR
+*
+EX_IRQ1    MOVE.W  #11,ECODE                 Level 1 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ2    MOVE.W  #12,ECODE                 Level 2 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ3    MOVE.W  #13,ECODE                 Level 3 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ4    MOVE.W  #14,ECODE                 Level 4 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ5    MOVE.W  #15,ECODE                 Level 5 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ6    MOVE.W  #16,ECODE                 Level 6 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_IRQ7    MOVE.W  #17,ECODE                 Level 7 IRQ Autovector
+           BRA     EX_ERR
+*
+EX_TRAP0   MOVE.W  #18,ECODE                 Trap vectors
+           BRA     EX_ERR
+*
+EX_TRAP1   MOVE.W  #19,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP2   MOVE.W  #20,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP3   MOVE.W  #21,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP4   MOVE.W  #22,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP5   MOVE.W  #23,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP6   MOVE.W  #24,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP7   MOVE.W  #25,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP8   MOVE.W  #26,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP9   MOVE.W  #27,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP10  MOVE.W  #28,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP11  MOVE.W  #29,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP12  MOVE.W  #30,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP13  MOVE.W  #31,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP14  MOVE.W  #32,ECODE
+           BRA     EX_ERR
+*
+EX_TRAP15  MOVE.W  #33,ECODE
+           BRA     EX_ERR
+*
+EX_DFLT    MOVE.W  #34,ECODE
+           BRA     EX_ERR
+*
+* Table of exception routine addresses for Reset initialization
+*
+           RESUME DATA
+*
+*
+ETABLE     EQU     *
+*
+           DC.L    EX_BERR                  0  (Bus error)
+           DC.L    EX_AERR                  1  (Address error)
+           DC.L    EX_ILLG                  2  (Illegal instruction)
+           DC.L    EX_ZRDV                  3  (Zero divide)
+           DC.L    EX_CHKI                  4  (CHK instruction)
+           DC.L    EX_TRAPV                 5  (TRAPV instructon)
+           DC.L    EX_PRIVIO                6  (Privilege violation)
+           DC.L    EX_TRACE                 7  (TRACE exception)
+           DC.L    EX_L1010                 8  (Line 1010)
+           DC.L    EX_L1111                 9  (Line 1111)
+           DC.L    EX_SPURI                 10 (Spurious interrupt)
+           DC.L    PC_ISR                   11 (Level 1 IRQ Autovector)
+           DC.L    EX_IRQ2                  12 (Level 2 IRQ Autovector)
+           DC.L    PC_ISR                   13 (Level 3 IRQ Autovector)
+           DC.L    EX_IRQ4                  14 (Level 4 IRQ Autovector)
+           DC.L    PC_ISR                   15 (Level 5 IRQ Autovector)
+           DC.L    EX_IRQ6                  16 (Level 6 IRQ Autovector)
+           DC.L    PC_ISR                   17 (Level 7 IRQ Autovector)
+           DC.L    EX_TRAP0                 18 (Trap vectors)
+           DC.L    EX_TRAP1                 19
+           DC.L    EX_TRAP2                 20
+           DC.L    EX_TRAP3                 21
+           DC.L    EX_TRAP4                 22
+           DC.L    EX_TRAP5                 23
+           DC.L    EX_TRAP6                 24
+           DC.L    EX_TRAP7                 25
+           DC.L    EX_TRAP8                 26
+           DC.L    EX_TRAP9                 27
+           DC.L    EX_TRAP10                28
+           DC.L    EX_TRAP11                29
+           DC.L    EX_TRAP12                30
+           DC.L    EX_TRAP13                31
+           DC.L    EX_TRAP14                32
+           DC.L    EX_TRAP15                33
+*
+ECODE      DS.W    1                         16 bit exception code
+SAVREGS    DS.L    16                        Room for registers
+EMSGBUF    DS.B    32                        Message buffer
+*
+*
+* Error message table
+*
+*
+EMSGS      EQU     *
+EMSG0      DC.B    'Bus error',0
+EMSG1      DC.B    'Address error',0
+EMSG2      DC.B    'Illegal instruction',0
+EMSG3      DC.B    'Zero divide',0
+EMSG4      DC.B    'CHK instruction',0
+EMSG5      DC.B    'TRAPV instructon',0
+EMSG6      DC.B    'Privilege violation',0
+EMSG7      DC.B    'TRACE exception',0
+EMSG8      DC.B    'Line 1010',0
+EMSG9      DC.B    'Line 1111',0
+EMSG10     DC.B    'Spurious interrupt',0
+EMSG11     DC.B    'Level 1 IRQ Autovector',0
+EMSG12     DC.B    'Level 2 IRQ Autovector',0
+EMSG13     DC.B    'Level 3 IRQ Autovector',0
+EMSG14     DC.B    'Level 4 IRQ Autovector',0
+EMSG15     DC.B    'Level 5 IRQ Autovector',0
+EMSG16     DC.B    'Level 6 IRQ Autovector',0
+EMSG17     DC.B    'Level 7 IRQ Autovector',0
+EMSG18     DC.B    'Trap #0',0
+EMSG19     DC.B    'Trap #1',0
+EMSG20     DC.B    'Trap #2',0
+EMSG21     DC.B    'Trap #3',0
+EMSG22     DC.B    'Trap #4',0
+EMSG23     DC.B    'Trap #5',0
+EMSG24     DC.B    'Trap #6',0
+EMSG25     DC.B    'Trap #7',0
+EMSG26     DC.B    'Trap #8',0
+EMSG27     DC.B    'Trap #9',0
+EMSG28     DC.B    'Trap #10',0
+EMSG29     DC.B    'Trap #11',0
+EMSG30     DC.B    'Trap #12',0
+EMSG31     DC.B    'Trap #13',0
+EMSG32     DC.B    'Trap #14',0
+EMSG33     DC.B    'Trap #15',0
+DFLTMSG    DC.B    'Exception Error',0
+           DC.W    0
+*
+* Addresses of exception messages
+*
+EMSGTBL    EQU     *
+           DC.W    EMSG0
+           DC.W    EMSG1
+           DC.W    EMSG2
+           DC.W    EMSG3
+           DC.W    EMSG4
+           DC.W    EMSG5
+           DC.W    EMSG6
+           DC.W    EMSG7
+           DC.W    EMSG8
+           DC.W    EMSG9
+           DC.W    EMSG10
+           DC.W    EMSG11
+           DC.W    EMSG12
+           DC.W    EMSG13
+           DC.W    EMSG14
+           DC.W    EMSG15
+           DC.W    EMSG16
+           DC.W    EMSG17
+           DC.W    EMSG18
+           DC.W    EMSG19
+           DC.W    EMSG20
+           DC.W    EMSG21
+           DC.W    EMSG22
+           DC.W    EMSG23
+           DC.W    EMSG24
+           DC.W    EMSG25
+           DC.W    EMSG26
+           DC.W    EMSG27
+           DC.W    EMSG28
+           DC.W    EMSG29
+           DC.W    EMSG30
+           DC.W    EMSG31
+           DC.W    EMSG32
+           DC.W    EMSG33
+           DC.W    DFLTMSG
+
+           RESUME CODE
+*
+DACLIST    DCB.W   LISTSIZE,_DONOT     Rest of memory is DAC Addresses
+*
+* KEY    <'ADDIB   '>,_ADDIB           Addresses of DAD 'primitives'
+*
+           END
+

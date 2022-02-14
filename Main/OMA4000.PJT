@@ -1,0 +1,177 @@
+;Codewright Project File (do not remove or modify this line)
+[ProjInit]
+ProjSetConfigFlags=0x00010140
+
+[Files]
+d:\code\oma4\main\access4.c
+d:\code\oma4\main\autopeak.c
+d:\code\oma4\main\autoscal.c
+d:\code\oma4\main\backgrnd.c
+d:\code\oma4\main\basepath.c
+d:\code\oma4\main\baslnsub.c
+d:\code\oma4\main\cache386.c
+d:\code\oma4\main\calib.c
+d:\code\oma4\main\change.c
+d:\code\oma4\main\cmdtbl.c
+d:\code\oma4\main\cntrloma.c
+d:\code\oma4\main\config.c
+d:\code\oma4\main\convert.asm
+d:\code\oma4\main\coolstat.c
+d:\code\oma4\main\crventry.c
+d:\code\oma4\main\crvhdr35.c
+d:\code\oma4\main\cursor.c
+d:\code\oma4\main\curvbufr.c
+d:\code\oma4\main\curvdraw.c
+d:\code\oma4\main\curvedir.c
+d:\code\oma4\main\d16mphys.c
+d:\code\oma4\main\detdriv.c
+d:\code\oma4\main\detinfo.c
+d:\code\oma4\main\device.c
+d:\code\oma4\main\di_util.c
+d:\code\oma4\main\doplot.c
+d:\code\oma4\main\dosshell.c
+d:\code\oma4\main\fileform.c
+d:\code\oma4\main\fcolor.c
+d:\code\oma4\main\filedos.c
+d:\code\oma4\main\fkeyfunc.c
+d:\code\oma4\main\formtabs.c
+d:\code\oma4\main\gpibcom.c
+d:\code\oma4\main\grafmous.c
+d:\code\oma4\main\graphops.c
+d:\code\oma4\main\hline.c
+d:\code\oma4\main\int24.asm
+d:\code\oma4\main\lineplot.c
+d:\code\oma4\main\live.c
+d:\code\oma4\main\livedisk.c
+d:\code\oma4\main\loadoma.c
+d:\code\oma4\main\macrofrm.c
+d:\code\oma4\main\malloc16.c
+d:\code\oma4\main\mapphys.c
+d:\code\oma4\main\mathform.c
+d:\code\oma4\main\mcibpar.asm
+d:\code\oma4\main\multi.c
+d:\code\oma4\main\oma4000.c
+d:\code\oma4\main\oma4tiff.c
+d:\code\oma4\main\omaerror.c
+d:\code\oma4\main\omaform1.c
+d:\code\oma4\main\omamenu.c
+d:\code\oma4\main\omameth.c
+d:\code\oma4\main\omazoom.c
+d:\code\oma4\main\plotbox.c
+d:\code\oma4\main\plotset.c
+d:\code\oma4\main\pltsetup.c
+d:\code\oma4\main\points.c
+d:\code\oma4\main\rapset.c
+d:\code\oma4\main\readtcl.c
+d:\code\oma4\main\runforms.c
+d:\code\oma4\main\runsetup.c
+d:\code\oma4\main\scanset.c
+d:\code\oma4\main\spgraph.c
+d:\code\oma4\main\spgraph2.c
+d:\code\oma4\main\spline-3.c
+d:\code\oma4\main\splitfrm.c
+d:\code\oma4\main\statform.c
+d:\code\oma4\main\symbol.c
+d:\code\oma4\main\tagcurve.c
+d:\code\oma4\main\tempdata.c
+d:\code\oma4\main\vdata.asm
+d:\code\oma4\main\wintags.c
+d:\code\oma4\main\ycalib.c
+d:\code\oma4\macro\formlist.c
+d:\code\oma4\macro\maccomp.c
+d:\code\oma4\macro\macnres.c
+d:\code\oma4\macro\macnres2.c
+d:\code\oma4\macro\macnres3.c
+d:\code\oma4\macro\macparse.c
+d:\code\oma4\macro\macrecor.c
+d:\code\oma4\macro\macres2.c
+d:\code\oma4\macro\macrores.c
+d:\code\oma4\macro\macruntm.c
+d:\code\oma4\macro\macsymbl.c
+d:\code\oma4\macro\mdatstak.c
+d:\code\oma4\macro\proclist.c
+d:\code\forms\barmenu.c
+d:\code\forms\colors.c
+d:\code\forms\filemsg.c
+d:\code\forms\fltfld.c
+d:\code\forms\forms.c
+d:\code\forms\formwind.c
+d:\code\forms\frmatfld.c
+d:\code\forms\hxintfld.c
+d:\code\forms\intfld.c
+d:\code\forms\keyibmpc.c
+d:\code\forms\mousegss.c
+d:\code\forms\mousefrm.c
+d:\code\forms\rmintfld.c
+d:\code\forms\scfltfld.c
+d:\code\forms\scrlform.c
+d:\code\forms\scrngss.c
+d:\code\forms\scrnraw.c
+d:\code\forms\selctfld.c
+d:\code\forms\tglfld.c
+d:\code\forms\unintfld.c
+
+
+[State]
+SysSetCwd='D:\code\pi\winx\Common'
+SrchSetFlags=0x000020ab
+FileSortMode=0x0
+_StateHistory=SEARCH,'ellipse','ERASE_BKGND','ERASE','eras','Print','immid','MLM','draw_remain','\+ 1','+ 1'
+_StateHistory=REPLACE,'TRUE','WinX','QSORT','WINX','QSORT','qsort','qsrtdlg','QSRTDLG','scale','Parent'
+_StateHistory=XMACRO,'qh','cd','chdir','detab','UPPER','detab'
+_StateHistory=FILELIST,'\\\PISS\SW_ROOT\SOFTWARE\SS\temp\auxwin.c','\\\PISS\SW_ROOT\SOFTWARE\SS\temp\sst40A0.TMP','\\\PISS\SW_ROOT\SOFTWARE\SS\temp\sst51F3.TMP','D:\code\pi\winx16\common\GRALOW.C','D:\CODE\PI\WinX\Common\AUXWIN.C','D:\code\pi\winx16\common\AUXWIN.C','C:\TOOLS\CWRIGHT\UPDATE.TXT','C:\TOOLS\CWRIGHT\BUTTONS.TXT','C:\TOOLS\CWRIGHT\PROJECTS.TXT','C:\TOOLS\CWRIGHT\TOOLBARS.TXT'
+_StateHistory=EDITFILE,'c:\tools\cwright\UPDATE.TXT'
+_StateHistory=DIRECTORY,'D:\code\OMA4','c:\WIN','d:\code\pi\xsma\applic'
+_StateHistory=GOTOMARK,'1','2','3','1'
+_StateHistory=OUTNAME,'D:\CODE\PI\XSMA\PG200\LCIDLGDLG.C','lcidlg.c','D:\code\pi\xsma\RESOURCE\pixcmtxt.c'
+_StateHistory=GOTOLINE,'2425','63','4922','6562','6698','9170','9790','518','454','1465'
+_StateHistory=FFIND,'..\latest.bat'
+_StateHistory=FGREP,'MSOFFIC1','msoffic1','msoff','MSOFF','mda','MDA','ACME','offic1','OFFIC1','do_load_cal'
+ProjLoadWorkspace='macedit',1
+
+[Editor]
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=1
+VCSProject='"$/WinX/PRODUCT/COMMON", YAAAAAAA'
+VCSProjectPath='S:\SOFTWARE\SS,'
+VCSProjectLocalPath='d:\code\pi\winx\Common'
+_RestoreSysFlags=0x624d3ffa, 0xfffffffc
+
+[Compiler]
+CompilerNewExt=.lnk
+CompilerNewExt=.STR
+CompilerAssign='Microsoft C','.c'
+CompilerAssign='Microsoft C','.h'
+CompilerAssign='Microsoft C(NT-i386)','.cpp'
+CompilerAssign='Default Compiler Settings','.*'
+CompilerAssign='Microsoft C(NT-i386)','.cxx'
+CompilerAssign='Microsoft C(NT-i386)','.hpp'
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+BrowseSetFile='d:\code\oma4\main\oma4000.ptg'
+TagSetFile='d:\code\oma4\main\oma4000.tag'
+CompilerAddCmd='Default Compiler Settings','',1073741824,'',0,'',0,'',0,'',0,'',0,'','','','',''
+CompilerAddResponse='Default Compiler Settings',
+CompilerAddCmd='$_cw_proj_hash_$','',1073741826,'',2,'ftee make',18,'ftee make',18,'',2,'',2,'_ErrorInfoDefault','','','proj.err','%v%p'
+CompilerAddResponse='$_cw_proj_hash_$',
+CompilerAddCmd='Microsoft C','ftee c:\tools\msc6\bin\cl -Zs -AL -Gs -O -Zpe  -I\code\forms\inc -I..\inc %r%e',1073741840,'ftee d:\tools\msc6\bin\cl -c -Zs -AL -Gs -O -Zpe  %r%e',16,'',0,'',0,'',0,'',0,'','','','',''
+CompilerAddResponse='Microsoft C',
+CompilerAddCmd='Microsoft C(NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',1073741936,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C(NT-i386)',
+[Workspace.macedit]
+StateWindowFrame=343,88,446,612,0x624d3ffa
+_StateWindow=0,0,826,451,0x00000018,'D:\CODE\PI\WinX\Common\AUXWIN.C',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,1,10,'',12,255,48,0,8,243,14,15,241,252,249,1,1,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateWindow=22,22,826,451,0x00000008,'D:\code\pi\winx16\common\AUXWIN.C',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,0,10,'',12,255,48,0,8,243,14,15,241,252,249,1,1,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateWindow=88,88,825,449,0x00100008,'C:\TOOLS\CWRIGHT\BUTTONS.TXT',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,0,10,'',12,255,48,0,8,499,14,15,753,252,249,101,20,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateWindow=110,110,825,449,0x00100008,'C:\TOOLS\CWRIGHT\PROJECTS.TXT',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,0,10,'',12,255,48,0,8,499,14,15,753,252,249,1,1,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateWindow=66,66,825,449,0x00100008,'C:\TOOLS\CWRIGHT\UPDATE.TXT',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,0,10,'',12,255,48,0,8,499,14,15,753,252,249,157,1,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateWindow=44,44,607,334,0x00100008,'E:\README.TXT',240,15,244,32,32,0,32,32,32,32,8,4294967295,4294967295,0,10,'',12,255,48,0,8,499,14,15,753,252,249,256,36,400,0,244,246,242,252,0,0,0,0,0,0,0
+_StateBuffer='D:\CODE\PI\WinX\Common\AUXWIN.C',0x04000c8a,1,1,25,'3 5','',0x100,''
+_StateBuffer='D:\code\pi\winx16\common\AUXWIN.C',0x04000d8a,1,1,25,'3 5','',0x100,''
+_StateBuffer='C:\TOOLS\CWRIGHT\BUTTONS.TXT',0x0c00048e,101,20,25,'3 5','',0x100,''
+_StateBuffer='C:\TOOLS\CWRIGHT\PROJECTS.TXT',0x0400048b,1,1,25,'3 5','',0x100,''
+_StateBuffer='C:\TOOLS\CWRIGHT\UPDATE.TXT',0x0400048b,157,1,25,'3 5','',0x100,''
+_StateBuffer='E:\README.TXT',0x0c00058b,256,36,25,'3 5','',0x100,''
+

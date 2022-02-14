@@ -1,0 +1,78 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                     To State                                                ³
+³ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³   Idle   ³ Process ³   Ack   ³ Execute ³ Complete ³Wait for³ Process ³  ERR     ³
+³ ³         ³   State  ³ Command ³ Command ³ Command ³ Command  ³ Reply  ³  Reply  ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³ PC IRQ  ³         ³         ³          ³        ³ PC IRQ  ³          ³
+³ ³         ³          ³ & CMD   ³         ³         ³          ³        ³ & !CMD  ³          ³
+³ ³ Idle    ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ State   ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Process ³          ³         ³  CMD    ³         ³          ³        ³         ³          ³
+³ ³ Command ³          ³         ³Recognizd³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Ack     ³          ³         ³         ³ Jump to ³          ³        ³         ³          ³
+³ ³ Command ³          ³         ³         ³ Address ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³ Get Done ³        ³         ³          ³
+³F³ Execute ³          ³         ³         ³         ³ Instrux  ³        ³         ³          ³
+³r³ Command ³          ³         ³         ³         ³          ³        ³         ³          ³
+³o³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³m³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³S³         ³          ³         ³         ³         ³          ³Message ³         ³          ³
+³t³ Complete³          ³         ³         ³         ³          ³PC Done ³         ³          ³
+³a³ Command ³          ³         ³         ³         ³          ³        ³         ³          ³
+³t³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³e³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³ PC IRQ  ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Wait for³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Reply   ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Process ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ Reply   ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ ERR     ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³ State   ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+³ ³         ³          ³         ³         ³         ³          ³        ³         ³          ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ                                                                        
+                                                                             
+                                                                                
+³ 179
+¿ 191
+À 192
+Ú 218
+Ä 196
+Ù 217

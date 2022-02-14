@@ -1,0 +1,1 @@
+nmake -f ckmsg.mak %1 %2 %3

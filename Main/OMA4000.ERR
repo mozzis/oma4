@@ -1,0 +1,5 @@
+Microsoft (R) C Optimizing Compiler Version 6.00A   
+Copyright (c) Microsoft Corp 1984-1990. All rights reserved.
+
+oma4000.c
+oma4000.c(47) : fatal error C1024: cannot open include file 'io.h'

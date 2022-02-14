@@ -1,0 +1,33 @@
+Files for building and testing OMA4WIN.DLL
+
+ACCESS4.C    - Control detector parameters
+CACHE386.C   - Control caching on some systems
+CMDTBL.C     - Command table for SetParam and GetParam
+CNTRLOMA.C   - Access to OMA controller memory
+DETDRIV.C    - Driver functions
+LOADOMA.C    - Loading OMA object files
+WINPHYS.C    - Access to physical memory under Windows
+WINDLL.C     - LibMain and WEP plus support routines
+
+ACCESS4.H
+ASICODES.H
+CACHE386.H   - Cache control routines
+CNTRLOMA.H
+COUNTERS.H
+DETDRIV.H    - Main include file for user programs
+DETINFO.H
+DETSETUP.H   - Lower level driver routines
+DRIVERRS.H   - Error code definitions
+HIMEM.H
+LOADOMA.H
+LOADREC.H
+MONITOR.H
+OMAREGS.H
+PRIMTYPE.H   - typedefs for OMA data types
+WINPHYS.H
+
+OMA4WIN.DEF  - Linker definition file
+OMA4WIN.DLL  - The compiled DLL
+OMA4WIN.MAK  - makefile (Visual C++)
+
+OMA4WIN.LIB  - Import library for user programs (Or use LoadLibrary)

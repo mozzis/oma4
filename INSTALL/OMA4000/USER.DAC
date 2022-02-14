@@ -1,0 +1,49 @@
+;
+; $Log:   J:/logfiles/oma4000/detect/user.dac  $
+;   
+;      Rev 1.0   16 Jul 1992 17:10:26   maynard
+;
+
+;
+; ******************* Your Code here *******************
+; * ACCUM3 may be uncommented and modified if you like *
+
+;*********************************************************
+;*                                                       *
+;*      This program ACCUM3 will read data from the CCD  *
+;*                                                       *
+;*********************************************************
+;
+;ACCUM3  DAC_BLOCK  
+;        SET_MEM_0                          ;Set memory pointer to 0
+;        INIT_CNTRS                         ;Setup I, J, K etc.
+;        SUB W #1, ICNTR                    ;Does 1 rep outside of loop
+;        DO_PREPS
+;        DO JCNTR                           ;Do Mems
+;          MOVE W #0,I1ADDR
+;
+;          SHUTTER_EXPOSE                   ;Run overhead and shutter
+;          GET_SCMP
+;          ACQ_TRACKS DC_REPMODE            ;Replace first frame
+;          ADD W #1, I1ADDR                 ;Tell PC another scan done
+;          DO_IGNS                          ;Do ignores if any
+;
+;          TEST ICNTR                       ;If no more scans
+;          BEQ  ACCUM3B                     ;Skip to end of loop
+;
+;          DO ICNTR                         ;Do Scans
+;            SHUTTER_EXPOSE                 ;Run overhead and shutter
+;            ACQ_TRACKS DC_ADDMODE          ;Add following frames
+;            ADD W #1, I1ADDR               ;Tell PC another scan done
+;            DO_IGNS                        ;Do ignores if any
+;          LOOP                             ;End of scans loop
+;ACCUM3B   ADD W #1, J1ADDR                 ;Tell PC another scan done
+;          INC_MEM                          ;Inc memory pointer
+;        LOOP                               ;End of mems loop
+;
+;        SET_LCI
+;        KEEP_CLEAN                         ;Park the ASIC in keepclean
+;        
+;        DONE
+;
+;

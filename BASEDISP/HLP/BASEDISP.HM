@@ -1,0 +1,28 @@
+// MAKEHELP.BAT generated Help Map file.  Used by BASEDISP.HPJ. 
+ 
+// Commands (ID_* and IDM_*) 
+HID_INDICATOR_MOUSEX                    0x18001
+HID_INDICATOR_MOUSEY                    0x18002
+HID_INDICATOR_MOUSEVAL                  0x18003
+HID_IMAGE_FLIP                          0x18005
+HID_IMAGE_FLIPHORIZONTAL                0x18006
+HID_IMAGE_REPEATAUTOSCALE               0x18007
+HID_VIEW_CONTROLS                       0x1800C
+HIDM_PROC                               0x18012
+HIDM_PROC1                              0x18013
+HIDM_PROC2                              0x18014
+HIDM_VIEW_INFO                          0x18015
+ 
+// Prompts (IDP_*) 
+HIDP_OLE_INIT_FAILED                    0x30409
+ 
+// Resources (IDR_*) 
+HIDR_MAINFRAME                          0x20002
+HIDR_APPTYPE                            0x20003
+ 
+// Dialogs (IDD_*) 
+HIDD_ABOUTBOX                           0x20064
+HIDD_DLGBAR1                            0x20066
+HIDD_RECTINFO                           0x20088
+ 
+// Frame Controls (IDW_*) 

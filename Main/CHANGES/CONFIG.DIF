@@ -1,0 +1,8 @@
+Add PIA port input and output value fields and labels for them.
+Enable keyboard idle loop to update PIA input field and ACTIVE status field.
+Make ACTIVE status field use driver to update local variable instead of using
+det_setup pointer.
+Add exit_config routine to unlink keyboard idle handler,
+change keyboard idle handler - no more mallocs, and loop stays active 
+after first display.
+

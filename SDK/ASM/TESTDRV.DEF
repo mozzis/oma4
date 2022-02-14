@@ -1,0 +1,15 @@
+;-------------------------------------
+; testdrv.DEF module definition file
+;-------------------------------------
+
+NAME           TESTDRV
+DESCRIPTION    'Driver test routines 10/12/88 DI'
+STUB    'c:\pmsdk\bin\OS2STUB.EXE'
+
+CODE MOVEABLE
+DATA MOVABLE
+HEAPSIZE       0x6000
+STACKSIZE      0x8000
+
+ 
+

@@ -1,0 +1,34 @@
+;
+; $Log:   J:/logfiles/oma4000/detect/linear.dac  $
+;   
+;      Rev 1.0   16 Jul 1992 17:09:06   maynard
+;
+
+;************************************************************************
+;*                                                                      *
+;*      This program LINEAR will read data from the CCD in Simple Mode. *
+;*      It will take one background followd by 'J' memories with        *
+;*      progressing exposure times.                                     *
+;*                                                                      *
+;************************************************************************
+
+LINEAR  DAC_BLOCK         
+        SET_MEM_0                          ;Set memory pointer to 0
+        INIT_CNTRS                         ;Set initial counter vals
+        DO_PREPS
+
+        MOVE W #1,SCNTR
+        DO JCNTR                           ;Do Mems
+          DO SCNTR
+            SHUTTER_EXPOSE
+          LOOP
+          ACQ_TRACKS DC_REPMODE            ;Replace a frame
+          INC_MEM                          ;Inc memory pointer
+          ADD W #1, J1ADDR                 ;Let PC track da seq.
+          ADD W #1, SCNTR
+        LOOP                               ;End of mems loop
+ 
+        SET_LCI
+        KEEP_CLEAN
+        DONE
+

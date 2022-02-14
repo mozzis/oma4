@@ -1,0 +1,16 @@
+LIBRARY     DATMGR
+
+DESCRIPTION 'DATMGR.exe'
+
+EXPORTS
+    WEP                            @1   RESIDENTNAME
+    SAVEDATASOURCE                 @2   
+    SETHEADERPARAM                 @3   
+    OPENDATASOURCE                 @4   
+    ___EXPORTEDSTUB                @5   
+    GETINTHEADERPARAM              @6   
+    SETINTHEADERPARAM              @7   
+    GETFILEDATAPOINTER             @8   
+    INSERTDATA                     @9   
+    NEWDATASOURCE                  @10  
+    RENAMEDATASOURCE               @11  

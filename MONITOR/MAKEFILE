@@ -1,0 +1,70 @@
+tools=c:\code\inter\#
+in=..\inc\#
+run=..\run\#
+
+ALL : $(run)monitor.hex monitor.asm monitor.ab monitor.sym \
+      $(in)ops.add $(run)monitor.bin
+
+# *********************************************
+# -a:  source with INCLUDE file listing       *
+# -b:  output symbol table and macro def list *
+# -d:  output symbolic debugging information  *
+# -ex: allow intermetrics extensions          *
+# -g:  generate global symbol list            *
+# -l:  output listing monitor.lis             *
+# -m:  show all macro expansions              *
+# -o:  output object file monitor.ol          *
+# -v:  verbose mode                           *
+# -x:  output cross-ref listing               *
+# *********************************************
+monitor.ol : monitor.asm
+    $(tools)ASM68000 monitor.asm -a -d -ex -l -o -v 
+
+# *************************************************
+# -o:  output object file monitor.ol              *
+# -x:  create XDB external refs BRKPNT, _end_     *
+# -L:  specify library file(s) to search          *
+# *************************************************
+monitor.ln : monitor.ol 
+  echo Linking object file...
+  $(tools)LNK monitor.ol -o -L ..\lib\libc68k.old
+
+# *************************************************
+# -c: Specify command file                        *
+# -o: Output absolute file monitor.ab             *
+# *************************************************
+monitor.ab : monitor.ln
+  echo Locating link file...
+  $(tools)LOC monitor.ln -c monitor.lc -o 
+
+# *************************************************
+# -f: Specify output format (m=Motorola S records)*
+# -o: Output hex file $(run)monitor.hex                 *
+# -x: Write XDB symbol table to monitor.xdb       *
+# *************************************************
+$(run)monitor.hex : monitor.ab
+  echo Formatting hex file...
+  $(tools)FORM monitor.ab -f m -o $(run)monitor.hex
+
+monitor.sym : monitor.ab
+  echo Generating symbol file...
+  $(tools)SYMTAB monitor.ab > monitor.sym
+  type monequ.txt >> monitor.sym
+
+# *************************************************
+# -o:  Output to file monitor.map                 *
+# -n:  Sort symbols in address order              *
+# -a:  Sort symbols in alpha order                *
+# -z:  Omit empty segments in list                *
+# *************************************************
+monitor.map : monitor.ab
+  echo Generating global map...
+  $(tools)GSMAP monitor.ab -o -n -z
+
+$(in)ops.add : monitor.sym ops.awk
+  echo Generating $(in)ops.add...
+  awk -f ops.awk monitor.sym >$(in)ops.add
+
+$(run)monitor.bin : $(run)monitor.hex
+  echo Converting S-Records to binary file
+  cvtsrec $(run)monitor.hex $(run)monitor.bin 

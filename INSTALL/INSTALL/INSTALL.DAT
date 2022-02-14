@@ -1,0 +1,69 @@
+/*
+ * FILE:
+ *              INSTALL.DAT
+ *
+ * DESCRIPTION:
+ *     This  script file will just present the Welcome screen; it requests
+ *     the user replace the installation disk with the Program Disk 1 in
+ *     the InDrive (Drive install uses).  It then chains to the file:
+ *                      "Program.DAT"
+ *     which must(?) have a label "Program Disk 1".
+ *
+ *     This  script file Program.DAT is specific to the particular
+ *     application: Lock-In's, Magnemometer's, OMA's, etc...
+ *
+ *    The selections are made in the Program script file, but GSS drivers
+ *    and GPIB.COM's are 'ZIPed' on the Install disk.  To add a driver,
+ *    check the current revision of Install; if it has the driver, no
+ *    problemo.  If it doesn't, the driver must be added to Install.
+ *    An exception would be an application specific driver which could
+ *    be kept on the Program disk.  Keeping GSS or GPIB drivers on the
+ *    Program disk is discouraged, since this leads to various revisions
+ *    of the drivers from the same revision of Install, and confusion.
+ *
+ *    The following are suggested Option values for the script file:
+ *
+ *   100 Video graphic types (101-1xx)
+ *   200 Printers (201-2xx)
+ *   300 Plotters (301-3xx)
+ *   400 GPIB Cards (401-4xx)
+ *   500 Pointing devices (501-5xx)
+ *   600 Type of RAM disk software (601-603)
+ *   600 Memory type for RAM disk (604-605)
+ *   700 Output ports (701-7xx)
+ *   900 Application program (901-9xx)
+ *
+ */
+
+@DefineProject
+   @Name       = "PARC Software"
+   @Version    = "3.2"
+   @Subdir     = "\\PAR\\"
+   @OutDrive   = C
+   @InDiskBell = 1
+@EndProject
+
+@Welcome
+
+           Welcome to the Installation Procedure, Version @Version
+
+  You will be asked to select from a number of choices during this procedure.
+  The Blinking selection is the active choice;  the  arrow keys are used to
+  move among the choices.  When the correct choice is blinking, press "Enter"
+  to select that choice.
+
+    The "Esc" key will terminate the installation procedure at any time.
+
+              ษอออออออออออออออออออออออออออออออออออออออออป
+              บ   Remove Installation Disk and insert   บÞ
+              บ       Program Disk 1 in drive @InDrive:        บÞ
+              ศอออออออออออออออออออออออออออออออออออออออออผÞ
+                ฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿
+/*  */
+                                   @Pause
+
+@endwelcome
+
+@Chain ("Program 1", "@InDrive:Program.Dat")
+
+/* end-of-file */

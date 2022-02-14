@@ -1,0 +1,25 @@
+LIBRARY     OMA4WIN
+DESCRIPTION 'Windows Access to OMA4 detector'
+
+CODE FIXED PRELOAD
+
+DATA SINGLE MOVEABLE PRELOAD
+
+EXPORTS
+    GETPARAM                       @1
+    SETPARAM                       @2   
+    GETINTPARAM                    @3   
+    SETINTPARAM                    @4   
+    SETPATCH                       @5   
+    GETPATCH                       @6   
+    GETDATAPOINTER                 @7   
+    INITDETECTOR                   @8   
+    SETUP_DETECTOR_INTERFACE       @9   
+    GETOMASTRING                   @10   
+    SETOMASTRING                   @11   
+    ___EXPORTEDSTUB                @12
+    SHUTDOWNDETECTOR               @13  
+    READCURVEFROMMEM               @14  
+    WRITECURVETOMEM                @15  
+
+HEAPSIZE 8192

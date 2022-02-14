@@ -1,0 +1,2 @@
+No "Out of Mem" error if can't get transparent segments, just report
+board not useable

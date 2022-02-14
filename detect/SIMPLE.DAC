@@ -1,0 +1,41 @@
+;*********************************************************
+;*                                                       *
+;*    This program STANDARD will read data from the CCD  *
+;*                                                       *
+;*********************************************************
+STANDARD DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         SUB W #1, ICNTR                   ;Does 1 rep outside of loop
+         DO_PREPS
+         DO JCNTR                          ;Do Mems
+           MOVE W #0,I1ADDR
+           SHUTTER_EXPOSE                  ;Run overhead and shutter
+           REP_SCMP
+           ACQ_TRACKS DC_REPMODE           ;Replace first frame
+           ADD W #1, I1ADDR                ;Tell PC another scan done
+           ADD W #1, L1ADDR                ;Tell PC another scan done
+           DO_IGNS                         ;Do ignores if any
+           DO_PIA
+
+           TEST ICNTR                      ;If no more scans
+           BEQ  ACCUM1B                    ;Skip to end of loop
+
+           DO ICNTR                        ;Do Scans
+             SHUTTER_EXPOSE                ;Run overhead and shutter
+             ADD_SCMP
+             ACQ_TRACKS DC_ADDMODE         ;Add following frames
+             ADD W #1, I1ADDR              ;Tell PC another scan done
+             ADD W #1, L1ADDR              ;Tell PC another scan done
+             DO_IGNS                       ;Do ignores if any
+             DO_PIA
+           LOOP                            ;End of scans loop
+ACCUM1B    ADD W #1, J1ADDR                ;Tell PC another scan done
+           INC_MEM                         ;Inc memory pointer
+         LOOP                              ;End of mems loop
+
+         SET_LCI
+       
+         DONE
+
+

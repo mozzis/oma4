@@ -1,0 +1,48 @@
+#
+#**     makefile for OS/2 simple sample device driver
+#
+
+#       Definitions for assembler
+
+#       To make debug version use --
+#       AFLAGS= -Mx -t -P -DDEBUGDEV -L
+
+#       To make non-debug version use --
+#       AFLAGS= -Mx -t -P
+
+#       -Mx -- perserve case sensitivity in external names
+#       -t  -- "terse" mode, don't print out unneeded messages
+#       -P  -- check for IMPURE code
+#       -L  -- Create a listing file
+#       -n  -- Suppress tables in listing
+#       -Dsymbol  -- Define assembler symbol
+
+
+#       Definitions for new style linker
+#       /map -- make a map file
+
+LINK=link
+LFLAGS=/nod /noi /m /l
+LIBS=os2.lib
+
+#       List of object files required
+
+OBJS= ..\obj\oma4drv.obj
+
+#       Production rules
+
+..\obj\oma4drv.obj: oma4drv.asm smtools.asm dbtools.asm omaioctl.asm omahdwr.asm
+        asm oma4drv
+
+..\run\oma4drv.sys: $(OBJS) drvmake
+        $(LINK) $(LFLAGS) $(OBJS),..\run\oma4drv.sys,,$(LIBS),oma4drv.def;
+
+#       mapsym oma4drv        # Run in compatibility box
+
+..\obj\cdbtools.obj: cdbtools.asm
+        asm cdbtools
+
+..\obj\testdrv.obj: testdrv.c ..\inc\oma4drv.h ..\obj\cdbtools.obj
+        dosrc testdrv
+        $(LINK) /CO $(LFLAGS) ..\obj\testdrv.obj ..\obj\cdbtools.obj,..\run\testdrv.exe,,mlibc7p os2,testdrv.def;
+

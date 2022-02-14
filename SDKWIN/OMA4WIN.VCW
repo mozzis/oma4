@@ -1,0 +1,19 @@
+[MSVC Status File]
+Version=1.00
+ProjectType=0
+ArgsOrCaller=oma4ctrl.exe
+External=0
+BrkptCount=2
+BrkptType1=0
+BrkptActive1=0
+BrkptAmbig1=0
+BrkptIndex1=-1
+BrkptLoc1={,d:\code\oma4\main\detdriv.c,} .3275
+BrkptType2=0
+BrkptActive2=0
+BrkptAmbig2=0
+BrkptIndex2=-1
+BrkptLoc2={,d:\code\oma4\main\detdriv.c,} .3266
+WatchCount=2
+WatchExpr1=pData
+WatchExpr2=TRACK_SETUP

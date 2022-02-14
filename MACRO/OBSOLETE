@@ -1,0 +1,47 @@
+Obsolete:    
+
+DS_COLUMNS   - Use DG_Points and DS_Points
+DG_COLUMNS     ""    
+    
+DS_SLCMODE   - replace with pointmode    
+DG_SLCMODE    
+    
+DG_PORT_A    - change to PIA Commands    
+DG_PORT_B      ""    
+DS_PORT_A      ""    
+DS_PORT_B      ""    
+DG_DDRA        ""    
+DG_DDRB        ""    
+DS_DDRA        ""    
+DS_DDRB        ""    
+    
+DS_LS        - Use DG_Sync and DS_Sync    
+D_NS           ""    
+D_XS           ""    
+    
+DS_FREERUN   - Use new pulser commands    
+DG_4ON_OFF     ""    
+DS_4ON_OFF     ""    
+DG_OS          ""    
+DS_OS          ""        
+    
+D_SC         - Use SCITC command new synta
+D_XA           ""        
+    
+D_LOAD_DAD   - Not implemeted yet    
+D_STORE_DAD    ""    
+    
+D_SLOW       - Use DG_Speed and DS_Speed  
+D_FAST         ""     
+    
+D_AN         - Not needed    
+D_CCD          ""    
+D_DIS          ""    
+DS_DTR         ""
+DG_HI_MEM      ""
+DG_MSK         ""
+DS_MSK         ""
+D_NCRUN        ""
+DG_RS          ""
+DS_RS          ""
+DG_DLEN        ""

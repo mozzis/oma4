@@ -1,0 +1,413 @@
+// mainfrm.cpp : implementation of the CMainFrame class
+//
+//////////////////////////////////////////////////////////////////////////
+//   This revision:  $Revision:   1.1  $
+//   Last check-in   $Date:   29 Sep 1995 21:00:32  $
+//   Last changes by $Author:   MLM  $
+//   Changes:
+//   $Log:   S:/SOFTWARE/WINX20/BASEDISP/SOURCE/MAINFRM.CPV  $
+// 
+//    Rev 1.1   29 Sep 1995 21:00:32   MLM
+// Add PVCS info tags
+// 
+//////////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "basedisp.h"
+#include "docuif.h"
+#include "mydlgbar.h"
+#include "rectinfo.h"
+#include "view.h"
+#include "mainfrm.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char BASED_CODE THIS_FILE[] = __FILE__;
+#endif
+
+static const long nMax = 200;
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame
+
+IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
+
+// Note: this frame window has a toolbar, a status line, and
+// a custom "Dialog Bar". The CDialogBar base class seems to 
+// be a troubled creature, or else my implementation of it is
+// faulty somewhere. For some reason the control and VBX messages
+// never reach the handlers in the dialog bar module; instead, 
+// I have to catch its messages here and pass them along to the 
+// dialog controls. I still use the message map stuff to declare 
+// the handlers which remain in the dialog bar module.  However, 
+// the control messages show up here first, and if a handler is 
+// not provided, the message gets routed (by the MFC library) right
+// on through to the active view. The rule I followed is that if
+// a control stores data locally in the dialog bar object I'll call 
+// the dialog bar's handler from here; later, the view will query 
+// the dialog bar (s.b. query the frame window but I cheated) for
+// the data value.  If, instead, the control just sends a command 
+// which the view must handle anyway, I let the active view pick
+// it up. The bottom line is if you don't see a handler here,
+// go look in the view module. Someday I'll junk the dialog bar and
+// implement the toolbar as a modeless or something.
+
+BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
+  //{{AFX_MSG_MAP(CMainFrame)
+  ON_WM_CREATE()
+  ON_UPDATE_COMMAND_UI(IDC_BTNBRITE, OnUpdateControl)
+  ON_VBXEVENT(VBN_MOUSEUP, IDC_BRITE, OnMouseupBrite)
+  ON_VBXEVENT(VBN_CHANGE, IDC_BRITE, OnChangeBrite)
+  ON_VBXEVENT(VBN_MOUSEUP, IDC_CONT, OnMouseupCont)
+  ON_VBXEVENT(VBN_CHANGE, IDC_CONT, OnChangeCont)
+  ON_VBXEVENT(VBN_CLICK, IDC_BTNBRITE, OnClickBtnbrite)
+  ON_VBXEVENT(VBN_CLICK, IDC_BTNCONT, OnClickBtncont)
+  ON_WM_TIMER()
+  ON_COMMAND(IDM_VIEW_INFO, OnViewRectInfo)
+  ON_MESSAGE(WM_RECTINFOCLS, OnCloseRectInfo)
+  ON_UPDATE_COMMAND_UI(IDM_VIEW_INFO, OnUpdateViewRectInfo)
+  ON_WM_PALETTECHANGED()
+  ON_WM_QUERYNEWPALETTE()
+  ON_UPDATE_COMMAND_UI(ID_VIEW_CONTROLS, OnUpdateViewControls)
+  ON_COMMAND(ID_VIEW_CONTROLS, OnViewControls)
+  ON_UPDATE_COMMAND_UI(ID_OPT_DELBTN, OnUpdateSetDelayUpdate)
+  ON_COMMAND(ID_OPT_DELBTN, OnSetDelayUpdate)
+  ON_UPDATE_COMMAND_UI(IDC_BTNCONT, OnUpdateControl)
+  ON_WM_PALETTECHANGED()
+	//}}AFX_MSG_MAP
+  // Global commands
+  ON_COMMAND(ID_HELP_INDEX, CFrameWnd::OnHelpIndex)
+  ON_COMMAND(ID_HELP_USING, CFrameWnd::OnHelpUsing)
+  ON_COMMAND(ID_HELP, CFrameWnd::OnHelp)
+  ON_COMMAND(ID_CONTEXT_HELP, CFrameWnd::OnContextHelp)
+  ON_COMMAND(ID_DEFAULT_HELP, CFrameWnd::OnHelpIndex)
+  ON_UPDATE_COMMAND_UI(ID_INDICATOR_MOUSEX, OnUpdateControl)
+  ON_UPDATE_COMMAND_UI(ID_INDICATOR_MOUSEY, OnUpdateControl)
+  ON_UPDATE_COMMAND_UI(ID_INDICATOR_MOUSEVAL, OnUpdateControl)
+END_MESSAGE_MAP()
+
+/////////////////////////////////////////////////////////////////////////////
+// arrays of IDs used to initialize control bars
+
+// toolbar buttons - IDs are command buttons
+static UINT BASED_CODE buttons[] =
+{
+  // same order as in the bitmap 'toolbar.bmp'
+  ID_FILE_NEW,
+  ID_FILE_OPEN,
+  ID_FILE_SAVE,
+    ID_SEPARATOR,
+  ID_EDIT_CUT,
+  ID_EDIT_COPY,
+  ID_EDIT_PASTE,
+    ID_SEPARATOR,
+  ID_FILE_PRINT,
+  ID_FILE_PRINT_PREVIEW,
+  ID_APP_ABOUT,
+  ID_CONTEXT_HELP,
+    ID_SEPARATOR,
+  IDS_AUTOSCALE,
+  IDS_AUTOAUTO,
+};
+
+static UINT BASED_CODE indicators[] =
+{
+  ID_SEPARATOR,           // status line indicator
+  ID_INDICATOR_MOUSEX,
+  ID_INDICATOR_MOUSEY,
+  ID_INDICATOR_MOUSEVAL,
+};
+
+CMainFrame * theMainFrame = NULL; // So I can call additional member functions
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame construction/destruction
+
+CMainFrame::CMainFrame()
+{
+  m_pRectInfo = 0;
+  m_pMyDlgBar = 0;
+  m_bDelayUpdate = TRUE;
+}
+
+CMainFrame::~CMainFrame()
+{
+  if (m_pMyDlgBar)
+    m_pMyDlgBar = 0;
+  KillTimer(1);
+}
+
+// Tell the dialog bar to re-initialize its controls
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::InitBriteAndCont(void)
+{
+  if (m_pMyDlgBar)
+    m_pMyDlgBar->InitControls();
+}
+
+/////////////////////////////////////////////////////////////////////////////
+int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+  if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
+    return -1;
+
+  // Create the toolbar at the top of the frame window
+  if (!m_wndToolBar.Create(this) ||
+    !m_wndToolBar.LoadBitmap(IDR_MAINFRAME) ||
+    !m_wndToolBar.SetButtons(buttons,
+      sizeof(buttons)/sizeof(UINT)))
+    {
+    TRACE("Failed to create toolbar\n");
+    return -1;      // fail to create
+    }
+
+  // Create the status bar at the bottom of the frame window
+  if (!m_wndStatusBar.Create(this) ||
+    !m_wndStatusBar.SetIndicators(indicators,
+      sizeof(indicators)/sizeof(UINT)))
+    {
+    TRACE("Failed to create status bar\n");
+    return -1;      // fail to create
+    }
+
+  // Create the dialog bar on the left side of the frame window
+  m_pMyDlgBar = new CMyDlgBar;
+  if (!m_pMyDlgBar || 
+      !m_pMyDlgBar->Create(this, IDD_DLGBAR1, CBRS_LEFT, IDD_DLGBAR1))
+    {
+    TRACE("Failed to create dialog bar\n");
+    return -1;
+    }
+
+  if (!SetTimer(1, 100, NULL))
+      {
+      MessageBox("Not enough timers available for this window.",
+        "BASIC DISPLAY", MB_ICONEXCLAMATION | MB_OK);
+
+    // signal creation failure...
+    return -1;
+    }
+
+  InitBriteAndCont(); // set the dialog bar control positions
+  theMainFrame = this;
+  StTextSaved = FALSE;
+  return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame diagnostics
+#ifdef _DEBUG
+void CMainFrame::AssertValid() const
+{
+  CFrameWnd::AssertValid();
+}
+
+void CMainFrame::Dump(CDumpContext& dc) const
+{
+  CFrameWnd::Dump(dc);
+}
+
+#endif //_DEBUG
+
+// Called by controls which will affect the image display
+// these need not actually modify the image data
+//////////////////////////////////////////////////////////////////////////
+void CMainFrame::UpdateView(void)
+{
+  CSize DocSize = ((CDocUif *)(GetActiveView()->GetDocument()))->GetDocSize();
+  CRect UpdateRect(0,0, DocSize.cx,DocSize.cy);
+  GetActiveView()->RedrawWindow(&UpdateRect, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+}
+
+// Pass dialog bar brightness value along to caller
+/////////////////////////////////////////////////////////////////////////////
+short CMainFrame::getBriteness(void)
+{
+  if (m_pMyDlgBar)
+    return m_pMyDlgBar->GetBrite();
+  else
+    return 100;
+}
+
+// Pass dialog bar contrast value along to caller
+/////////////////////////////////////////////////////////////////////////////
+short CMainFrame::getContrast(void)
+{
+  if (m_pMyDlgBar)
+    return m_pMyDlgBar->GetCont();
+  else
+    return 100;
+}
+
+// CMainFrame message handlers
+
+// Handle saving text in status help line while temporarily displaying 
+// something else
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::StatusTextSave(void)
+{ 
+  if (!StTextSaved)
+    {
+    m_wndStatusBar.GetPaneText(0, OldStatusText);
+    StTextSaved = TRUE;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::StatusTextRestore(void)
+{ 
+  if (StTextSaved)
+    {
+    m_wndStatusBar.SetWindowText((const char *)OldStatusText);
+    StTextSaved = FALSE;
+    }
+}
+
+// Print new text into status bar window given by index
+// note 0 = Help prompt, 1 = X position, 2 = Y position, and 3 = Intensity readout
+//////////////////////////////////////////////////////////////////////////////////
+void CMainFrame::StatusTextSet(const char * NewText, UINT Index)
+{
+  m_wndStatusBar.SetPaneText(Index, NewText, TRUE);
+}
+
+// Generic control enabler
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::OnUpdateControl(CCmdUI* pCmdUI)
+{
+  pCmdUI->Enable(TRUE);
+}
+
+// Pass along message to dialog bar
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::OnMouseupBrite(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  m_pMyDlgBar->OnMouseupBrite(nID, nIdx, pCW, pField);
+  UpdateView();
+}
+
+void CMainFrame::OnChangeBrite(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  if (!m_bDelayUpdate)
+    OnMouseupBrite(nID, nIdx, pCW, pField);
+}
+
+// Pass along message to dialog bar
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::OnMouseupCont(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  m_pMyDlgBar->OnMouseupCont(nID, nIdx, pCW, pField);
+  UpdateView();
+}
+
+void CMainFrame::OnChangeCont(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  if (!m_bDelayUpdate)
+    OnMouseupCont(nID, nIdx, pCW, pField);
+}
+
+// Pass along message to dialog bar
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::OnClickBtnbrite(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  m_pMyDlgBar->OnClickBtnbrite(nID, nIdx, pCW, pField);
+  UpdateView();
+}
+// Pass along message to dialog bar
+/////////////////////////////////////////////////////////////////////////////
+void CMainFrame::OnClickBtncont(UINT nID, int nIdx, CWnd* pCW, LPVOID pField)
+{
+  m_pMyDlgBar->OnClickBtncont(nID, nIdx, pCW, pField);
+  UpdateView();
+}
+
+void CMainFrame::OnPaletteChanged(CWnd* pFocusWnd)
+{
+  CFrameWnd::OnPaletteChanged(pFocusWnd);
+
+  // always realize the palette for the active view
+  CView* pView = GetActiveView();
+  ASSERT(pView != NULL);
+
+  // notify all child windows that the palette has changed
+  SendMessageToDescendants(WM_DOREALIZE, (WPARAM)pView->m_hWnd);
+}
+
+BOOL CMainFrame::OnQueryNewPalette()
+{
+  // always realize the palette for the active view
+  CView* pView = GetActiveView();
+  ASSERT(pView != NULL);
+
+  // just notify the target view
+  pView->SendMessage(WM_DOREALIZE, (WPARAM)pView->m_hWnd);
+  return TRUE;
+}
+// provide a timer service to the document object,
+// where the data resides
+////////////////////////////////////////////////////////////////////
+void CMainFrame::OnTimer(UINT nIDEvent)
+{
+  if (nIDEvent == 1)
+    {
+    CDocUif *pDoc = (CDocUif*) GetActiveDocument();
+    if (pDoc->Updated())
+      pDoc->UpdateAllViews(NULL);
+    }
+  
+  CFrameWnd::OnTimer(nIDEvent);
+}
+
+CRectInfo *CMainFrame::GetRectInfoPtr(void)
+{
+  return(m_pRectInfo);
+}
+
+void CMainFrame::OnViewRectInfo()
+{
+  if (!m_pRectInfo)
+    m_pRectInfo = new CRectInfo();
+  UpdateView();
+}
+
+void CMainFrame::OnUpdateViewRectInfo(CCmdUI* pCmdUI)
+{
+  pCmdUI->SetCheck(m_pRectInfo != 0);
+  CDocUif *pDoc = (CDocUif *)GetActiveDocument();
+  pCmdUI->Enable(pDoc->GetDocSize() != CSize(0,0));
+}
+
+LONG CMainFrame::OnCloseRectInfo(WPARAM wParam, LPARAM lParam)
+{
+  if (m_pRectInfo)
+    m_pRectInfo = 0;
+
+  return(0);
+}
+
+void CMainFrame::OnUpdateViewControls(CCmdUI* pCmdUI)
+{
+  pCmdUI->SetCheck(theDlgBar && theDlgBar->IsVisible());
+}
+
+void CMainFrame::OnViewControls()
+{
+  if (!theDlgBar)
+    return;
+  if (theDlgBar->IsVisible())
+    theDlgBar->DelayHide();
+  else
+    theDlgBar->DelayShow();
+
+  RecalcLayout(TRUE);
+}
+
+void CMainFrame::OnUpdateSetDelayUpdate(CCmdUI* pCmdUI)
+{
+  pCmdUI->SetCheck(m_bDelayUpdate);
+}
+
+void CMainFrame::OnSetDelayUpdate(void)
+{
+  m_bDelayUpdate = (m_bDelayUpdate == 0);
+}

@@ -1,0 +1,83 @@
+;****************************************************************        
+;*                                                              *
+;*      This program (CKSYNC.DAC) will test the Sync. Input.    *
+;*                                                              *
+;****************************************************************
+
+LINK	'CKSYNC.ABJ'
+INCLUDE 'OPS.ADD'              
+
+;------- ASIC register assignments. ----------------------------
+
+FCPROG  EQU     $30001                  ;FC Program register, 2 bytes.
+FCMASK  EQU     $30005                  ;FC Output Mask register, 2 bytes.
+DCPROG  EQU     $30009                  ;DC Program register, 2 bytes.
+BGBASE  EQU     $3000D                  ;Background Base register, 3 bytes.
+FBASE   EQU     $30013                  ;Frame Base Register, 3 bytes.
+
+MSG     EQU     $800000                 ;Message area.
+PCINT   EQU     $10000                  ;IBM Interrupt request area.
+
+MEMADDR EQU     $800090                 ;Address Pointer varible, L-word.
+
+;------- Erase data memory -------------------------------------
+
+BEGIN	DAC_BLOCK
+        MOVE L	#$800000,MEMADDR        ;Initialize address pointer.
+	DO #$20 			;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Write Passed message ----------------------------------
+
+        MOVE W  #$2020,MSG              ;Space characters.
+        MOVE W  #$2020,MSG+2            ;Space characters.
+        MOVE W  #$2020,MSG+4            ;Space characters.
+        MOVE W  #$2020,MSG+6            ;Space characters.
+        MOVE W  #$2D20,MSG+8            ;Space characters.
+        MOVE W  #$5320,MSG+10           ; S characters.
+        MOVE W  #$6E79,MSG+12           ;yn characters.
+        MOVE W  #$2063,MSG+14           ;c  characters.
+        MOVE W  #$6554,MSG+16           ;Te characters.
+        MOVE W  #$7473,MSG+18           ;st characters.
+        MOVE W  #$203A,MSG+20           ;:  characters.
+        MOVE W  #$4150,MSG+22           ;PA characters.
+        MOVE W  #$5353,MSG+24           ;SS characters.
+        MOVE W  #$4445,MSG+26           ;ED characters.
+        MOVE W  #$0000,MSG+28           ;End of string.
+
+;------- Synchronize System ------------------------------------
+
+START   MOVE W  #FCINIT,FCPROG ASIC     ;Sync. DAC w/ASIC.
+        WAIT_FC
+        MOVE W  #FCINIT,FCPROG ASIC
+
+MASK    WAIT_FC                         ;No FC mask.
+        MOVE W  #$FFFF,FCMASK ASIC      
+        MOVE W  #FCINIT,FCPROG ASIC     
+        MOVE W  #DCINIT,DCPROG ASIC	
+
+INIT    WAIT_DMA                        ;Do Initialization.
+        MOVE W  #FCINIT,FCPROG ASIC     
+        MOVE W  #DCINIT,DCPROG ASIC	
+
+        WAIT_DMA                        ;Do PIA Loopback.
+        MOVE W  #FCWS,FCPROG ASIC
+        MOVE W  #DCWS,DCPROG ASIC
+        
+        WAIT_DMA                        ;Do PIA Loopback.
+        MOVE W  #FCWS,FCPROG ASIC
+        MOVE W  #DCWS,DCPROG ASIC
+        
+MAIN    WAIT_DMA                        ;Do PIA Loopback.
+        MOVE W  #FCWS,FCPROG ASIC
+        MOVE W  #DCWS,DCPROG ASIC
+        
+;------- Interrupt the IBM  ------------------------------------
+
+        MOVE W  #0,PCINT
+        GOTO    MAIN                     
+
+	DONE
+

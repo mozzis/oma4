@@ -1,0 +1,31 @@
+[shared-]
+	pmark=
+	version=3
+[debug-]
+	target="c:\code\oma4\run\testdriv.exe"
+	synonym=;C:\CODE\OMA4\run
+	genericbp='E  "{,.\testdriv.c,C:\CODE\OMA4\run\testdriv.EXE} .300"
+	srcwin=vs1+ /a+b+c+l+s+t+
+[cv]
+	wndstate=0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1
+	wndstate=1 80 9 0 1 0 1 0 0 0 0 0 0 0 -1
+	wndstate=2 34 9 33 1 0 0 0 0 0 0 0 0 0 -1
+	wndstate=3 80 30 0 10 1 1 0 0 0 17 17 0 0 -1
+	wndstate=4 67 12 3 13 0 0 0 0 0 0 0 0 0 -1
+	wndstate=5 67 9 0 22 0 0 0 0 0 0 0 0 0 -1
+	wndstate=6 67 9 3 25 0 0 0 0 0 0 0 0 0 -1
+	wndstate=7 13 48 67 1 0 0 0 0 0 0 0 0 0 -1
+	wndstate=8 67 9 0 31 0 0 0 0 0 0 0 0 0 -1
+	wndstate=9 80 9 0 40 0 1 0 1 0 3 0 0 0 -1
+	command=use auto
+	command=n10
+	screensize=50
+	command=oh+
+	command=ov+
+	command=oa+
+	command=oc+
+	command=of+
+	command=o3-
+	command=ollf   
+	tracespeed=250
+	callargs=1

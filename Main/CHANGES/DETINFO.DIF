@@ -1,0 +1,2 @@
+Changes to sizeofDetInfoGroups and DetDriverToDetInfo to make driver save
+value of last pixel and track positions and group sizes.

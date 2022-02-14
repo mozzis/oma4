@@ -1,0 +1,29 @@
+;*********************************************************
+;*                                                       *
+;*    This program DA_9 will read data from the CCD      *
+;*                                                       *
+;*********************************************************
+DA_9     DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         CLEAR_ALL
+         DO_PREPS
+         DO ICNTR                          ;Do Mems
+           MOVE W #0, J1ADDR               ;Tell PC another scan done
+           SET_MEM_0                       ;Set memory pointer to 0
+           TRIGA_OUT 
+           DO JCNTR                        ;Do Scans
+             SHUTTER_EXPOSE                ;Run overhead and shutter
+             ACQ_TRACKS DC_ADDMODE         ;Add following frames
+             ADD W #1, J1ADDR              ;Tell PC another scan done
+             ADD W #1, L1ADDR              ;Tell PC another scan done
+             DO_IGNS                       ;Do ignores if any
+             INC_MEM                       ;Inc memory pointer
+           LOOP                            ;End of scans loop
+           ADD W #1, I1ADDR                ;Tell PC another scan done
+         LOOP                              ;End of mems loop
+
+         SET_LCI
+       
+         DONE
+

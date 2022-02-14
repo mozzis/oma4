@@ -1,0 +1,22 @@
+;************************************************************************
+;*                                                                      *
+;*      This program INIT will synchronize the FC and DC processor      *
+;*      execution                                                       *
+;*                                                                      *
+;************************************************************************
+
+INIT    DAC_BLOCK  
+
+        MOVE W #$FFFF, PGMINDX
+        ASIC_SYNC
+
+INIT1   EQU @
+
+        ID_DETECT
+
+        COMP W #$FFFF, PGMINDX
+        BEQ  INIT1
+
+        DONE
+
+

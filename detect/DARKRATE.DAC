@@ -1,0 +1,37 @@
+;
+; $Log:   J:/logfiles/oma4000/detect/darkrate.dac  $
+;  
+;     Rev 1.0   16 Jul 1992 17:08:26   maynard
+;
+
+;************************************************************************
+;*                                                                      *
+;*      This program DARKRATE will read data from the CCD in SimpleMode.*
+;*      It will take two memories with the second memory having 'K-     *
+;*      ignore) exposure times. Using 1 sec exposuretime will result in *
+;*      1% error.                                                       *
+;*                                                                      *
+;************************************************************************
+
+DARKRATE DAC_BLOCK         
+        SET_MEM_0                          ;Set memory pointer to 0
+        INIT_CNTRS                         ;Set initial counter vals
+        DO_PREPS
+
+        SHUTTER_EXPOSE                     ;Get first frame.
+        ACQ_TRACKS DC_REPMODE              ;Replace a frame
+        INC_MEM                            ;Inc memory pointer
+        ADD W #1, J1ADDR
+
+        DO KCNTR                           ;Do multiple exposure times.
+          SHUTTER_EXPOSE
+          ADD W #1, K1ADDR             
+        LOOP
+        ACQ_TRACKS DC_REPMODE              ;Get second frame.
+        ADD W #1, J1ADDR
+
+        KEEP_CLEAN
+        
+        SET_LCI
+        DONE
+

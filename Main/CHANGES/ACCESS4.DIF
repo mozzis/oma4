@@ -1,0 +1,24 @@
+Bump number of tags to 512 - use LC_TABLE_LIMIT constant, same as in monitor.
+Allow variable timeout in switch_da to allow for same_et mode.
+Add PIA in and out cases to get_DAC_counter_address.
+Change SORTQ case to SAME_ET case.
+Eliminate SRCCMP_PTR case - not used.
+Added DET_ID, SHUT_ID and COOL_STAT cases to get_DAC_pointer_address since
+they are really 32 bit values returned by ASIC.
+Eliminate SORTQ setting from shiftreg set - sorting done in driver now.
+Make parameters in calc_antibloom unsigned.
+Change calc_antibloom algorithm - now returns inner count, outer count, and
+remainder.  minimum value for all return vals is 1 (ASIC decrements before
+using).
+Add RAPDA case to id_detector.
+Get SAME_ET if no method file used in update_from_shared_memory.
+Add DTP (dec track pointer) to split mode case of rimage_setup.
+
+Add to id_detector - the Thomson 256 id (F7)
+Also, if first ID fails, switch to second ID routine and try again.
+This handles the case where the detector being identified is a split
+mode variety detector, but the loaded ASIC code is for single channel,
+or vice-versa.  The second ID routine will handle the "foreign" detector
+
+
+

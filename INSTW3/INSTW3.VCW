@@ -1,0 +1,13 @@
+[MSVC Status File]
+Version=1.00
+ProjectType=0
+External=0
+BrkptCount=1
+BrkptType1=0
+BrkptActive1=1
+BrkptAmbig1=0
+BrkptIndex1=-1
+BrkptLoc1={,e:\code\instw3\main.cpp,} .114
+WatchCount=2
+WatchExpr1=x
+WatchExpr2=y

@@ -1,0 +1,1578 @@
+
+ OMA4WIN
+
+ Start     Length     Name                   Class
+ 0001:0000 05359H     DETDRIV_TEXT           CODE 16-bit
+           at offset 00000H 05359H bytes from DETDRIV.OBJ (d:\code\oma4\main\detdriv.c)
+
+ 0001:535A 00281H     CMDTBL_TEXT            CODE 16-bit
+           at offset 00000H 00281H bytes from CMDTBL.OBJ (c:\code\oma4\main\cmdtbl.c)
+
+ 0001:55DC 00B0FH     ACCESS4_TEXT           CODE 16-bit
+           at offset 00000H 00B0FH bytes from ACCESS4.OBJ (d:\code\oma4\main\access4.c)
+
+ 0001:60EC 03ABCH     CNTRLOMA_TEXT          CODE 16-bit
+           at offset 00000H 03ABCH bytes from CNTRLOMA.OBJ (d:\code\oma4\main\cntrloma.c)
+
+ 0001:9BA8 00E80H     LOADOMA_TEXT           CODE 16-bit
+           at offset 00000H 00E80H bytes from LOADOMA.OBJ (d:\code\oma4\main\loadoma.c)
+
+ 0001:AA28 0052EH     CACHE386_TEXT          CODE 16-bit
+           at offset 00000H 0052EH bytes from CACHE386.OBJ (d:\code\oma4\main\cache386.c)
+
+ 0001:AF56 0043BH     WINDLL_TEXT            CODE 16-bit
+           at offset 00000H 0043BH bytes from WINDLL.OBJ (d:\code\oma4\sdkwin\windll.c)
+
+ 0001:B392 001C6H     WINPHYS_TEXT           CODE 16-bit
+           at offset 00000H 001C6H bytes from WINPHYS.OBJ (d:\code\oma4\sdkwin\winphys.c)
+
+ 0002:0000 057F9H     _TEXT                  CODE 16-bit
+           at offset 00000H 000FEH bytes from c:\tools\msvc\lib\ldllcew.lib (windows\crt0.asm)
+           at offset 000FEH 000E3H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0dat.asm)
+           at offset 001E2H 0006EH bytes from c:\tools\msvc\lib\ldllcew.lib (sprintf.c)
+           at offset 00250H 000D4H bytes from c:\tools\msvc\lib\ldllcew.lib (fclose.c)
+           at offset 00324H 00118H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\ftime.c)
+           at offset 0043CH 00014H bytes from c:\tools\msvc\lib\ldllcew.lib (windows\windgrpx.c)
+           at offset 00450H 0005AH bytes from c:\tools\msvc\lib\ldllcew.lib (fopen.c)
+           at offset 004AAH 0017FH bytes from c:\tools\msvc\lib\ldllcew.lib (fread.asm)
+           at offset 0062AH 001A4H bytes from c:\tools\msvc\lib\ldllcew.lib (fwrite.asm)
+           at offset 007CEH 00054H bytes from c:\tools\msvc\lib\ldllcew.lib (strcat.asm)
+           at offset 00822H 0003CH bytes from c:\tools\msvc\lib\ldllcew.lib (strcpy.asm)
+           at offset 0085EH 00019H bytes from c:\tools\msvc\lib\ldllcew.lib (strlen.asm)
+           at offset 00878H 0005EH bytes from c:\tools\msvc\lib\ldllcew.lib (atof.c)
+           at offset 008D6H 00084H bytes from c:\tools\msvc\lib\ldllcew.lib (fseek.c)
+           at offset 0095AH 0004AH bytes from c:\tools\msvc\lib\ldllcew.lib (rewind.c)
+           at offset 009A4H 0003CH bytes from c:\tools\msvc\lib\ldllcew.lib (calloc.asm)
+           at offset 009E0H 000AAH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\int86.asm)
+           at offset 00A8AH 00019H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\inp.asm)
+           at offset 00AA4H 0001CH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\outp.asm)
+           at offset 00AC0H 00045H bytes from c:\tools\msvc\lib\ldllcew.lib (stricmp.asm)
+           at offset 00B06H 00058H bytes from c:\tools\msvc\lib\ldllcew.lib (strnicmp.asm)
+           at offset 00B5EH 00024H bytes from c:\tools\msvc\lib\ldllcew.lib (strupr.asm)
+           at offset 00B82H 000A7H bytes from c:\tools\msvc\lib\ldllcew.lib (strtok.asm)
+           at offset 00C2AH 0006BH bytes from c:\tools\msvc\lib\ldllcew.lib (strstr.asm)
+           at offset 00C96H 000CAH bytes from c:\tools\msvc\lib\ldllcew.lib (hmemcpy.asm)
+           at offset 00D60H 00085H bytes from c:\tools\msvc\lib\ldllcew.lib (hmemcmp.asm)
+           at offset 00DE6H 0005EH bytes from c:\tools\msvc\lib\ldllcew.lib (hmemcpy.asm)
+           at offset 00E44H 00048H bytes from c:\tools\msvc\lib\ldllcew.lib (hmemset.asm)
+           at offset 00E8CH 0013DH bytes from c:\tools\msvc\lib\ldllcew.lib (strtol.asm)
+           at offset 00FCAH 0012AH bytes from c:\tools\msvc\lib\ldllcew.lib (searchen.c)
+           at offset 010F4H 0009AH bytes from c:\tools\msvc\lib\ldllcew.lib (ldiv.asm)
+           at offset 0118EH 00032H bytes from c:\tools\msvc\lib\ldllcew.lib (lmul.asm)
+           at offset 011C0H 0005FH bytes from c:\tools\msvc\lib\ldllcew.lib (uldiv.asm)
+           at offset 01220H 0006AH bytes from c:\tools\msvc\lib\ldllcew.lib (ulrem.asm)
+           at offset 0128AH 0005EH bytes from c:\tools\msvc\lib\ldllcew.lib (hmemcpy.asm)
+           at offset 012E8H 00048H bytes from c:\tools\msvc\lib\ldllcew.lib (hmemset.asm)
+           at offset 01330H 0000CH bytes from c:\tools\msvc\lib\ldllcew.lib (.\87csqrt.asm)
+           at offset 0133CH 00077H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87ceil.asm)
+           at offset 013B4H 0003DH bytes from c:\tools\msvc\lib\ldllcew.lib (.\87ftol.asm)
+           at offset 013F2H 00031H bytes from c:\tools\msvc\lib\ldllcew.lib (.\fabs.asm)
+           at offset 01424H 00014H bytes from c:\tools\msvc\lib\ldllcew.lib (.\fltusedc.asm)
+           at offset 01438H 0002CH bytes from c:\tools\msvc\lib\ldllcew.lib (windows\stubmain.asm)
+           at offset 01464H 00023H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0msg.asm)
+           at offset 01488H 00097H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\stdenvp.asm)
+           at offset 01520H 00146H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\getcwd.c)
+           at offset 01666H 002D4H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\stat.c)
+           at offset 0193AH 000C8H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\lseek.asm)
+           at offset 01A02H 0014BH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\read.asm)
+           at offset 01B4EH 0018BH bytes from c:\tools\msvc\lib\ldllcew.lib (write.asm)
+           at offset 01CDAH 00506H bytes from c:\tools\msvc\lib\ldllcew.lib (output.asm)
+           at offset 021E0H 000E2H bytes from c:\tools\msvc\lib\ldllcew.lib (_flsbuf.asm)
+           at offset 022C2H 000FEH bytes from c:\tools\msvc\lib\ldllcew.lib (dtoxtime.c)
+           at offset 023C0H 002B8H bytes from c:\tools\msvc\lib\ldllcew.lib (tzset.c)
+           at offset 02678H 00006H bytes from c:\tools\msvc\lib\ldllcew.lib (crt0fp.asm)
+           at offset 0267EH 0005DH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\dosret.asm)
+           at offset 026DCH 00010H bytes from c:\tools\msvc\lib\ldllcew.lib (windows\windgrp.asm)
+           at offset 026ECH 00001H bytes from c:\tools\msvc\lib\ldllcew.lib (nearstub.asm)
+           at offset 026EEH 000AAH bytes from c:\tools\msvc\lib\ldllcew.lib (_filbuf.asm)
+           at offset 02798H 00037H bytes from c:\tools\msvc\lib\ldllcew.lib (_freebuf.asm)
+           at offset 027D0H 00140H bytes from c:\tools\msvc\lib\ldllcew.lib (_open.c)
+           at offset 02910H 0015CH bytes from c:\tools\msvc\lib\ldllcew.lib (fflush.c)
+           at offset 02A6CH 00054H bytes from c:\tools\msvc\lib\ldllcew.lib (stream.c)
+           at offset 02AC0H 00037H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\close.asm)
+           at offset 02AF8H 000C8H bytes from c:\tools\msvc\lib\ldllcew.lib (fmalloc.asm)
+           at offset 02BC0H 0001CH bytes from c:\tools\msvc\lib\ldllcew.lib (itoa.asm)
+           at offset 02BDCH 0009CH bytes from c:\tools\msvc\lib\ldllcew.lib (getenv.c)
+           at offset 02C78H 00020H bytes from c:\tools\msvc\lib\ldllcew.lib (os2\hdiff.asm)
+           at offset 02C98H 001A6H bytes from c:\tools\msvc\lib\ldllcew.lib (ftell.c)
+           at offset 02E3EH 00094H bytes from c:\tools\msvc\lib\ldllcew.lib (frealloc.asm)
+           at offset 02ED2H 0007AH bytes from c:\tools\msvc\lib\ldllcew.lib (getpath.c)
+           at offset 02F4CH 00026H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\unlink.asm)
+           at offset 02F72H 00039H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\getdate.asm)
+           at offset 02FACH 00039H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\gettime.asm)
+           at offset 02FE6H 00015H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87sqrt.asm)
+           at offset 02FFCH 00670H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cvt.c)
+           at offset 0366CH 001B7H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87cdisp.asm)
+           at offset 03824H 00064H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfinn.c)
+           at offset 03888H 00024H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfpsig.asm)
+           at offset 038ACH 0004EH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\nmsghdr.asm)
+           at offset 038FAH 0005AH bytes from c:\tools\msvc\lib\ldllcew.lib (windows\wchkstk.asm)
+           at offset 03954H 0004CH bytes from c:\tools\msvc\lib\ldllcew.lib (windows\fatal.asm)
+           at offset 039A0H 0005EH bytes from c:\tools\msvc\lib\ldllcew.lib (commit.c)
+           at offset 039FEH 00081H bytes from c:\tools\msvc\lib\ldllcew.lib (newseg.asm)
+           at offset 03A80H 0000DH bytes from c:\tools\msvc\lib\ldllcew.lib (fdata.asm)
+           at offset 03A8EH 00117H bytes from c:\tools\msvc\lib\ldllcew.lib (growseg.asm)
+           at offset 03BA6H 0002DH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\stdalloc.asm)
+           at offset 03BD4H 0004BH bytes from c:\tools\msvc\lib\ldllcew.lib (_getbuf.asm)
+           at offset 03C20H 002E8H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\open.asm)
+           at offset 03F08H 00014H bytes from c:\tools\msvc\lib\ldllcew.lib (stackava.asm)
+           at offset 03F1CH 0007CH bytes from c:\tools\msvc\lib\ldllcew.lib (searchsg.asm)
+           at offset 03F98H 0002AH bytes from c:\tools\msvc\lib\ldllcew.lib (strncpy.asm)
+           at offset 03FC2H 0003BH bytes from c:\tools\msvc\lib\ldllcew.lib (strncmp.asm)
+           at offset 03FFEH 00003H bytes from c:\tools\msvc\lib\ldllcew.lib (atol.asm)
+           at offset 04002H 000AEH bytes from c:\tools\msvc\lib\ldllcew.lib (_fptostr.c)
+           at offset 040B0H 000C8H bytes from c:\tools\msvc\lib\ldllcew.lib (resize.asm)
+           at offset 04178H 00029H bytes from c:\tools\msvc\lib\ldllcew.lib (findseg.asm)
+           at offset 041A2H 0007DH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\intdosx.asm)
+           at offset 04220H 00034H bytes from c:\tools\msvc\lib\ldllcew.lib (strrchr.asm)
+           at offset 04254H 0005EH bytes from c:\tools\msvc\lib\ldllcew.lib (strpbrk.asm)
+           at offset 042B2H 00063H bytes from c:\tools\msvc\lib\ldllcew.lib (xtoa.asm)
+           at offset 04316H 00073H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\drive.asm)
+           at offset 0438AH 00344H bytes from c:\tools\msvc\lib\ldllcew.lib (fullpath.c)
+           at offset 046CEH 0008CH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\d_find.asm)
+           at offset 0475AH 000A0H bytes from c:\tools\msvc\lib\ldllcew.lib (lrem.asm)
+           at offset 047FAH 0003BH bytes from c:\tools\msvc\lib\ldllcew.lib (strncmp.asm)
+           at offset 04836H 0002AH bytes from c:\tools\msvc\lib\ldllcew.lib (strncpy.asm)
+           at offset 04860H 00019H bytes from c:\tools\msvc\lib\ldllcew.lib (strlen.asm)
+           at offset 0487AH 0003CH bytes from c:\tools\msvc\lib\ldllcew.lib (strcpy.asm)
+           at offset 048B6H 000CAH bytes from c:\tools\msvc\lib\ldllcew.lib (hmemcpy.asm)
+           at offset 04980H 000FFH bytes from c:\tools\msvc\lib\ldllcew.lib (.\87disp.asm)
+           at offset 04A80H 00068H bytes from c:\tools\msvc\lib\ldllcew.lib (.\strgtod.asm)
+           at offset 04AE8H 00055H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfout.asm)
+           at offset 04B3EH 00019H bytes from c:\tools\msvc\lib\ldllcew.lib (.\matherr.asm)
+           at offset 04B58H 0002AH bytes from c:\tools\msvc\lib\ldllcew.lib (freelist.asm)
+           at offset 04B82H 00001H bytes from c:\tools\msvc\lib\ldllcew.lib (farstub.asm)
+           at offset 04B84H 00034H bytes from c:\tools\msvc\lib\ldllcew.lib (initseg.asm)
+           at offset 04BB8H 00036H bytes from c:\tools\msvc\lib\ldllcew.lib (linkseg.asm)
+           at offset 04BEEH 00056H bytes from c:\tools\msvc\lib\ldllcew.lib (atox.asm)
+           at offset 04C44H 00024H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\d_commit.asm)
+           at offset 04C68H 00193H bytes from c:\tools\msvc\lib\ldllcew.lib (.\x8fout.asm)
+           at offset 04DFCH 00268H bytes from c:\tools\msvc\lib\ldllcew.lib (.\strgtold.asm)
+           at offset 05064H 001B9H bytes from c:\tools\msvc\lib\ldllcew.lib (.\x8tmul.asm)
+           at offset 0521EH 00511H bytes from c:\tools\msvc\lib\ldllcew.lib (.\tenpow.asm)
+           at offset 05730H 000B9H bytes from c:\tools\msvc\lib\ldllcew.lib (.\mantold.asm)
+
+ 0003:0000 0002EH     DETDRIV7_DATA          FAR_DATA 16-bit
+           at offset 00000H 0002EH bytes from DETDRIV.OBJ (d:\code\oma4\main\detdriv.c)
+
+ 0004:0000 0033EH     CMDTBL7_DATA           FAR_DATA 16-bit
+           at offset 00000H 0033EH bytes from CMDTBL.OBJ (c:\code\oma4\main\cmdtbl.c)
+
+ 0005:0000 0014CH     CNTRLOMA7_DATA         FAR_DATA 16-bit
+           at offset 00000H 0014CH bytes from CNTRLOMA.OBJ (d:\code\oma4\main\cntrloma.c)
+
+ 0006:0000 00202H     LOADOMA7_DATA          FAR_DATA 16-bit
+           at offset 00000H 00202H bytes from LOADOMA.OBJ (d:\code\oma4\main\loadoma.c)
+
+ 0007:0000 05220H     FAR_BSS                FAR_BSS 16-bit
+ 0008:0000 00010H     NULL                   BEGDATA 16-bit
+           at offset 00000H 00010H bytes from c:\tools\msvc\lib\ldllcew.lib (windows\crt0.asm)
+
+ 0008:0010 00770H     _DATA                  DATA 16-bit
+           at offset 00000H 000E6H bytes from DETDRIV.OBJ (d:\code\oma4\main\detdriv.c)
+           at offset 000E6H 0002EH bytes from ACCESS4.OBJ (d:\code\oma4\main\access4.c)
+           at offset 00114H 0002AH bytes from CNTRLOMA.OBJ (d:\code\oma4\main\cntrloma.c)
+           at offset 0013EH 00073H bytes from LOADOMA.OBJ (d:\code\oma4\main\loadoma.c)
+           at offset 001B2H 000D5H bytes from CACHE386.OBJ (d:\code\oma4\main\cache386.c)
+           at offset 00288H 00141H bytes from WINDLL.OBJ (d:\code\oma4\sdkwin\windll.c)
+           at offset 003CAH 00015H bytes from c:\tools\msvc\lib\ldllcew.lib (windows\crt0.asm)
+           at offset 003E0H 00044H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0dat.asm)
+           at offset 00424H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (fclose.c)
+           at offset 00428H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (strtok.asm)
+           at offset 0042CH 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (searchen.c)
+           at offset 0042EH 00014H bytes from c:\tools\msvc\lib\ldllcew.lib (.\fltusedc.asm)
+           at offset 00442H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0msg.asm)
+           at offset 00446H 00016H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\stat.c)
+           at offset 0045CH 00061H bytes from c:\tools\msvc\lib\ldllcew.lib (output.asm)
+           at offset 004BEH 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (file.asm)
+           at offset 004C0H 00007H bytes from c:\tools\msvc\lib\ldllcew.lib (tzset.c)
+           at offset 004C8H 00014H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\dosret.asm)
+           at offset 004DCH 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (fmalloc.asm)
+           at offset 004E0H 00022H bytes from c:\tools\msvc\lib\ldllcew.lib (cmiscdat.asm)
+           at offset 00502H 00101H bytes from c:\tools\msvc\lib\ldllcew.lib (ctype.asm)
+           at offset 00604H 00034H bytes from c:\tools\msvc\lib\ldllcew.lib (days.c)
+           at offset 00638H 00016H bytes from c:\tools\msvc\lib\ldllcew.lib (timeset.c)
+           at offset 0064EH 00018H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87sqrt.asm)
+           at offset 00666H 0000BH bytes from c:\tools\msvc\lib\ldllcew.lib (.\cvt.c)
+           at offset 00672H 00037H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87cdisp.asm)
+           at offset 006AAH 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (windows\wchkstk.asm)
+           at offset 006AEH 0000EH bytes from c:\tools\msvc\lib\ldllcew.lib (fdata.asm)
+           at offset 006BCH 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (growseg.asm)
+           at offset 006BEH 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (_cflush.asm)
+           at offset 006C0H 00001H bytes from c:\tools\msvc\lib\ldllcew.lib (ncommode.asm)
+           at offset 006C2H 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (seekfast.asm)
+           at offset 006C4H 00025H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87disp.asm)
+           at offset 006EAH 0000AH bytes from c:\tools\msvc\lib\ldllcew.lib (.\strgtod.asm)
+           at offset 006F4H 00025H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfout.asm)
+           at offset 0071AH 00009H bytes from c:\tools\msvc\lib\ldllcew.lib (.\huge.asm)
+           at offset 00724H 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (txtmode.asm)
+           at offset 00726H 00049H bytes from c:\tools\msvc\lib\ldllcew.lib (.\x8fout.asm)
+
+ 0008:0780 0000EH     CDATA                  DATA 16-bit
+           at offset 00000H 0000EH bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0dat.asm)
+           at offset 00000H 0000EH bytes from c:\tools\msvc\lib\ldllcew.lib (.\fixups.asm)
+
+ 0008:078E 00000H     XIFB                   DATA 16-bit
+ 0008:078E 00000H     XIF                    DATA 16-bit
+ 0008:078E 00000H     XIFE                   DATA 16-bit
+ 0008:078E 00000H     XIB                    DATA 16-bit
+ 0008:078E 00008H     XI                     DATA 16-bit
+           at offset 00000H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (.\fltusedc.asm)
+           at offset 00004H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (.\matherr.asm)
+
+ 0008:0796 00000H     XIE                    DATA 16-bit
+ 0008:0796 00000H     XPB                    DATA 16-bit
+ 0008:0796 00000H     XP                     DATA 16-bit
+ 0008:0796 00000H     XPE                    DATA 16-bit
+ 0008:0796 00000H     XCB                    DATA 16-bit
+ 0008:0796 00000H     XC                     DATA 16-bit
+ 0008:0796 00000H     XCE                    DATA 16-bit
+ 0008:0796 00000H     XCFB                   DATA 16-bit
+ 0008:0796 00000H     XCFCRT                 DATA 16-bit
+ 0008:0796 00000H     XCF                    DATA 16-bit
+ 0008:0796 00000H     XCFE                   DATA 16-bit
+ 0008:0796 00000H     XIFCB                  DATA 16-bit
+ 0008:0796 00000H     XIFU                   DATA 16-bit
+ 0008:0796 00000H     XIFL                   DATA 16-bit
+ 0008:0796 00000H     XIFM                   DATA 16-bit
+ 0008:0796 00000H     XIFCE                  DATA 16-bit
+ 0008:0796 000E4H     IOB                    DATA 16-bit
+           at offset 00000H 000E4H bytes from c:\tools\msvc\lib\ldllcew.lib (file.asm)
+
+ 0008:087A 00000H     IOBX                   DATA 16-bit
+ 0008:087A 0000CH     IOBE                   DATA 16-bit
+           at offset 00000H 0000CH bytes from c:\tools\msvc\lib\ldllcew.lib (file.asm)
+
+ 0008:0886 000E4H     IOB2                   DATA 16-bit
+           at offset 00000H 000E4H bytes from c:\tools\msvc\lib\ldllcew.lib (file.asm)
+
+ 0008:096A 00000H     IOB2X                  DATA 16-bit
+ 0008:096A 0000CH     IOB2E                  DATA 16-bit
+           at offset 00000H 0000CH bytes from c:\tools\msvc\lib\ldllcew.lib (file.asm)
+
+ 0008:0976 00000H     DBDATA                 DATA 16-bit
+ 0008:0976 000D6H     CONST                  CONST 16-bit
+           at offset 00000H 000A6H bytes from DETDRIV.OBJ (d:\code\oma4\main\detdriv.c)
+           at offset 000A6H 00004H bytes from CMDTBL.OBJ (c:\code\oma4\main\cmdtbl.c)
+           at offset 000AAH 00020H bytes from CNTRLOMA.OBJ (d:\code\oma4\main\cntrloma.c)
+           at offset 000CAH 00004H bytes from LOADOMA.OBJ (d:\code\oma4\main\loadoma.c)
+           at offset 000CEH 00008H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cvt.c)
+
+ 0008:0A4C 00008H     HDR                    MSG 16-bit
+           at offset 00000H 00008H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\nmsghdr.asm)
+
+ 0008:0A54 00387H     MSG                    MSG 16-bit
+           at offset 00000H 000A5H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0msg.asm)
+           at offset 000A5H 0002FH bytes from c:\tools\msvc\lib\ldllcew.lib (crt0fp.asm)
+           at offset 000D4H 00033H bytes from c:\tools\msvc\lib\ldllcew.lib (.\87cdisp.asm)
+           at offset 00107H 00280H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfpsig.asm)
+
+ 0008:0DDB 00002H     PAD                    MSG 16-bit
+           at offset 00000H 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\crt0msg.asm)
+           at offset 00000H 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (crt0fp.asm)
+           at offset 00000H 00002H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\nmsghdr.asm)
+
+ 0008:0DDD 00001H     EPAD                   MSG 16-bit
+           at offset 00000H 00001H bytes from c:\tools\msvc\lib\ldllcew.lib (dos\nmsghdr.asm)
+
+ 0008:0DDE 000E4H     _BSS                   BSS 16-bit
+           at offset 00000H 0001AH bytes from DETDRIV.OBJ (d:\code\oma4\main\detdriv.c)
+           at offset 0001AH 00008H bytes from CNTRLOMA.OBJ (d:\code\oma4\main\cntrloma.c)
+           at offset 00022H 00062H bytes from LOADOMA.OBJ (d:\code\oma4\main\loadoma.c)
+           at offset 00084H 00028H bytes from WINDLL.OBJ (d:\code\oma4\sdkwin\windll.c)
+           at offset 000ACH 00006H bytes from WINPHYS.OBJ (d:\code\oma4\sdkwin\winphys.c)
+           at offset 000B2H 0000CH bytes from c:\tools\msvc\lib\ldllcew.lib (sprintf.c)
+           at offset 000BEH 00012H bytes from c:\tools\msvc\lib\ldllcew.lib (tzset.c)
+           at offset 000D0H 00004H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cvt.c)
+           at offset 000D4H 00010H bytes from c:\tools\msvc\lib\ldllcew.lib (.\cfinn.c)
+
+ 0008:0EC2 00000H     XOB                    BSS 16-bit
+ 0008:0EC2 00000H     XO                     BSS 16-bit
+ 0008:0EC2 00000H     XOE                    BSS 16-bit
+ 0008:0EC2 00000H     XOFB                   BSS 16-bit
+ 0008:0EC2 00000H     XOF                    BSS 16-bit
+ 0008:0EC2 00000H     XOFE                   BSS 16-bit
+ 0008:0ED0 0009CH     c_common               BSS 16-bit
+
+ Origin   Group
+ 0008:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0001:4DEA GETDATAPOINTER          GETDATAPOINTER
+ 0001:314E GETINTPARAM             GETINTPARAM
+ 0001:3443 GETOMASTRING            GETOMASTRING
+ 0001:30E5 GETPARAM                GETPARAM
+ 0001:00C3 GETPATCH                GETPATCH
+ 0001:52A0 INITDETECTOR            INITDETECTOR
+ 0001:4DBD READCURVEFROMMEM        READCURVEFROMMEM
+ 0001:0065 SETINTPARAM             SETINTPARAM
+ 0001:3484 SETOMASTRING            SETOMASTRING
+ 0001:0000 SETPARAM                SETPARAM
+ 0001:009F SETPATCH                SETPATCH
+ 0001:52C4 SETUP_DETECTOR_INTERFACE  SETUP_DETECTOR_INTERFACE
+ 0001:5343 SHUTDOWNDETECTOR        SHUTDOWNDETECTOR
+ 0001:30B8 WRITECURVETOMEM         WRITECURVETOMEM
+ 0002:044C ___EXPORTEDSTUB         ___EXPORTEDSTUB
+
+  Address         Publics by Name
+
+ 0002:4CC6       $i8_output
+ 0002:51F0       $i8_tpwr10
+ 0000:0000  Imp  ALLOCDSTOCSALIAS     (KERNEL.171)
+ 0000:0000  Imp  ALLOCSELECTOR        (KERNEL.175)
+ 0002:13A7       B$FIST
+ 0000:0000  Imp  DOS3CALL             (KERNEL.102)
+ 0000:0000  Imp  FATALAPPEXIT         (KERNEL.137)
+ 0000:0000  Imp  FATALEXIT            (KERNEL.1)
+ 0000:FE32  Abs  FIARQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:0632  Abs  FISRQQ
+ 0000:A23D  Abs  FIWRQQ
+ 0000:4000  Abs  FJARQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0000:0000  Imp  FREESELECTOR         (KERNEL.176)
+ 0001:4DEA       GETDATAPOINTER
+ 0000:0000  Imp  GETDOSENVIRONMENT    (KERNEL.131)
+ 0001:314E       GETINTPARAM
+ 0000:0000  Imp  GETMODULEUSAGE       (KERNEL.48)
+ 0001:3443       GETOMASTRING
+ 0001:30E5       GETPARAM
+ 0001:00C3       GETPATCH
+ 0000:0000  Imp  GETPRIVATEPROFILEINT (KERNEL.127)
+ 0000:0000  Imp  GETPRIVATEPROFILESTRING (KERNEL.128)
+ 0000:0000  Imp  GETVERSION           (KERNEL.3)
+ 0000:0000  Imp  GLOBALALLOC          (KERNEL.15)
+ 0000:0000  Imp  GLOBALFREE           (KERNEL.17)
+ 0000:0000  Imp  GLOBALLOCK           (KERNEL.18)
+ 0000:0000  Imp  GLOBALREALLOC        (KERNEL.16)
+ 0000:0000  Imp  GLOBALSIZE           (KERNEL.20)
+ 0000:0000  Imp  GLOBALUNLOCK         (KERNEL.19)
+ 0001:52A0       INITDETECTOR
+ 0000:0000  Imp  INITTASK             (KERNEL.91)
+ 0001:AFFA       LIBMAIN
+ 0000:0000  Imp  LOCALINIT            (KERNEL.4)
+ 0000:0000  Imp  LOCKSEGMENT          (KERNEL.23)
+ 0000:0000  Imp  MESSAGEBOX           (USER.1)
+ 0000:0008  Abs  pAtomTable
+ 0000:0006  Abs  pLocalHeap
+ 0000:000E  Abs  pStackBot
+ 0000:000C  Abs  pStackMin
+ 0000:000A  Abs  pStackTop
+ 0001:4DBD       READCURVEFROMMEM
+ 0008:0004       rsrvptrs
+ 0001:0065       SETINTPARAM
+ 0001:3484       SETOMASTRING
+ 0001:0000       SETPARAM
+ 0001:009F       SETPATCH
+ 0000:0000  Imp  SETSELECTORBASE      (KERNEL.187)
+ 0001:52C4       SETUP_DETECTOR_INTERFACE
+ 0001:5343       SHUTDOWNDETECTOR
+ 0001:B37A       WEP
+ 0001:30B8       WRITECURVETOMEM
+ 0000:0000  Imp  WRITEPRIVATEPROFILESTRING (KERNEL.129)
+ 0001:57AC       _access_alternating_bytes
+ 0001:5F57       _access_init_detector
+ 0001:60DC       _access_shutdown_detector
+ 0001:727D       _access_source_comp
+ 0001:5FF8       _access_startup_detector
+ 0003:001C       _ascfile_fname
+ 0008:03E9       _aseghi
+ 0008:03E7       _aseglo
+ 0002:0888       _atof
+ 0002:400E       _atol
+ 0008:0F6A       _bits_close
+ 0008:0F68       _bits_open
+ 0008:014E       _BlkNameBuf
+ 0001:AA28       _cacheoff
+ 0001:AAE3       _cacheon
+ 0008:01D2       _cache_off
+ 0008:01CE       _cache_on
+ 0008:01CA       _cache_port
+ 0008:0F5C       _cache_selector
+ 0008:027E       _cache_type
+ 0001:074A       _CalcDataOffsets
+ 0001:71B3       _calc_antibloom_counts
+ 0001:1EE3       _calc_pulse_patches
+ 0001:3817       _calc_rpix_time
+ 0002:09B4       _calloc
+ 0002:1381       _ceil
+ 0001:49DE       _CheckRegionOverlap
+ 0001:2732       _ClearAllMems
+ 0001:2646       _ClearMems
+ 0001:26E4       _ClearRunMems
+ 0001:6743       _clr_asic_opbits
+ 0001:6307       _clr_holdoff_release
+ 0008:0110       _CommonArea
+ 0001:7409       _convert_code_to_index
+ 0003:000E       _dacfile_fname
+ 0008:0F4C       _DAC_pointer
+ 0005:0002       _DAC_seq_count
+ 0008:0118       _data_selector
+ 0008:0132       _DC_mode_count
+ 0007:4C9E       _DC_mode_list
+ 0001:961A       _DelayToCntrVals
+ 0008:0014       _detector_index
+ 0008:0018       _det_setup
+ 0008:0ED0       _det_setups
+ 0001:AF96       _DispMsg
+ 0001:A72D       _download_monitor_file
+ 0001:A547       _download_object_file
+ 0001:B40E       _DPMISetSelectorLimit
+ 0008:0010       _DriverVersion
+ 0008:0DDE       _edata
+ 0001:7D97       _emit_byte
+ 0001:7DFE       _emit_long
+ 0001:7DDC       _emit_word
+ 0001:55DC       _enable_controller_memory
+ 0008:0F6C       _end
+ 0001:7D68       _erase_comm_area
+ 0001:A939       _erase_memory
+ 0008:03FE       _errno
+ 0002:1402       _fabs
+ 0008:010A       _fake_detector
+ 0002:0260       _fclose
+ 0005:0000       _FC_mode_count
+ 0007:4A9E       _FC_mode_list
+ 0002:2920       _fflush
+ 0001:AB98       _find_cache_type
+ 0001:53C1       _find_flt_get_cmd
+ 0001:5503       _find_flt_set_cmd
+ 0001:535A       _find_get_cmd
+ 0001:549C       _find_set_cmd
+ 0002:049A       _fopen
+ 0001:A89B       _forget_previous_programs
+ 0002:04BA       _fread
+ 0002:08E6       _fseek
+ 0002:2CA8       _ftell
+ 0002:063A       _fwrite
+ 0002:2BEC       _getenv
+ 0001:B519       _GetProtectedPointer
+ 0001:4944       _get_ActiveX
+ 0001:498A       _get_ActiveY
+ 0001:4902       _get_AntiBloom
+ 0001:6917       _get_asic_counter
+ 0001:69EE       _get_asic_offset
+ 0001:3321       _get_Bytes
+ 0001:4309       _get_ControlMode
+ 0001:46B4       _get_CoolerType
+ 0001:4566       _get_CoolLocked
+ 0001:453B       _get_CoolOnOff
+ 0001:45C5       _get_CoolStatus
+ 0001:43CA       _get_CurrentPoint
+ 0001:438D       _get_CurrentTrack
+ 0001:32EC       _get_DaActive
+ 0001:5C61       _get_DAC_counter
+ 0001:59C0       _get_DAC_counter_address
+ 0001:5DD8       _get_DAC_pointer
+ 0001:5CDE       _get_DAC_pointer_address
+ 0001:33AD       _get_DaMaxProg
+ 0001:338F       _get_DaProg
+ 0001:60B1       _get_data_address
+ 0001:3590       _get_DeltaX
+ 0001:360B       _get_DeltaY
+ 0001:3371       _get_DetectorType
+ 0001:31DF       _get_DetPort
+ 0001:31FD       _get_Error
+ 0001:48C6       _get_ExposedRows
+ 0001:3670       _get_ExposeTime
+ 0001:5462       _get_flt_detect_param
+ 0001:3219       _get_Frame
+ 0001:3A89       _get_FrameTime
+ 0001:323D       _get_Freq
+ 0001:3186       _get_HiMem
+ 0001:31A6       _get_Ident
+ 0001:3F43       _get_Ignores
+ 0001:4063       _get_IntensifierMode
+ 0001:5428       _get_int_detect_param
+ 0001:3E83       _get_Lastscan
+ 0001:4327       _get_MainTrigger
+ 0001:434E       _get_MaxET
+ 0001:436F       _get_MaxMem
+ 0001:3EA3       _get_Mem
+ 0001:3EE1       _get_Mems
+ 0001:3264       _get_MinET
+ 0001:7CED       _get_monitor_string
+ 0001:34C5       _get_nothing
+ 0001:65D9       _get_OMA4_data
+ 0001:356A       _get_OMA_memory_size
+ 0001:4920       _get_OutputReg
+ 0001:3EFF       _get_PIA_In
+ 0001:3F21       _get_PIA_Out
+ 0001:485D       _get_PixTime
+ 0001:4243       _get_Point
+ 0001:4225       _get_PointMode
+ 0001:4261       _get_Points
+ 0001:3353       _get_PointSize
+ 0001:3DF0       _get_Preps
+ 0001:48E4       _get_Prescan
+ 0001:47B7       _get_PrescanTime
+ 0001:4157       _get_PulserAudio
+ 0001:3F80       _get_PulserDelay
+ 0001:40B9       _get_PulserDelayInc
+ 0001:40DF       _get_PulserDelayRange
+ 0001:4131       _get_PulserScanTimeout
+ 0001:4113       _get_PulserTrigCount
+ 0001:4045       _get_PulserTrigSrc
+ 0001:4175       _get_PulserTrigThresh
+ 0001:3FA6       _get_PulserType
+ 0001:401F       _get_PulserWidth
+ 0001:49BF       _get_RealDetector
+ 0001:374B       _get_RegionET
+ 0001:42CD       _get_Regions
+ 0001:35CF       _get_RegSize
+ 0001:3546       _get_SameET
+ 0001:3E46       _get_Scans
+ 0001:6A8B       _get_sharedcomm_size
+ 0001:41E6       _get_ShiftMode
+ 0001:487E       _get_ShiftTime
+ 0001:443B       _get_ShutterCloseSync
+ 0001:4207       _get_ShutterMode
+ 0001:4459       _get_ShutterOpenSync
+ 0001:3502       _get_SourceComp
+ 0001:41C8       _get_SourceCompMode
+ 0001:34DD       _get_source_comp_point
+ 0001:42EB       _get_StartMode
+ 0001:48A2       _get_StreakMode
+ 0001:471F       _get_StreakTime
+ 0001:3652       _get_Temp
+ 0001:441D       _get_TrackMode
+ 0001:43E8       _get_Tracks
+ 0001:4193       _get_TrigThreshVolts
+ 0001:31BE       _get_Version
+ 0001:4477       _get_X0
+ 0001:44F4       _get_Y0
+ 0008:0298       _hinstLib
+ 0008:010C       _hi_shift
+ 0001:74D7       _id_detector
+ 0008:01C2       _index_port
+ 0008:01C6       _index_val
+ 0001:3036       _InitStartDetector
+ 0001:4FE4       _init_detector
+ 0001:73F9       _InqHasFastShift
+ 0001:4E03       _install_monitor
+ 0001:3E0E       _IsActive
+ 0001:B44A       _MapPhysical
+ 0001:5694       _map_program_memory
+ 0002:0DF6       _memcpy
+ 0002:0CA6       _memmove
+ 0002:0E54       _memset
+ 0008:0106       _memsize_code
+ 0008:0114       _monitor_addr
+ 0003:0000       _monitor_fname
+ 0008:001C       _monitor_string
+ 0008:0152       _NumDACBlks
+ 0008:0102       _OMA_DAC_address
+ 0008:00FA       _OMA_memory_address
+ 0008:00FE       _OMA_memory_size
+ 0008:00F6       _OMA_phys_address
+ 0008:0108       _OMA_port_address
+ 0008:0048       _pixtime_matrix
+ 0007:36F4       _POINT_SETUP
+ 0001:65F9       _put_OMA4_data
+ 0001:4D0F       _RapdaDataPtToPixel
+ 0007:4E9E       _RAPDA_SETUP
+ 0001:5933       _read_DC_counter
+ 0001:5957       _read_FC_counter
+ 0001:597B       _read_FC_pointer
+ 0001:B53C       _ReleaseDescriptors
+ 0001:6317       _release_OMA_and_init
+ 0001:56DB       _release_OMA_reset
+ 0002:2F5C       _remove
+ 0001:683B       _rep_asic_opbits
+ 0008:003E       _RequiredMonitorVersion
+ 0001:5769       _reset_and_map_data
+ 0002:096A       _rewind
+ 0001:91C5       _rimage_setup
+ 0001:82D5       _rserial_setup
+ 0001:75C1       _scan_counter_table
+ 0008:0144       _sc_bits_close
+ 0008:0142       _sc_bits_open
+ 0001:9446       _SetShortDelay
+ 0001:9761       _SetUpRapdaTables
+ 0001:6619       _setup_for_asic_patch
+ 0001:156E       _set_ActiveX
+ 0001:16F5       _set_ActiveY
+ 0001:0F04       _set_AntiBloom
+ 0001:664F       _set_asic_opbits
+ 0001:6A9E       _set_asic_pointer
+ 0001:26CA       _set_ClearMem
+ 0001:276F       _set_ControlMode
+ 0001:2846       _set_CoolOnOff
+ 0001:6B76       _set_cue_onoff
+ 0001:14E4       _set_CurrentPoint
+ 0001:15BE       _set_CurrentTrack
+ 0001:1540       _set_DaActive
+ 0001:5CA7       _set_DAC_counter
+ 0001:5E22       _set_DAC_pointer
+ 0001:0AAC       _set_DaProg
+ 0001:1416       _set_DeltaX
+ 0001:1680       _set_DeltaY
+ 0001:0A91       _set_DetectorType
+ 0001:013E       _set_DetPort
+ 0001:2A83       _set_ExposedRows
+ 0001:0419       _set_ExposeTime
+ 0001:55A1       _set_flt_detect_param
+ 0001:00FD       _set_flt_nothing
+ 0001:0AED       _set_Freq
+ 0001:62F7       _set_holdoff_release
+ 0001:02F3       _set_Ignores
+ 0001:6C9F       _set_inex_shutter_status
+ 0001:22B4       _set_IntensifierMode
+ 0001:556A       _set_int_detect_param
+ 0001:031B       _set_Lastscan
+ 0001:27A3       _set_MainTrigger
+ 0001:01D6       _set_Mem
+ 0001:0181       _set_Mems
+ 0001:00ED       _set_nothing
+ 0001:572A       _set_OMA_reset
+ 0001:1317       _set_OutputReg
+ 0001:02CD       _set_PIA_Out
+ 0001:28A1       _set_PixTime
+ 0001:6F0C       _set_pixtime_status
+ 0001:1803       _set_PointMode
+ 0001:1C9D       _set_Points
+ 0001:0A71       _set_PointSize
+ 0001:0338       _set_Preps
+ 0001:2A9E       _set_Prescan
+ 0001:2ACD       _set_ProgTrigger
+ 0001:2290       _set_PulserAudio
+ 0001:21B1       _set_PulserConfig
+ 0001:1F50       _set_PulserDelay
+ 0001:20B6       _set_PulserDelayInc
+ 0001:2149       _set_PulserDelayRange
+ 0001:22F0       _set_PulserScanTimeout
+ 0001:2312       _set_PulserTrigCount
+ 0001:2234       _set_PulserTrigSrc
+ 0001:24D9       _set_PulserTrigThresh
+ 0001:1EC8       _set_PulserType
+ 0001:1FE3       _set_PulserWidth
+ 0001:010D       _set_RealDetector
+ 0001:07E7       _set_RegionET
+ 0001:1D0D       _set_Regions
+ 0001:1486       _set_RegSize
+ 0001:260F       _set_SameET
+ 0001:0159       _set_Scans
+ 0001:1C71       _set_ShiftMode
+ 0001:70CE       _set_shiftreg_status
+ 0001:28DA       _set_ShiftTime
+ 0001:7037       _set_shifttime_status
+ 0001:25A3       _set_ShutterCloseSync
+ 0001:2522       _set_ShutterMode
+ 0001:2556       _set_ShutterOpenSync
+ 0001:6DBE       _set_shutter_forced_status
+ 0001:25D9       _set_SourceCompMode
+ 0001:6EDD       _set_source_comp_status
+ 0001:2936       _set_StreakMode
+ 0001:6CED       _set_streakmode_status
+ 0001:6EA0       _set_sync_close_status
+ 0001:6E63       _set_sync_open_status
+ 0001:27CC       _set_Temp
+ 0001:1A32       _set_TrackMode
+ 0001:1D64       _set_Tracks
+ 0001:2415       _set_TrigThreshVolts
+ 0001:1378       _set_X0
+ 0001:15FE       _set_Y0
+ 0001:0360       _shift_line_time
+ 0008:0F58       _short_et
+ 0008:0148       _sm_bits_close
+ 0008:0146       _sm_bits_open
+ 0001:637A       _sort_OMA4_data
+ 0001:4CE9       _sort_regions
+ 0002:01F2       _sprintf
+ 0002:1340       _sqrt
+ 0001:2F1D       _start_OMA_DA
+ 0008:03DA       _STKHQQ
+ 0001:306C       _stop_OMA_DA
+ 0001:6354       _stop_OMA_DA_in_progress
+ 0001:9717       _StoreDAC_L
+ 0001:96D3       _StoreDAC_W
+ 0002:07DE       _strcat
+ 0002:0832       _strcpy
+ 0002:086E       _strlen
+ 0002:3FD2       _strncmp
+ 0002:3FA8       _strncpy
+ 0002:4264       _strpbrk
+ 0002:4230       _strrchr
+ 0002:0C3A       _strstr
+ 0002:0B92       _strtok
+ 0002:0EA8       _strtol
+ 0002:0E9C       _strtoul
+ 0001:60EC       _switch_da
+ 0008:0F50       _ThisRegion
+ 0007:0000       _TRACK_SETUP
+ 0001:64D7       _trans_OMA4_data
+ 0007:234A       _TRIGGER_SETUP
+ 0001:58F7       _update_DC_counter
+ 0001:5915       _update_FC_counter
+ 0001:59A2       _update_FC_pointer
+ 0001:7B68       _update_from_shared_memory
+ 0003:002A       _vstep
+ 0001:7346       _wait_id
+ 0001:7326       _wait_off
+ 0001:7336       _wait_on
+ 0001:AF56       _WriteLongHexInt
+ 0001:2AEF       _WriteSys
+ 0001:A7E4       _write_monitor_file
+ 0000:0000  Imp  _wsprintf            (USER.420)
+ 0008:06BA       __aaltstkovr
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0008:0452       __adbgmsg
+ 0000:D6D6  Abs  __aDBused
+ 0002:2C88       __aFahdiff
+ 0002:392A       __aFchkstk
+ 0002:134C       __aFCIceil
+ 0002:1346       __aFCIsqrt
+ 0002:13C4       __aFftol
+ 0002:1104       __aFldiv
+ 0002:119E       __aFlmul
+ 0002:476A       __aFlrem
+ 0002:11D0       __aFuldiv
+ 0002:119E       __aFulmul
+ 0002:1230       __aFulrem
+ 0000:0000  Imp  __AHINCR             (KERNEL.114)
+ 0000:0000  Imp  __AHSHIFT            (KERNEL.113)
+ 0008:03F0       __aintdiv
+ 0008:06CC       __amblksiz
+ 0002:396E       __amsg_exit
+ 0002:390A       __aNchkstk
+ 0008:0510       __asizeC
+ 0008:0511       __asizeD
+ 0002:0054       __astart
+ 0002:4BFE       __catox
+ 0002:0156       __cexit
+ 0002:35DA       __cfltcvt
+ 0008:04F0       __cfltcvt_tab
+ 0008:06CE       __cflush
+ 0002:3196       __cftoe
+ 0002:3362       __cftof
+ 0002:34FA       __cftog
+ 0002:4350       __chdrive
+ 0008:0431       __child
+ 0002:392A       __chkstk
+ 0002:010E       __cinit
+ 0002:3964       __cintDIV
+ 0002:36AC       __cintrindisp1
+ 0002:367C       __cintrindisp2
+ 0002:2AD0       __close
+ 0002:42C2       __cltoasub
+ 0002:39B0       __commit
+ 0008:06D0       __commode
+ 0008:06E8       __cpower
+ 0008:0409       __cpumode
+ 0002:3082       __cropzeros
+ 0002:01B5       __ctermsub
+ 0002:36F2       __ctrandisp1
+ 0002:36D8       __ctrandisp2
+ 0008:0512       __ctype
+ 0008:0512       __ctype_
+ 0002:3F07       __cXENIXtoDOSmode
+ 0002:42CF       __cxtoa
+ 0002:0167       __c_exit
+ 0008:064C       __daylight
+ 0008:062E       __days
+ 0008:03E6       __dllinit
+ 0008:040A       __doserrno
+ 0002:268E       __dosret0
+ 0002:26AD       __dosretax
+ 0002:269B       __dosreturn
+ 0002:22D2       __dostotime_t
+ 0002:4C54       __dos_commit
+ 0002:46F0       __dos_findfirst
+ 0002:46DE       __dos_findnext
+ 0002:2F82       __dos_getdate
+ 0002:2FBC       __dos_gettime
+ 0008:0DDE       __edata
+ 0008:0F6C       __end
+ 0008:0428       __environ
+ 0008:0433       __exitflag
+ 0008:03F4       __fac
+ 0002:4B92       __farstub
+ 0002:313E       __fassign
+ 0002:2B08       __ffree
+ 0002:1474       __FF_MSGBANNER
+ 0008:06BE       __fheap
+ 0002:26FE       __filbuf
+ 0002:3B95       __findlast
+ 0002:4188       __findseg
+ 0002:21F0       __flsbuf
+ 0002:3834       __fltin
+ 0002:4AF8       __fltout
+ 0000:9876  Abs  __fltused
+ 0002:297C       __flush
+ 0002:29FC       __flushall
+ 0002:2B29       __fmalloc
+ 0002:129A       __fmemcpy
+ 0002:48C6       __fmemmove
+ 0002:12F8       __fmemset
+ 0008:0734       __fmode
+ 0002:300C       __forcdecpt
+ 0008:0782       __fpinit
+ 0000:0000  Imp  __fpmath             (WIN87EM.1)
+ 0002:3898       __fpsignal
+ 0000:9876  Abs  __fptaskdata
+ 0002:4012       __fptostr
+ 0002:2688       __fptrap
+ 0002:2E4E       __frealloc
+ 0002:27A8       __freebuf
+ 0002:3A90       __freefarheap
+ 0002:4B68       __freelist
+ 0002:0460       __fsopen
+ 0002:488A       __fstrcpy
+ 0002:4870       __fstrlen
+ 0002:480A       __fstrncmp
+ 0002:4846       __fstrncpy
+ 0002:0334       __ftime
+ 0002:13C4       __ftol
+ 0002:439A       __fullpath
+ 0002:3BE4       __getbuf
+ 0002:1530       __getcwd
+ 0002:154E       __getdcwd
+ 0002:26EC       __GetDGROUP
+ 0002:4326       __getdrive
+ 0002:2EE2       __getpath
+ 0002:2A7C       __getstream
+ 0002:3A9E       __growseg
+ 0008:03DC       __hModule
+ 0008:072A       __HUGE
+ 0002:3B2F       __incseg
+ 0008:06D4       __indefinite
+ 0002:4B94       __initseg
+ 0002:0A9A       __inp
+ 0002:09F0       __int86
+ 0002:41B2       __intdosx
+ 0008:0796       __iob
+ 0008:0886       __iob2
+ 0008:0734       __iomode
+ 0002:25B4       __isindst
+ 0002:2BD0       __itoa
+ 0008:04CE       __lastiob
+ 0002:55BB       __LD12MULT
+ 0002:54E6       __LD12MULTTENPOWER
+ 0002:4BC8       __linkseg
+ 0008:0614       __lpdays
+ 0008:03E2       __lpszCmdLine
+ 0002:194A       __lseek
+ 0008:06D2       __lseekchk
+ 0002:5740       __MANTOLD12
+ 0002:26BF       __maperror
+ 0002:4B4E       __matherr
+ 0008:0732       __matherr_flag
+ 0008:0F60       __mbac
+ 0002:0D70       __memicmp
+ 0002:3BB6       __myalloc
+ 0002:26FC       __nearstub
+ 0002:3A0E       __newseg
+ 0008:040C       __nfile
+ 0002:38BC       __NMSG_TEXT
+ 0002:38F3       __NMSG_WRITE
+ 0002:00F6       __nomain
+ 0002:3C48       __open
+ 0002:27E0       __openfile
+ 0008:040A       __oserr
+ 0008:040E       __osfile
+ 0008:0405       __osmajor
+ 0008:0404       __osminor
+ 0008:0408       __osmode
+ 0008:0404       __osver
+ 0008:0406       __osversion
+ 0002:0AB4       __outp
+ 0002:1CFA       __output
+ 0008:042C       __pgmptr
+ 0008:06DE       __piby2
+ 0008:04EC       __pnhFarHeap
+ 0002:3106       __positive
+ 0002:1A12       __read
+ 0002:40C0       __resize
+ 0002:4A58       __rtbignan
+ 0002:4A87       __rtchsifneg
+ 0002:4A7E       __rtifprojnpop
+ 0002:4A5F       __rtifprojpop
+ 0002:4A69       __rtindfnpop
+ 0002:4A66       __rtindfpop
+ 0002:4A3B       __rtnospop
+ 0002:4A3F       __rtnospopde
+ 0002:4A51       __rtonenpop
+ 0002:4A4E       __rtonepop
+ 0002:4A3E       __rttosnpop
+ 0002:4A77       __rttosnpopde
+ 0002:4A38       __rttospop
+ 0002:4A35       __rttospopde
+ 0002:4A47       __rtzeronpop
+ 0002:4A44       __rtzeropop
+ 0002:0FDA       __searchenv
+ 0002:3F2C       __searchseg
+ 0002:1498       __setenvp
+ 0008:050E       __sigintoff
+ 0008:050C       __sigintseg
+ 0000:0001  Abs  __sizec
+ 0000:0001  Abs  __sized
+ 0002:3C30       __sopen
+ 0008:065E       __sqrtjmptab
+ 0002:3F18       __stackavail
+ 0002:175A       __stat
+ 0002:0AD0       __strcmpi
+ 0002:0AD0       __stricmp
+ 0002:4A90       __STRINGTOD
+ 0002:4E0C       __STRINGTOLD
+ 0002:0B16       __strnicmp
+ 0002:0B6E       __strupr
+ 0002:1448       __stubmain
+ 0008:0648       __timezone
+ 0002:4990       __trandisp1
+ 0002:49D2       __trandisp2
+ 0008:0656       __tzname
+ 0002:23EC       __tzset
+ 0008:0400       __umaskval
+ 0002:2F5C       __unlink
+ 0008:03DE       __wDataSeg
+ 0002:0010       __wflags
+ 0008:03E0       __wHeapSize
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0008:0403       __winmajor
+ 0008:0402       __winminor
+ 0008:0402       __winver
+ 0002:1B5E       __write
+ 0008:03ED       ___aDBrterr
+ 0008:03EB       ___aDBswpflg
+ 0008:0422       ___argc
+ 0008:0424       ___argv
+ 0002:044C       ___EXPORTEDSTUB
+ 0002:23D0       ___tzset
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  GLOBALUNLOCK         (KERNEL.19)
+ 0000:0000  Imp  LOCALINIT            (KERNEL.4)
+ 0000:0000  Imp  LOCKSEGMENT          (KERNEL.23)
+ 0000:0000  Imp  FATALAPPEXIT         (KERNEL.137)
+ 0000:0000  Imp  _wsprintf            (USER.420)
+ 0000:0000  Imp  INITTASK             (KERNEL.91)
+ 0000:0000  Imp  __fpmath             (WIN87EM.1)
+ 0000:0000  Imp  FREESELECTOR         (KERNEL.176)
+ 0000:0000  Imp  GLOBALLOCK           (KERNEL.18)
+ 0000:0000  Imp  ALLOCSELECTOR        (KERNEL.175)
+ 0000:0000  Imp  SETSELECTORBASE      (KERNEL.187)
+ 0000:0000  Imp  ALLOCDSTOCSALIAS     (KERNEL.171)
+ 0000:0000  Imp  __AHINCR             (KERNEL.114)
+ 0000:0000  Imp  GLOBALFREE           (KERNEL.17)
+ 0000:0000  Imp  DOS3CALL             (KERNEL.102)
+ 0000:0000  Imp  GETPRIVATEPROFILESTRING (KERNEL.128)
+ 0000:0000  Imp  GLOBALSIZE           (KERNEL.20)
+ 0000:0000  Imp  __AHSHIFT            (KERNEL.113)
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0000:0000  Imp  GETPRIVATEPROFILEINT (KERNEL.127)
+ 0000:0000  Imp  GLOBALREALLOC        (KERNEL.16)
+ 0000:0000  Imp  WRITEPRIVATEPROFILESTRING (KERNEL.129)
+ 0000:0000  Imp  GETDOSENVIRONMENT    (KERNEL.131)
+ 0000:0000  Imp  GETVERSION           (KERNEL.3)
+ 0000:0000  Imp  FATALEXIT            (KERNEL.1)
+ 0000:0000  Imp  MESSAGEBOX           (USER.1)
+ 0000:0000  Imp  GETMODULEUSAGE       (KERNEL.48)
+ 0000:0000  Imp  GLOBALALLOC          (KERNEL.15)
+ 0000:0001  Abs  __sizec
+ 0000:0001  Abs  __sized
+ 0000:0006  Abs  pLocalHeap
+ 0000:0008  Abs  pAtomTable
+ 0000:000A  Abs  pStackTop
+ 0000:000C  Abs  pStackMin
+ 0000:000E  Abs  pStackBot
+ 0000:0632  Abs  FISRQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __fltused
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __fptaskdata
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:D6D6  Abs  __aDBused
+ 0001:0000       SETPARAM
+ 0001:0065       SETINTPARAM
+ 0001:009F       SETPATCH
+ 0001:00C3       GETPATCH
+ 0001:00ED       _set_nothing
+ 0001:00FD       _set_flt_nothing
+ 0001:010D       _set_RealDetector
+ 0001:013E       _set_DetPort
+ 0001:0159       _set_Scans
+ 0001:0181       _set_Mems
+ 0001:01D6       _set_Mem
+ 0001:02CD       _set_PIA_Out
+ 0001:02F3       _set_Ignores
+ 0001:031B       _set_Lastscan
+ 0001:0338       _set_Preps
+ 0001:0360       _shift_line_time
+ 0001:0419       _set_ExposeTime
+ 0001:074A       _CalcDataOffsets
+ 0001:07E7       _set_RegionET
+ 0001:0A71       _set_PointSize
+ 0001:0A91       _set_DetectorType
+ 0001:0AAC       _set_DaProg
+ 0001:0AED       _set_Freq
+ 0001:0F04       _set_AntiBloom
+ 0001:1317       _set_OutputReg
+ 0001:1378       _set_X0
+ 0001:1416       _set_DeltaX
+ 0001:1486       _set_RegSize
+ 0001:14E4       _set_CurrentPoint
+ 0001:1540       _set_DaActive
+ 0001:156E       _set_ActiveX
+ 0001:15BE       _set_CurrentTrack
+ 0001:15FE       _set_Y0
+ 0001:1680       _set_DeltaY
+ 0001:16F5       _set_ActiveY
+ 0001:1803       _set_PointMode
+ 0001:1A32       _set_TrackMode
+ 0001:1C71       _set_ShiftMode
+ 0001:1C9D       _set_Points
+ 0001:1D0D       _set_Regions
+ 0001:1D64       _set_Tracks
+ 0001:1EC8       _set_PulserType
+ 0001:1EE3       _calc_pulse_patches
+ 0001:1F50       _set_PulserDelay
+ 0001:1FE3       _set_PulserWidth
+ 0001:20B6       _set_PulserDelayInc
+ 0001:2149       _set_PulserDelayRange
+ 0001:21B1       _set_PulserConfig
+ 0001:2234       _set_PulserTrigSrc
+ 0001:2290       _set_PulserAudio
+ 0001:22B4       _set_IntensifierMode
+ 0001:22F0       _set_PulserScanTimeout
+ 0001:2312       _set_PulserTrigCount
+ 0001:2415       _set_TrigThreshVolts
+ 0001:24D9       _set_PulserTrigThresh
+ 0001:2522       _set_ShutterMode
+ 0001:2556       _set_ShutterOpenSync
+ 0001:25A3       _set_ShutterCloseSync
+ 0001:25D9       _set_SourceCompMode
+ 0001:260F       _set_SameET
+ 0001:2646       _ClearMems
+ 0001:26CA       _set_ClearMem
+ 0001:26E4       _ClearRunMems
+ 0001:2732       _ClearAllMems
+ 0001:276F       _set_ControlMode
+ 0001:27A3       _set_MainTrigger
+ 0001:27CC       _set_Temp
+ 0001:2846       _set_CoolOnOff
+ 0001:28A1       _set_PixTime
+ 0001:28DA       _set_ShiftTime
+ 0001:2936       _set_StreakMode
+ 0001:2A83       _set_ExposedRows
+ 0001:2A9E       _set_Prescan
+ 0001:2ACD       _set_ProgTrigger
+ 0001:2AEF       _WriteSys
+ 0001:2F1D       _start_OMA_DA
+ 0001:3036       _InitStartDetector
+ 0001:306C       _stop_OMA_DA
+ 0001:30B8       WRITECURVETOMEM
+ 0001:30E5       GETPARAM
+ 0001:314E       GETINTPARAM
+ 0001:3186       _get_HiMem
+ 0001:31A6       _get_Ident
+ 0001:31BE       _get_Version
+ 0001:31DF       _get_DetPort
+ 0001:31FD       _get_Error
+ 0001:3219       _get_Frame
+ 0001:323D       _get_Freq
+ 0001:3264       _get_MinET
+ 0001:32EC       _get_DaActive
+ 0001:3321       _get_Bytes
+ 0001:3353       _get_PointSize
+ 0001:3371       _get_DetectorType
+ 0001:338F       _get_DaProg
+ 0001:33AD       _get_DaMaxProg
+ 0001:3443       GETOMASTRING
+ 0001:3484       SETOMASTRING
+ 0001:34C5       _get_nothing
+ 0001:34DD       _get_source_comp_point
+ 0001:3502       _get_SourceComp
+ 0001:3546       _get_SameET
+ 0001:356A       _get_OMA_memory_size
+ 0001:3590       _get_DeltaX
+ 0001:35CF       _get_RegSize
+ 0001:360B       _get_DeltaY
+ 0001:3652       _get_Temp
+ 0001:3670       _get_ExposeTime
+ 0001:374B       _get_RegionET
+ 0001:3817       _calc_rpix_time
+ 0001:3A89       _get_FrameTime
+ 0001:3DF0       _get_Preps
+ 0001:3E0E       _IsActive
+ 0001:3E46       _get_Scans
+ 0001:3E83       _get_Lastscan
+ 0001:3EA3       _get_Mem
+ 0001:3EE1       _get_Mems
+ 0001:3EFF       _get_PIA_In
+ 0001:3F21       _get_PIA_Out
+ 0001:3F43       _get_Ignores
+ 0001:3F80       _get_PulserDelay
+ 0001:3FA6       _get_PulserType
+ 0001:401F       _get_PulserWidth
+ 0001:4045       _get_PulserTrigSrc
+ 0001:4063       _get_IntensifierMode
+ 0001:40B9       _get_PulserDelayInc
+ 0001:40DF       _get_PulserDelayRange
+ 0001:4113       _get_PulserTrigCount
+ 0001:4131       _get_PulserScanTimeout
+ 0001:4157       _get_PulserAudio
+ 0001:4175       _get_PulserTrigThresh
+ 0001:4193       _get_TrigThreshVolts
+ 0001:41C8       _get_SourceCompMode
+ 0001:41E6       _get_ShiftMode
+ 0001:4207       _get_ShutterMode
+ 0001:4225       _get_PointMode
+ 0001:4243       _get_Point
+ 0001:4261       _get_Points
+ 0001:42CD       _get_Regions
+ 0001:42EB       _get_StartMode
+ 0001:4309       _get_ControlMode
+ 0001:4327       _get_MainTrigger
+ 0001:434E       _get_MaxET
+ 0001:436F       _get_MaxMem
+ 0001:438D       _get_CurrentTrack
+ 0001:43CA       _get_CurrentPoint
+ 0001:43E8       _get_Tracks
+ 0001:441D       _get_TrackMode
+ 0001:443B       _get_ShutterCloseSync
+ 0001:4459       _get_ShutterOpenSync
+ 0001:4477       _get_X0
+ 0001:44F4       _get_Y0
+ 0001:453B       _get_CoolOnOff
+ 0001:4566       _get_CoolLocked
+ 0001:45C5       _get_CoolStatus
+ 0001:46B4       _get_CoolerType
+ 0001:471F       _get_StreakTime
+ 0001:47B7       _get_PrescanTime
+ 0001:485D       _get_PixTime
+ 0001:487E       _get_ShiftTime
+ 0001:48A2       _get_StreakMode
+ 0001:48C6       _get_ExposedRows
+ 0001:48E4       _get_Prescan
+ 0001:4902       _get_AntiBloom
+ 0001:4920       _get_OutputReg
+ 0001:4944       _get_ActiveX
+ 0001:498A       _get_ActiveY
+ 0001:49BF       _get_RealDetector
+ 0001:49DE       _CheckRegionOverlap
+ 0001:4CE9       _sort_regions
+ 0001:4D0F       _RapdaDataPtToPixel
+ 0001:4DBD       READCURVEFROMMEM
+ 0001:4DEA       GETDATAPOINTER
+ 0001:4E03       _install_monitor
+ 0001:4FE4       _init_detector
+ 0001:52A0       INITDETECTOR
+ 0001:52C4       SETUP_DETECTOR_INTERFACE
+ 0001:5343       SHUTDOWNDETECTOR
+ 0001:535A       _find_get_cmd
+ 0001:53C1       _find_flt_get_cmd
+ 0001:5428       _get_int_detect_param
+ 0001:5462       _get_flt_detect_param
+ 0001:549C       _find_set_cmd
+ 0001:5503       _find_flt_set_cmd
+ 0001:556A       _set_int_detect_param
+ 0001:55A1       _set_flt_detect_param
+ 0001:55DC       _enable_controller_memory
+ 0001:5694       _map_program_memory
+ 0001:56DB       _release_OMA_reset
+ 0001:572A       _set_OMA_reset
+ 0001:5769       _reset_and_map_data
+ 0001:57AC       _access_alternating_bytes
+ 0001:58F7       _update_DC_counter
+ 0001:5915       _update_FC_counter
+ 0001:5933       _read_DC_counter
+ 0001:5957       _read_FC_counter
+ 0001:597B       _read_FC_pointer
+ 0001:59A2       _update_FC_pointer
+ 0001:59C0       _get_DAC_counter_address
+ 0001:5C61       _get_DAC_counter
+ 0001:5CA7       _set_DAC_counter
+ 0001:5CDE       _get_DAC_pointer_address
+ 0001:5DD8       _get_DAC_pointer
+ 0001:5E22       _set_DAC_pointer
+ 0001:5F57       _access_init_detector
+ 0001:5FF8       _access_startup_detector
+ 0001:60B1       _get_data_address
+ 0001:60DC       _access_shutdown_detector
+ 0001:60EC       _switch_da
+ 0001:62F7       _set_holdoff_release
+ 0001:6307       _clr_holdoff_release
+ 0001:6317       _release_OMA_and_init
+ 0001:6354       _stop_OMA_DA_in_progress
+ 0001:637A       _sort_OMA4_data
+ 0001:64D7       _trans_OMA4_data
+ 0001:65D9       _get_OMA4_data
+ 0001:65F9       _put_OMA4_data
+ 0001:6619       _setup_for_asic_patch
+ 0001:664F       _set_asic_opbits
+ 0001:6743       _clr_asic_opbits
+ 0001:683B       _rep_asic_opbits
+ 0001:6917       _get_asic_counter
+ 0001:69EE       _get_asic_offset
+ 0001:6A8B       _get_sharedcomm_size
+ 0001:6A9E       _set_asic_pointer
+ 0001:6B76       _set_cue_onoff
+ 0001:6C9F       _set_inex_shutter_status
+ 0001:6CED       _set_streakmode_status
+ 0001:6DBE       _set_shutter_forced_status
+ 0001:6E63       _set_sync_open_status
+ 0001:6EA0       _set_sync_close_status
+ 0001:6EDD       _set_source_comp_status
+ 0001:6F0C       _set_pixtime_status
+ 0001:7037       _set_shifttime_status
+ 0001:70CE       _set_shiftreg_status
+ 0001:71B3       _calc_antibloom_counts
+ 0001:727D       _access_source_comp
+ 0001:7326       _wait_off
+ 0001:7336       _wait_on
+ 0001:7346       _wait_id
+ 0001:73F9       _InqHasFastShift
+ 0001:7409       _convert_code_to_index
+ 0001:74D7       _id_detector
+ 0001:75C1       _scan_counter_table
+ 0001:7B68       _update_from_shared_memory
+ 0001:7CED       _get_monitor_string
+ 0001:7D68       _erase_comm_area
+ 0001:7D97       _emit_byte
+ 0001:7DDC       _emit_word
+ 0001:7DFE       _emit_long
+ 0001:82D5       _rserial_setup
+ 0001:91C5       _rimage_setup
+ 0001:9446       _SetShortDelay
+ 0001:961A       _DelayToCntrVals
+ 0001:96D3       _StoreDAC_W
+ 0001:9717       _StoreDAC_L
+ 0001:9761       _SetUpRapdaTables
+ 0001:A547       _download_object_file
+ 0001:A72D       _download_monitor_file
+ 0001:A7E4       _write_monitor_file
+ 0001:A89B       _forget_previous_programs
+ 0001:A939       _erase_memory
+ 0001:AA28       _cacheoff
+ 0001:AAE3       _cacheon
+ 0001:AB98       _find_cache_type
+ 0001:AF56       _WriteLongHexInt
+ 0001:AF96       _DispMsg
+ 0001:AFFA       LIBMAIN
+ 0001:B37A       WEP
+ 0001:B40E       _DPMISetSelectorLimit
+ 0001:B44A       _MapPhysical
+ 0001:B519       _GetProtectedPointer
+ 0001:B53C       _ReleaseDescriptors
+ 0002:0010       __wflags
+ 0002:0054       __astart
+ 0002:00F6       __nomain
+ 0002:010E       __cinit
+ 0002:0156       __cexit
+ 0002:0167       __c_exit
+ 0002:01B5       __ctermsub
+ 0002:01F2       _sprintf
+ 0002:0260       _fclose
+ 0002:0334       __ftime
+ 0002:044C       ___EXPORTEDSTUB
+ 0002:0460       __fsopen
+ 0002:049A       _fopen
+ 0002:04BA       _fread
+ 0002:063A       _fwrite
+ 0002:07DE       _strcat
+ 0002:0832       _strcpy
+ 0002:086E       _strlen
+ 0002:0888       _atof
+ 0002:08E6       _fseek
+ 0002:096A       _rewind
+ 0002:09B4       _calloc
+ 0002:09F0       __int86
+ 0002:0A9A       __inp
+ 0002:0AB4       __outp
+ 0002:0AD0       __stricmp
+ 0002:0AD0       __strcmpi
+ 0002:0B16       __strnicmp
+ 0002:0B6E       __strupr
+ 0002:0B92       _strtok
+ 0002:0C3A       _strstr
+ 0002:0CA6       _memmove
+ 0002:0D70       __memicmp
+ 0002:0DF6       _memcpy
+ 0002:0E54       _memset
+ 0002:0E9C       _strtoul
+ 0002:0EA8       _strtol
+ 0002:0FDA       __searchenv
+ 0002:1104       __aFldiv
+ 0002:119E       __aFulmul
+ 0002:119E       __aFlmul
+ 0002:11D0       __aFuldiv
+ 0002:1230       __aFulrem
+ 0002:129A       __fmemcpy
+ 0002:12F8       __fmemset
+ 0002:1340       _sqrt
+ 0002:1346       __aFCIsqrt
+ 0002:134C       __aFCIceil
+ 0002:1381       _ceil
+ 0002:13A7       B$FIST
+ 0002:13C4       __ftol
+ 0002:13C4       __aFftol
+ 0002:1402       _fabs
+ 0002:1448       __stubmain
+ 0002:1474       __FF_MSGBANNER
+ 0002:1498       __setenvp
+ 0002:1530       __getcwd
+ 0002:154E       __getdcwd
+ 0002:175A       __stat
+ 0002:194A       __lseek
+ 0002:1A12       __read
+ 0002:1B5E       __write
+ 0002:1CFA       __output
+ 0002:21F0       __flsbuf
+ 0002:22D2       __dostotime_t
+ 0002:23D0       ___tzset
+ 0002:23EC       __tzset
+ 0002:25B4       __isindst
+ 0002:2688       __fptrap
+ 0002:268E       __dosret0
+ 0002:269B       __dosreturn
+ 0002:26AD       __dosretax
+ 0002:26BF       __maperror
+ 0002:26EC       __GetDGROUP
+ 0002:26FC       __nearstub
+ 0002:26FE       __filbuf
+ 0002:27A8       __freebuf
+ 0002:27E0       __openfile
+ 0002:2920       _fflush
+ 0002:297C       __flush
+ 0002:29FC       __flushall
+ 0002:2A7C       __getstream
+ 0002:2AD0       __close
+ 0002:2B08       __ffree
+ 0002:2B29       __fmalloc
+ 0002:2BD0       __itoa
+ 0002:2BEC       _getenv
+ 0002:2C88       __aFahdiff
+ 0002:2CA8       _ftell
+ 0002:2E4E       __frealloc
+ 0002:2EE2       __getpath
+ 0002:2F5C       _remove
+ 0002:2F5C       __unlink
+ 0002:2F82       __dos_getdate
+ 0002:2FBC       __dos_gettime
+ 0002:300C       __forcdecpt
+ 0002:3082       __cropzeros
+ 0002:3106       __positive
+ 0002:313E       __fassign
+ 0002:3196       __cftoe
+ 0002:3362       __cftof
+ 0002:34FA       __cftog
+ 0002:35DA       __cfltcvt
+ 0002:367C       __cintrindisp2
+ 0002:36AC       __cintrindisp1
+ 0002:36D8       __ctrandisp2
+ 0002:36F2       __ctrandisp1
+ 0002:3834       __fltin
+ 0002:3898       __fpsignal
+ 0002:38BC       __NMSG_TEXT
+ 0002:38F3       __NMSG_WRITE
+ 0002:390A       __aNchkstk
+ 0002:392A       __chkstk
+ 0002:392A       __aFchkstk
+ 0002:3964       __cintDIV
+ 0002:396E       __amsg_exit
+ 0002:39B0       __commit
+ 0002:3A0E       __newseg
+ 0002:3A90       __freefarheap
+ 0002:3A9E       __growseg
+ 0002:3B2F       __incseg
+ 0002:3B95       __findlast
+ 0002:3BB6       __myalloc
+ 0002:3BE4       __getbuf
+ 0002:3C30       __sopen
+ 0002:3C48       __open
+ 0002:3F07       __cXENIXtoDOSmode
+ 0002:3F18       __stackavail
+ 0002:3F2C       __searchseg
+ 0002:3FA8       _strncpy
+ 0002:3FD2       _strncmp
+ 0002:400E       _atol
+ 0002:4012       __fptostr
+ 0002:40C0       __resize
+ 0002:4188       __findseg
+ 0002:41B2       __intdosx
+ 0002:4230       _strrchr
+ 0002:4264       _strpbrk
+ 0002:42C2       __cltoasub
+ 0002:42CF       __cxtoa
+ 0002:4326       __getdrive
+ 0002:4350       __chdrive
+ 0002:439A       __fullpath
+ 0002:46DE       __dos_findnext
+ 0002:46F0       __dos_findfirst
+ 0002:476A       __aFlrem
+ 0002:480A       __fstrncmp
+ 0002:4846       __fstrncpy
+ 0002:4870       __fstrlen
+ 0002:488A       __fstrcpy
+ 0002:48C6       __fmemmove
+ 0002:4990       __trandisp1
+ 0002:49D2       __trandisp2
+ 0002:4A35       __rttospopde
+ 0002:4A38       __rttospop
+ 0002:4A3B       __rtnospop
+ 0002:4A3E       __rttosnpop
+ 0002:4A3F       __rtnospopde
+ 0002:4A44       __rtzeropop
+ 0002:4A47       __rtzeronpop
+ 0002:4A4E       __rtonepop
+ 0002:4A51       __rtonenpop
+ 0002:4A58       __rtbignan
+ 0002:4A5F       __rtifprojpop
+ 0002:4A66       __rtindfpop
+ 0002:4A69       __rtindfnpop
+ 0002:4A77       __rttosnpopde
+ 0002:4A7E       __rtifprojnpop
+ 0002:4A87       __rtchsifneg
+ 0002:4A90       __STRINGTOD
+ 0002:4AF8       __fltout
+ 0002:4B4E       __matherr
+ 0002:4B68       __freelist
+ 0002:4B92       __farstub
+ 0002:4B94       __initseg
+ 0002:4BC8       __linkseg
+ 0002:4BFE       __catox
+ 0002:4C54       __dos_commit
+ 0002:4CC6       $i8_output
+ 0002:4E0C       __STRINGTOLD
+ 0002:51F0       $i8_tpwr10
+ 0002:54E6       __LD12MULTTENPOWER
+ 0002:55BB       __LD12MULT
+ 0002:5740       __MANTOLD12
+ 0003:0000       _monitor_fname
+ 0003:000E       _dacfile_fname
+ 0003:001C       _ascfile_fname
+ 0003:002A       _vstep
+ 0005:0000       _FC_mode_count
+ 0005:0002       _DAC_seq_count
+ 0007:0000       _TRACK_SETUP
+ 0007:234A       _TRIGGER_SETUP
+ 0007:36F4       _POINT_SETUP
+ 0007:4A9E       _FC_mode_list
+ 0007:4C9E       _DC_mode_list
+ 0007:4E9E       _RAPDA_SETUP
+ 0008:0004       rsrvptrs
+ 0008:0010       _DriverVersion
+ 0008:0014       _detector_index
+ 0008:0018       _det_setup
+ 0008:001C       _monitor_string
+ 0008:003E       _RequiredMonitorVersion
+ 0008:0048       _pixtime_matrix
+ 0008:00F6       _OMA_phys_address
+ 0008:00FA       _OMA_memory_address
+ 0008:00FE       _OMA_memory_size
+ 0008:0102       _OMA_DAC_address
+ 0008:0106       _memsize_code
+ 0008:0108       _OMA_port_address
+ 0008:010A       _fake_detector
+ 0008:010C       _hi_shift
+ 0008:0110       _CommonArea
+ 0008:0114       _monitor_addr
+ 0008:0118       _data_selector
+ 0008:0132       _DC_mode_count
+ 0008:0142       _sc_bits_open
+ 0008:0144       _sc_bits_close
+ 0008:0146       _sm_bits_open
+ 0008:0148       _sm_bits_close
+ 0008:014E       _BlkNameBuf
+ 0008:0152       _NumDACBlks
+ 0008:01C2       _index_port
+ 0008:01C6       _index_val
+ 0008:01CA       _cache_port
+ 0008:01CE       _cache_on
+ 0008:01D2       _cache_off
+ 0008:027E       _cache_type
+ 0008:0298       _hinstLib
+ 0008:03DA       _STKHQQ
+ 0008:03DC       __hModule
+ 0008:03DE       __wDataSeg
+ 0008:03E0       __wHeapSize
+ 0008:03E2       __lpszCmdLine
+ 0008:03E6       __dllinit
+ 0008:03E7       _aseglo
+ 0008:03E9       _aseghi
+ 0008:03EB       ___aDBswpflg
+ 0008:03ED       ___aDBrterr
+ 0008:03F0       __aintdiv
+ 0008:03F4       __fac
+ 0008:03FE       _errno
+ 0008:0400       __umaskval
+ 0008:0402       __winver
+ 0008:0402       __winminor
+ 0008:0403       __winmajor
+ 0008:0404       __osminor
+ 0008:0404       __osver
+ 0008:0405       __osmajor
+ 0008:0406       __osversion
+ 0008:0408       __osmode
+ 0008:0409       __cpumode
+ 0008:040A       __doserrno
+ 0008:040A       __oserr
+ 0008:040C       __nfile
+ 0008:040E       __osfile
+ 0008:0422       ___argc
+ 0008:0424       ___argv
+ 0008:0428       __environ
+ 0008:042C       __pgmptr
+ 0008:0431       __child
+ 0008:0433       __exitflag
+ 0008:0452       __adbgmsg
+ 0008:04CE       __lastiob
+ 0008:04EC       __pnhFarHeap
+ 0008:04F0       __cfltcvt_tab
+ 0008:050C       __sigintseg
+ 0008:050E       __sigintoff
+ 0008:0510       __asizeC
+ 0008:0511       __asizeD
+ 0008:0512       __ctype
+ 0008:0512       __ctype_
+ 0008:0614       __lpdays
+ 0008:062E       __days
+ 0008:0648       __timezone
+ 0008:064C       __daylight
+ 0008:0656       __tzname
+ 0008:065E       __sqrtjmptab
+ 0008:06BA       __aaltstkovr
+ 0008:06BE       __fheap
+ 0008:06CC       __amblksiz
+ 0008:06CE       __cflush
+ 0008:06D0       __commode
+ 0008:06D2       __lseekchk
+ 0008:06D4       __indefinite
+ 0008:06DE       __piby2
+ 0008:06E8       __cpower
+ 0008:072A       __HUGE
+ 0008:0732       __matherr_flag
+ 0008:0734       __iomode
+ 0008:0734       __fmode
+ 0008:0782       __fpinit
+ 0008:0796       __iob
+ 0008:0886       __iob2
+ 0008:0DDE       _edata
+ 0008:0DDE       __edata
+ 0008:0ED0       _det_setups
+ 0008:0F4C       _DAC_pointer
+ 0008:0F50       _ThisRegion
+ 0008:0F58       _short_et
+ 0008:0F5C       _cache_selector
+ 0008:0F60       __mbac
+ 0008:0F68       _bits_open
+ 0008:0F6A       _bits_close
+ 0008:0F6C       _end
+ 0008:0F6C       __end
+ 0000:4000  Abs  FJARQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0000:A23D  Abs  FIWRQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:FE32  Abs  FIARQQ
+
+Program entry point at 0002:0054

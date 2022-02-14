@@ -1,0 +1,71 @@
+;****************************************************************
+;*                                                              *
+;*      This program (CKDAC.DAC) will test the DAC's Data       *
+;*      memory with the fast algorithm.                         *
+;*                                                              *
+;****************************************************************
+
+INCLUDE 'OPS.ADD'
+
+MSG     EQU     $804000                 ;Message area.
+PCINT   EQU     $10000                  ;IBM Interrupt request area.
+
+;------- Erase data memory -------------------------------------
+
+START   DAC_BLOCK
+
+        MOVE W  #$4146,MSG+28           ;FA characters.
+	MOVE W  #$4C49,MSG+30           ;IL characters.
+	MOVE W  #$4445,MSG+32           ;ED characters.
+
+;	DO #$8000                       ;Waste time
+;  	  DONOT
+;	LOOP
+
+;------- Test 2M bytes of data memory --------------------------
+
+;	MOVE W  #0,QUIKTEST             ;Do 15 pass test.
+;	TESTMEM #$80000                 ;Test 512K bytes.
+
+;------- Write Passed message ----------------------------------
+
+	MOVE W  #$2020,MSG              ;Space characters.
+	MOVE W  #$2020,MSG+2            ;Space characters.
+	MOVE W  #$2020,MSG+4            ;Space characters.
+	MOVE W  #$2020,MSG+6            ;Space characters.
+	MOVE W  #$2D20,MSG+8            ;Space characters.
+	MOVE W  #$4420,MSG+10           ; D characters.
+	MOVE W  #$4341,MSG+12           ;AC characters.
+	MOVE W  #$4D20,MSG+14           ; M characters.
+	MOVE W  #$6D65,MSG+16           ;em characters.
+	MOVE W  #$726F,MSG+18           ;or characters.
+	MOVE W  #$2079,MSG+20           ;y  characters.
+	MOVE W  #$6554,MSG+22           ;Te characters.
+	MOVE W  #$7473,MSG+24           ;st characters.
+	MOVE W  #$203A,MSG+26           ;:  characters.
+	MOVE W  #$4150,MSG+28           ;PA characters.
+	MOVE W  #$5353,MSG+30           ;SS characters.
+	MOVE W  #$4445,MSG+32           ;ED characters.
+	MOVE W  #$0000,MSG+34           ;End of string delimiter.
+
+;	COMP W  #0,SUCCESS
+;	BEQ     EOP                     ;Jump if test failed.
+;	MOVE W  #0,PCINT
+
+;	DO      25000
+;	  DONOT
+;	LOOP
+
+	GOTO    START                   ;Continue if test passed.
+
+;------- Write Failed message ----------------------------------
+
+EOP     MOVE W  #$4146,MSG+28           ;FA characters.
+	MOVE W  #$4C49,MSG+30           ;IL characters.
+	MOVE W  #$4445,MSG+32           ;ED characters.
+
+;------- Interrupt the IBM  ------------------------------------
+
+	MOVE W  #0,PCINT
+	DONE
+

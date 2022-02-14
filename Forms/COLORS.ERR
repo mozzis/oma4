@@ -1,0 +1,18 @@
+Microsoft (R) C Optimizing Compiler Version 6.00A   
+Copyright (c) Microsoft Corp 1984-1990. All rights reserved.
+
+colors.c
+colors.c(178) : warning C4049: 'initializing' : indirection to different types
+colors.c(280) : warning C4049: 'initializing' : indirection to different types
+colors.c(349) : warning C4135: conversion between different integral types
+colors.c(350) : warning C4135: conversion between different integral types
+colors.c(353) : warning C4135: conversion between different integral types
+colors.c(354) : warning C4135: conversion between different integral types
+colors.c(357) : warning C4135: conversion between different integral types
+colors.c(358) : warning C4135: conversion between different integral types
+colors.c(361) : warning C4135: conversion between different integral types
+colors.c(362) : warning C4135: conversion between different integral types
+colors.c(365) : warning C4135: conversion between different integral types
+colors.c(366) : warning C4135: conversion between different integral types
+colors.c(370) : warning C4135: conversion between different integral types
+colors.c(371) : warning C4135: conversion between different integral types

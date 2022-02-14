@@ -1,0 +1,17 @@
+void format_address(void );
+void get_new_address(void );
+int open_GSS_screen_device(void );
+void close_GSS_screen_device(void );
+void erase_screen_section(DESCARTES *erase_area);
+int allocate_memory_from_DOS(void far * *buf,unsigned long *size);
+void free_DOS_memory(void far *buf);
+int allocate_buffers(void );
+void release_buffers(void );
+void set_gss_x_values(void );
+void set_up_plot_parameters(void );
+int scale_or_break(void );
+void show_address_and_index(unsigned long addr,int index);
+void repeat_plot(void );
+int read_default_setup_from_disk(void );
+int write_default_setup_to_disk(void );
+void main(void );

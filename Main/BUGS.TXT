@@ -1,0 +1,16 @@
+MEM doesn't work?
+
+ASCII transfer?
+
+MC[y]
+
+DC[y]
+
+False Color
+
+CONFOCAL/Global Imaging?
+Single stage - raman imaging under a microscope? 60Klbs including laser
+Two users to give advice 
+actual coords to virtual coords - don't see every pixel - no anti-aliasing
+thresholds 2 4 8 16 32 64 log of intensity
+

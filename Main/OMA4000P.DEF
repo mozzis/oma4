@@ -1,0 +1,12 @@
+;-------------------------------------
+; OMA4000P.DEF module definition file
+;-------------------------------------
+
+NAME           OMA4000p NOTWINDOWCOMPAT
+DESCRIPTION    'OMA4000 protected mode executable'
+STUB    'OS2STUB.EXE'
+
+CODE MOVEABLE
+DATA MOVABLE
+SEGMENTS _IOSEG CLASS 'IOSEG_CODE' IOPL
+

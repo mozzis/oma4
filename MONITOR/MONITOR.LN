@@ -1,0 +1,3504 @@
+.id "date" "Nov  1 1993  18:17:25"
+.id "target" "68000"
+.seg {PSCT} %1 1 1 {}
+.len %1 0
+.seg {VTABLE} %2 1 u {sdata}
+.len %2 1008
+.abs %2 0
+.seg {STACK} %3 1 1 {sdata}
+.len %3 512
+.seg {POINTERS} %4 1 1 {pdata}
+.len %4 56
+.seg {DATA} %5 1 1 {udata}
+.len %5 9044
+.seg {CODE} %6 1 1 {sprogram}
+.len %6 4344
+.id "translator" "linker"
+.defg {FCTBLPTR} %7%4
+.defg {FCTBLINX} %8%4 2+
+.defg {FCCODPTR} %9%4 4+
+.defg {DCTBLPTR} %10%4 6+
+.defg {DCTBLINX} %11%4 8+
+.defg {DCCODPTR} %12%4 10+
+.defg {DACTBLPTR} %13%4 12+
+.defg {DACTBLINX} %14%4 14+
+.defg {DACCODPTR} %15%4 16+
+.defg {LCTBLPTR} %16%4 18+
+.defg {LCTBLINX} %17%4 20+
+.id "as68k.exe sid" "@(#)as68k.PL 3.18.1.1"
+.id "mod" "monitor.ol"
+.file "monitor.asm"
+.id "Monitor" "3,0"
+.aorg %2 0 
+%3 512+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 2334+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+%6 1638+:L
+.aorg %2 1008 
+.org %4 0
+%5 256+:W
+'0000'
+'0000'
+%5 2256+:W
+'0000'
+'0000'
+%5 4256+:W
+'0000'
+%6 2344+:W
+%5 6256+:W
+'0000'
+'00800000'
+'00800000'
+'4f4d4134204d6f6e69746f722076657273696f6e20332e302000'
+.org %5 2
+'ffff0000'
+'00000000'
+'0000'
+'0000'
+.org %5 254
+%5 134+:W
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+.mark 403%6
+.org %6 0
+'301c'
+.mark 404%6 2+
+'205c'
+.mark 405%6 4+
+'d110'
+.mark 406%6 6+
+'3a5c'
+.mark 406%6 8+
+'4ed5'
+.mark 410%6 10+
+'301c'
+.mark 411%6 12+
+'205c'
+.mark 412%6 14+
+'d150'
+.mark 413%6 16+
+'3a5c'
+.mark 413%6 18+
+'4ed5'
+.mark 417%6 20+
+'201c'
+.mark 418%6 22+
+'205c'
+.mark 419%6 24+
+'d190'
+.mark 420%6 26+
+'3a5c'
+.mark 420%6 28+
+'4ed5'
+.mark 425%6 30+
+'301c'
+.mark 426%6 32+
+'205c'
+.mark 427%6 34+
+'2050'
+.mark 428%6 36+
+'d110'
+.mark 429%6 38+
+'3a5c'
+.mark 429%6 40+
+'4ed5'
+.mark 433%6 42+
+'301c'
+.mark 434%6 44+
+'205c'
+.mark 435%6 46+
+'2050'
+.mark 436%6 48+
+'d150'
+.mark 437%6 50+
+'3a5c'
+.mark 437%6 52+
+'4ed5'
+.mark 441%6 54+
+'201c'
+.mark 442%6 56+
+'205c'
+.mark 443%6 58+
+'2050'
+.mark 444%6 60+
+'d190'
+.mark 445%6 62+
+'3a5c'
+.mark 445%6 64+
+'4ed5'
+.mark 449%6 66+
+'205c'
+.mark 450%6 68+
+'1010'
+.mark 451%6 70+
+'225c'
+.mark 452%6 72+
+'d111'
+.mark 453%6 74+
+'3a5c'
+.mark 453%6 76+
+'4ed5'
+.mark 457%6 78+
+'205c'
+.mark 458%6 80+
+'3010'
+.mark 459%6 82+
+'225c'
+.mark 460%6 84+
+'d151'
+.mark 461%6 86+
+'3a5c'
+.mark 461%6 88+
+'4ed5'
+.mark 465%6 90+
+'205c'
+.mark 466%6 92+
+'2010'
+.mark 467%6 94+
+'225c'
+.mark 468%6 96+
+'d191'
+.mark 469%6 98+
+'3a5c'
+.mark 469%6 100+
+'4ed5'
+.mark 473%6 102+
+'205c'
+.mark 474%6 104+
+'1010'
+.mark 475%6 106+
+'225c'
+.mark 476%6 108+
+'2251'
+.mark 477%6 110+
+'d111'
+.mark 478%6 112+
+'3a5c'
+.mark 478%6 114+
+'4ed5'
+.mark 482%6 116+
+'205c'
+.mark 483%6 118+
+'3010'
+.mark 484%6 120+
+'225c'
+.mark 485%6 122+
+'2251'
+.mark 486%6 124+
+'d151'
+.mark 487%6 126+
+'3a5c'
+.mark 487%6 128+
+'4ed5'
+.mark 491%6 130+
+'205c'
+.mark 492%6 132+
+'2010'
+.mark 493%6 134+
+'225c'
+.mark 494%6 136+
+'2251'
+.mark 495%6 138+
+'d191'
+.mark 496%6 140+
+'3a5c'
+.mark 496%6 142+
+'4ed5'
+.mark 500%6 144+
+'205c'
+.mark 501%6 146+
+'2050'
+.mark 502%6 148+
+'1010'
+.mark 503%6 150+
+'225c'
+.mark 504%6 152+
+'d111'
+.mark 505%6 154+
+'3a5c'
+.mark 505%6 156+
+'4ed5'
+.mark 509%6 158+
+'205c'
+.mark 510%6 160+
+'2050'
+.mark 511%6 162+
+'3010'
+.mark 512%6 164+
+'225c'
+.mark 513%6 166+
+'d151'
+.mark 514%6 168+
+'3a5c'
+.mark 514%6 170+
+'4ed5'
+.mark 518%6 172+
+'205c'
+.mark 519%6 174+
+'2050'
+.mark 520%6 176+
+'2010'
+.mark 521%6 178+
+'225c'
+.mark 522%6 180+
+'d191'
+.mark 523%6 182+
+'3a5c'
+.mark 523%6 184+
+'4ed5'
+.mark 527%6 186+
+'205c'
+.mark 528%6 188+
+'2050'
+.mark 529%6 190+
+'1010'
+.mark 530%6 192+
+'225c'
+.mark 531%6 194+
+'2251'
+.mark 532%6 196+
+'d111'
+.mark 533%6 198+
+'3a5c'
+.mark 533%6 200+
+'4ed5'
+.mark 537%6 202+
+'205c'
+.mark 538%6 204+
+'2050'
+.mark 539%6 206+
+'3010'
+.mark 540%6 208+
+'225c'
+.mark 541%6 210+
+'2251'
+.mark 542%6 212+
+'d151'
+.mark 543%6 214+
+'3a5c'
+.mark 543%6 216+
+'4ed5'
+.mark 547%6 218+
+'205c'
+.mark 548%6 220+
+'2050'
+.mark 549%6 222+
+'2010'
+.mark 550%6 224+
+'225c'
+.mark 551%6 226+
+'2251'
+.mark 552%6 228+
+'d191'
+.mark 553%6 230+
+'3a5c'
+.mark 553%6 232+
+'4ed5'
+.mark 558%6 234+
+'301c'
+.mark 559%6 236+
+'205c'
+.mark 560%6 238+
+'9110'
+.mark 561%6 240+
+'3a5c'
+.mark 561%6 242+
+'4ed5'
+.mark 565%6 244+
+'301c'
+.mark 566%6 246+
+'205c'
+.mark 567%6 248+
+'9150'
+.mark 568%6 250+
+'3a5c'
+.mark 568%6 252+
+'4ed5'
+.mark 572%6 254+
+'201c'
+.mark 573%6 256+
+'205c'
+.mark 574%6 258+
+'9190'
+.mark 575%6 260+
+'3a5c'
+.mark 575%6 262+
+'4ed5'
+.mark 579%6 264+
+'301c'
+.mark 580%6 266+
+'205c'
+.mark 581%6 268+
+'2050'
+.mark 582%6 270+
+'9110'
+.mark 583%6 272+
+'3a5c'
+.mark 583%6 274+
+'4ed5'
+.mark 587%6 276+
+'301c'
+.mark 588%6 278+
+'205c'
+.mark 589%6 280+
+'2050'
+.mark 590%6 282+
+'9150'
+.mark 591%6 284+
+'3a5c'
+.mark 591%6 286+
+'4ed5'
+.mark 595%6 288+
+'201c'
+.mark 596%6 290+
+'205c'
+.mark 597%6 292+
+'2050'
+.mark 598%6 294+
+'9190'
+.mark 599%6 296+
+'3a5c'
+.mark 599%6 298+
+'4ed5'
+.mark 603%6 300+
+'205c'
+.mark 604%6 302+
+'1010'
+.mark 605%6 304+
+'225c'
+.mark 606%6 306+
+'9111'
+.mark 607%6 308+
+'3a5c'
+.mark 607%6 310+
+'4ed5'
+.mark 611%6 312+
+'205c'
+.mark 612%6 314+
+'3010'
+.mark 613%6 316+
+'225c'
+.mark 614%6 318+
+'9151'
+.mark 615%6 320+
+'3a5c'
+.mark 615%6 322+
+'4ed5'
+.mark 619%6 324+
+'205c'
+.mark 620%6 326+
+'2010'
+.mark 621%6 328+
+'225c'
+.mark 622%6 330+
+'9191'
+.mark 623%6 332+
+'3a5c'
+.mark 623%6 334+
+'4ed5'
+.mark 627%6 336+
+'205c'
+.mark 628%6 338+
+'1010'
+.mark 629%6 340+
+'225c'
+.mark 630%6 342+
+'2251'
+.mark 631%6 344+
+'9111'
+.mark 632%6 346+
+'3a5c'
+.mark 632%6 348+
+'4ed5'
+.mark 636%6 350+
+'205c'
+.mark 637%6 352+
+'3010'
+.mark 638%6 354+
+'225c'
+.mark 639%6 356+
+'2251'
+.mark 640%6 358+
+'9151'
+.mark 641%6 360+
+'3a5c'
+.mark 641%6 362+
+'4ed5'
+.mark 645%6 364+
+'205c'
+.mark 646%6 366+
+'2010'
+.mark 647%6 368+
+'225c'
+.mark 648%6 370+
+'2251'
+.mark 649%6 372+
+'9191'
+.mark 650%6 374+
+'3a5c'
+.mark 650%6 376+
+'4ed5'
+.mark 654%6 378+
+'205c'
+.mark 655%6 380+
+'2050'
+.mark 656%6 382+
+'1010'
+.mark 657%6 384+
+'225c'
+.mark 658%6 386+
+'9111'
+.mark 659%6 388+
+'3a5c'
+.mark 659%6 390+
+'4ed5'
+.mark 663%6 392+
+'205c'
+.mark 664%6 394+
+'2050'
+.mark 665%6 396+
+'3010'
+.mark 666%6 398+
+'225c'
+.mark 667%6 400+
+'9151'
+.mark 668%6 402+
+'3a5c'
+.mark 668%6 404+
+'4ed5'
+.mark 672%6 406+
+'205c'
+.mark 673%6 408+
+'2050'
+.mark 674%6 410+
+'2010'
+.mark 675%6 412+
+'225c'
+.mark 676%6 414+
+'9191'
+.mark 677%6 416+
+'3a5c'
+.mark 677%6 418+
+'4ed5'
+.mark 681%6 420+
+'205c'
+.mark 682%6 422+
+'2050'
+.mark 683%6 424+
+'1010'
+.mark 684%6 426+
+'225c'
+.mark 685%6 428+
+'2251'
+.mark 686%6 430+
+'9111'
+.mark 687%6 432+
+'3a5c'
+.mark 687%6 434+
+'4ed5'
+.mark 691%6 436+
+'205c'
+.mark 692%6 438+
+'2050'
+.mark 693%6 440+
+'3010'
+.mark 694%6 442+
+'225c'
+.mark 695%6 444+
+'2251'
+.mark 696%6 446+
+'9151'
+.mark 697%6 448+
+'3a5c'
+.mark 697%6 450+
+'4ed5'
+.mark 701%6 452+
+'205c'
+.mark 702%6 454+
+'2050'
+.mark 703%6 456+
+'2010'
+.mark 704%6 458+
+'225c'
+.mark 705%6 460+
+'2251'
+.mark 706%6 462+
+'9191'
+.mark 707%6 464+
+'3a5c'
+.mark 707%6 466+
+'4ed5'
+.mark 711%6 468+
+'301c'
+.mark 712%6 470+
+'205c'
+.mark 713%6 472+
+'c110'
+.mark 714%6 474+
+'3a5c'
+.mark 714%6 476+
+'4ed5'
+.mark 718%6 478+
+'301c'
+.mark 719%6 480+
+'205c'
+.mark 720%6 482+
+'c150'
+.mark 721%6 484+
+'3a5c'
+.mark 721%6 486+
+'4ed5'
+.mark 725%6 488+
+'201c'
+.mark 726%6 490+
+'205c'
+.mark 727%6 492+
+'c190'
+.mark 728%6 494+
+'3a5c'
+.mark 728%6 496+
+'4ed5'
+.mark 732%6 498+
+'205c'
+.mark 733%6 500+
+'1010'
+.mark 734%6 502+
+'225c'
+.mark 735%6 504+
+'c191'
+.mark 736%6 506+
+'3a5c'
+.mark 736%6 508+
+'4ed5'
+.mark 740%6 510+
+'205c'
+.mark 741%6 512+
+'3010'
+.mark 742%6 514+
+'225c'
+.mark 743%6 516+
+'c191'
+.mark 744%6 518+
+'3a5c'
+.mark 744%6 520+
+'4ed5'
+.mark 748%6 522+
+'205c'
+.mark 749%6 524+
+'2010'
+.mark 750%6 526+
+'225c'
+.mark 751%6 528+
+'c191'
+.mark 752%6 530+
+'3a5c'
+.mark 752%6 532+
+'4ed5'
+.mark 756%6 534+
+'4a79'
+%5:L
+.mark 757%6 540+
+'6706'
+.mark 759%6 542+
+'301c'
+.mark 760%6 544+
+'3a5c'
+.mark 760%6 546+
+'4ed5'
+.mark 762%6 548+
+'3854'
+.mark 763%6 550+
+'3a5c'
+.mark 763%6 552+
+'4ed5'
+.mark 765%6 554+
+'4a79'
+%5:L
+.mark 766%6 560+
+'6ef2'
+.mark 767%6 562+
+'301c'
+.mark 768%6 564+
+'3a5c'
+.mark 768%6 566+
+'4ed5'
+.mark 770%6 568+
+'4a79'
+%5:L
+.mark 771%6 574+
+'6de4'
+.mark 772%6 576+
+'301c'
+.mark 773%6 578+
+'3a5c'
+.mark 773%6 580+
+'4ed5'
+.mark 778%6 582+
+'4279'
+%5:L
+.mark 779%6 588+
+'3a5c'
+.mark 779%6 590+
+'4ed5'
+.mark 781%6 592+
+'33fcffff'
+%5:L
+.mark 782%6 600+
+'3a5c'
+.mark 782%6 602+
+'4ed5'
+.mark 784%6 604+
+'33fc0001'
+%5:L
+.mark 785%6 612+
+'3a5c'
+.mark 785%6 614+
+'4ed5'
+.mark 789%6 616+
+'201c'
+.mark 790%6 618+
+'205c'
+.mark 791%6 620+
+'b090'
+.mark 792%6 622+
+'67d6'
+.mark 793%6 624+
+'6eea'
+.mark 794%6 626+
+'6ddc'
+.mark 798%6 628+
+'301c'
+.mark 799%6 630+
+'205c'
+.mark 800%6 632+
+'b050'
+.mark 801%6 634+
+'67ca'
+.mark 802%6 636+
+'6ede'
+.mark 803%6 638+
+'6dd0'
+.mark 807%6 640+
+'301c'
+.mark 808%6 642+
+'205c'
+.mark 809%6 644+
+'b010'
+.mark 810%6 646+
+'67be'
+.mark 811%6 648+
+'6ed2'
+.mark 812%6 650+
+'6dc4'
+.mark 816%6 652+
+'205c'
+.mark 817%6 654+
+'225c'
+.mark 818%6 656+
+'b388'
+.mark 819%6 658+
+'67b2'
+.mark 820%6 660+
+'6ec6'
+.mark 821%6 662+
+'6db8'
+.mark 825%6 664+
+'205c'
+.mark 826%6 666+
+'225c'
+.mark 827%6 668+
+'b348'
+.mark 828%6 670+
+'67a6'
+.mark 829%6 672+
+'6eba'
+.mark 830%6 674+
+'6dac'
+.mark 834%6 676+
+'205c'
+.mark 835%6 678+
+'225c'
+.mark 836%6 680+
+'b308'
+.mark 837%6 682+
+'679a'
+.mark 838%6 684+
+'6eae'
+.mark 839%6 686+
+'6da0'
+.mark 843%6 688+
+'205c'
+.mark 844%6 690+
+'4a50'
+.mark 845%6 692+
+'6790'
+.mark 846%6 694+
+'6ea4'
+.mark 847%6 696+
+'6d96'
+.mark 851%6 698+
+'201c'
+.mark 852%6 700+
+'225c'
+.mark 853%6 702+
+'2280'
+.mark 854%6 704+
+'3a5c'
+.mark 854%6 706+
+'4ed5'
+.mark 858%6 708+
+'301c'
+.mark 859%6 710+
+'225c'
+.mark 860%6 712+
+'3280'
+.mark 861%6 714+
+'3a5c'
+.mark 861%6 716+
+'4ed5'
+.mark 865%6 718+
+'301c'
+.mark 866%6 720+
+'225c'
+.mark 867%6 722+
+'1280'
+.mark 868%6 724+
+'3a5c'
+.mark 868%6 726+
+'4ed5'
+.mark 872%6 728+
+'201c'
+.mark 873%6 730+
+'225c'
+.mark 874%6 732+
+'2251'
+.mark 875%6 734+
+'2280'
+.mark 876%6 736+
+'3a5c'
+.mark 876%6 738+
+'4ed5'
+.mark 880%6 740+
+'301c'
+.mark 881%6 742+
+'225c'
+.mark 882%6 744+
+'2251'
+.mark 883%6 746+
+'3280'
+.mark 884%6 748+
+'3a5c'
+.mark 884%6 750+
+'4ed5'
+.mark 888%6 752+
+'301c'
+.mark 889%6 754+
+'225c'
+.mark 890%6 756+
+'2251'
+.mark 891%6 758+
+'1280'
+.mark 892%6 760+
+'3a5c'
+.mark 892%6 762+
+'4ed5'
+.mark 896%6 764+
+'201c'
+.mark 897%6 766+
+'225c'
+.mark 898%6 768+
+'1280'
+.mark 899%6 770+
+'e040'
+.mark 900%6 772+
+'13400002'
+.mark 901%6 776+
+'4840'
+.mark 902%6 778+
+'13400004'
+.mark 903%6 782+
+'3a5c'
+.mark 903%6 784+
+'4ed5'
+.mark 907%6 786+
+'301c'
+.mark 908%6 788+
+'225c'
+.mark 909%6 790+
+'1280'
+.mark 910%6 792+
+'e040'
+.mark 911%6 794+
+'13400002'
+.mark 912%6 798+
+'3a5c'
+.mark 912%6 800+
+'4ed5'
+.mark 916%6 802+
+'301c'
+.mark 917%6 804+
+'225c'
+.mark 918%6 806+
+'1280'
+.mark 919%6 808+
+'3a5c'
+.mark 919%6 810+
+'4ed5'
+.mark 923%6 812+
+'205c'
+.mark 924%6 814+
+'225c'
+.mark 925%6 816+
+'2290'
+.mark 926%6 818+
+'3a5c'
+.mark 926%6 820+
+'4ed5'
+.mark 930%6 822+
+'205c'
+.mark 931%6 824+
+'225c'
+.mark 932%6 826+
+'3290'
+.mark 933%6 828+
+'3a5c'
+.mark 933%6 830+
+'4ed5'
+.mark 937%6 832+
+'205c'
+.mark 938%6 834+
+'225c'
+.mark 939%6 836+
+'1290'
+.mark 940%6 838+
+'3a5c'
+.mark 940%6 840+
+'4ed5'
+.mark 944%6 842+
+'205c'
+.mark 945%6 844+
+'225c'
+.mark 946%6 846+
+'2010'
+.mark 947%6 848+
+'1280'
+.mark 948%6 850+
+'e040'
+.mark 949%6 852+
+'13400002'
+.mark 950%6 856+
+'4840'
+.mark 951%6 858+
+'13400004'
+.mark 952%6 862+
+'3a5c'
+.mark 952%6 864+
+'4ed5'
+.mark 956%6 866+
+'205c'
+.mark 957%6 868+
+'225c'
+.mark 958%6 870+
+'3010'
+.mark 959%6 872+
+'1280'
+.mark 960%6 874+
+'e040'
+.mark 961%6 876+
+'13400002'
+.mark 962%6 880+
+'3a5c'
+.mark 962%6 882+
+'4ed5'
+.mark 966%6 884+
+'205c'
+.mark 967%6 886+
+'225c'
+.mark 968%6 888+
+'1290'
+.mark 969%6 890+
+'3a5c'
+.mark 969%6 892+
+'4ed5'
+.mark 973%6 894+
+'205c'
+.mark 974%6 896+
+'2050'
+.mark 975%6 898+
+'225c'
+.mark 976%6 900+
+'2290'
+.mark 977%6 902+
+'3a5c'
+.mark 977%6 904+
+'4ed5'
+.mark 981%6 906+
+'205c'
+.mark 982%6 908+
+'2050'
+.mark 983%6 910+
+'225c'
+.mark 984%6 912+
+'3290'
+.mark 985%6 914+
+'3a5c'
+.mark 985%6 916+
+'4ed5'
+.mark 989%6 918+
+'205c'
+.mark 990%6 920+
+'2050'
+.mark 991%6 922+
+'225c'
+.mark 992%6 924+
+'1290'
+.mark 993%6 926+
+'3a5c'
+.mark 993%6 928+
+'4ed5'
+.mark 997%6 930+
+'205c'
+.mark 998%6 932+
+'2050'
+.mark 999%6 934+
+'2010'
+.mark 1000%6 936+
+'225c'
+.mark 1001%6 938+
+'1280'
+.mark 1002%6 940+
+'e040'
+.mark 1003%6 942+
+'13400002'
+.mark 1004%6 946+
+'4840'
+.mark 1005%6 948+
+'13400004'
+.mark 1006%6 952+
+'3a5c'
+.mark 1006%6 954+
+'4ed5'
+.mark 1010%6 956+
+'205c'
+.mark 1011%6 958+
+'2050'
+.mark 1012%6 960+
+'3010'
+.mark 1013%6 962+
+'225c'
+.mark 1014%6 964+
+'1280'
+.mark 1015%6 966+
+'e040'
+.mark 1016%6 968+
+'13400002'
+.mark 1017%6 972+
+'3a5c'
+.mark 1017%6 974+
+'4ed5'
+.mark 1022%6 976+
+'205c'
+.mark 1023%6 978+
+'2050'
+.mark 1024%6 980+
+'225c'
+.mark 1025%6 982+
+'3010'
+.mark 1026%6 984+
+'1280'
+.mark 1027%6 986+
+'3a5c'
+.mark 1027%6 988+
+'4ed5'
+.mark 1031%6 990+
+'205c'
+.mark 1032%6 992+
+'225c'
+.mark 1033%6 994+
+'2251'
+.mark 1034%6 996+
+'2290'
+.mark 1035%6 998+
+'3a5c'
+.mark 1035%6 1000+
+'4ed5'
+.mark 1039%6 1002+
+'205c'
+.mark 1040%6 1004+
+'225c'
+.mark 1041%6 1006+
+'2251'
+.mark 1042%6 1008+
+'3290'
+.mark 1043%6 1010+
+'3a5c'
+.mark 1043%6 1012+
+'4ed5'
+.mark 1047%6 1014+
+'205c'
+.mark 1048%6 1016+
+'225c'
+.mark 1049%6 1018+
+'2251'
+.mark 1050%6 1020+
+'1290'
+.mark 1051%6 1022+
+'3a5c'
+.mark 1051%6 1024+
+'4ed5'
+.mark 1055%6 1026+
+'205c'
+.mark 1056%6 1028+
+'2050'
+.mark 1057%6 1030+
+'225c'
+.mark 1058%6 1032+
+'2251'
+.mark 1059%6 1034+
+'2290'
+.mark 1060%6 1036+
+'3a5c'
+.mark 1060%6 1038+
+'4ed5'
+.mark 1064%6 1040+
+'205c'
+.mark 1065%6 1042+
+'2050'
+.mark 1066%6 1044+
+'225c'
+.mark 1067%6 1046+
+'2251'
+.mark 1068%6 1048+
+'3290'
+.mark 1069%6 1050+
+'3a5c'
+.mark 1069%6 1052+
+'4ed5'
+.mark 1073%6 1054+
+'205c'
+.mark 1074%6 1056+
+'2050'
+.mark 1075%6 1058+
+'225c'
+.mark 1076%6 1060+
+'2251'
+.mark 1077%6 1062+
+'1290'
+.mark 1078%6 1064+
+'3a5c'
+.mark 1078%6 1066+
+'4ed5'
+.mark 1087%6 1068+
+'301c'
+.mark 1088%6 1070+
+'205c'
+.mark 1089%6 1072+
+'8110'
+.mark 1090%6 1074+
+'3a5c'
+.mark 1090%6 1076+
+'4ed5'
+.mark 1094%6 1078+
+'301c'
+.mark 1095%6 1080+
+'205c'
+.mark 1096%6 1082+
+'8150'
+.mark 1097%6 1084+
+'3a5c'
+.mark 1097%6 1086+
+'4ed5'
+.mark 1101%6 1088+
+'201c'
+.mark 1102%6 1090+
+'205c'
+.mark 1103%6 1092+
+'8190'
+.mark 1104%6 1094+
+'3a5c'
+.mark 1104%6 1096+
+'4ed5'
+.mark 1108%6 1098+
+'205c'
+.mark 1109%6 1100+
+'1010'
+.mark 1110%6 1102+
+'225c'
+.mark 1111%6 1104+
+'8111'
+.mark 1112%6 1106+
+'3a5c'
+.mark 1112%6 1108+
+'4ed5'
+.mark 1116%6 1110+
+'205c'
+.mark 1117%6 1112+
+'3010'
+.mark 1118%6 1114+
+'225c'
+.mark 1119%6 1116+
+'8151'
+.mark 1120%6 1118+
+'3a5c'
+.mark 1120%6 1120+
+'4ed5'
+.mark 1124%6 1122+
+'205c'
+.mark 1125%6 1124+
+'2010'
+.mark 1126%6 1126+
+'225c'
+.mark 1127%6 1128+
+'8191'
+.mark 1128%6 1130+
+'3a5c'
+.mark 1128%6 1132+
+'4ed5'
+.mark 1132%6 1134+
+'207c00040001'
+.mark 1133%6 1140+
+'08100000'
+.mark 1134%6 1144+
+'67fa'
+.mark 1135%6 1146+
+'3a5c'
+.mark 1135%6 1148+
+'4ed5'
+.mark 1139%6 1150+
+'207c00040001'
+.mark 1140%6 1156+
+'08100001'
+.mark 1141%6 1160+
+'67fa'
+.mark 1142%6 1162+
+'3a5c'
+.mark 1142%6 1164+
+'4ed5'
+.mark 1190%6 1166+
+'389c'
+.mark 1191%6 1168+
+'3d0c'
+.mark 1192%6 1170+
+'544c'
+.mark 1193%6 1172+
+'3a5c'
+.mark 1193%6 1174+
+'4ed5'
+.mark 1195%6 1176+
+'365c'
+.mark 1196%6 1178+
+'38d3'
+.mark 1197%6 1180+
+'3d0c'
+.mark 1198%6 1182+
+'38d3'
+.mark 1199%6 1184+
+'3a5c'
+.mark 1199%6 1186+
+'4ed5'
+.mark 1201%6 1188+
+'365c'
+.mark 1202%6 1190+
+'3653'
+.mark 1203%6 1192+
+'38d3'
+.mark 1204%6 1194+
+'3d0c'
+.mark 1205%6 1196+
+'38d3'
+.mark 1206%6 1198+
+'3a5c'
+.mark 1206%6 1200+
+'4ed5'
+.mark 1211%6 1202+
+'364c'
+.mark 1212%6 1204+
+'3856'
+.mark 1213%6 1206+
+'535c'
+.mark 1214%6 1208+
+'6704'
+.mark 1216%6 1210+
+'3a5c'
+.mark 1216%6 1212+
+'4ed5'
+.mark 1218%6 1214+
+'544e'
+.mark 1219%6 1216+
+'384b'
+.mark 1220%6 1218+
+'3a5c'
+.mark 1220%6 1220+
+'4ed5'
+.mark 1224%6 1222+
+'3854'
+.mark 1225%6 1224+
+'3a5c'
+.mark 1225%6 1226+
+'4ed5'
+.mark 1231%6 1228+
+'3a5c'
+.mark 1231%6 1230+
+'4ed5'
+'00800000'
+.mark 1242%6 1236+
+'205c'
+.mark 1243%6 1238+
+'2a18'
+.mark 1244%6 1240+
+'2c08'
+.mark 1245%6 1242+
+'7e0a'
+.mark 1246%6 1244+
+'9c47'
+.mark 1247%6 1246+
+'207c00030001'
+.mark 1248%6 1252+
+'247c00040001'
+.mark 1249%6 1258+
+'47f9'
+%6 1232+:L
+.mark 1250%6 1264+
+'2639'
+%4 22+:L
+.mark 1251%6 1270+
+'7200'
+.mark 1253%6 1272+
+'2401'
+.mark 1254%6 1274+
+'3246'
+.mark 1256%6 1276+
+'e24a'
+.mark 1257%6 1278+
+'d2c7'
+.mark 1258%6 1280+
+'65fa'
+.mark 1260%6 1282+
+'08120001'
+.mark 1261%6 1286+
+'67fa'
+.mark 1263%6 1288+
+'11590002'
+.mark 1264%6 1292+
+'1099'
+.mark 1265%6 1294+
+'1159000a'
+.mark 1266%6 1298+
+'11590008'
+.mark 1267%6 1302+
+'2803'
+.mark 1268%6 1304+
+'d899'
+.mark 1269%6 1306+
+'2684'
+.mark 1270%6 1308+
+'116b00010016'
+.mark 1271%6 1314+
+'116b00020014'
+.mark 1272%6 1320+
+'116b00030012'
+.mark 1274%6 1326+
+'3251'
+.mark 1275%6 1328+
+'4a51'
+.mark 1276%6 1330+
+'672e'
+.mark 1278%6 1332+
+'08120001'
+.mark 1279%6 1336+
+'67fa'
+.mark 1281%6 1338+
+'11590002'
+.mark 1282%6 1342+
+'1099'
+.mark 1283%6 1344+
+'1159000a'
+.mark 1284%6 1348+
+'11590008'
+.mark 1285%6 1352+
+'2803'
+.mark 1286%6 1354+
+'d899'
+.mark 1287%6 1356+
+'2684'
+.mark 1288%6 1358+
+'116b00010016'
+.mark 1289%6 1364+
+'116b00020014'
+.mark 1290%6 1370+
+'116b00030012'
+.mark 1292%6 1376+
+'60ce'
+.mark 1294%6 1378+
+'5281'
+.mark 1295%6 1380+
+'5385'
+.mark 1296%6 1382+
+'6e90'
+.mark 1298%6 1384+
+'3a5c'
+.mark 1298%6 1386+
+'4ed5'
+.mark 1306%6 1388+
+'4279'
+%5 12+:L
+.mark 1307%6 1394+
+'45fa'
+%5 -1390+%6 -:I
+.mark 1308%6 1398+
+'741f'
+.mark 1309%6 1400+
+'281c'
+.mark 1310%6 1402+
+'3a3a'
+%5 -1394+%6 -:I
+.mark 1311%6 1406+
+'24ba'
+%5 -1406+%6 -:I
+.mark 1312%6 1410+
+'267c00800000'
+.mark 1313%6 1416+
+'2012'
+.mark 1314%6 1418+
+'2604'
+.mark 1315%6 1420+
+'36c0'
+.mark 1316%6 1422+
+'e398'
+.mark 1317%6 1424+
+'4a40'
+.mark 1318%6 1426+
+'6602'
+.mark 1319%6 1428+
+'e398'
+.mark 1320%6 1430+
+'5583'
+.mark 1321%6 1432+
+'6ef2'
+.mark 1322%6 1434+
+'267c00800000'
+.mark 1323%6 1440+
+'2012'
+.mark 1324%6 1442+
+'2604'
+.mark 1325%6 1444+
+'b05b'
+.mark 1326%6 1446+
+'6622'
+.mark 1327%6 1448+
+'e398'
+.mark 1328%6 1450+
+'4a40'
+.mark 1329%6 1452+
+'6602'
+.mark 1330%6 1454+
+'e398'
+.mark 1331%6 1456+
+'5583'
+.mark 1332%6 1458+
+'6ef0'
+.mark 1333%6 1460+
+'2012'
+.mark 1334%6 1462+
+'e398'
+.mark 1335%6 1464+
+'2480'
+.mark 1336%6 1466+
+'4a45'
+.mark 1337%6 1468+
+'57caffc4'
+.mark 1339%6 1472+
+'5279'
+%5 12+:L
+.mark 1340%6 1478+
+'3a5c'
+.mark 1340%6 1480+
+'4ed5'
+.mark 1342%6 1482+
+'3a5c'
+.mark 1342%6 1484+
+'4ed5'
+.mark 1349%6 1486+
+'245c'
+.mark 1350%6 1488+
+'2452'
+.mark 1351%6 1490+
+'265c'
+.mark 1352%6 1492+
+'2013'
+.mark 1353%6 1494+
+'429a'
+.mark 1354%6 1496+
+'5980'
+.mark 1355%6 1498+
+'6efa'
+.mark 1356%6 1500+
+'3a5c'
+.mark 1356%6 1502+
+'4ed5'
+.mark 1361%6 1504+
+'265c'
+.mark 1362%6 1506+
+'260b'
+.mark 1363%6 1508+
+'2653'
+.mark 1364%6 1510+
+'244b'
+.mark 1365%6 1512+
+'588b'
+.mark 1367%6 1514+
+'4280'
+.mark 1368%6 1516+
+'225c'
+.mark 1369%6 1518+
+'3011'
+.mark 1371%6 1520+
+'2200'
+.mark 1372%6 1522+
+'e581'
+.mark 1373%6 1524+
+'95c1'
+.mark 1374%6 1526+
+'280a'
+.mark 1375%6 1528+
+'e280'
+.mark 1377%6 1530+
+'2223'
+.mark 1378%6 1532+
+'2692'
+.mark 1379%6 1534+
+'24c1'
+.mark 1380%6 1536+
+'51c8fff8'
+.mark 1381%6 1540+
+'2443'
+.mark 1382%6 1542+
+'2484'
+.mark 1383%6 1544+
+'3a5c'
+.mark 1383%6 1546+
+'4ed5'
+.mark 1388%6 1548+
+'207c00040001'
+.mark 1389%6 1554+
+'227c00030001'
+.mark 1390%6 1560+
+'267c00000012'
+.mark 1392%6 1566+
+'32bc0000'
+.mark 1394%6 1570+
+'08100000'
+.mark 1395%6 1574+
+'67fa'
+.mark 1397%6 1576+
+'32bc0000'
+.mark 1399%6 1580+
+'08100000'
+.mark 1400%6 1584+
+'67fa'
+.mark 1402%6 1586+
+'337cffff0004'
+.mark 1403%6 1592+
+'32bc0000'
+.mark 1404%6 1596+
+'337c00000008'
+.mark 1406%6 1602+
+'08100001'
+.mark 1407%6 1606+
+'67fa'
+.mark 1409%6 1608+
+'32bc0000'
+.mark 1410%6 1612+
+'337c00000008'
+.mark 1412%6 1618+
+'303900800008'
+.mark 1413%6 1624+
+'e340'
+.mark 1414%6 1626+
+'60000096'
+.mark 1420%6 1630+
+'50f9'
+%5 8257+:L
+.mark 1421%6 1636+
+'6066'
+.mark 1427%6 1638+
+'007c0700'
+.mark 1428%6 1642+
+'4a7900020000'
+.mark 1429%6 1648+
+'33fc000400800002'
+.mark 1430%6 1656+
+'33fc000000800004'
+.mark 1432%6 1664+
+'43fa'
+%5 6596+%6 -:I
+.mark 1433%6 1668+
+'41f80008'
+.mark 1434%6 1672+
+'7221'
+.mark 1435%6 1674+
+'20d9'
+.mark 1436%6 1676+
+'b0fc0030'
+.mark 1437%6 1680+
+'6604'
+.mark 1438%6 1682+
+'d0fc0030'
+.mark 1439%6 1686+
+'51c9fff2'
+.mark 1441%6 1690+
+'007c0700'
+.mark 1442%6 1694+
+'21fc'
+%6 1690+:L
+'0004'
+.mark 1443%6 1702+
+'2e7c'
+%3 512+:L
+.mark 1444%6 1708+
+'427900020000'
+.mark 1445%6 1714+
+'4279'
+%5 8256+:L
+.mark 1446%6 1720+
+'33fc000000800002'
+.mark 1447%6 1728+
+'33fc000000800004'
+.mark 1448%6 1736+
+'027cf8ff'
+.mark 1452%6 1740+
+'41fa'
+%5 -1488+%6 -:I
+.mark 1453%6 1744+
+'43fa'
+%5 -1612+%6 -:I
+.mark 1454%6 1748+
+'3089'
+.mark 1455%6 1750+
+'2c49'
+.mark 1457%6 1752+
+'207c00040001'
+.mark 1458%6 1758+
+'227c00030001'
+.mark 1459%6 1764+
+'267c00000012'
+.mark 1461%6 1770+
+'303900800008'
+.mark 1462%6 1776+
+'e340'
+.mark 1464%6 1778+
+'49fa'
+%4 -1768+%6 -:I
+.mark 1465%6 1782+
+'3854'
+.mark 1466%6 1784+
+'38740000'
+.mark 1468%6 1788+
+'33fc000200800002'
+.mark 1470%6 1796+
+'3a5c'
+.mark 1470%6 1798+
+'4ed5'
+.mark 1475%6 1800+
+'33fc0002'
+%5 8260+:L
+.mark 1476%6 1808+
+'33fcffff00800046'
+.mark 1477%6 1816+
+'60b2'
+.mark 1483%6 1818+
+'007c0700'
+.mark 1484%6 1822+
+'4a7900020000'
+.mark 1485%6 1828+
+'33fc000400800002'
+.mark 1487%6 1836+
+'303900800000'
+.mark 1488%6 1842+
+'673e'
+.mark 1490%6 1844+
+'0c400001'
+.mark 1491%6 1848+
+'6722'
+.mark 1493%6 1850+
+'0c400003'
+.mark 1494%6 1854+
+'671c'
+.mark 1496%6 1856+
+'0c400002'
+.mark 1497%6 1860+
+'6716'
+.mark 1499%6 1862+
+'33fc000300800002'
+.mark 1500%6 1870+
+'4a7900010000'
+.mark 1501%6 1876+
+'4279'
+%5 8260+:L
+.mark 1502%6 1882+
+'4e73'
+.mark 1504%6 1884+
+'027cf8ff'
+.mark 1505%6 1888+
+'2e7c'
+%3 512+:L
+.mark 1507%6 1894+
+'4a7900010000'
+.mark 1508%6 1900+
+'4ef9'
+%6 1740+:L
+.mark 1510%6 1906+
+'4a7900800004'
+.mark 1511%6 1912+
+'67cc'
+.mark 1513%6 1914+
+'303900800006'
+.mark 1514%6 1920+
+'67c4'
+.mark 1516%6 1922+
+'0c400001'
+.mark 1517%6 1926+
+'66be'
+.mark 1519%6 1928+
+'427900800006'
+.mark 1520%6 1934+
+'427900800004'
+.mark 1521%6 1940+
+'4e73'
+.mark 1534%6 1942+
+'33fca1a100801428'
+.mark 1535%6 1950+
+'48f8ffff'
+%5 8400+:I
+.mark 1536%6 1956+
+'3038'
+%5 8398+:I
+.mark 1537%6 1960+
+'0c400021'
+.mark 1538%6 1964+
+'6306'
+.mark 1539%6 1966+
+'41fa'
+%5 6987+%6 -:I
+.mark 1540%6 1970+
+'600a'
+.mark 1541%6 1972+
+'e340'
+.mark 1542%6 1974+
+'41fa'
+%5 6998+%6 -:I
+.mark 1543%6 1978+
+'30700000'
+.mark 1544%6 1982+
+'43fa'
+%5 6480+%6 -:I
+.mark 1545%6 1986+
+'7220'
+.mark 1546%6 1988+
+'12d8'
+.mark 1547%6 1990+
+'57c9fffc'
+.mark 1548%6 1994+
+'6f08'
+.mark 1549%6 1996+
+'12fc0020'
+.mark 1550%6 2000+
+'51c9fffa'
+.mark 1552%6 2004+
+'4e722700'
+.mark 1558%6 2008+
+'31fc0000'
+%5 8398+:I
+.mark 1559%6 2014+
+'60b6'
+.mark 1561%6 2016+
+'31fc0001'
+%5 8398+:I
+.mark 1562%6 2022+
+'60ae'
+.mark 1564%6 2024+
+'31fc0002'
+%5 8398+:I
+.mark 1565%6 2030+
+'60a6'
+.mark 1567%6 2032+
+'31fc0003'
+%5 8398+:I
+.mark 1568%6 2038+
+'609e'
+.mark 1570%6 2040+
+'31fc0004'
+%5 8398+:I
+.mark 1571%6 2046+
+'6096'
+.mark 1573%6 2048+
+'31fc0005'
+%5 8398+:I
+.mark 1574%6 2054+
+'608e'
+.mark 1576%6 2056+
+'31fc0006'
+%5 8398+:I
+.mark 1577%6 2062+
+'6086'
+.mark 1579%6 2064+
+'31fc0007'
+%5 8398+:I
+.mark 1580%6 2070+
+'6000ff7e'
+.mark 1582%6 2074+
+'31fc0008'
+%5 8398+:I
+.mark 1583%6 2080+
+'6000ff74'
+.mark 1585%6 2084+
+'31fc0009'
+%5 8398+:I
+.mark 1586%6 2090+
+'6000ff6a'
+.mark 1588%6 2094+
+'31fc000a'
+%5 8398+:I
+.mark 1589%6 2100+
+'6000ff60'
+.mark 1591%6 2104+
+'31fc000b'
+%5 8398+:I
+.mark 1592%6 2110+
+'6000ff56'
+.mark 1594%6 2114+
+'31fc000c'
+%5 8398+:I
+.mark 1595%6 2120+
+'6000ff4c'
+.mark 1597%6 2124+
+'31fc000d'
+%5 8398+:I
+.mark 1598%6 2130+
+'6000ff42'
+.mark 1600%6 2134+
+'31fc000e'
+%5 8398+:I
+.mark 1601%6 2140+
+'6000ff38'
+.mark 1603%6 2144+
+'31fc000f'
+%5 8398+:I
+.mark 1604%6 2150+
+'6000ff2e'
+.mark 1606%6 2154+
+'31fc0010'
+%5 8398+:I
+.mark 1607%6 2160+
+'6000ff24'
+.mark 1609%6 2164+
+'31fc0011'
+%5 8398+:I
+.mark 1610%6 2170+
+'6000ff1a'
+.mark 1612%6 2174+
+'31fc0012'
+%5 8398+:I
+.mark 1613%6 2180+
+'6000ff10'
+.mark 1615%6 2184+
+'31fc0013'
+%5 8398+:I
+.mark 1616%6 2190+
+'6000ff06'
+.mark 1618%6 2194+
+'31fc0014'
+%5 8398+:I
+.mark 1619%6 2200+
+'6000fefc'
+.mark 1621%6 2204+
+'31fc0015'
+%5 8398+:I
+.mark 1622%6 2210+
+'6000fef2'
+.mark 1624%6 2214+
+'31fc0016'
+%5 8398+:I
+.mark 1625%6 2220+
+'6000fee8'
+.mark 1627%6 2224+
+'31fc0017'
+%5 8398+:I
+.mark 1628%6 2230+
+'6000fede'
+.mark 1630%6 2234+
+'31fc0018'
+%5 8398+:I
+.mark 1631%6 2240+
+'6000fed4'
+.mark 1633%6 2244+
+'31fc0019'
+%5 8398+:I
+.mark 1634%6 2250+
+'6000feca'
+.mark 1636%6 2254+
+'31fc001a'
+%5 8398+:I
+.mark 1637%6 2260+
+'6000fec0'
+.mark 1639%6 2264+
+'31fc001b'
+%5 8398+:I
+.mark 1640%6 2270+
+'6000feb6'
+.mark 1642%6 2274+
+'31fc001c'
+%5 8398+:I
+.mark 1643%6 2280+
+'6000feac'
+.mark 1645%6 2284+
+'31fc001d'
+%5 8398+:I
+.mark 1646%6 2290+
+'6000fea2'
+.mark 1648%6 2294+
+'31fc001e'
+%5 8398+:I
+.mark 1649%6 2300+
+'6000fe98'
+.mark 1651%6 2304+
+'31fc001f'
+%5 8398+:I
+.mark 1652%6 2310+
+'6000fe8e'
+.mark 1654%6 2314+
+'31fc0020'
+%5 8398+:I
+.mark 1655%6 2320+
+'6000fe84'
+.mark 1657%6 2324+
+'31fc0021'
+%5 8398+:I
+.mark 1658%6 2330+
+'6000fe7a'
+.mark 1660%6 2334+
+'31fc0022'
+%5 8398+:I
+.mark 1661%6 2340+
+'6000fe70'
+.org %5 8262
+%6 2008+:L
+%6 2016+:L
+%6 2024+:L
+%6 2032+:L
+%6 2040+:L
+%6 2048+:L
+%6 2056+:L
+%6 2064+:L
+%6 2074+:L
+%6 2084+:L
+%6 2094+:L
+%6 1818+:L
+%6 2114+:L
+%6 1818+:L
+%6 2134+:L
+%6 1818+:L
+%6 2154+:L
+%6 1818+:L
+%6 2174+:L
+%6 2184+:L
+%6 2194+:L
+%6 2204+:L
+%6 2214+:L
+%6 2224+:L
+%6 2234+:L
+%6 2244+:L
+%6 2254+:L
+%6 2264+:L
+%6 2274+:L
+%6 2284+:L
+%6 2294+:L
+%6 2304+:L
+%6 2314+:L
+%6 2324+:L
+.org %5 8496
+'427573206572726f7200'
+'41646472657373206572726f7200'
+'496c6c6567616c20696e737472756374696f6e00'
+'5a65726f2064697669646500'
+'43484b20696e737472756374696f6e00'
+'545241505620696e7374727563746f6e00'
+'50726976696c6567652076696f6c6174696f6e00'
+'545241434520657863657074696f6e00'
+'4c696e65203130313000'
+'4c696e65203131313100'
+'53707572696f757320696e7465727275707400'
+'4c6576656c203120495251204175746f766563746f7200'
+'4c6576656c203220495251204175746f766563746f7200'
+'4c6576656c203320495251204175746f766563746f7200'
+'4c6576656c203420495251204175746f766563746f7200'
+'4c6576656c203520495251204175746f766563746f7200'
+'4c6576656c203620495251204175746f766563746f7200'
+'4c6576656c203720495251204175746f766563746f7200'
+'5472617020233000'
+'5472617020233100'
+'5472617020233200'
+'5472617020233300'
+'5472617020233400'
+'5472617020233500'
+'5472617020233600'
+'5472617020233700'
+'5472617020233800'
+'5472617020233900'
+'547261702023313000'
+'547261702023313100'
+'547261702023313200'
+'547261702023313300'
+'547261702023313400'
+'547261702023313500'
+'457863657074696f6e204572726f7200'
+'00'
+'0000'
+%5 8496+:W
+%5 8506+:W
+%5 8520+:W
+%5 8540+:W
+%5 8552+:W
+%5 8568+:W
+%5 8585+:W
+%5 8605+:W
+%5 8621+:W
+%5 8631+:W
+%5 8641+:W
+%5 8660+:W
+%5 8683+:W
+%5 8706+:W
+%5 8729+:W
+%5 8752+:W
+%5 8775+:W
+%5 8798+:W
+%5 8821+:W
+%5 8829+:W
+%5 8837+:W
+%5 8845+:W
+%5 8853+:W
+%5 8861+:W
+%5 8869+:W
+%5 8877+:W
+%5 8885+:W
+%5 8893+:W
+%5 8901+:W
+%5 8910+:W
+%5 8919+:W
+%5 8928+:W
+%5 8937+:W
+%5 8946+:W
+%5 8955+:W
+.org %6 2344
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+%6 1228+:W
+.dcl 0 {monitor.asm} m 
+.bgn
+.dcl 1 {} r 0 f 2
+.bgn%2
+.dcl 2 {PSCT} l%1
+.dcl 3 {FCTBLPTR} l%4
+.dcl 4 {FCTBLINX} l%4 2+
+.dcl 5 {FCCODPTR} l%4 4+
+.dcl 6 {DCTBLPTR} l%4 6+
+.dcl 7 {DCTBLINX} l%4 8+
+.dcl 8 {DCCODPTR} l%4 10+
+.dcl 9 {DACTBLPTR} l%4 12+
+.dcl 10 {DACTBLINX} l%4 14+
+.dcl 11 {DACCODPTR} l%4 16+
+.dcl 12 {LCTBLPTR} l%4 18+
+.dcl 13 {LCTBLINX} l%4 20+
+.dcl 14 {MSM_Act_RQ} l 8388608
+.dcl 15 {MSM_Act_RQ_RPL} l 8388610
+.dcl 16 {MSM_Sig_PC} l 8388612
+.dcl 17 {MSM_Sig_PC_RPL} l 8388614
+.dcl 18 {MSM_Pgm_Inx} l 8388616
+.dcl 19 {MSM_Data_Offset} l 8388618
+.dcl 20 {MSM_Bgnd_Offset} l 8388622
+.dcl 21 {MSM_Data_Size} l 8388626
+.dcl 22 {MSM_FC_OH} l 8388630
+.dcl 23 {Counter_H0} l 8388632
+.dcl 24 {Counter_H1} l 8388634
+.dcl 25 {Counter_I0} l 8388636
+.dcl 26 {Counter_I1} l 8388638
+.dcl 27 {Counter_J0} l 8388640
+.dcl 28 {Counter_J1} l 8388642
+.dcl 29 {Counter_K0} l 8388644
+.dcl 30 {Counter_K1} l 8388646
+.dcl 31 {Counter_L0} l 8388648
+.dcl 32 {Counter_L1} l 8388650
+.dcl 33 {Counter_T0} l 8388652
+.dcl 34 {Counter_T1} l 8388654
+.dcl 35 {Counter_S0} l 8388656
+.dcl 36 {Counter_S1} l 8388658
+.dcl 37 {MSM_FC_Scan_Mode} l 8388660
+.dcl 38 {MSM_FC_StreakMode} l 8388662
+.dcl 39 {MSM_FC_StrkOTMode} l 8388664
+.dcl 40 {MSM_DC_Add_Mode} l 8388666
+.dcl 41 {MSM_DC_Rep_Mode} l 8388668
+.dcl 42 {MSM_DC_Sub_Mode} l 8388670
+.dcl 43 {MSM_DC_Ign_Mode} l 8388672
+.dcl 44 {MSM_DC_OH} l 8388674
+.dcl 45 {MSM_DC_StreakMode} l 8388676
+.dcl 46 {MSM_DA_Complete} l 8388678
+.dcl 47 {MSM_Serial_Mode} l 8388680
+.dcl 48 {MSM_Image_Mode} l 8388682
+.dcl 49 {MSM_Sort} l 8388684
+.dcl 50 {MSM_Pointnum} l 8388686
+.dcl 51 {MSM_SC_Address} l 8388688
+.dcl 52 {MSM_PIA_Out} l 8388692
+.dcl 53 {MSM_StreakMode} l 8388694
+.dcl 54 {MSM_PIA_In} l 8388696
+.dcl 55 {MSM_Cooler_Status} l 8388700
+.dcl 56 {MSM_Shutter_ID} l 8388704
+.dcl 57 {MSM_Detector_ID} l 8388708
+.dcl 58 {VTABLE} l%2
+.dcl 59 {RESET.SP} l 0
+.dcl 60 {STACK.START} l%3 512+
+.dcl 61 {RESET.PC} l 4
+.dcl 62 {STARTUP} l%6 1638+
+.dcl 63 {V.BERR} l 8
+.dcl 64 {V.AERR} l 12
+.dcl 65 {V.ILLG} l 16
+.dcl 66 {V.ZRDV} l 20
+.dcl 67 {V.CHKI} l 24
+.dcl 68 {V.TRAPV} l 28
+.dcl 69 {V.PRIVIO} l 32
+.dcl 70 {V.TRACE} l 36
+.dcl 71 {V.L1010} l 40
+.dcl 72 {V.L1111} l 44
+.dcl 73 {V.MISC1} l 48
+.dcl 74 {EX_DFLT} l%6 2334+
+.dcl 75 {V.SPURI} l 80
+.dcl 76 {V.IRQ1} l 84
+.dcl 77 {V.IRQ2} l 88
+.dcl 78 {V.IRQ3} l 92
+.dcl 79 {V.IRQ4} l 96
+.dcl 80 {V.IRQ5} l 100
+.dcl 81 {V.IRQ6} l 104
+.dcl 82 {V.IRQ7} l 108
+.dcl 83 {V.TRAP0} l 112
+.dcl 84 {V.TRAP1} l 116
+.dcl 85 {V.TRAP2} l 120
+.dcl 86 {V.TRAP3} l 124
+.dcl 87 {V.TRAP4} l 128
+.dcl 88 {V.TRAP5} l 132
+.dcl 89 {V.TRAP6} l 136
+.dcl 90 {V.TRAP7} l 140
+.dcl 91 {V.TRAP8} l 144
+.dcl 92 {V.TRAP9} l 148
+.dcl 93 {V.TRAP10} l 152
+.dcl 94 {V.TRAP11} l 156
+.dcl 95 {V.TRAP12} l 160
+.dcl 96 {V.TRAP13} l 164
+.dcl 97 {V.TRAP14} l 168
+.dcl 98 {V.TRAP15} l 172
+.dcl 99 {V.MISC2} l 176
+.dcl 100 {STACK} l%3
+.dcl 101 {stackend} l%3
+.dcl 102 {POINTERS} l%4
+.dcl 103 {FCTBL} l%5 256+
+.dcl 104 {DCTBL} l%5 2256+
+.dcl 105 {DACTBL} l%5 4256+
+.dcl 106 {DACLIST} l%6 2344+
+.dcl 107 {LCTBL} l%5 6256+
+.dcl 108 {DATAADDR} l%4 22+
+.dcl 109 {BGNDADDR} l%4 26+
+.dcl 110 {VERSION_LABEL} l%4 30+
+.dcl 111 {DATA} l%5
+.dcl 112 {RESFLG} l%5
+.dcl 113 {INITPATT} l%5 2+
+.dcl 114 {PATT} l%5 6+
+.dcl 115 {QUIKTEST} l%5 10+
+.dcl 116 {SUCCESS} l%5 12+
+.dcl 117 {LOOPSTACK} l%5 14+
+.dcl 118 {LOOPTR} l%5 254+
+.dcl 119 {FCEND} l%5 2256+
+.dcl 120 {DMAEND} l%5 4256+
+.dcl 121 {DACEND} l%5 6256+
+.dcl 122 {LCEND} l%5 8256+
+.dcl 123 {IN_DA} l%5 8256+
+.dcl 124 {PC_INPROG} l%5 8258+
+.dcl 125 {PC_MAILBOX} l%5 8260+
+.dcl 126 {CODE} l%6
+.dcl 127 {_ADDIB} l%6
+.dcl 128 {_ADDIW} l%6 10+
+.dcl 129 {_ADDIL} l%6 20+
+.dcl 130 {_ADDIBN} l%6 30+
+.dcl 131 {_ADDIWN} l%6 42+
+.dcl 132 {_ADDILN} l%6 54+
+.dcl 133 {_ADDAB} l%6 66+
+.dcl 134 {_ADDAW} l%6 78+
+.dcl 135 {_ADDAL} l%6 90+
+.dcl 136 {_ADDABTN} l%6 102+
+.dcl 137 {_ADDAWTN} l%6 116+
+.dcl 138 {_ADDALTN} l%6 130+
+.dcl 139 {_ADDABFN} l%6 144+
+.dcl 140 {_ADDAWFN} l%6 158+
+.dcl 141 {_ADDALFN} l%6 172+
+.dcl 142 {_ADDABDN} l%6 186+
+.dcl 143 {_ADDAWDN} l%6 202+
+.dcl 144 {_ADDALDN} l%6 218+
+.dcl 145 {_SUBIB} l%6 234+
+.dcl 146 {_SUBIW} l%6 244+
+.dcl 147 {_SUBIL} l%6 254+
+.dcl 148 {_SUBIBN} l%6 264+
+.dcl 149 {_SUBIWN} l%6 276+
+.dcl 150 {_SUBILN} l%6 288+
+.dcl 151 {_SUBAB} l%6 300+
+.dcl 152 {_SUBAW} l%6 312+
+.dcl 153 {_SUBAL} l%6 324+
+.dcl 154 {_SUBABTN} l%6 336+
+.dcl 155 {_SUBAWTN} l%6 350+
+.dcl 156 {_SUBALTN} l%6 364+
+.dcl 157 {_SUBABFN} l%6 378+
+.dcl 158 {_SUBAWFN} l%6 392+
+.dcl 159 {_SUBALFN} l%6 406+
+.dcl 160 {_SUBABDN} l%6 420+
+.dcl 161 {_SUBAWDN} l%6 436+
+.dcl 162 {_SUBALDN} l%6 452+
+.dcl 163 {_ANDIB} l%6 468+
+.dcl 164 {_ANDIW} l%6 478+
+.dcl 165 {_ANDIL} l%6 488+
+.dcl 166 {_ANDAB} l%6 498+
+.dcl 167 {_ANDAW} l%6 510+
+.dcl 168 {_ANDAL} l%6 522+
+.dcl 169 {_BEQ} l%6 534+
+.dcl 170 {GO} l%6 548+
+.dcl 171 {_BGT} l%6 554+
+.dcl 172 {_BLT} l%6 568+
+.dcl 173 {CLRFLG} l%6 582+
+.dcl 174 {MINFLG} l%6 592+
+.dcl 175 {PLSFLG} l%6 604+
+.dcl 176 {_CMPRIL} l%6 616+
+.dcl 177 {_CMPRIW} l%6 628+
+.dcl 178 {_CMPRIB} l%6 640+
+.dcl 179 {_CMPRL} l%6 652+
+.dcl 180 {_CMPRW} l%6 664+
+.dcl 181 {_CMPRB} l%6 676+
+.dcl 182 {_TEST} l%6 688+
+.dcl 183 {_MOVELI} l%6 698+
+.dcl 184 {_MOVEWI} l%6 708+
+.dcl 185 {_MOVEBI} l%6 718+
+.dcl 186 {_MOVELIN} l%6 728+
+.dcl 187 {_MOVEWIN} l%6 740+
+.dcl 188 {_MOVEBIN} l%6 752+
+.dcl 189 {_MOVELIA} l%6 764+
+.dcl 190 {_MOVEWIA} l%6 786+
+.dcl 191 {_MOVEBIA} l%6 802+
+.dcl 192 {_MOVEL} l%6 812+
+.dcl 193 {_MOVEW} l%6 822+
+.dcl 194 {_MOVEB} l%6 832+
+.dcl 195 {_MOVELA} l%6 842+
+.dcl 196 {_MOVEWA} l%6 866+
+.dcl 197 {_MOVEBA} l%6 884+
+.dcl 198 {_MOVELFN} l%6 894+
+.dcl 199 {_MOVEWFN} l%6 906+
+.dcl 200 {_MOVEBFN} l%6 918+
+.dcl 201 {_MOVELNA} l%6 930+
+.dcl 202 {_MOVEWNA} l%6 956+
+.dcl 203 {_MOVEBNA} l%6 976+
+.dcl 204 {_MOVELTN} l%6 990+
+.dcl 205 {_MOVEWTN} l%6 1002+
+.dcl 206 {_MOVEBTN} l%6 1014+
+.dcl 207 {_MOVELDN} l%6 1026+
+.dcl 208 {_MOVEWDN} l%6 1040+
+.dcl 209 {_MOVEBDN} l%6 1054+
+.dcl 210 {_ORIB} l%6 1068+
+.dcl 211 {_ORIW} l%6 1078+
+.dcl 212 {_ORIL} l%6 1088+
+.dcl 213 {_ORAB} l%6 1098+
+.dcl 214 {_ORAW} l%6 1110+
+.dcl 215 {_ORAL} l%6 1122+
+.dcl 216 {_WAIT_FC} l%6 1134+
+.dcl 217 {WAIT1} l%6 1140+
+.dcl 218 {_WAIT_DMA} l%6 1150+
+.dcl 219 {WAIT2} l%6 1156+
+.dcl 220 {_DOI} l%6 1166+
+.dcl 221 {_DOAT} l%6 1176+
+.dcl 222 {_DOATN} l%6 1188+
+.dcl 223 {_LOOP} l%6 1202+
+.dcl 224 {NOLOOP} l%6 1214+
+.dcl 225 {_GOTO} l%6 1222+
+.dcl 226 {_DONOT} l%6 1228+
+.dcl 227 {FBASE.AD} l%6 1232+
+.dcl 228 {_RAPSCAN} l%6 1236+
+.dcl 229 {SCANLOOP} l%6 1272+
+.dcl 230 {LOOPER} l%6 1276+
+.dcl 231 {READ_TBL1} l%6 1282+
+.dcl 232 {READ_TBL2} l%6 1328+
+.dcl 233 {LOOP_END} l%6 1378+
+.dcl 234 {WAIT_DC} l%6 1332+
+.dcl 235 {_TESTMEM} l%6 1388+
+.dcl 236 {TMEM0} l%6 1410+
+.dcl 237 {TMEM1} l%6 1420+
+.dcl 238 {TMEM1A} l%6 1430+
+.dcl 239 {TMEM2} l%6 1444+
+.dcl 240 {TMEMERR} l%6 1482+
+.dcl 241 {TMEM1B} l%6 1456+
+.dcl 242 {_CLRMEM} l%6 1486+
+.dcl 243 {CLRMEM0} l%6 1494+
+.dcl 244 {_SORTTRK} l%6 1504+
+.dcl 245 {SORTTRK0} l%6 1530+
+.dcl 246 {INIT_DAC} l%6 1548+
+.dcl 247 {DASTART1} l%6 1778+
+.dcl 248 {DA_SWITCH} l%6 1630+
+.dcl 249 {DA_START} l%6 1740+
+.dcl 250 {ETABLE} l%5 8262+
+.dcl 251 {EX_INIT} l%6 1674+
+.dcl 252 {EXINIT2} l%6 1686+
+.dcl 253 {RESTART} l%6 1690+
+.dcl 254 {DASTART2} l%6 1770+
+.dcl 255 {_DONE} l%6 1800+
+.dcl 256 {PC_ISR} l%6 1818+
+.dcl 257 {ISR_GETRPL} l%6 1906+
+.dcl 258 {ISR_DO_ACT} l%6 1884+
+.dcl 259 {ISR_ERR} l%6 1862+
+.dcl 260 {ENDISR0} l%6 1882+
+.dcl 261 {EX_ERR} l%6 1942+
+.dcl 262 {SAVREGS} l%5 8400+
+.dcl 263 {ECODE} l%5 8398+
+.dcl 264 {PMSG0} l%6 1972+
+.dcl 265 {DFLTMSG} l%5 8955+
+.dcl 266 {PMSG1} l%6 1982+
+.dcl 267 {EMSGTBL} l%5 8974+
+.dcl 268 {EMSGBUF} l%5 8464+
+.dcl 269 {PRINTMSG} l%6 1988+
+.dcl 270 {EX_ERR2} l%6 2004+
+.dcl 271 {PMSG2} l%6 1996+
+.dcl 272 {EX_BERR} l%6 2008+
+.dcl 273 {EX_AERR} l%6 2016+
+.dcl 274 {EX_ILLG} l%6 2024+
+.dcl 275 {EX_ZRDV} l%6 2032+
+.dcl 276 {EX_CHKI} l%6 2040+
+.dcl 277 {EX_TRAPV} l%6 2048+
+.dcl 278 {EX_PRIVIO} l%6 2056+
+.dcl 279 {EX_TRACE} l%6 2064+
+.dcl 280 {EX_L1010} l%6 2074+
+.dcl 281 {EX_L1111} l%6 2084+
+.dcl 282 {EX_SPURI} l%6 2094+
+.dcl 283 {EX_IRQ1} l%6 2104+
+.dcl 284 {EX_IRQ2} l%6 2114+
+.dcl 285 {EX_IRQ3} l%6 2124+
+.dcl 286 {EX_IRQ4} l%6 2134+
+.dcl 287 {EX_IRQ5} l%6 2144+
+.dcl 288 {EX_IRQ6} l%6 2154+
+.dcl 289 {EX_IRQ7} l%6 2164+
+.dcl 290 {EX_TRAP0} l%6 2174+
+.dcl 291 {EX_TRAP1} l%6 2184+
+.dcl 292 {EX_TRAP2} l%6 2194+
+.dcl 293 {EX_TRAP3} l%6 2204+
+.dcl 294 {EX_TRAP4} l%6 2214+
+.dcl 295 {EX_TRAP5} l%6 2224+
+.dcl 296 {EX_TRAP6} l%6 2234+
+.dcl 297 {EX_TRAP7} l%6 2244+
+.dcl 298 {EX_TRAP8} l%6 2254+
+.dcl 299 {EX_TRAP9} l%6 2264+
+.dcl 300 {EX_TRAP10} l%6 2274+
+.dcl 301 {EX_TRAP11} l%6 2284+
+.dcl 302 {EX_TRAP12} l%6 2294+
+.dcl 303 {EX_TRAP13} l%6 2304+
+.dcl 304 {EX_TRAP14} l%6 2314+
+.dcl 305 {EX_TRAP15} l%6 2324+
+.dcl 306 {EMSGS} l%5 8496+
+.dcl 307 {EMSG0} l%5 8496+
+.dcl 308 {EMSG1} l%5 8506+
+.dcl 309 {EMSG2} l%5 8520+
+.dcl 310 {EMSG3} l%5 8540+
+.dcl 311 {EMSG4} l%5 8552+
+.dcl 312 {EMSG5} l%5 8568+
+.dcl 313 {EMSG6} l%5 8585+
+.dcl 314 {EMSG7} l%5 8605+
+.dcl 315 {EMSG8} l%5 8621+
+.dcl 316 {EMSG9} l%5 8631+
+.dcl 317 {EMSG10} l%5 8641+
+.dcl 318 {EMSG11} l%5 8660+
+.dcl 319 {EMSG12} l%5 8683+
+.dcl 320 {EMSG13} l%5 8706+
+.dcl 321 {EMSG14} l%5 8729+
+.dcl 322 {EMSG15} l%5 8752+
+.dcl 323 {EMSG16} l%5 8775+
+.dcl 324 {EMSG17} l%5 8798+
+.dcl 325 {EMSG18} l%5 8821+
+.dcl 326 {EMSG19} l%5 8829+
+.dcl 327 {EMSG20} l%5 8837+
+.dcl 328 {EMSG21} l%5 8845+
+.dcl 329 {EMSG22} l%5 8853+
+.dcl 330 {EMSG23} l%5 8861+
+.dcl 331 {EMSG24} l%5 8869+
+.dcl 332 {EMSG25} l%5 8877+
+.dcl 333 {EMSG26} l%5 8885+
+.dcl 334 {EMSG27} l%5 8893+
+.dcl 335 {EMSG28} l%5 8901+
+.dcl 336 {EMSG29} l%5 8910+
+.dcl 337 {EMSG30} l%5 8919+
+.dcl 338 {EMSG31} l%5 8928+
+.dcl 339 {EMSG32} l%5 8937+
+.dcl 340 {EMSG33} l%5 8946+
+.dcl 341 {VERYLAST} l%6 4344+
+.end
+.end

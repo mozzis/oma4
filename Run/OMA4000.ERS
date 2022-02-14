@@ -1,0 +1,623 @@
+@@@ 001  ERROR_ALLOC_MEM
+Memory allocation error.
+@@@ 002  ERROR_FLOATING_POINT
+Floating point error.
+@@@ 90   ERROR_DOSSHELL
+Unable to spawn DOS command: %s
+@@@ 100  ERROR_TOO_MANY_CURVES
+There are too many curves stored in the system.
+Delete some curves to proceed.
+@@@ 101  ERROR_CURVE_NUM
+An invalid index was given to reference a curve: %d
+@@@ 102  ERROR_IMPROPER_FILETYPE
+The named file is not the correct type
+for this operation:
+"%s"
+@@@ 103  ERROR_BAD_CURVE_BLOCK
+A bad curve block index (%d) was used: the curve set
+referenced does not exist, or overlaps another set.
+@@@ 104  ERROR_POINT_NUM
+An invalid index was given to reference a data point: %u
+@@@ 105  ERROR_READ_CURVE_HEADER
+Curve header not found
+@@@ 106  ERROR_CORRUPT_FILE
+The OMA SPEC 4000 file %s contains an
+error.  This file may not be loadable.
+@@@ 107  ERROR_OLD_VERSION
+%s was written using an older
+version of this software.  The attempted
+operation is not allowable for files using
+older data formats.  Please convert the
+file (after making a backup copy) using the
+conversion utility "CHFORMAT.EXE" to bring
+it's format up to date.
+@@@ 108 ERROR_CURVESET_NOT_FOUND
+The curve set %s 
+could not be found or could not be used.
+@@@ 109 ERROR_POINT_INDEX
+A bad index (%d) was given to reference a point.
+Possible program or macro bug.
+@@@ 200  ERROR_ACQ
+A data acquisition error has occurred.
+@@@ 300  ERROR_OPEN
+Could not find or open file:
+"%s"
+@@@ 301  ERROR_CLOSE
+Another process is using file:
+"%s"
+@@@ 302  ERROR_READ
+Error when reading file:
+"%s"
+@@@ 303  ERROR_WRITE
+Error when writing file:
+"%s"
+@@@ 304  ERROR_BAD_FILENAME
+File name string is improper or
+references a directory:
+"%s"
+@@@ 305  ERROR_BAD_DIRNAME
+Directory does not exist:
+"%s"
+@@@ 306  ERROR_BAD_DRIVE
+Drive is not present:
+"%s"
+@@@ 307  ERROR_ACCESS_DENIED
+Access was denied to file:
+"%s"
+Check for a read only attribute,
+or write protected drive.
+@@@ 308  ERROR_SHARING
+Unable to share file:
+"%s"
+(It has been locked by another
+ application)
+@@@ 309  ERROR_DEV_OPEN
+Could not open device:
+"%s"
+@@@ 310  ERROR_DEV_CLOSE
+Another process is using device:
+"%s"
+@@@ 311  ERROR_DEV_READ
+Error when reading device:
+"%s"
+@@@ 312  ERROR_DEV_WRITE
+Error when writing device:
+"%s"
+@@@ 320  ERROR_DRIVE_NOT_READY
+Drive is not ready:
+"%s"
+(if it is a floppy disk drive,
+check to see if the door is shut)
+@@@ 321  ERROR_SEEK
+Seek error on drive:
+"%s"
+@@@ 322  ERROR_SECTOR_NOT_FOUND
+Sector not found error on drive:
+"%s"
+(if it is a floppy disk drive,
+make sure the diskette is formatted)
+@@@ 323  ERROR_BAD_SECTOR
+Bad Sector on drive:
+"%s"
+This is a sign of serious trouble to come.
+BACK UP all contents of the disk, then
+reformat it.  If it is a floppy diskette,
+the DOS FORMAT command will suffice; if it
+is a hard disk, it should be low-level
+formatted, then recreated using the DOS
+FDISK and FORMAT commands.
+@@@ 324  ERROR_GENERAL_DISK_FAILURE
+General Disk Failure on drive:
+"%s"
+(if it is a floppy disk drive,
+make sure the diskette is formatted)
+@@@ 325 ERROR_BREAK_ABORT
+Operation aborted by Control-Break.
+@@@ 326 ERROR_DIVIDE_BY_ZERO
+An integer division by zero was attempted.
+@@@ 400  ERROR_DEV_IOCTL
+IOCTL Error...
+@@@ 410  ERROR_NO_PAPER
+The printer (%s) is reporting that it
+is out of paper - please check it.
+@@@ 600  ERROR_GPIB_OPEN
+Unable to access GPIB interface:
+
+GPIB Board may not be installed or
+is not at expected address.
+GPIB driver may not be installed or
+is incorrectly configured.
+@@@ 601  ERROR_GPIB_NO_DEVICE
+The 1461 does not appear to be at
+address %d - make sure it has been turned on,
+that the GPIB cable is secure, and that the
+address settings are correct.
+@@@ 602  ERROR_GPIB_TIMEOUT
+There was a timeout when communicating
+with the GPIB - unable to transfer data.
+@@@ 700  ERROR_FAKEDETECTOR
+The detector controller card is missing or 
+cannot be used.  The I/O port or memory address
+may be incorrect.  Program operation
+will continue but no data can be acquired.
+@@@ 701  ERROR_RECOGNITION
+The program sent a command to the detector 
+which it did not recognize.
+@@@ 702  ERROR_MONITOR_VER
+The control program for the detector controller
+board is earlier than %f.  Please call PARC's 
+service department to receive the correct version.
+@@@ 703  ERROR_RESPONSE_INCOMPLETE
+The detector response to the last command
+was incomplete.
+@@@ 704  ERROR_DA_ACTIVE
+The action cannot be performed while the detector is acquiring data.
+@@@ 705  ERROR_BAD_STRUCTURE
+The Random Slice setup structure in the ASIC file
+is incorrect.
+@@@ 706 ERROR_TOO_LONG
+The Random Slice setup structure in the ASIC file
+is too long to use for the nuber of points or
+tracks selected
+@@@ 707 ERROR_NO_SERIAL_CODE
+The detector program in the ASIC file does not have
+an address for reading the serial register of the 
+detector in the selected scan mode.
+@@@ 708 ERROR_NO_CODE_SPACE
+The ASIC file does not contain a definition for the 
+location of Random Slice scan sequences.
+@@@ 709 ERROR_NO_CLEAN_CODE
+The detector program in the ASIC file does not have
+an address for cleaning the serial register of the 
+detector (antibloom control) in the selected scan mode.
+@@@ 710 ERROR_DETECTOR_TIMEOUT
+The OMA4 detector did not respond to the %s command.
+@@@ 711 ERROR_POINT_NUMBER
+The Point or X0 setting was greater than the number of detector
+pixels.
+@@@ 712 ERROR_TRACK_NUMBER
+The Track or Y0 setting was greater than the number of detector
+pixels.
+@@@ 713 ERROR_DET_EXPOSE_TIME
+An illegal Exposure Time was entered.
+@@@ 714 ERROR_TRACK_NUMBER
+The DA sequence selected is not loaded into the detector controller.
+@@@ 715 ERROR_TOO_MANY_MEMORIES
+There is not enough memory on the controller board for the number of
+tracks and memories specified.  Reduce the number of tracks or
+memories.
+@@@ 716 ERROR_NO_LIVE_DATA
+Before you can read data from the detector, you must first start
+an acquisition using the F2 key or Broadcast Run.
+@@@ 717 ERROR_SCAN_MISMATCH
+The program could not load the scan program for the type of
+detector which seems to be connected.  The detector may be
+disconnected or the detector power may be off.  Use "Read
+Setup from Detector" on the Config menu after correcting
+the problem.
+@@@ 718 ERROR_ILLEGAL_RANGE
+The Delay Increment cannot be 0 when setting Delay Range.
+@@@ 719 ERROR_VALUE_INCORRECT
+An illegal value was entered.
+@@@ 720 ERROR_ADJUSTED_TRACK 
+The starting row or number of rows for one or more tracks
+           was adjusted to prevent track overlap
+@@@ 721 ERROR_ADJUSTED_POINT 
+The starting column or number of columns for one or more points
+          was adjusted to prevent point overlap
+@@@ 722  ERROR_MONITOR_LOAD
+Could not load the detector controller master 
+control program (%s).  Please copy this
+file into the same directory as the OMA4000 program.
+@@@ 731 ERROR_ODD_TEMP
+The temperature setting has a resolution of 2 degrees.  Your
+entry was adjusted to the nearest multiple of 2 degrees.
+@@@ 732 ERROR_NOFASTSHIFT
+This detector cannot set its shift speed to FAST.
+Set the shift speed to NORMAL or SLOW instead.
+@@@ 1002 1461_ERROR_CMD_INVALID  // reserve 1000 to 1499 for 1461 errors
+%s
+   Unrecognized command
+      OR
+   Parameter sent with a command which does not use one
+@@@ 1003 1461_ERROR_PARAM
+%s
+An out-of-range parameter was sent with the command
+@@@ 1004 1461_ERROR_OVERRUN
+%s
+Command overrun, 1461 received a character during command processing
+@@@ 1005 1461_ERROR_NOTHING_TO_SAY
+%s
+Nothing-to-say error, no response to talk message
+@@@ 1006 1461_ERROR_NUMERIC
+%s
+Numeric error, a non-numeric operand was sent
+@@@ 1007 1461_ERROR_MISSING_SEP
+%s
+Missing semicolon between commands on a multi-command line
+@@@ 1011 1461_ERROR_BAD_ECHO
+%s
+Error in HSS or HSP echo characters
+@@@ 1012 1461_ERROR_ET_ADJUST
+%s
+Exposure time adjusted to valid
+@@@ 1020 1461_ERROR_OUT_OF_MEM
+%s
+Out of memory during data acquisition
+@@@ 1030 1461_ERROR_WRONG_PRECISION
+%s
+Single precision dump of double data
+@@@ 1100 1461_ERROR_OPEN_DO_LOOP
+%s
+STOP or QUIT with DO-LOOP unfinished, LOOP statement missing
+@@@ 1101 1461_ERROR_DELAY_OVERANGE
+%s
+Out of range pulser delay increment for Model 1303
+@@@ 1102 1461_ERROR_TOO_MANY_L'S
+%s
+INC.LPTR compiled too many times
+DO-LOOPS are nested more than three levels deep
+@@@ 1103 1461_ERROR_MISSING_THEN
+%s
+IF with previous IF-THEN unfinished
+missing THEN statement afer an IF statement
+@@@ 1104 1461_ERROR_NESTED_BEGIN
+%s
+BEGIN with previous BEGIN-END unfinished
+missing END statement after a BEGIN statement
+@@@ 1105 1461_ERROR_TOO_MANY_DO'S
+%s
+More than four nested DO-LOOPs
+@@@ 1106 1461_ERROR_1463_ONLY
+%s
+Command is for 1463 only
+@@@ 1107 1461_ERROR_TOO_MANY_LOOPS
+%s
+LOOP without matching DO
+@@@ 1108 1461_ERROR_MISSING_BEGIN
+%s
+END without matching BEGIN
+@@@ 1109 1461_ERROR_DP_NOT_FIRST
+%s
+DP entered in DAD, but not first
+@@@ 1110 1461_ERROR_NESTED_ELSE
+%s
+ELSE entered twice in one IF-THEN
+@@@ 1111 1461_ERROR_DAD_TOO_BIG
+%s
+Buffer for DAD program is full
+@@@ 1112 1461_ERROR_MISSING_DO
+%s
+Loop with no matching DO
+@@@ 1113 1461_ERROR_1462_ONLY
+%s
+Command is for 1462 only
+@@@ 1114 1461_ERROR_MISSING_IF
+%s
+THEN without preceding IF
+@@@ 1115 1461_ERROR_OPEN_IF_THEN
+%s
+STOP or QUIT with IF-THEN unfinished
+@@@ 1116 1461_ERROR_OPEN_BEGIN_END
+%s
+STOP or QUIT with BEGIN-END unfinished
+@@@ 1200 1461_ERROR_BAD_WIDTH
+%s
+1303 width is outside of selected range.
+@@@ 1201 1461_ERROR_WIDTH_INVALID
+%s
+Width range selected on 1304/5 is illegal,
+or no width range is selected.
+@@@ 1202 1461_ERROR_BYPASSED_1303
+%s
+1303 delay command sent with 1303 bypassed.
+@@@ 1203 1461_ERROR_CAN'T_ENABLE
+%s
+ENABLE command to 1304 failed.
+@@@ 1207 1461_ERROR_NO_1303
+%s
+1303 command sent with no 1303 present.
+@@@ 1400 1461_ERROR_EXCEPTION
+%s
+68000 processor exception - e.g. BUSS ERROR.
+@@@ 1401 1461_ERROR_NO_JUMPRAM
+%s
+Scan ram setup is too complicated.
+@@@ 1405 1461_ERROR_NO_SCANRAM
+%s
+Scan ram setup is too big.
+@@@ 1406 1461_ERROR_NOT_FOR_UNIFORM
+%s
+SLICE# command - don't use in uniform mode.
+@@@ 1407 1461_ERROR_NOT_FOR_CONTIG
+%s
+TRACK# command - don't use in contiguous mode.
+@@@ 1413 1461_ERROR_NO_DETECTOR
+%s
+Run command sent with 1430 power off.
+@@@ 1500 GPIB_ERROR_DOS_ERROR // reserve 1500 to 1520 for GPIB errors
+%s
+DOS error
+@@@ 1501 GPIB_ERROR_NON_CIC
+%s
+Function requires GPIB board to be CIC
+@@@ 1502 GPIB_ERROR_NO_LISTEN
+%s
+Write function detected no Listeners
+@@@ 1503 GPIB_ERROR_BAD_ADDRESS
+%s
+Interface board not addressed correctly
+@@@ 1504 GPIB_ERROR_BAD_ARG
+%s
+Invalid argument to function call
+@@@ 1505 GPIB_ERROR_NOT_SAC
+%s
+Function requires GPIBH board to be SAC
+@@@ 1506 GPIB_ERROR_I/O_ABORT
+%s
+I/O operation aborted
+@@@ 1507 GPIB_ERROR_NO_BOARD
+%s
+Non-existent interface board
+@@@ 1508 GPIB_ERROR_NO_BOARD
+%s
+Undocumented GPIB error code : 08
+@@@ 1509 GPIB_ERROR_NO_BOARD
+%s
+Undocumented GPIB error code : 09
+@@@ 1510 GPIB_ERROR_I/O_NOT_COMPLETE
+%s
+I/O operation started before previous operation completed
+@@@ 1511 GPIB_ERROR_NOT_ABLE
+%s
+No capability for intended operation
+@@@ 1512 GPIB_ERROR_FILE_OP
+%s
+File system operation error
+@@@ 1513 GPIB_ERROR_NO_BOARD
+%s
+Undocumented GPIB error code : 13
+@@@ 1514 GPIB_ERROR_COMMAND
+%s
+Command error during device call
+@@@ 1515 GPIB_ERROR_STATUS_LOST
+%s
+Serial poll status byte lost
+@@@ 1516 GPIB_ERROR_SRQ_ASSERT
+%s
+SRQ remains asserted
+@@@ 1600 ERR_RESPONSE_WRITE // 1600-1605 are downfile.c errors
+Error trying to write to response file
+@@@ 1601 ERR_COMMAND_OPEN
+Cannot open command file for input
+@@@ 1602 ERR_RESPONSE_OPEN
+Cannot open response file for output
+@@@ 1603 ERR_NO_COMMAND_EXEC
+No command execute function specified
+@@@ 1604 ERR_COMMAND_CLOSE
+Attempt to close command file failed
+@@@ 1605 ERR_RESPONSE_CLOSE
+Attempt to close response file failed
+@@@ 1606 ERR_NO_CALLBACK
+Error while downloading commands : %d
+@@@ 1607 ERR_NO_MONITOR_FILE
+Could not load the detector controller master 
+control program (%s).  Please copy this
+file into the same directory as the OMA4000 program.
+@@@ 1608 ERR_NO_SCAN_FILE
+Unable to find scan setup file %s
+@@@ 1609 ERR_NO_DAC_FILE
+Unable to find DAC file %s
+@@@ 1620 ERR_ZERO_ERR // 1620 - 1623 are exec1461.c errors
+Bad 1461 response to ERR command after error condition :
+   %s
+@@@ 1621 ERR_GARBLED
+Invalid 1461 response to ERR command :
+   %s
+@@@ 1622 ERR_COMMAND_TOO_LONG
+Command line too long.
+%s
+@@@ 1623 ERR_NO_DEVICE
+IEEE-488 interface error :
+device "%s" not found.
+@@@ 1700 ERROR_CURVE_CONST
+The entry is neither a recognized curve
+block name or floating point value.
+@@@ 1701 ERROR_SPLIT_RANGE
+The curve range specified, %u to %u, is split between
+two curve blocks of the same name.  Specify a new
+range or merge the curve blocks.
+@@@ 1702 ERROR_NO_OPERAND_CURVE
+Neither of the operands listed is a valid curve block entry.
+@@@ 1703 ERROR_MATRIX_SIZE
+The operand curve ranges cannot be combined,
+or the result block range does not use the same
+number of curves that will be produced by the
+operands.  Make sure that one of the operand
+curve ranges is an integral multiple of the
+number of curves in the other operand's curve
+range.
+@@@ 1704 ERROR_SOURCE_OVERWRITE
+The operand curve ranges overlap with
+one or more of the result curves.
+@@@ 1800 ERROR_CAL_TOO_MANY_POINTS
+A maximum of %d points may be used
+for calibration.  One of the current
+calibration points must be deleted
+in order to allow a new point entry.
+@@@ 1801 ERROR_CAL_TOO_FEW_POINTS
+There are not enough points to do
+the calibration to the requested
+degree.  There must be at least
+%d points entered for an equation
+of this degree.
+@@@ 1802 ERROR_CAL_NOT_MONOTONIC
+A polynomial calibration assumes
+that the function is monotonic,
+i.e. that it is either increasing
+or decreasing and X values do not
+repeat.  Please check the entered
+calibration points.
+@@@ 1803 ERROR_CAL_NOT_UNIQUE_Y
+The given polynomial equation will
+produce Y values that are not unique
+over the point range required.
+2 Points should be entered close
+to the ends of the curve.  In
+addition, points should be as evenly
+spaced over the range of the curve
+as possible.  Please check the entered
+calibration points.
+@@@ 1804 ERROR_CAL_PIXEL_UNITS
+Please choose non-pixel units
+for the calibration results.
+@@@ 1805 ERROR_CONVERT_UNITS
+The calibration units of the data
+curve (%s) and the plot (%s)
+are different and cannot be converted. 
+Try setting the plot units to be the
+same as the curve units.
+@@@ 1850 ERROR_1235_FAIL
+The spectrograph did not accept the
+command %s
+@@@ 1851 ERROR_1235_NOANS
+The spectrograph did not answer.
+@@@ 1900 ERROR_NOT_UNIQUE_CURVE
+Curve sets must be uniquely
+named, or have a unique range.
+@@@ 1901 ERROR_NO_SPECIAL_OVERWRITE
+%s is a special OMA4000 name.
+Manually generating a special
+file is not allowed.
+@@@ 1902 ERROR_NO_INDEX_OVERWRITE
+Curve Set at index %d already exists!
+@@@1903 ERROR_NO_SPECIAL_DELETE
+You cannot partially delete the curve set
+%s because it corresponds to live data.  
+Change the start and end parameters so that
+the entire curve set is selected in order
+to delete it.
+@@@ 2000 ERROR_BAD_ASSN_RTYPE // 2000 - 20nn are macro language errors
+The right side operand in the
+assignment is an incorrect type
+to assign to the result type.
+@@@ 2001 ERROR_READ_ONLY_LTYPE;
+The result of the assignment is
+read-only.
+@@@ 2002 ERROR_BAD_PARAM_TYPE;
+Incorrect type: Parameter %d.
+@@@ 2003 ERROR_BAD_PARAM_RANGE
+The value of parameter %d is
+outside of the allowable range.
+@@@ 2004 ERROR_MACRO_DEBUG
+An Internal macro language error
+occurred at %s.
+@@@ 2005 ERROR_STACK_EMPTY
+Internal macro language error -
+Data Stack Empty.
+@@@ 2006 ERROR_STACK_FULL
+Internal macro language error -
+Data Stack Full.
+@@@ 2007 ERROR_ARRAY_BOUNDS
+Index specified for Array "%s"
+is out of legal range.
+@@@ 2008 ERROR_SYMTAB_FULL
+Symbol Table Full: too many
+variables and procedures.
+@@@ 2009 ERROR_SYMBOL_UNKNOWN
+Symbol "%s" has not been defined.
+@@@ 2010 ERROR_SYMBOL_REDEFINED
+An attempt was made to redefine
+symbol "%s".
+@@@ 2011 ERROR_STRING_UNTERMINATED
+Unterminated String (end of line
+seen before terminating string quote).
+@@@ 2012 ERROR_TOO_MANY_STRINGS
+String storage space has been
+exhausted; no room for new string
+constants or string variables.
+@@@ 2013 ERROR_SYNTAX
+Syntax Error: "%s" was not expected.
+@@@ 2014 ERROR_EXPR_TOO_COMPLEX
+Expression too complex, please simplify
+the expression or break it into
+more than one expression.
+@@@ 2015 ERROR_PARAM_COUNT
+A call was made to procedure "%s"
+with an incorrect number of parameters.
+@@@ 2016 ERROR_NO_RETURN_VALUE
+"%s" does not return any value;
+it is a procedure, not a function.
+@@@ 2017 ERROR_UNKNOWN_PROC
+"%s" is an unknown procedure.
+@@@ 2018 ERROR_MODIFY_CONSTANT
+"%s" is a constant and cannot
+be assigned a new value.
+@@@ 2019 ERROR_MAC_CLOSE_FAIL
+A file I/O error was occurred while 
+closing a file with the CLOSE command.
+@@@ 2020 ERROR_MAC_WRITE_FAIL
+A file I/O error was occurred during the
+execution of a WRITE or WRITELN command.
+@@@ 2021 ERROR_MAC_FILE_SEEK_FAIL
+A seek error occurred during execution of
+a READ, READLN, WRITE, or WRITELN command.
+@@@ 2022 ERROR_MAC_READ_FAIL
+A file I/O error occurred during the
+execution of a READ or READLN command.
+@@@ 2023 ERROR_PROGRAM_TOO_LARGE
+The macro program was too large to compile.
+@@@ 2024 ERROR_LINE_NUMBER
+Error in line number %d
+@@@ 2100 ERROR_RECORD
+An error occurred during keystroke recording.  
+Recording has been discontinued.
+@@@ 2101 ERROR_PLAY
+An error occurred during keystroke
+play back.  Play back has been
+discontinued.
+@@@ 2102 ERROR_INCORRECT_MODE
+A command was attempted that is
+not valid while in %s mode.
+@@@ 2103 ERROR_NOT_MENU_FORM_ITEM
+Playback of an invalid, or inactive,
+menu or form item was attempted.
+Make sure that the current menu or
+form is correct for this item.
+@@@ 2200 ERROR_CURVE_PEAKS_FULL   // autopeak.c module
+A maximum of ten curves can have
+peak labels.  To turn off peak labels
+for a curve, put the graphics cursor
+on the curve, press ALT-P and then
+ESCAPE.
+@@@ 2300 ERROR_WINTAGS_NO_MEM
+Out of memory, cannot perform
+requested tagging operation.
+@@@ 2400 ERROR_WINDOW_NOT_VISIBLE
+Window #%d is not visible when using
+this layout style.  Please change
+the active window or the graph layout.
+@@@ 2410 ERROR_BAD_HEAP
+The Heapchk function found an error in %s.
+@@@ 2500 ERROR_BKG_TO_BKG
+You cannot copy the curve set %s 
+to the background subtract curve set
+@@@ 2501 ERROR_NO_REFERENCE_DATA
+You have selected a live filter action, but 
+have not entered the name of a valid curve
+set.  You must enter the name of a curve set
+which is loaded into memory in the field
+labeled "Reference Curve Set".  Use the
+Alt-F1 function to see a list of currently
+loaded curve sets.  
+
+The live filter action is being 
+reset to "None".
+@@@ 2502 ERROR_DUAL_TRACK_MODE
+To use this function, you must first set the
+number of Tracks (on the Scan Setup menu) to
+2.  Correct the setting and try again.
+@@@ 9999  ERROR_GENERIC
+General error
+@@@
+

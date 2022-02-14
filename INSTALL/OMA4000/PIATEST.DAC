@@ -1,0 +1,73 @@
+; PIATEST.DAC This DAS sequence demonstrates how to read from and
+; write to the PIA port of OMA 4 detectors. It requires that the DAC.MAC
+; file contains definitions of the following DAC Macros:- OUT_PIA, 
+; TST_PIA_L, TST_PIA_H and IN_PIA. See the definitions of these macros 
+; (within DAC.MAC) for explanation of the parameters they carry.
+;
+; To make this sequence available within the OMA4000 program, edit the
+; relevant DAC file for your detector to check that the INCLUDE PIATEST.DAC
+; statement is present. Then run the OMA4 combined compiler to recompile
+; the DAC program, as discussed in the OMA4000 manual. Finally, run OMA4000 
+; and use the RUN-SETUP screen to select PIATEST as the DA mode. 
+;
+; Author:- Richard Burdett, EG&G Instruments Ltd, Wokingham, UK
+; Tel:-    +44 734 773003
+;
+PIATEST  DAC_BLOCK                         ;PIATEST will be the DA mode name
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         SUB W #1, ICNTR                   ;Subtracts 1 from the I scans
+                                           ;counter. Then the first scan is
+                                           ;outside a loop in a replace
+                                           ;mode to avoid having to clear
+                                           ;the receiving memory first
+         OUT_PIA 0                         ;Initialises the PIA port to
+                                           ;all 0's
+         DO_PREPS                          ;Does prep frames if any
+         
+         TST_PIA_L 1                       ;Halts until bit 1 of PIA port
+                                           ;goes low
+         TST_PIA_H 128                     ;Halts until pit 8 of PIA port
+                                           ;goes high
+                                                   
+         DO JCNTR                          ;Do Mems
+           MOVE W #0,I1ADDR
+           SHUTTER_EXPOSE                  ;Run overhead and shutter
+           REP_SCMP
+           ACQ_TRACKS DC_REPMODE           ;Replace first frame
+           ADD W #1, I1ADDR                ;Tell PC another scan done
+           ADD W #1, L1ADDR                ;Tell PC another scan done
+           DO_IGNS                         ;Do ignores if any
+           TEST ICNTR                      ;If no more scans
+           BEQ  PIATEST1                   ;Jump to the end of loop
+           DO ICNTR                        ;Do Scans
+             OUT_PIA I1ADDR                ;Writes the value of the I1ADDR
+                                           ;counter to the PIA port
+                                           ;as the scans increment. Hence
+                                           ;the bit pattern at the PIA output
+                                           ;port will be BCD equivalent
+                                           ;of the LS Byte of I1ADDR
+             SHUTTER_EXPOSE                ;Run overhead and shutter
+             ADD_SCMP
+             ACQ_TRACKS DC_ADDMODE         ;Add following frames
+             ADD W #1, I1ADDR              ;Tell PC another scan done
+             ADD W #1, L1ADDR              ;Tell PC another scan done
+             DO_IGNS                       ;Do ignores if any
+           LOOP                            ;End of scans loop
+PIATEST1   ADD W #1, J1ADDR                ;Tell PC another scan done
+           INC_MEM                         ;Inc memory pointer
+         LOOP                              ;End of mems loop
+         
+         OUT_PIA 255                       ;Sets the PIA port to
+                                           ;all 1's
+
+         SET_LCI                           ;Main reason - to reset LCI
+         
+         DONE
+
+PIA_INPT DCW 0                             ;These variables are used in the
+PIA_OTPT DCW 0                             ;PIA DAC Macros but cannot be 
+PIA_ALL1 DCW $00FF                         ;declared within them as otherwise
+                                           ;the values being transferred into
+                                           ;the macro would be overwritten. 
+                                           ;Hence they are declared here.

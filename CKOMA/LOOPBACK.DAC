@@ -1,0 +1,134 @@
+;****************************************************************
+;*                                                              *
+;*      This program (LOOPBACK.DAC) will walk ones across the   *
+;*      loop back data path. This will confirm the basic        *
+;*      operation of the complete system.                       *
+;*                                                              *
+;****************************************************************
+
+LINK	'LOOPBACK.ABJ'                  ;ASIC program.
+INCLUDE 'OPS.ADD'
+
+;------- ASIC register assignments. ----------------------------
+
+FCPROG  EQU     $30001                  ;FC Program register, 2 bytes.
+FCMASK  EQU     $30005                  ;FC Output Mask register, 2 bytes.
+DCPROG  EQU     $30009                  ;DC Program register, 2 bytes.
+BGBASE  EQU     $3000D                  ;Background Base register, 3 bytes.
+FBASE   EQU     $30013                  ;Frame Base Register, 3 bytes.
+
+MEM1    EQU     $30                     ;First memory.
+MEM2    EQU     $70                     ;Second memory.
+MEM3    EQU     $B0                     ;Third memory.
+CNTR    EQU     $8000F0                 ;DAC Loop counter.     
+MSG     EQU     $800000                 ;Message area.
+PCINT   EQU     $10000                  ;IBM Interrupt request area.
+
+CHEKSUM EQU     $800110                 ;Check Sum varible, L-Word.
+MEMADDR EQU     $800120                 ;Address Pointer varible, L-word.
+
+;------- Erase data memory -------------------------------------
+
+BEGIN	DAC_BLOCK
+        MOVE L	#$800000,MEMADDR	;Initialize address pointer.
+	DO #$20			        ;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Write Failed message ----------------------------------
+
+        MOVE W  #$2020,MSG              ;Space characters.
+        MOVE W  #$2020,MSG+2            ;Space characters.
+        MOVE W  #$2020,MSG+4            ;Space characters.
+        MOVE W  #$2020,MSG+6            ;Space characters.
+        MOVE W  #$2D20,MSG+8            ;Space characters.
+        MOVE W  #$4C20,MSG+10           ; L characters.
+        MOVE W  #$6F6F,MSG+12           ;oo characters.
+        MOVE W  #$6270,MSG+14           ;pb characters.
+        MOVE W  #$6361,MSG+16           ;ac characters.
+        MOVE W  #$206B,MSG+18           ;k  characters.
+        MOVE W  #$6554,MSG+20           ;Te characters.
+        MOVE W  #$7473,MSG+22           ;st characters.
+        MOVE W  #$203A,MSG+24           ;:  characters.
+        MOVE W  #$4150,MSG+26           ;PA characters.
+        MOVE W  #$5353,MSG+28           ;SS characters.
+        MOVE W  #$4445,MSG+30           ;ED characters.
+
+;------- Erase data memory -------------------------------------
+
+START   MOVE L	#$800030,MEMADDR	;Initialize address pointer.
+	DO #$200		        ;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Synchronize System ------------------------------------
+
+        MOVE W  #FCINIT,FCPROG ASIC     ;Sync. DAC w/ASIC.
+	WAIT_FC
+	MOVE W  #FCINIT,FCPROG ASIC     ;Sync. DAC w/ASIC.
+
+MASK    WAIT_FC
+        MOVE W  #$FFFF,FCMASK ASIC      ;No FC Mask.
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCINIT,DCPROG ASIC
+
+INIT    WAIT_DMA                        ;Do Initialization.
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCINIT,DCPROG ASIC
+	MOVE W  #0,CNTR
+
+;------- Do Main program ---------------------------------------
+
+MAIN    DO #$3333
+	  WAIT_DMA                      ;Do Loopback 1st address.
+          MOVE L  #MEM1,FBASE ASIC
+          MOVE W  #FCLB,FCPROG ASIC
+          MOVE W  #DCLB,DCPROG ASIC
+
+	  WAIT_DMA                      ;Do Loopback 2nd address.
+          MOVE L  #MEM2,FBASE ASIC
+          MOVE L  #MEM1,BGBASE ASIC
+          MOVE W  #FCLB,FCPROG ASIC
+          MOVE W  #DCLBSB,DCPROG ASIC
+
+	  WAIT_DMA                      ;Do Loopback 3rd address.
+          MOVE L  #MEM3,FBASE ASIC
+          MOVE W  #FCLB,FCPROG ASIC
+          MOVE W  #DCLBAM,DCPROG ASIC
+	  ADD W	#1,CNTR
+	LOOP
+
+        WAIT_DMA                        ;Do Initialization.
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCINIT,DCPROG ASIC
+
+;------- Check Data memory for proper checksum  ----------------
+
+        WAIT_DMA
+	MOVE L	#$800030,MEMADDR	;Initialize address pointer.
+        MOVE L  #0,CHEKSUM              ;Zero checksum.
+	DO #49 				;Add up checksum.
+	  ADD L [MEMADDR],CHEKSUM       
+          ADD L #4,MEMADDR              
+	LOOP
+        COMP W  #$66CB,CHEKSUM          ;Check for valid checksum.
+        BGT     EOP                     ;Jump if not valid.
+        BLT     EOP        
+        COMP W  #$0014,CHEKSUM + 2
+        BGT     EOP                     ;Jump if not valid.
+        BLT     EOP        
+
+;------- Interrupt the IBM  ------------------------------------
+
+        MOVE W  #0,PCINT
+        GOTO    START                   ;Continue until failure or reset.
+
+EOP     MOVE W  #$4146,MSG+26           ;FA characters.
+        MOVE W  #$4C49,MSG+28           ;IE characters.
+        MOVE W  #$4445,MSG+30           ;ED characters.
+        MOVE W  #0,PCINT
+	DONE
+
+

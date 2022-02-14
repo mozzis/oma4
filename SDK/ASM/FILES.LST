@@ -1,0 +1,43 @@
+
+DRIVER and TEST PROGRAM
+tmk.bat          -   Batch file to invoke make for testdriv.exe
+dmk.bat          -   Batch file to invoke make for detdriv.lib
+testdriv.c       -   Program for limited test of driver set
+access4.c        -   Driver source - lowest level interface
+detdriv.c        -   Driver source - application interface
+testdriv.exe     -   Executable test program
+handy.h          -   ¿
+access4.h        -   ³
+monitor.h        -   ³
+counters.h       -   ³
+detdriv.h        -   ³
+himem.h          -   Ã header files for building driver from source
+omaerror.h       -   ³
+oma4scan.h       -   ³
+omaregs.h        -   ³
+asicodes.h       -   Ù
+detdriv.lib      -   Driver library for large model Microsoft C 6.0
+detdriv.mak      -   Make file (POLYMAKE or NMAKE) for driver
+testdriv.mak     -   Make file (POLYMAKE or NMAKE) for test program
+
+DETECTOR CODE
+ops.add          -   Addresses to link monitor.hex to .DAC programs
+scans.asc        -   Source code for asic programs (scan sequences)
+oma4c.bat        -   Batch file to compile scans and da seq's
+oma4loc.com      -   Gives best guess of proper OMA4 board location
+scans.dac        -   Source code for da sequences
+monitor.hex      -   Compiled 68000 monitor - runs da seq programs
+hooks.inc        -   Include file for da seq programs
+generic.inc      -   Include file for asic and da seq programs
+dac.mac          -   Include file with macros for da seq programs
+
+UTILITIES
+dis.exe          -   Disassembles asic program space
+                     First run "PORT 301 0" to map program memory
+oma4.exe         -   Compiles asic and da seq source into object
+loader.exe       -   Loads asic and da objects and monitor into oma4 board
+                 -   Also erases data and program memory
+emtest.exe       -   Allows peeking and poking OMA4 board memory
+bigdump.exe      -   Interactive dump of extended memory regions to screen
+port.exe         -   Output values to IBM ports from command line
+

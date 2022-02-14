@@ -1,0 +1,15 @@
+Added support for LCI/Pulser.  Rework entire display of Run Setup. Detector,
+Pulser/Shutter, and Cooler types are displayed in info box based on hardware
+response.  Fields for shutter or pulser setup are displayed as appropriate.
+A keyboard idle loop runs to update the Intensifier switch status. I added
+a setting for Keepclean mode.  I implemented a better way of defining label
+fields.  I did not use the old dual form architecture for handling different 
+devices.  Instead, I group the fields for each different device together.
+I use a logic field to steer the cursor to the start of the correct group.
+The logic also directs the display of the form - there may have been a small
+change to the forms code to implement this.  I also use the get_draw_
+permission/draw/permitted bits in the field attribute byte, but these have
+to be reset every time the field is drawn, so this is done in the form init
+routine and in the verfiy routine for each field.  Makes it real handy to 
+have a "handle" (the enum constant used by the field_def macro) 
+for each field (including the labels, Bob!).

@@ -1,0 +1,41 @@
+;************************************************************************
+;*                                                                      *
+;*      This program CLEAN will continuously scan the CCD to keep       *
+;*      Dark current down during idle time                              *
+;*                                                                      *
+;************************************************************************
+
+CLEAN   DAC_BLOCK  
+
+        MOVE W #$FFFF, PGMINDX                 ; "Bogus" program vector
+
+;        ASIC_SYNC                              ; Make sure ASIC running OK
+        SET_LCI                                ; Reprogram LCI
+        RESET_OMA
+
+CLEAN1  EQU @                                  ; Bug - can't label macros!
+        TEST DA_KEEPCLN                        ; If not doing fast kpclns
+        BGT  CLEAN2                            ; Skip the next line
+
+        KEEP_CLEAN                             ; Do a fast keep clean
+
+CLEAN2  MOVE L  SC_ADDRESS, NXTSCADDR          ; Store scr comp at 1st addr.
+        REP_SCMP
+
+        DO_PIA                                 ; Store PIA values
+
+        TEST    DA_KEEPCLN                     ; If doing fast keepclean
+        BEQ     CLEAN3                         ; then skip the next line
+
+        SLOW_CLEAN
+        KEEP_CLEAN                             ; Do a fast keep clean
+
+CLEAN3  EQU @                                  ; Bug - can't label macros!
+        ADD W #1, I1ADDR                       ; Do so Bigdump can see activity
+
+        GET_TEMP
+
+        COMP W #$FFFF,PGMINDX                  ; Wait till PC changes program
+        BEQ    CLEAN1                          ; Loop till new program vector
+
+        DONE

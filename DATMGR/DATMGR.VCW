@@ -1,0 +1,20 @@
+[MSVC Status File]
+Version=1.00
+ProjectType=10
+ArgsOrCaller=..\basedisp\basedisp.exe
+DLLs=..\sdkwin\oma4win.dll
+External=0
+BrkptCount=2
+BrkptType1=0
+BrkptActive1=1
+BrkptAmbig1=0
+BrkptIndex1=-1
+BrkptLoc1={,d:\code\oma4\datmgr\datmgr.cpp,} .273
+BrkptType2=0
+BrkptActive2=1
+BrkptAmbig2=0
+BrkptIndex2=-1
+BrkptLoc2={,d:\code\oma4\datmgr\datmgr.cpp,} .401
+WatchCount=2
+WatchExpr1=IParam
+WatchExpr2=lpszName

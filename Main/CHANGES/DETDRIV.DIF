@@ -1,0 +1,23 @@
+Add routines for setting and getting PIA input and output bits.
+Delete commands for scan timeout function since it was not implemented.
+delete MASK command.
+Fix bug in set_Mems and set_size_pointer which decremented 
+start memory number.
+Improve LCI pulse width / exposure time / trigger count relationship.
+Changes to calc_lead_lines and calc_trail_lines - it is now legal to have
+zero leading lines and/or zero trailing lines in an array (e.g. EEV 1152),
+so calc_antibloom_counts was changed.  In the process, I improved the 
+antibloom algorithm by adding a remainder loop, so that the inner and outer 
+loop counts can be as close as possible to that set by the user.
+Get_active_point and get_active_track routines added to alleviate confusion
+and prevent problems when users use the TRACK and POINT commands in uniform
+mode.
+Set_SameET and get_SameET routines added.
+Order of some settings changed in WriteSys so method file based programs will
+use correct version of exposure time for Pulser or Shutter.
+If shutter board or cooler board not installed, the respective ID code will
+be FF, as opposed to the expected 00.  get_Pulser and get_CoolerType fixed
+to cope with this.
+Version is 2.43.
+Add code to load correct ASIC and DAC files if detector ID in current file
+does not ID returned by detector

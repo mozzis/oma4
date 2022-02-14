@@ -1,0 +1,351 @@
+Stack Allocation = 8192 bytes
+
+ Start  Stop   Length Name                   Class
+ 00000H 00261H 00262H CKMSG_TEXT             CODE
+ 00262H 0052DH 002CCH HIMEM_TEXT             CODE
+ 0052EH 009CBH 0049EH CACHE386_TEXT          CODE
+ 009CCH 02037H 0166CH _TEXT                  CODE
+ 02040H 02041H 00002H EMULATOR_TEXT          CODE
+ 02042H 02042H 00000H C_ETEXT                ENDCODE
+ 02050H 02050H 00000H EMULATOR_DATA          FAR_DATA
+ 02050H 02125H 000D6H FAR_BSS                FAR_BSS
+ 02130H 02171H 00042H NULL                   BEGDATA
+ 02172H 0298FH 0081EH _DATA                  DATA
+ 02990H 02991H 00002H XIQC                   DATA
+ 02992H 0299FH 0000EH DBDATA                 DATA
+ 029A0H 029ADH 0000EH CDATA                  DATA
+ 029AEH 029AEH 00000H XIFB                   DATA
+ 029AEH 029AEH 00000H XIF                    DATA
+ 029AEH 029AEH 00000H XIFE                   DATA
+ 029AEH 029AEH 00000H XIB                    DATA
+ 029AEH 029AEH 00000H XI                     DATA
+ 029AEH 029AEH 00000H XIE                    DATA
+ 029AEH 029AEH 00000H XPB                    DATA
+ 029AEH 029B1H 00004H XP                     DATA
+ 029B2H 029B2H 00000H XPE                    DATA
+ 029B2H 029B2H 00000H XCB                    DATA
+ 029B2H 029B2H 00000H XC                     DATA
+ 029B2H 029B2H 00000H XCE                    DATA
+ 029B2H 029B2H 00000H XCFB                   DATA
+ 029B2H 029B2H 00000H XCF                    DATA
+ 029B2H 029B2H 00000H XCFE                   DATA
+ 029B2H 029B5H 00004H CONST                  CONST
+ 029B6H 029BDH 00008H HDR                    MSG
+ 029BEH 02A93H 000D6H MSG                    MSG
+ 02A94H 02A95H 00002H PAD                    MSG
+ 02A96H 02A96H 00001H EPAD                   MSG
+ 02A98H 02A98H 00000H _BSS                   BSS
+ 02A98H 02A98H 00000H XOB                    BSS
+ 02A98H 02A98H 00000H XO                     BSS
+ 02A98H 02A98H 00000H XOE                    BSS
+ 02AA0H 02C9FH 00200H c_common               BSS
+ 02CA0H 04C9FH 02000H STACK                  STACK
+
+ Origin   Group
+ 0213:0   DGROUP
+
+  Address         Publics by Name
+
+ 0000:0000       @access_startup_detector
+ 0000:03EA       @bios_high_mem_block_move
+ 0000:0262       @build_segment_descriptor
+ 0000:052E       @cacheoff
+ 0000:05A2       @cacheon
+ 0000:0314       @dump_gdt
+ 0000:0610       @find_cache_type
+ 0000:0010       @get_OMA4_string
+ 0000:03AC       @init_GDT
+ 0000:03C8       @intel_to_linear_address
+ 0000:045E       @read_high_memory
+ 0000:04CC       @write_high_memory
+ 0213:082E       STKHQQ
+ 0213:02FE       _cache_off
+ 0213:02FA       _cache_on
+ 0213:02F6       _cache_port
+ 0205:0000       _cache_selector
+ 0213:03AA       _cache_type
+ 0213:0050       _compare
+ 0213:0968       _edata
+ 0213:0B70       _end
+ 0213:05AB       _environ
+ 0213:0582       _errno
+ 0000:0F4F       _exit
+ 0000:1A6A       _fflush
+ 0000:1AEA       _flushall
+ 0000:0B24       _getch
+ 0000:0B20       _getche
+ 0000:003A       _get_args
+ 0205:00A6       _GlobalDescriptorTable
+ 0213:02EE       _index_port
+ 0213:02F2       _index_val
+ 0000:0B4C       _int86x
+ 0000:1B90       _lseek
+ 0000:01DE       _main
+ 0000:1B3E       _malloc
+ 0205:0055       _message
+ 0213:0046       _OMA_memory_addr
+ 0213:0042       _OMA_phys_addr
+ 0213:004A       _OMA_port_addr
+ 0000:0ADC       _printf
+ 0213:004E       _quiet
+ 0000:1EFA       _stackavail
+ 0000:0BE6       _strcmpi
+ 0000:0BE6       _stricmp
+ 0205:0004       _string_addr
+ 0213:004C       _string_len
+ 0000:0C2C       _strnicmp
+ 0000:0C84       _strtok
+ 0000:0D3A       _strtol
+ 0000:0D2E       _strtoul
+ 0000:1C0A       _write
+ 0213:082A       __aaltstkovr
+ 0213:0566       __acfinfo
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0213:05BC       __adbgmsg
+ 0213:0442       __aexit_rtn
+ 0000:1910       __aFchkstk
+ 0000:0E6C       __aFNaulshr
+ 0000:18FE       __aFulshr
+ 0213:0574       __aintdiv
+ 0213:0850       __amblksiz
+ 0000:0AB7       __amsg_exit
+ 0213:0042       __anullsize
+ 0213:045A       __aseghi
+ 0213:045C       __aseglo
+ 0213:0444       __asizds
+ 0213:084E       __asizeC
+ 0213:084F       __asizeD
+ 0000:09DC       __astart
+ 0213:0440       __atopsp
+ 0213:0970       __bufin
+ 0000:0F5E       __cexit
+ 0213:0832       __cfltcvt_tab
+ 0213:0830       __cflush
+ 0213:0560       __chbuf
+ 0213:05B4       __child
+ 0000:1910       __chkstk
+ 0000:0E8A       __cinit
+ 0000:0AA7       __cintDIV
+ 0000:0FD2       __ctermsub
+ 0213:045E       __ctype
+ 0213:045E       __ctype_
+ 0000:0F68       __c_exit
+ 0000:0AD9       __dataseg
+ 0213:058D       __doserrno
+ 0000:12E4       __dosret0
+ 0000:12F9       __dosretax
+ 0000:12EC       __dosreturn
+ 0213:058A       __dosvermajor
+ 0213:058B       __dosverminor
+ 0000:2040       __EmDataSeg
+ 0000:0F56       __exit
+ 0213:0578       __fac
+ 0000:1D6A       __ffree
+ 0000:1012       __FF_MSGBANNER
+ 0213:0852       __fheap
+ 0000:1EDA       __findlast
+ 0000:197E       __flsbuf
+ 0000:1D7D       __fmalloc
+ 0213:0872       __fpinit
+ 0000:190A       __fptrap
+ 0000:13BB       __ftbuf
+ 0000:1B44       __getbuf
+ 0000:1DFA       __growseg
+ 0000:1E89       __incseg
+ 0000:1FCE       __initseg
+ 0213:05B7       __intno
+ 0213:05D8       __iob
+ 0213:06C8       __iob2
+ 0213:07B8       __lastiob
+ 0000:2002       __linkseg
+ 0000:1306       __maperror
+ 0000:1958       __myalloc
+ 0000:1F8A       __newseg
+ 0213:058F       __nfile
+ 0213:0446       __nheap_desc
+ 0000:1282       __NMSG_TEXT
+ 0000:12AD       __NMSG_WRITE
+ 0000:1934       __nullcheck
+ 0213:058D       __oserr
+ 0213:0591       __osfile
+ 0213:058A       __osmajor
+ 0213:058B       __osminor
+ 0213:058C       __osmode
+ 0213:058A       __osversion
+ 0000:1414       __output
+ 0213:05B6       __ovlflag
+ 0213:05B8       __ovlvec
+ 0213:05AF       __pgmptr
+ 0213:0588       __psp
+ 0213:0586       __pspadr
+ 0000:1F0E       __searchseg
+ 0000:1034       __setargv
+ 0000:11E2       __setenvp
+ 0213:084C       __sigintoff
+ 0213:084A       __sigintseg
+ 0000:133A       __stbuf
+ 0213:0584       __umaskval
+ 0213:0868       ___aDBexit
+ 0213:086E       ___aDBptrchk
+ 0213:0866       ___aDBrterr
+ 0213:0864       ___aDBswpchk
+ 0213:0862       ___aDBswpflg
+ 0213:05A5       ___argc
+ 0213:05A7       ___argv
+ 0213:0860       ___qczrinit
+
+  Address         Publics by Value
+
+ 0000:0000       @access_startup_detector
+ 0000:0010       @get_OMA4_string
+ 0000:003A       _get_args
+ 0000:01DE       _main
+ 0000:0262       @build_segment_descriptor
+ 0000:0314       @dump_gdt
+ 0000:03AC       @init_GDT
+ 0000:03C8       @intel_to_linear_address
+ 0000:03EA       @bios_high_mem_block_move
+ 0000:045E       @read_high_memory
+ 0000:04CC       @write_high_memory
+ 0000:052E       @cacheoff
+ 0000:05A2       @cacheon
+ 0000:0610       @find_cache_type
+ 0000:09DC       __astart
+ 0000:0AA7       __cintDIV
+ 0000:0AB7       __amsg_exit
+ 0000:0AD9       __dataseg
+ 0000:0ADC       _printf
+ 0000:0B20       _getche
+ 0000:0B24       _getch
+ 0000:0B4C       _int86x
+ 0000:0BE6       _stricmp
+ 0000:0BE6       _strcmpi
+ 0000:0C2C       _strnicmp
+ 0000:0C84       _strtok
+ 0000:0D2E       _strtoul
+ 0000:0D3A       _strtol
+ 0000:0E6C       __aFNaulshr
+ 0000:0E8A       __cinit
+ 0000:0F4F       _exit
+ 0000:0F56       __exit
+ 0000:0F5E       __cexit
+ 0000:0F68       __c_exit
+ 0000:0FD2       __ctermsub
+ 0000:1012       __FF_MSGBANNER
+ 0000:1034       __setargv
+ 0000:11E2       __setenvp
+ 0000:1282       __NMSG_TEXT
+ 0000:12AD       __NMSG_WRITE
+ 0000:12E4       __dosret0
+ 0000:12EC       __dosreturn
+ 0000:12F9       __dosretax
+ 0000:1306       __maperror
+ 0000:133A       __stbuf
+ 0000:13BB       __ftbuf
+ 0000:1414       __output
+ 0000:18FE       __aFulshr
+ 0000:190A       __fptrap
+ 0000:1910       __aFchkstk
+ 0000:1910       __chkstk
+ 0000:1934       __nullcheck
+ 0000:1958       __myalloc
+ 0000:197E       __flsbuf
+ 0000:1A6A       _fflush
+ 0000:1AEA       _flushall
+ 0000:1B3E       _malloc
+ 0000:1B44       __getbuf
+ 0000:1B90       _lseek
+ 0000:1C0A       _write
+ 0000:1D6A       __ffree
+ 0000:1D7D       __fmalloc
+ 0000:1DFA       __growseg
+ 0000:1E89       __incseg
+ 0000:1EDA       __findlast
+ 0000:1EFA       _stackavail
+ 0000:1F0E       __searchseg
+ 0000:1F8A       __newseg
+ 0000:1FCE       __initseg
+ 0000:2002       __linkseg
+ 0000:2040       __EmDataSeg
+ 0205:0000       _cache_selector
+ 0205:0004       _string_addr
+ 0205:0055       _message
+ 0205:00A6       _GlobalDescriptorTable
+ 0213:0042       __anullsize
+ 0213:0042       _OMA_phys_addr
+ 0213:0046       _OMA_memory_addr
+ 0213:004A       _OMA_port_addr
+ 0213:004C       _string_len
+ 0213:004E       _quiet
+ 0213:0050       _compare
+ 0213:02EE       _index_port
+ 0213:02F2       _index_val
+ 0213:02F6       _cache_port
+ 0213:02FA       _cache_on
+ 0213:02FE       _cache_off
+ 0213:03AA       _cache_type
+ 0213:0440       __atopsp
+ 0213:0442       __aexit_rtn
+ 0213:0444       __asizds
+ 0213:0446       __nheap_desc
+ 0213:045A       __aseghi
+ 0213:045C       __aseglo
+ 0213:045E       __ctype
+ 0213:045E       __ctype_
+ 0213:0560       __chbuf
+ 0213:0566       __acfinfo
+ 0213:0574       __aintdiv
+ 0213:0578       __fac
+ 0213:0582       _errno
+ 0213:0584       __umaskval
+ 0213:0586       __pspadr
+ 0213:0588       __psp
+ 0213:058A       __dosvermajor
+ 0213:058A       __osversion
+ 0213:058A       __osmajor
+ 0213:058B       __osminor
+ 0213:058B       __dosverminor
+ 0213:058C       __osmode
+ 0213:058D       __oserr
+ 0213:058D       __doserrno
+ 0213:058F       __nfile
+ 0213:0591       __osfile
+ 0213:05A5       ___argc
+ 0213:05A7       ___argv
+ 0213:05AB       _environ
+ 0213:05AF       __pgmptr
+ 0213:05B4       __child
+ 0213:05B6       __ovlflag
+ 0213:05B7       __intno
+ 0213:05B8       __ovlvec
+ 0213:05BC       __adbgmsg
+ 0213:05D8       __iob
+ 0213:06C8       __iob2
+ 0213:07B8       __lastiob
+ 0213:082A       __aaltstkovr
+ 0213:082E       STKHQQ
+ 0213:0830       __cflush
+ 0213:0832       __cfltcvt_tab
+ 0213:084A       __sigintseg
+ 0213:084C       __sigintoff
+ 0213:084E       __asizeC
+ 0213:084F       __asizeD
+ 0213:0850       __amblksiz
+ 0213:0852       __fheap
+ 0213:0860       ___qczrinit
+ 0213:0862       ___aDBswpflg
+ 0213:0864       ___aDBswpchk
+ 0213:0866       ___aDBrterr
+ 0213:0868       ___aDBexit
+ 0213:086E       ___aDBptrchk
+ 0213:0872       __fpinit
+ 0213:0968       _edata
+ 0213:0970       __bufin
+ 0213:0B70       _end
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __acrtmsg
+ 0000:D6D6  Abs  __aDBdoswp
+
+Program entry point at 0000:09DC

@@ -1,0 +1,55 @@
+sr = .
+ru = .
+in = .
+od = .
+ma = c:\code\oma4\main
+
+!ifdef DEBUG
+cflags = -c -nologo -AL -Zip -G2s -Od
+lflags = /CO /NOLOGO /NOD /MAP
+!else
+cflags = -c -nologo -AL -Zp -G2s -Oazx
+lflags = /NOLOGO /EXE /PACKC /FAR /NOD /MAP
+!endif
+
+{$(ma)}.c{$(od)}.obj:
+     @cl $(cflags) -Fo$*.obj $<
+
+{$(sr)}.c{$(od)}.obj:
+     @cl $(cflags) -Fo$*.obj $<
+
+objs= colors.obj\
+      forms.obj\
+      formwind.obj\
+      scrngss.obj\
+      mousefrm.obj\
+      mousegss.obj\
+      keyibmpc.obj\
+      tglfld.obj\
+      intfld.obj\
+      di_util.obj
+
+.obj.exe:
+    @echo Linking...
+    link @<<
+$(lflags) +
+$(objs: =+
+)
+$*.exe
+NUL
+c:\gss\dos\lib\msccgir.lib llibce.lib
+NUL
+<<
+
+colors.exe : $(objs)
+
+$(od)\colors.obj   : $(sr)\colors.c
+$(od)\forms.obj    : $(sr)\forms.c
+$(od)\formwind.obj : $(sr)\formwind.c
+$(od)\scrngss.obj  : $(sr)\scrngss.c
+$(od)\mousefrm.obj : $(sr)\mousefrm.c
+$(od)\mousegss.obj : $(sr)\mousegss.c
+$(od)\keyibmpc.obj : $(sr)\keyibmpc.c
+$(od)\tglfld.obj   : $(sr)\tglfld.c
+$(od)\intfld.obj   : $(sr)\intfld.c
+$(od)\di_util.obj  : $(ma)\di_util.c

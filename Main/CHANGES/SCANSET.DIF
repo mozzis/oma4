@@ -1,0 +1,16 @@
+scanset.c -> j:scanset.c_v
+   scanset.c (07 Jul 1992 16:17:42)
+           j:scanset.c_v Rev 0.27 (06 Jul 1992 10:36:30)
+===================
++             10  |/  $Header:   J:/logfiles/oma4000/main/scanset.c_v   0.27   06 Jul 1992 10:36:30   maynard  $
+-     10          |/  $Header:   J:/logfiles/oma4000/main/scanset.c_v   0.26   12 Mar 1992 13:29:46   maynard  $
+===================
++             12  | * 
++             13  | *    Rev 0.27   06 Jul 1992 10:36:30   maynard
++             14  | * cast some items in form defs and field data defs to elim compiler warnings
++             15  | * eliminate extra shiftmode choice
+===================
++            245  |   "Tracks º Serial", "Tracks Á Serial", "Masked Array Ü ", "Masked Array ß "
+-    241          |   "Tracks º Serial", "Tracks Á Serial",
+-    242          |   "Masked Array Ü ", "Masked Array ß "
+===================

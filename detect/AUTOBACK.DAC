@@ -1,0 +1,40 @@
+;*********************************************************
+;*                                                       *
+;* This program ABACK will read data from the CCD with   *
+;* automatic background acquisition and subtraction      *
+;* Note - only 1 scan is taken per frame (won't add data *
+;* from consecutive scans into one frame)                *
+;*                                                       *
+;*********************************************************
+AUTOBACK DAC_BLOCK  
+
+        SET_MEM_0                          ;Set memory pointer to 0
+        MOVE L DATAADDR, BGNDADDR          ;Set background address equal to
+        ADD  L FRAMESIZE,BGNDADDR          ;data address plus one frame
+        INIT_CNTRS                         ;Setup I, J, K etc.
+
+        DO_PREPS
+        DO JCNTR                           ;Do Mems
+
+          EXPOSE                           ;Do expose without shutter
+  
+          ; Now acquire background into background memory 
+  
+          ACQ_BACKGD DC_REPMODE            ;Put data into background memory
+          
+          ; Then subtract background while acquiring normal frame
+
+          SHUTTER_EXPOSE                   ;Do expose with shutter
+          REP_SCMP
+          ACQ_TRACKS DC_SUBMODE            ;Subtract first frame from this 
+          ADD W #1, L1ADDR                 ;Tell PC another scan done
+          DO_IGNS                          ;Do ignores if any
+
+ABACKB    ADD W #1, J1ADDR                 ;Tell PC another scan done
+          INC_MEM                          ;Inc memory pointer
+        LOOP                               ;End of mems loop
+
+        SET_LCI
+        DONE
+
+

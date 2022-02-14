@@ -1,0 +1,4 @@
+If setup_detector_interface returns error code, put up fake detector error
+warning.  Distinguishes between board not found and other errors, such
+as "could not identify" or "scan code and detector mismatch".
+Version is 2.44

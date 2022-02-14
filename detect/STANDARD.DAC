@@ -1,0 +1,54 @@
+;*********************************************************
+;*                                                       *
+;*    This program STANDARD will read data from the CCD  *
+;*                                                       *
+;*********************************************************
+STANDARD DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         SUB W #1, ICNTR                   ;Does 1 rep outside of loop
+         DO_PREPS
+         DO JCNTR                          ;Do Mems
+           MOVE W #0,I1ADDR
+           TEST STREAKFLG
+           BEQ  STDNSTRK1
+           STREAK                          ;Shift image under mask
+           GOTO STD_REG1
+ 
+STDNSTRK1  EQU @
+           SHUTTER_EXPOSE                  ;Run overhead and shutter
+           REP_SCMP                        ;Get Source Comp value
+
+STD_REG1   EQU @
+           ACQ_TRACKS DC_REPMODE           ;Replace first frame
+           ADD W #1, I1ADDR                ;Tell PC another scan done
+           ADD W #1, L1ADDR                ;Tell PC another scan done
+           DO_IGNS                         ;Do ignores if any
+           DO_PIA                          ;Read and write PIA bits
+
+           TEST ICNTR                      ;If no more scans
+           BEQ  ACCUM1B                    ;Skip to end of loop
+
+           DO ICNTR                        ;Do Scans
+             TEST STREAKFLG
+             BEQ  STDNSTRK2
+             STREAK                        ;Shift image under mask
+             GOTO STD_REG2
+STDNSTRK2    EQU @
+             SHUTTER_EXPOSE                ;Run overhead and shutter
+             ADD_SCMP                      ;Add to current source comp value
+STD_REG2     EQU @
+             ACQ_TRACKS DC_ADDMODE         ;Add following frames
+             ADD W #1, I1ADDR              ;Tell PC another scan done
+             ADD W #1, L1ADDR              ;Tell PC another scan done
+             DO_IGNS                       ;Do ignores if any
+             DO_PIA                        ;Read and write PIA bits
+           LOOP                            ;End of scans loop
+ACCUM1B    ADD W #1, J1ADDR                ;Tell PC another scan done
+           INC_MEM                         ;Inc memory pointer
+         LOOP                              ;End of mems loop
+
+         SET_LCI                           ;Main reason - to reset LCI
+       
+         DONE
+

@@ -1,0 +1,14 @@
+[shared-]
+	pmark=
+	version=2
+[debug-]
+	target="c:\code\oma4\ckoma\oma4loc.exe"
+[cv]
+	wndstate=0 1 0 2 0 0 0 1 0 1 254
+	tilestate=1 49 0 80 0 0 0 67 0 8 0 0 0 0 39 0 0 254
+	command=use auto
+	command=n16
+	command=s1
+	command=oc+
+	command=of+
+	command=o3-

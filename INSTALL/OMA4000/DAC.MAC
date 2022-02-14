@@ -1,0 +1,670 @@
+;-------------------------------------------------------------------------;
+; ASIC_SYNC is called after the board is reset to sync the DC and FC
+; processors of the ASIC
+;-------------------------------------------------------------------------;
+
+ASIC_SYNC    MACRO
+        MOVE W  #FCINIT,FCPROG ASIC        ;SYNC. DAC W/ASIC.
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_FC
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_FC
+        MOVE W  #$FFFF,FCMASK ASIC
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+
+        WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCINIT,FCPROG ASIC
+        MOVE W  #DCSYNC,DCPROG ASIC
+  ENDM
+
+
+ID_DETECT MACRO
+        WAIT_DMA                           ;INITIALIZATION.
+        MOVE W  #FCIDNT,FCPROG ASIC
+        MOVE W  #DCIDNT,DCPROG ASIC
+        MOVE L  #(SHUTID-STARTADDR), FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; SET_MEM_0 sets the memory pointer for the DAC to point to the
+; first memory area selected by the PC, then tells the ASIC DC
+; to store data there
+;-------------------------------------------------------------------------;
+
+SET_MEM_0 MACRO
+          MOVE L  FRAMEOFFS, DATAADDR        ; Copy Offset from driver
+  ENDM
+
+;-------------------------------------------------------------------------;
+; INIT_CNTRS moves the counter values from shared memory into DAC memory
+; so the DO - LOOP construct can use them, and clears the running count
+; seen by the PC
+;-------------------------------------------------------------------------;
+
+INIT_CNTRS MACRO               
+        MOVE W #0, DA_COMPLETE
+        MOVE W H0ADDR,HCNTR               ; Init private counters
+        MOVE W I0ADDR,ICNTR               ; from max value from PC
+        MOVE W J0ADDR,JCNTR
+        MOVE W K0ADDR,KCNTR
+        MOVE W T0ADDR,TCNTR
+
+        MOVE W #0, I1ADDR
+        MOVE W #0, J1ADDR
+        MOVE W #0, K1ADDR
+        MOVE W #0, H1ADDR
+        MOVE W #0, T1ADDR
+        MOVE L SC_ADDRESS, NXTSCADDR      ;Zero source comp address
+        ADD  L #4, NXTSCADDR              ;Point to first live scomp
+
+  ENDM
+
+;-------------------------------------------------------------------------;
+;
+; KEEP_CLEAN clears the shift register, gets the temp, etc.
+;
+;-------------------------------------------------------------------------;
+
+KEEP_CLEAN MACRO
+        WAIT_DMA
+        MOVE W  #FCKC,FCPROG ASIC          ;Load keepclean address
+        MOVE W  #DCKC,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+  ENDM
+
+
+RESET_OMA MACRO
+        WAIT_DMA
+        MOVE W  #FCRESET, FCPROG ASIC
+        MOVE W  #DCRESET,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR), FBASE ASIC
+        MOVE L  SC_ADDRESS, NXTSCADDR      ;Zero scomp address
+  ENDM
+
+SLOW_CLEAN MACRO
+
+        WAIT_DMA
+        MOVE W #FCTEMP, FCPROG ASIC
+        MOVE W #DCTEMP, DCPROG ASIC
+        MOVE L #(COOLDATA-STARTADDR),FBASE ASIC
+
+        WAIT_DMA                           ;TRASH IMAGE UTIL 1ST SPECTRA
+        MOVE W #FCSIFM,FCPROG ASIC
+        MOVE W #DCSIFM,DCPROG ASIC
+        
+        MOVE W T0ADDR,TCNTR
+        MOVE W #0,T1ADDR
+
+        DO TCNTR                                 ;AQUIRE SPECTRA
+          WAIT_DMA
+          MOVE W FC_SCANMODE,FCPROG ASIC
+          MOVE W DC_IGNMODE,DCPROG ASIC
+          MOVE L DATAADDR,FBASE ASIC
+          ADD W #1,T1ADDR
+        LOOP
+
+        WAIT_DMA                           ;TRASH REMAINING IMAGE
+        MOVE W  #FCSEFM,FCPROG ASIC
+        MOVE W  #DCSEFM,DCPROG ASIC
+
+  ENDM
+;-------------------------------------------------------------------------;
+;
+; OUT_PIA sends the 8 bits defined by the replaceable parameter ?1 which
+; is passed to the macro when it is called. ?1 can be a constant e.g. a 
+; value of 1; will set bit 0; a value of 8 will set bit 3 etc, or a variable 
+; such as I1COUNT in which case the bit pattern output will represent the
+; least significant byte of this variable.
+;
+;-------------------------------------------------------------------------;
+
+OUT_PIA MACRO
+        
+      WAIT_DMA
+      MOVE W ?1, PIA_OTPT          ; transfers input param to DAC variable
+      MOVE W #$00FF, PIA_ALL1      ; sets PIA_ALL1 variable to $FF
+      AND W #$00FF, PIA_OTPT       ; logically selects LSByte of PIA_OTPT
+      SUB W PIA_OTPT, PIA_ALL1     ; creates a bitwise complement of PIA_OPT
+      MOVE W PIA_ALL1, PIA_OTPT    ; and transfers it to PIA_OTPT
+      OR W  #$FF00, PIA_OTPT       ; sets other bits pf PIA_OTPT to 1 so that
+                                   ; word can be used as mask byte for ASIC
+        
+      WAIT_DMA
+      MOVE W #FCPIAO, FCPROG ASIC
+      MOVE W #DCPIAO, DCPROG ASIC
+      MOVE W PIA_OTPT, FCMASK ASIC ; actually outputs word to detector
+     
+      WAIT_DMA
+      MOVE W #$FFFF,  FCMASK ASIC  ; resets mask byte for ASIC so that no
+                                   ; further masking occurs
+  ENDM
+
+;-------------------------------------------------------------------------;
+;
+; IN_PIA reads the 8 bits at the PIA input port and stores them to the 
+; variable PIA_INPT
+;
+;-------------------------------------------------------------------------;
+
+IN_PIA MACRO
+
+      WAIT_DMA
+      MOVE W #FCPIAI, FCPROG ASIC  ; sets up to read PIA input value
+      MOVE W #DCPIAI, DCPROG ASIC  ;
+      MOVE W #$FFFF,  FCMASK ASIC  ;
+      MOVE L #PIA_INVAL, FBASE ASIC;
+        
+      MOVE W PIA_INVAL, PIA_INPT   ; transfers read value to PIA_INPT
+      AND W # $00FF, PIA_INPT      ; selects lower byte only
+      
+  ENDM
+
+;-------------------------------------------------------------------------;
+;
+; TST_PIA_H halts DAC program execution until a specified bit pattern in the 
+; PIA input port goes "high". The bit(s) to be tested is specified by the
+; ?1 parameter which is passed to the macro when it is called and which 
+; may have the values in the range 1 to 255 corresponding to the following 
+; actions:-
+;       Value                   Test for
+;       1                       Bit 1
+;       2                       Bit 2
+;       4                       Bit 3
+;       8                       Bit 4
+;       16                      Bit 5
+;       32                      Bit 6
+;       64                      Bit 7
+;       128                     Bit 8
+; eg:-  3                       Bit 1 AND Bit 2
+;       255                     All Bits High
+; Remember that unlike a trigger input, dark current will continue
+; to accumulate until this happens.
+;
+;-------------------------------------------------------------------------;
+
+TST_PIA_H MACRO
+
+         WAIT_DMA
+         MOVE W #FCPIAI, FCPROG ASIC  ; sets up to read PIA input value
+         MOVE W #DCPIAI, DCPROG ASIC  ; which needs to happen once before
+         MOVE W #$FFFF,  FCMASK ASIC  ; first test occurs
+         MOVE L #PIA_INVAL, FBASE ASIC;
+         MOVE W PIA_INVAL, PIA_INPT   ; transfers read value to PIA_INPT
+         AND W # $00FF, PIA_INPT      ; selects lower byte
+         AND W #?1, PIA_INPT          ; Selects bits to test 
+
+TST_PIA1 COMP W #?1, PIA_INPT         ; Tests against ?1 input to macro
+         
+         WAIT_DMA
+         MOVE W #FCPIAI, FCPROG ASIC  ; performs further reads of the PIA
+         MOVE W #DCPIAI, DCPROG ASIC  ; input until..
+         MOVE W #$FFFF,  FCMASK ASIC  ;
+         MOVE L #PIA_INVAL, FBASE ASIC;
+         MOVE W PIA_INVAL, PIA_INPT   ;  
+         AND W #$00FF, PIA_INPT       ; 
+         AND W #?1, PIA_INPT          ;
+         
+         BGT TST_PIA1                 ; PIA value matches ?1 param
+         
+  ENDM
+;-------------------------------------------------------------------------;
+;
+; TST_PIA_L halts DAC program execution until a specified bit pattern in the 
+; PIA input port goes "low". The bit(s) to be tested is specified by the
+; ?1 parameter which is passed to the macro when it is called and which 
+; may have the values in the range 1 to 255 corresponding to the following 
+; actions:-
+;       Value                   Test for
+;       1                       Bit 1
+;       2                       Bit 2
+;       4                       Bit 3
+;       8                       Bit 4
+;       16                      Bit 5
+;       32                      Bit 6
+;       64                      Bit 7
+;       128                     Bit 8
+; eg:-  3                       Bit 1 AND Bit 2
+;       255                     All Bits Low
+; Remember that unlike a trigger input, dark current will continue
+; to accumulate until this happens.
+;
+;-------------------------------------------------------------------------;
+
+TST_PIA_L MACRO
+
+        WAIT_DMA
+        MOVE W #FCPIAI, FCPROG ASIC  ; sets up to read PIA input value
+        MOVE W #DCPIAI, DCPROG ASIC  ; which needs to happen once before
+        MOVE W #$FFFF,  FCMASK ASIC  ; first test occurs
+        MOVE L #PIA_INVAL, FBASE ASIC;
+        MOVE W PIA_INVAL, PIA_INPT   ; transfers read value to PIA_INPT
+        AND W # $00FF, PIA_INPT      ; selects lower byte    
+        MOVE W #$00FF, PIA_ALL1      ; sets PIA_ALL1 variable to $FF       
+        SUB W PIA_INPT, PIA_ALL1     ; creates a bitwise complement of PIA_INPT
+        MOVE W PIA_ALL1, PIA_INPT    ; and transfers it to PIA_INPT
+        AND W #?1, PIA_INPT          ; Selects bits to test 
+
+TST_PIA2 COMP W #?1, PIA_INPT         ; Tests against ?1 input to macro
+
+         WAIT_DMA
+         MOVE W #FCPIAI, FCPROG ASIC  ; 
+         MOVE W #DCPIAI, DCPROG ASIC  ; 
+         MOVE W #$FFFF,  FCMASK ASIC  ; 
+         MOVE L #PIA_INVAL, FBASE ASIC;
+         MOVE W PIA_INVAL, PIA_INPT   ; 
+         AND W # $00FF, PIA_INPT      ;     
+         MOVE W #$00FF, PIA_ALL1      ;        
+         SUB W PIA_INPT, PIA_ALL1     ; 
+         MOVE W PIA_ALL1, PIA_INPT    ; 
+         AND W #?1, PIA_INPT          ;  
+         
+         BGT TST_PIA2                 ; PIA value matches ?1 param
+         
+         ENDM
+
+
+DO_PIA  MACRO
+
+        WAIT_DMA
+        MOVE W #FCPIAO, FCPROG ASIC
+        MOVE W #DCPIAO, DCPROG ASIC
+        MOVE W PIA_OPVAL, FCMASK ASIC
+
+        WAIT_DMA
+        MOVE W #FCPIAI, FCPROG ASIC
+        MOVE W #DCPIAI, DCPROG ASIC
+        MOVE W #$FFFF,  FCMASK ASIC
+        MOVE L #PIA_INVAL, FBASE ASIC
+
+  ENDM
+
+;-------------------------------------------------------------------------;
+;
+; CLEAR_ALL clears all the data memories (using J to tell how many)
+;
+;-------------------------------------------------------------------------;
+
+CLEAR_ALL   MACRO
+        ADD L   #STARTADDR, DATAADDR       ; Make into address we can use
+        DO JCNTR
+          CLR   DATAADDR, FRAMESIZE
+          ADD L FRAMESIZE, DATAADDR
+        LOOP
+        MOVE L  FRAMEOFFS, DATAADDR        ; Copy Offset from driver
+  ENDM
+
+TRIGA_HI MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTAHI,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+  ENDM
+
+TRIGA_LO MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTALO,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+  ENDM
+
+TRIGA_OUT MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTAHI,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTALO,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+  ENDM
+
+TRIGB_OUT MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTBHI,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCTBLO,FCPROG ASIC
+        MOVE W  #DC_TA,DCPROG ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; SHUTTER_EXPOSE runs an overhead (EXPOSE) time, with a shutter open
+; and close if the scan mode contains one.
+;-------------------------------------------------------------------------;
+
+SHUTTER_EXPOSE MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W FC_OHMODE,FCPROG ASIC
+        MOVE W DC_OHMODE,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; EXPOSE runs an overhead (EXPOSE) time, with a shutter closed
+; if the scan mode contains one.
+;-------------------------------------------------------------------------;
+
+EXPOSE MACRO
+        WAIT_DMA                       ;OVERHEAD
+        MOVE W  #FCOHNS,FCPROG ASIC
+        MOVE W  #DCOH,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+  ENDM
+
+
+ST_SCMP   MACRO
+          WAIT_DMA
+          MOVE W #FCSTSC, FCPROG ASIC
+          MOVE W #DCSTSC, DCPROG ASIC
+          MOVE L #(SC_ADDRESS - STARTADDR), FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; GET_SCMP reads the source comp channel and advances the scomp address
+;-------------------------------------------------------------------------;
+
+GET_SCMP  MACRO
+          WAIT_DMA
+          MOVE W #FCSCMP, FCPROG ASIC
+          MOVE W #DCSCMP, DCPROG ASIC
+          MOVE L NXTSCADDR, FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; REP_SCMP reads the source comp channel
+;-------------------------------------------------------------------------;
+
+REP_SCMP  MACRO
+          WAIT_DMA
+          MOVE W #FCSCMP, FCPROG ASIC
+          MOVE W #DCSCMP, DCPROG ASIC
+          MOVE L NXTSCADDR, FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; GET_SCMP adds the source comp channel value into memory
+;-------------------------------------------------------------------------;
+
+ADD_SCMP  MACRO
+          WAIT_DMA
+          MOVE W #FCSCMP, FCPROG ASIC
+          MOVE W #DCASCMP, DCPROG ASIC
+          MOVE L NXTSCADDR, FBASE ASIC
+          ENDM
+
+;-------------------------------------------------------------------------;
+; ACQ_TRACKS skips the unused tracks at the start of the detector,
+; reads the data from the active tracks, and skips the unused tracks
+; at the end of the detector
+;-------------------------------------------------------------------------;
+
+ACQ_TRACKS  MACRO
+
+        WAIT_DMA                           ;TRASH IMAGE UTIL 1ST SPECTRA
+        MOVE W  #FCSIFM,FCPROG ASIC
+        MOVE W  #DCSIFM,DCPROG ASIC
+
+        MOVE W #0, T1ADDR
+        DO TCNTR                           ;AQUIRE SPECTRA
+          WAIT_DMA
+          MOVE W FC_SCANMODE,FCPROG ASIC
+          MOVE W ?1,DCPROG ASIC
+          MOVE L BGNDADDR, BGBASE ASIC
+          MOVE L DATAADDR, FBASE ASIC
+          ADD W #1, T1ADDR
+        LOOP
+
+        WAIT_DMA                           ;TRASH REMAINING IMAGE
+        MOVE W  #FCSEFM,FCPROG ASIC
+        MOVE W  #DCSEFM,DCPROG ASIC
+
+  ENDM
+
+;-------------------------------------------------------------------------;
+; ACQ_BACKGD performs the same tasks as ACQ_TRACKS, but stores the data
+; at the address given in the system global variable BGNDADDR         
+;-------------------------------------------------------------------------;
+
+ACQ_BACKGD  MACRO
+
+        WAIT_DMA                           ;TRASH IMAGE UTIL 1ST SPECTRA
+        MOVE W  #FCSIFM,FCPROG ASIC
+        MOVE W  #DCSIFM,DCPROG ASIC
+
+        MOVE W #0, T1ADDR
+        DO TCNTR                           ;AQUIRE SPECTRA
+          WAIT_DMA
+          MOVE W FC_SCANMODE,FCPROG ASIC
+          MOVE W ?1,DCPROG ASIC
+          MOVE L BGNDADDR, BGBASE ASIC
+          MOVE L BGNDADDR, FBASE ASIC
+          ADD W #1, T1ADDR
+        LOOP
+
+        WAIT_DMA                           ;TRASH REMAINING IMAGE
+        MOVE W  #FCSEFM,FCPROG ASIC
+        MOVE W  #DCSEFM,DCPROG ASIC
+
+  ENDM
+
+SORT_TRACKS MACRO
+
+        MOVE L  FRAMEOFFS, NXADDR          ; Set for sort routine
+        ADD L   #STARTADDR,NXADDR          ; Correct for 68000 address
+        ADD L   FRAMESIZE, NXADDR          ; Point to end of frame
+        MOVE L  NXADDR,    TKADDR
+
+        DO  JCNTR
+          DO TCNTR
+            SORT TKADDR, PCNTR
+          LOOP
+          ADD L FRAMESIZE, NXADDR
+          MOVE L NXADDR,   TKADDR
+        LOOP
+  ENDM
+
+;-------------------------------------------------------------------------;
+; DO_PREPS reads the detector without running an expose time,
+; operating the shutter, or storing the data, to help the
+; transition from KEEPCLEAN to readout in pattern
+;-------------------------------------------------------------------------;
+
+DO_PREPS  MACRO
+        TEST HCNTR                               ;Preps selected?
+        BEQ  :NOPREP                             ;No, skip to mems
+        MOVE W #0,H1ADDR
+        DO HCNTR
+          WAIT_DMA                               ;TRASH IMAGE UTIL 1ST SPECTRA
+          MOVE W  #FCSIFM,FCPROG ASIC
+          MOVE W  #DCSIFM,DCPROG ASIC
+          MOVE W  #~(SET_A | SET_B),FCMASK ASIC
+          MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+
+          MOVE W  #0, T1ADDR
+          DO TCNTR                               ;AQUIRE SPECTRA
+            WAIT_DMA
+            MOVE W FC_SCANMODE,FCPROG ASIC
+            MOVE W DC_IGNMODE,DCPROG ASIC
+            MOVE L  DATAADDR,FBASE ASIC
+          LOOP
+
+          WAIT_DMA                               ;TRASH REMAINING IMAGE
+          MOVE W  #FCSEFM,FCPROG ASIC
+          MOVE W  #DCSEFM,DCPROG ASIC
+          MOVE W #$FFFF, FCMASK ASIC
+        ADD W #1,H1ADDR
+        LOOP
+:NOPREP EQU @
+  ENDM
+
+;-------------------------------------------------------------------------;
+; DO_IGNS reads the detector without storing the data, to waste time
+; during a data acquisition sequence
+;-------------------------------------------------------------------------;
+
+DO_IGNS MACRO
+        TEST KCNTR                           ;Ignores selected?
+        BEQ  :NIGNS                          ;No, skip ignores
+        MOVE W #0,K1ADDR
+        DO KCNTR                             ;Do Ignores
+
+        WAIT_DMA                       ;OVERHEAD, No shutter
+        MOVE W  #FCOHNS,FCPROG ASIC
+        MOVE W  #DCOH,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+
+          WAIT_DMA                           ;TRASH IMAGE UTIL 1ST SPECTRA
+          MOVE W  #FCSIFM,FCPROG ASIC
+          MOVE W  #DCSIFM,DCPROG ASIC
+          MOVE W  #~(SET_A | SET_B),FCMASK ASIC
+
+          MOVE W  #0, T1ADDR
+
+          DO TCNTR                           ;ACQUIRE SPECTRA
+            WAIT_DMA
+            MOVE W FC_SCANMODE,FCPROG ASIC
+            MOVE W #DCSIGN,DCPROG ASIC
+            MOVE L  DATAADDR,FBASE ASIC
+            ADD W #1, T1ADDR
+          LOOP
+
+          WAIT_DMA                           ;TRASH REMAINING IMAGE
+          MOVE W  #FCSEFM,FCPROG ASIC
+          MOVE W  #DCSEFM,DCPROG ASIC
+          MOVE W #$FFFF, FCMASK ASIC
+        LOOP                                 ;End of ignores loop
+:NIGNS  EQU @ 
+  ENDM
+
+;-------------------------------------------------------------------------;
+; INC_MEM increments the DAC memory pointer by the amount specified
+; by the PC host, then gives the ASIC DC the new address for
+; data storage
+;-------------------------------------------------------------------------;
+
+INC_MEM MACRO
+          ADD L FRAMESIZE, DATAADDR         ;INC MEMORY POINTER
+          ADD L FRAMESIZE, BGNDADDR         ;INC MEMORY POINTER
+          ADD  L #4, NXTSCADDR
+  ENDM
+
+;-------------------------------------------------------------------------;
+; ON_TRIGGER causes the detector to do keep-cleans while waiting for
+; an external trigger signal
+;-------------------------------------------------------------------------;
+
+ON_TRIGGER   MACRO
+        WAIT_DMA                            ;Wait for trigger
+        MOVE W  #FCKCOT,FCPROG ASIC
+        MOVE W  #DCKCOT,DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; STREAK shifts the entire CCD array toward the shift register with the
+; the shutter open
+;-------------------------------------------------------------------------;
+
+STREAK  MACRO
+        WAIT_DMA                            ;Open shutter
+        MOVE W #FCOP,FCPROG ASIC
+        MOVE W #DCOPEN,DCPROG ASIC
+
+        WAIT_DMA
+        MOVE W STREAK_FC,FCPROG ASIC        ;Shift spectrum under mask
+        MOVE W #DCSTRK,DCPROG ASIC
+
+        WAIT_DMA                            ;Close shutter
+        MOVE W #FCCLS,FCPROG ASIC
+        MOVE W #DCCLOS,DCPROG ASIC
+  ENDM
+
+;-------------------------------------------------------------------------;
+; OTSTREAK opens the shutter, waits for a trigger, then shifts the entire
+; CCD array toward the shift register
+;-------------------------------------------------------------------------;
+
+OTSTREAK MACRO
+         WAIT_DMA                           ;Open shutter
+         MOVE W #FCOP,FCPROG ASIC
+         MOVE W #DCOPEN,DCPROG ASIC
+
+         WAIT_DMA
+         MOVE W STREAK_OTFC,FCPROG ASIC     ;Shift spectrum under mask
+         MOVE W #DCSTRK,DCPROG ASIC
+
+         WAIT_DMA                           ;Close shutter
+         MOVE W #FCCLS,FCPROG ASIC
+         MOVE W #DCCLOS,DCPROG ASIC
+  ENDM
+;--------------------------------------------------------------------------
+;
+;
+;--------------------------------------------------------------------------
+
+GET_TEMP MACRO
+        WAIT_DMA
+        MOVE W #FCTEMP, FCPROG ASIC
+        MOVE W #DCTEMP, DCPROG ASIC
+        MOVE L  #(COOLDATA-STARTADDR),FBASE ASIC
+  ENDM
+
+;--------------------------------------------------------------------------
+;
+;
+;--------------------------------------------------------------------------
+SET_LCI MACRO
+        WAIT_DMA
+        MOVE W #LCI_SET, FCPROG ASIC
+        MOVE W #LCI_DCW, DCPROG ASIC
+  ENDM
+           
+
+;--------------------------------------------------------------------------
+; OPEN_SHUTTER causes the shutter to open
+;
+;--------------------------------------------------------------------------
+OPEN_SHUTTER MACRO
+        WAIT_DMA                            ;Open shutter
+        MOVE W #FCOPNS,FCPROG ASIC
+        MOVE W #DCOPEN,DCPROG ASIC
+  ENDM
+
+
+;--------------------------------------------------------------------------
+; CLOSE_SHUTTER causes the shutter to close
+;
+;--------------------------------------------------------------------------
+CLOSE_SHUTTER MACRO
+        WAIT_DMA                            ;Close shutter
+        MOVE W #FCCLSNS,FCPROG ASIC
+        MOVE W #DCCLOS,DCPROG ASIC
+  ENDM
+
+;*****************************************************/
+;* Shift lines toward the A register without reading */
+;*****************************************************/
+SWITCH_A MACRO
+        WAIT_DMA
+        MOVE W #FCSW_A,FCPROG ASIC   ;Shift toward A register
+        MOVE W #DCSW_AB,DCPROG ASIC
+  ENDM
+
+;*****************************************************/
+;* Shift lines toward the B register without reading */
+;*****************************************************/
+SWITCH_B MACRO
+        WAIT_DMA
+        MOVE W #FCSW_B,FCPROG ASIC   ;Shift toward B register
+        MOVE W #DCSW_AB,DCPROG ASIC
+  ENDM
+
+;*****************************************************/
+;* Clean the shift register without shifting a line  */
+;*****************************************************/
+WIPE_SR MACRO
+        WAIT_DMA
+        MOVE W #WIPESR,FCPROG ASIC   ;Clean the A register
+        MOVE W #DCSW_AB,DCPROG ASIC
+  ENDM
+

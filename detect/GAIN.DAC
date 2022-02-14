@@ -1,0 +1,54 @@
+;
+; $Log:   J:/logfiles/oma4000/detect/gain.dac  $
+;   
+;     Rev 1.0   16 Jul 1992 17:08:46   maynard
+;
+
+;************************************************************************
+;*                                                                      *
+;*      This program GAIN will read data from the CCD in Simple Mode.  *
+;*      It will take one background followd by 'J' memories with   *
+;*     progressing exposure times. The 'J' counter must be at least 3. *   
+;*                                                                      *
+;************************************************************************
+
+GAIN    DAC_BLOCK         
+        SET_MEM_0                          ;Set memory pointer to 0
+        INIT_CNTRS                         ;Set initial counter vals
+        MOVE W #1, SCNTR
+        MOVE W J0ADDR, DJCNTR
+        SUB W #1, DJCNTR
+        DO_PREPS
+
+        EXPOSE                             ;Get Background frame.
+        ACQ_TRACKS DC_REPMODE              ;Replace a frame
+        INC_MEM                            ;Inc memory pointer
+
+GAINL1  SUB W #2, DJCNTR
+          DO SCNTR
+            SHUTTER_EXPOSE
+            DO #200
+              ID_DETECT
+            LOOP
+          LOOP
+          ACQ_TRACKS DC_REPMODE            ;Replace 1st frame of pair.
+          INC_MEM                          ;Inc memory pointer
+
+          DO SCNTR
+            SHUTTER_EXPOSE
+            DO #200
+              ID_DETECT
+            LOOP
+          LOOP
+          ACQ_TRACKS DC_REPMODE            ;Replace 2nd frame of pair.
+          INC_MEM                          ;Inc memory pointer
+
+          ADD W #1, SCNTR
+          ADD W #2, J1ADDR
+          TEST DJCNTR
+          BGT  GAINL1
+
+        SET_LCI
+        DONE
+
+DJCNTR  DCW 0

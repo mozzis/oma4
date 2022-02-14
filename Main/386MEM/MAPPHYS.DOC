@@ -1,0 +1,7 @@
+compile MAPPHYS.C, with something like /c /Zi /AL /Gs /G2, as appropriate for
+your program,
+assemble PA.ASM with /DLARGE, as appropriate to your program.
+link and enjoy.
+
+Current limitation:  will not work in an XSTUB-ed program (with shared
+extended memory or VM), but does work within or without DESQview.

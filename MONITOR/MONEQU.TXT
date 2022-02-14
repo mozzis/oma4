@@ -1,0 +1,17 @@
+'DataStart = $800000 
+'SM_CLEAR = 0
+'SM_START_DA = 1
+'SM_SWITCH_DA = 2
+'SM_ABORT_DA = 3
+'SMR_CLEAR = 0
+'SMR_CMD_DN = 1        
+'SMR_CMD_BG = 2        
+'SMR_CMD_UN = 3        
+'SMR_NRDY = 4        
+'SMR_EXCEP = 5        
+'SMR_NO_DA = 6        
+'HostAtn = $010000 
+'HostAck = $020000 
+'asic0 = $030001 
+'dma0 = $030009 
+'status = $40001

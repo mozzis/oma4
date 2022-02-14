@@ -1,0 +1,591 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;   run.mac -- This file contains the DOS-16M system wide equates and macros.
+;
+;
+;   $Revision:   1.22  $
+;   $Date:   06 Mar 1992 12:56:06  $
+;   $Logfile:   V:/vcs/include/logfiles/run.mav  $
+;   $Log:   V:/vcs/include/logfiles/run.mav  $
+;   
+;      Rev 1.22   06 Mar 1992 12:56:06   jbw
+;   Added callx and callr macros.
+;   
+;      Rev 1.21   31 Jan 1992 16:49:28   jbw
+;   Now use TSTKSLOP defined in CONFIG.ASM instead of SLOP defined
+;   in RUN.MAC, for transfer stack frame size.  
+;   
+;      Rev 1.20   28 Jan 1992 15:43:48   jbw
+;   master_int and slave_int members missing from D16info structure.
+;   
+;      Rev 1.19   04 Sep 1991 10:40:08   ACB
+;   Fix 'extra characters on line" problem
+;   
+;      Rev 1.18   28 Aug 1991 13:33:14   StanL
+;   Added machine-specific info to D16INFO structure.
+;   
+;      Rev 1.17   01 Aug 1991 17:25:14   jbw
+;   Improved syntax for rmdatac, rmdatad.
+;   
+;      Rev 1.16   01 Aug 1991 17:16:10   jbw
+;   Defined misc_DVX bit.  Added XBRK structure definition.
+;   
+;      Rev 1.15   11 Jul 1991 15:01:56   StanL
+;   Added "Fixes etc" section.  Added therein VECTENVAR enhancement which allows 
+;   inter-DOS/16M-communication service vector (7Fh on Japanese machines and 15h 
+;   on everything else) to be overriden with environment variable and also fixes
+;   some hard-coded INT 15h references, and OKI8259 fix of hard-coded 8259 port 
+;   references.  Put the "o" in "miscellaneous".
+;   
+;      Rev 1.14   11 Apr 1991 14:38:14   jab
+;   Fixed erroneous definitions in D16INFO struct
+;   
+;      Rev 1.13   11 Apr 1991 11:26:46   jab
+;   Added D16INFO structure for assembly language.
+;   
+;      Rev 1.12   03 Jan 1991 15:34:52   jab
+;   Added int$31 for direct access to kernel-handled DPMI calls
+;   
+;      Rev 1.11   28 Dec 1990 13:06:38   jab
+;   Added _d16info.miscellaneous bit for plutonium kernel presence test
+;   
+;      Rev 1.10   20 Nov 1990 13:28:38   WALT
+;   Revise cond'l assembly for MASM 4.00 compatibility
+;
+;      Rev 1.9	 31 Oct 1990 16:51:24	WALT
+;   32-bit gate support for DOS/4G
+;
+;      Rev 1.8	 19 Sep 1990 15:53:44	JBW
+;   Auto passup range changed to 8-2E from 8-2F.
+;
+;      Rev 1.7	 16 May 1990 12:49:14	JBW
+;   Resynchronized GDTI definitions with VMDEF.H.
+;
+;      Rev 1.6	 10 Apr 1990 17:36:24	JBW
+;   Added some interesting equates for _d16info structure access.
+;
+;      Rev 1.5	 26 Mar 1990 14:52:06	JBW
+;   Added gdti_lowmem for ACB.
+;
+;      Rev 1.4	 21 Mar 1990 16:45:32	JBW
+;   XDT and other helpful structures and equates added by ACB.
+;
+;      Rev 1.3	 31 Jan 1990 15:42:40	JBW
+;   HICCUP macro now has optional repeat argument.
+;
+;      Rev 1.2	 30 Oct 1989 16:35:12	JBW
+;   oops
+;
+;      Rev 1.1	 30 Oct 1989 17:08:54	JBW
+;   kernel reorganization
+;
+;      Rev 1.0	 19 Sep 1989 09:37:22	ben
+;   Initial revision.
+;
+;
+;   Copyright (c) 1989 Rational Systems, Incorporated
+;   All Rights Reserved
+
+
+
+;***************************************************************************
+; Fixes etc:
+VECTENVAR	equ 1		; enhancement to allow inter-DOS/16M service
+				;  vector to be specified with V key in 
+				;  "DOS16M" environment variable eg 
+				;  "set DOS16M= ...V0x76" selects INT 76h 
+				;  instead of INT 7Fh on Japanese machines
+ALTSSVEC	equ 7Fh	;76h	; alternate (to INT 15h) vector for Japanese
+				;  MSDOS machines (unless overridden as above)
+HUGEFILEFIX	equ 1
+MACHINEINFO	equ 1		; systematic fix to gather & publicize machine
+				;  -specific info like port addresses, replaces
+				;  OKI8259 and PORTREFORM
+CRIERSTAKFIX	equ 1		; kludge for user INT 24 direct return to 
+				;  INT 21 caller
+
+;***************************************************************************
+;
+;		M i s c e l l a n eou s   E q u a t e s .
+;
+;***************************************************************************
+
+Xoffset equ	offset xcode:
+Poffset equ	offset pgroup:	; Program and...
+Doffset equ	offset dgroup:	; ...Data segment offset generators.
+
+DOS_mem equ	10h		; GDTreserved, indicates DOS allocated.
+
+auto_pu_base	equ	08h	; Lowest auto-passup interrupt number.
+auto_pu_max	equ	2Eh	; Highest auto-passup interrupt number.
+
+xbstruc	struc
+min_xpara 	dd	?
+max_xpara 	dd	?
+xbrk_master	dw	?, ?
+xavail		dd	?
+phyamt  	dw	?
+pgtab_rm 	dw	?	; 0 if in extended
+max_linear	dd	?
+xbstruc	ends
+xbrksize	equ	size xbstruc
+
+good_flags	equ	00FFFh	; Lose the nested task and IOPL bits.
+
+		IFDEF	LARGE	; Set code and data size flags.
+codesize	equ	1
+datasize	equ	1
+		ENDIF
+
+		IFDEF	MEDIUM
+codesize	equ	1
+datasize	equ	0
+		ENDIF
+
+		IFDEF	SMALL
+codesize	equ	0
+datasize	equ	0
+		ENDIF
+
+		IFNDEF	codesize
+		.err
+		%out	Must specify model definition (/DSMALL, /DMEDIUM, or /DLARGE).
+		ENDIF
+
+;
+;	_d 1 6 i n f o   'm i s c e l l a n e o u s'   b i t s 
+;	N O T E  :  M u s t   m a t c h   d e f i n i t i o n s  
+;				i n    d o s 1 6 . h
+;
+
+misc_at_compat  equ     01h             ; flag if AT-compatible user architecture
+misc_extra_mem  equ     02h             ; extra memory just below 16MB in use
+misc_pluto      equ     04h             ; set if a plutonium kernel is running
+misc_DVX	equ	80h		; set if running under DVX
+
+
+;
+;	A c c e s s   R i g h t s   B i t   M a s k s
+;
+
+acc_code	equ	10011011b	; Access bits for code segment.
+acc_cmask	equ	10000011b	; Mask for comparisons.
+acc_data	equ	10010011b	; Mask for data segment.
+acc_dmask	equ	10000011b	; Mask for comparisons (OR to ignore
+					;     present, etc.)
+acc_DPL 	equ	01100000b	; Descriptor privilege level bits.
+acc_LDT 	equ	10000010b	; Local descriptor table.
+acc_TSS 	equ	10000001b	; Non-busy TSS descriptor.
+
+;
+;	P r o t e c t e d   M o d e   s e g m e n t   s e l e c t o r s .
+;
+
+;		0		; Null
+gdts	equ	8		; GDT selector
+idts	equ	10h		; IDT selector
+css	equ	18h		; runtime code
+dss	equ	20h		; runtime data
+psps	equ	28h		; program segment
+envs	equ	30h		; environment strings
+mem0s	equ	38h		; absolute memory 0
+bioss	equ	40h		; bios data
+csds	equ	48h		; kernel code as data
+gdtis	equ	50h		; GDT auxiliary info
+tsss	equ	58h		; dummy TSS
+debugs	equ	60h		; temp selector for debugger
+ldts	equ	68h		; LDT selector for transparent addressing
+xcss	equ	70h		; kernel code in extended memory
+doss	equ	78h		; dos segment address (read-only)
+users	equ	80h		; first user selector
+
+;***************************************************************************
+
+;***************************************************************************
+;
+;		D O S 1 6 M   D a t a	S t r u c t u r e
+;			D e f i n i t i o n s .
+;
+;***************************************************************************
+;
+;	G l o b a l   S e g m e n t   D e s c r i p t o r   L a y o u t .
+;
+
+desc		struc
+gdtlen		dw	0	; Segment length in bytes.
+gdtaddr 	dw	0	; Low-order 16 bits of segment base address.
+gdtaddr_hi	db	0	; Hi-order 8 bits of segment base address.
+gdtaccess	db	0	; Access rights bits.
+gdtreserv	dw	0	; RESERVED BY INTEL!  Do not use.
+desc		ends
+
+;
+;	G e n e r i c	S e g m e n t	D e s c r i p t o r   L a y o u t .
+;
+
+xdesc		struc
+xdtlimit	dw	0	; Segment limit in bytes.
+xdtbase 	dw	0	; Low-order 16 bits of segment base address.
+xdtbase_23	db	0	; Next 8 bits of segment base address.
+xdtaccess	db	0	; Access rights
+xdtother	db	0
+xdtbase_31	db	0	; Hi-order 8 bits of segment base address.
+xdesc		ends
+
+;	B i t s   i n	X D T O T H E R:
+
+xdtGbit 	equ	10000000b ; page/byte granularity
+xdtDbit 	equ	01000000b ; default is 32-bit (a/k/a "big" bit)
+xdtaAvl 	equ	00010000b ; available for system software
+
+x3desc		struc
+		dw	0	; Segment limit in bytes.
+		dw	0	; Low-order 16 bits of segment base address.
+		db	0	; next 8 bits of base address.
+xdtptype	db	0	; Privilege and type.
+xdtlim_19	db	0	; Next 4 bits of segment limit.
+		db	0
+x3desc		ends
+
+;
+;	I n t e r r u p t   G a t e   L a y o u t .
+;
+
+igate		struc
+idtoff		dw	0	; Offset to interupt routine.
+idtsel		dw	css	; Interrupt routine selector.
+idtfill 	db	0
+idtacc		db	10000110b ; Interrupt gate
+idtresv 	dw	0	; RESERVED BY INTEL!  Do not use.
+igate		ends
+
+;
+;	M o d e   S w i t c h	T r a n s f e r   S t a c k   F r a m e .
+;
+
+IFDEF	KERN386
+
+TSF		struc		; Transfer stack frame layout.
+ts_prev 	dw	?	; Previous TSF pointer.
+ts_ss		dw	?	; Segment registers
+ts_ds		dw	?
+ts_es		dw	?
+ts_di		dw	?	; General regs in order of PUSHAW
+ts_si		dw	?
+ts_bp		dw	?
+ts_sp		dw	?
+ts_bx		dw	?
+ts_dx		dw	?
+ts_cx		dw	?
+ts_ax		dw	?
+ts_id		dw	?	; Interrupt number ID.
+ts_code 	dw	?	; Place for exception type code.
+		dw	?
+ts_ip		dw	?	; IRET frame (via 32-bit gate)
+		dw	?
+ts_cs		dw	?	;      "
+		dw	?
+ts_flags	dw	?	;      "
+		dw	?
+TSF		ends
+
+ELSE	;KERN386
+
+TSF		struc		; Transfer stack frame layout.
+ts_prev 	dw	?	; Previous TSF pointer.
+ts_ss		dw	?	; Segment registers
+ts_ds		dw	?
+ts_es		dw	?
+ts_di		dw	?	; General regs in order of PUSHAW
+ts_si		dw	?
+ts_bp		dw	?
+ts_sp		dw	?
+ts_bx		dw	?
+ts_dx		dw	?
+ts_cx		dw	?
+ts_ax		dw	?
+ts_id		dw	?	; Interrupt number ID.
+ts_code 	dw	?	; Place for exception type code.
+ts_ip		dw	?	; IRET frame.
+ts_cs		dw	?	;      "
+ts_flags	dw	?	;      "
+TSF		ends
+
+ENDIF	;KERN386
+
+ts_delta	equ	(ts_ip - ts_id) ; amt to reserve for id & code
+
+;
+;	P a s s u p   F r a m e   L a y o u t .
+;
+;	This structure is allocated below the TSF to allow passup information
+;	between calls that chain back and forth between real and protected
+;	mode.
+;
+
+PUF		struc		; 'Back pocket' of TSF reserved for passup
+pu_sv_csds	dw	?	; saved real_csds (in case shared kernel code)
+pu_ss		dw	?
+pu_es		dw	?
+pu_ds		dw	?
+pu_ret		dw	?	; RET to rm interrupt intercepter
+pu_ip		dw	?	; interrupt frame.
+pu_cs		dw	?
+pu_fl		dw	?
+PUF		ends
+
+;
+;	H a r d w a r e   G e n e r a t e d
+;	I R E T   F r a m e   L a y o u t .
+;
+
+IFRAME		struc		; Hardware interrupt stack frame.
+if_ip		dw	?
+if_cs		dw	?
+if_flags	dw	?
+IFRAME		ends
+
+IFDEF KERN386
+PIFRAME 	struc		; protected mode interrupt stack frame
+pif_ip		dd	?	; EIP
+pif_cs		dd	?	; junk:CS
+pif_flags	dd	?	; EFLAGS
+PIFRAME 	ends
+
+ELSE ;KERN386
+
+PIFRAME 	struc		; protected mode interrupt stack frame
+pif_ip		dw	?	; IP
+pif_cs		dw	?	; CS
+pif_flags	dw	?	; FLAGS
+PIFRAME 	ends
+
+ENDIF
+
+;***************************************************************************
+
+;***************************************************************************
+;
+;	D O S / 1 6 M	E q u a t e s  a la  D O S 1 6 . H
+;
+;***************************************************************************
+
+;	MEMORY STRATEGY
+MPreferExt	equ	0
+MPreferLow	equ	1
+MForceExt	equ	2
+MForceLow	equ	3
+MTransparent	equ	4
+MTransStack	equ	5
+
+;	GDTI Flags
+gdti_locked	equ	80h		; in gdti
+gdti_reside	equ	40h		; in gdti
+gdti_special	equ	20h		; in gdti
+gdti_alias	equ	10h		; in gdti
+gdti_block	equ	02h		; in gdti
+gdti_owner	equ	01h		; in gdti
+
+;	D16INFO offsets
+movestack_ptr	equ	16h	; D16MoveStack()
+to_rm_ptr	equ	1Ah	; D16toReal()
+to_pm_ptr	equ	1Eh	; D16toProtected()
+rmInt_ptr	equ	22h	; D16rmInterrupt()
+D16version_ptr	equ	2Ah	; _d16info.versionp
+
+d16info					struc
+D16INFO_version         DW      ?
+D16INFO_passdn0         DW      ?
+D16INFO_passdn255       DW      ?
+D16INFO_PassupIntP      DD      ?
+D16INFO_xfer_buff       DD      ?
+D16INFO_xfer_bsize      DW      ?
+D16INFO_delay_286       DW      ?
+D16INFO_delay_386       DW      ?
+D16INFO_switch_control  DW      ?
+
+D16INFO_D16MStkP        DD      ?
+D16INFO_D16ToRMP        DD      ?
+D16INFO_D16ToPMP        DD      ?
+D16INFO_D16rmInP        DD      ?
+
+D16INFO_bannerp         DW      ?
+D16INFO_D16rdata        DW      ?
+D16INFO_versionp        DD      ?
+D16INFO_swmode          DB      ?
+D16INFO_cpumod          DB      ?
+D16INFO_copyright       DW      ?
+D16INFO_dbginfop        DW      ?
+D16INFO_D16_intno       DB      ?
+D16INFO_A20             DB      ?
+D16INFO_A20_rigor       DB      ?
+D16INFO_A20_orig        DB      ?
+D16INFO_last_delseg     DW      ?
+D16INFO_tsp_ptr         DD      ?
+D16INFO_has_87          DB      ?
+D16INFO_slow_A20        DB      ?
+D16INFO_MSW_bits        DW      ?
+D16INFO_package_info_p  DD      ?
+D16INFO_machine_type    DB      ?
+D16INFO_miscellaneous   DB      ?
+D16INFO_xbufadj         DW      ?
+;       ifdef	MACHINEINFO
+D16INFO_master_8259	dw      ?
+D16INFO_slave_8259	dw      ?
+D16INFO_portstep_8259	dw      ?
+D16INFO_master_int	db	?
+D16INFO_slave_int	db	?
+D16INFO_base_8254	dw      ?
+D16INFO_portstep_8254	dw      ?
+D16INFO_means_unused	dd	?
+;       endif	;MACHINEINFO
+d16info					ends
+
+
+
+;***************************************************************************
+;
+;	S t a n d a r d   M a c r o   D e f i n i t i o n s .
+;
+;***************************************************************************
+
+popf_	macro
+	push	cs
+	call	fakepopf
+	endm
+
+hiccup	macro	n		; Slow down processing for I/O.
+	ifb	<n>
+	jmp	short $+2	; pause for IO operations
+	else
+	rept	&n
+	jmp	short $+2	; pause for IO operations
+	endm
+	endif
+	endm
+
+jmpfar	macro	off, sel
+	db	0EAh		; jmp far opcode
+	dw	Poffset off
+	dw	sel
+	endm
+
+jmpr	macro	off		; jump to css segment (except under DPMI)
+	db	0EAh		; jmp far opcode
+	dw	Poffset off
+	dw	css
+	endm
+
+jmpx	macro	off		; jump to xcode segment (except under DPMI)
+	db	0EAh		; jmp far opcode
+	dw	Xoffset off
+	dw	xcss
+	endm
+
+callr	macro	off		; call to css segment (except under DPMI)
+	db	09Ah		; call far opcode
+	dw	Poffset off
+	dw	css
+	endm
+
+callx	macro	off		; call to xcode segment (except under DPMI)
+	db	09Ah		; call far opcode
+	dw	Xoffset off
+	dw	xcss
+	endm
+
+testopt macro	optn		; Switch_control Bit test macro.
+	test	byte ptr [switch_control + (optn / 8)], 1 shl (optn MOD 8)
+	endm
+
+IF 0				; true if shared kernel code
+rmdatac	equ	<[real_csds]>	; get real mode data address from cs: variable
+rmdatad	equ	<[_real_ds]>	; get real mode data address from dgroup variable
+ELSE
+							; get real mode data address from load constant
+rmdatac	equ	<dgroup>
+rmdatad	equ	<dgroup>
+ENDIF
+
+procdflt macro	n		; Default proceedure type declaration.
+IF	codesize
+n	proc	far
+ELSE
+n	proc	near
+ENDIF
+	endm
+
+o32	macro			; 32-bit operand override prefix
+IFDEF	KERN386
+	db	66h		; next instr uses 32-bit operand
+ENDIF
+	endm
+
+a32	macro			; 32-bit address override prefix
+IFDEF	KERN386
+	db	67h		; next instr uses 32-bit address
+ENDIF
+	endm
+
+int$21	macro			; issue dos interrupt via call/int
+IFDEF	KERN386
+	push	cs
+	call	_int21_creg_16
+ELSE
+	int		21h
+ENDIF
+	endm
+
+int$31	macro					; issue DPMI interrupt via call/int
+IFDEF	KERN386
+NRINT31=1
+ENDIF
+IFDEF	NRINT31
+	push    cs
+	call    _int31_creg_16
+ELSE
+	int     31h
+ENDIF
+	endm
+
+sptr	macro	m, o, s 		; store ptr s:o into dword/fword m
+IFDEF	KERN386
+	o32
+	mov	word ptr m, o
+	mov	word ptr m+4, s
+ELSE
+	mov	word ptr m, o
+	mov	word ptr m+2, s
+ENDIF
+	endm
+
+ldsx	macro	r,m			; load ds:r16 with dword/fword m
+IFDEF	KERN386
+	mov	r,word ptr m
+	mov	ds,word ptr m+4
+ELSE
+	lds	r,dword ptr m
+ENDIF
+	endm
+
+lptr	macro	o, s, m 		; load ptr s:o from dword/fword m
+IFDEF	KERN386
+	o32
+	mov	o, word ptr m
+	mov	s, word ptr m+4
+ELSE
+	mov	o, word ptr m
+	mov	s, word ptr m+2
+ENDIF
+	endm
+
+fakeiret macro				; fake an IRET without changing flags
+IFDEF	KERN386
+	db	66h			;; force load of cs:eip
+	retf	4			;; skip EFLAGS on stack
+ELSE
+	retf	2			;; skip FLAGS on stack
+ENDIF
+	endm
+
+;^^^^^^^^^^^  End of File:  RUN.MAC  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

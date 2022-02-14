@@ -1,0 +1,46 @@
+        LINK    '1KSQSCAN.ABJ'
+        INCLUDE 'OPS.ADD'
+        INCLUDE 'OMACP.INC'
+        INCLUDE 'CCD1KSQ.INC'
+        INCLUDE 'HOOKS.INC'
+        INCLUDE 'DAC.MAC'
+
+        INCLUDE 'INIT.DAC'    ; Initialize and identify detector
+
+        INCLUDE 'KCLEAN.DAC'  ; Do KeepClean sequence
+
+        INCLUDE 'IDENT2.DAC'  ; Identify Split-mode type detectors
+
+;************************************************************************
+
+        INCLUDE 'STANDARD.DAC'  ; DA Mode 1
+        INCLUDE 'ONTRIG.DAC'    ; DA Mode 2
+        INCLUDE 'DA_9.DAC'      ; DA Mode 3
+        INCLUDE 'AUTOBACK.DAC'  ; DA Mode 4 (Auto background subtract)
+        INCLUDE 'PIATEST.DAC'   ; DA Mode 5 (DA mode controlled by PIA test)
+        INCLUDE 'SWITCHER.DAC'  ; DA Mode 6 
+        INCLUDE 'USER.DAC'      ; DA Mode 7
+ifdef SYSTEST
+        INCLUDE 'NOISE.DAC'     ; DA Mode 8 ;factory system test modes
+        INCLUDE 'LINEAR.DAC'    ; DA Mode 9
+        INCLUDE 'DARKRATE.DAC'  ; DA Mode 10
+        INCLUDE 'GAIN.DAC'      ; DA Mode 11
+        INCLUDE 'SPIKES.DAC'    ; DA Mode 12
+endif
+
+        DONE
+
+SCNTR  DCW 0
+
+HCNTR  DCW  0
+ICNTR  DCW  1
+JCNTR  DCW  1
+KCNTR  DCW  0
+LCNTR  DCW  0
+TCNTR  DCW  IGROUPS
+SCNTR  DCW  IGROUPS
+
+TKADDR DCL  $80574c
+NXADDR DCL  $000000
+NXTSCADDR DCL $0000000
+

@@ -1,0 +1,26 @@
+;*********************************************************
+;*                                                       *
+;*    This program DA_10 will read data from the CCD      *
+;*                                                       *
+;*********************************************************
+DA_10    DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         CLEAR_ALL                         ;Clears memory before start
+         DO_PREPS                          ;Does prep frames
+         DO ICNTR                          ;Do for #Scans
+           MOVE W #0, J1ADDR               ;Tell PC No mems done yet                      SET_MEM_0                       ;Set memory pointer to 0
+           TRIGA_OUT                       ;Raise the A trigger signal
+           DO JCNTR                        ;Do for #Mems
+             ON_TRIGGER                    ;Wait for Trigger
+             SHUTTER_EXPOSE                ;Run overhead and shutter
+             ACQ_TRACKS DC_ADDMODE         ;Add following frames
+             ADD W #1, J1ADDR              ;Tell PC another mem done
+             ADD W #1, L1ADDR              ;Tell PC another frame done
+             DO_IGNS                       ;Do ignores if any
+             INC_MEM                       ;Inc memory pointer
+           LOOP                            ;End of mems loop
+           ADD W #1, I1ADDR                ;Tell PC another scan done
+         LOOP                              ;End of scans loop
+         SET_LCI                           ;Need in case of intensifier
+         DONE

@@ -1,0 +1,5 @@
+Microsoft (R) C Optimizing Compiler Version 6.00AX
+Copyright (c) Microsoft Corp 1984-1991. All rights reserved.
+
+forms.c
+forms.c(26) : fatal error C1024: cannot open include file 'syserror.h'

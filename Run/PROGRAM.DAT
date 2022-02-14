@@ -1,0 +1,1091 @@
+/*
+ * FILE:
+ *              PROGRAM.DAT
+ */
+
+/*
+Option values:
+   100 Video graphic types (101-104)
+   200 Printers (201-209)
+   300 Plotters (301-303)
+   400 GPIB Cards (401-405)
+   500 Pointing devices (501-503)
+   600 Type of RAM disk software (601-603)
+   600 Memory type for RAM disk (604-605)
+   700 Output ports (701-704)
+   900 Application program (901-907)
+  1000 Cache Type (1001-1004)
+  1100 OMA4 MemAddress (1101 - 1104)
+  1200 OMA4 Interrupt Level (1201-1204)
+  1300 OMA4 MemorySize
+*/
+
+@DefineVars
+   @Integer @RamDiskSize = 000
+   @integer @ExtmemSz  = (@ExtTotal / 1024)
+   @integer @HiMemAddr = ((@ExtTotal / 1024) + 1024)
+   @integer @LegExtAddr = (@ExtmemSz - 1024)
+   @Integer @EMMKbytes = (@EmmTotal / 1024)
+   @Qstring @Port = "300"
+   @Qstring @Memreg = "800000"
+   @Qstring @Memport1 = "64"
+   @Qstring @Memport2 = "68"
+   @Qstring @Conselect = "10"
+   @Qstring @Cacheoff  = "80"
+   @Qstring @Cacheon   = "a4"
+   @Qstring @instvers = "3.1"
+   @Qstring @instname = "PARC Software"
+@Endvars
+
+System:
+
+@DefineProject
+@Name       = "OMA4000 program"
+@INDISKBELL = 1
+@EndProject
+
+@If (2000 [= @Option)
+  @Goto Retry
+@endif
+
+@IF (@NDP == 0)
+  @Display
+            An 80x87 chip is required for this program to run.
+
+                                     @Pause
+  @Abort
+@enddisplay
+@Endif
+@IF (@CPU < 286)
+  @Display
+             An AT class computer or better is required for
+                          this program to run.
+
+                                     @Pause
+    @Abort
+  @enddisplay
+@Endif
+
+@Display
+
+ ÞßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßÝ
+ Þ This program will install OMA SPEC 4000 4.08 on your computer system.  Ý
+ ÞÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÝ
+
+       ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+       º  You may press the [Esc] key at any time to abort the        º
+       º  installation.  INSTALL will ask you questions about your    º
+       º  computer hardware.                                          º
+       º                                                              º
+       º  Each question has a default answer.  If the default answer  º
+       º  is correct, press the ENTER key in response to the question.º
+       º  Otherwise, select an answer and then press the ENTER key.   º
+       ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @Pause
+@EndDisplay
+/*
+   Get type of Graphics display
+   OMA vision CCD and OMA SPEC 2000 support only EGA or VGA
+   ProcessVision/Desk support only EGA
+*/
+
+Display:
+
+@GetOption
+                  Please select your Graphics Adapter Card:
+       @if (@videocard == 'E') @default @endif @Option 103 = "IBM Enhanced Graphics Adaptor (EGA)"
+       @if (@videocard == 'V') @default @endif @Option 104 = "IBM Video Graphics Array (VGA)"
+       @if (@videocard == 'C') @default @endif @Option 102 = "IBM Color Graphics Adaptor (CGA)"
+       @if (@videocard == 'H') @default @endif @Option 101 = "Hercules Graphics card (Monochrome)"
+@EndOption
+
+@If (2001 [= @Option)
+   @Goto Retry
+@endif
+
+Printer:
+
+@GetOption
+                          Please select your printer:
+
+   @Option 201 = "None"
+   @Option 202 = "IBM Graphics Printer"
+   @Option 203 = "IBM Proprinter II or XL"
+   @Option 204 = "IBM Proprinter X24 or X24L"
+   @Option 205 = "IBM Quietwriter II"
+   @Default
+   @Option 206 = "Epson MX, FX, EX (80 or 132 column)"
+   @Option 207 = "Epson LQ series"
+   @Option 208 = "HP ThinkJet"
+   @Option 209 = "HP LaserJet Plus or series II or series III"
+
+@EndOption
+
+@if (201 [! @option)
+@getoption
+                     Select an output port for the printer:
+
+   @if (@LPT(1)) @option 703 = "LPT1:" @endif
+   @if (@LPT(2)) @option 704 = "LPT2:" @endif
+   @if (@COM(1)) @option 705 = "COM1:" @endif
+   @if (@COM(2)) @option 706 = "COM2:" @endif
+
+@endoption
+@endif
+
+@If (2002 [= @Option)
+   @Goto Retry
+@endif
+
+Plotter:
+
+@GetOption
+                         Please select your plotter:
+
+   @Option 301 = "None"
+   @Option 302 = "IBM 7372 Plotter"
+   @Option 303 = "IBM 7371 Plotter"
+   @Option 304 = "HP 7440 Plotter"
+   @Option 305 = "HP 7470 Plotter"
+   @Option 306 = "HP 7475A Plotter"
+   @Option 307 = "HP 7580 Plotter"
+   @Option 308 = "HP 7585 Plotter"
+   @Option 309 = "HP ColorPro"
+   @Option 310 = "Houston DMP (11X17 mode only)"
+@EndOption
+
+@if ( 301 [! @option)
+@getoption
+                       Select an output port for the plotter:
+
+   @if (@COM(1) ) @option 701 = "COM1:" @endif
+   @if (@COM(2) ) @option 702 = "COM2:" @endif
+
+@endOption
+@endif
+
+
+@If (2003 [= @Option)
+   @Goto Retry
+@endif
+
+GPIB:
+
+@GetOption
+                 Please select your National IEEE Card model:
+
+   @Option 401 = "GPIB-2"    /*AT card recommended but not required */
+   @if (902 [! @option) @default @endif
+   @Option 402 = "GPIB-2A"
+   @Option 403 = "GPIB 3"
+   @Option 404 = "MCGPIB (PS/2)"
+   @if (902 [= @option) @default @endif
+   @Option 405 = "AT-GPIB"
+   @Option 406 = "None"
+
+@EndOption
+
+@IF (404 [= @Option)
+@display
+@CLS
+  ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+  ±                            SPECIAL NOTE                               ±
+  ±                                                                       ±
+  ± This install can not automatically install the MC-GPIB card. Please   ±
+  ± follow the instructions that came with the National IEEE card and the ±
+  ± IBM reference disk.                                                   ±
+  ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+                              @PAUSE
+@EndDisplay
+@ENDIF
+
+@If (2004 [= @Option)
+   @Goto Retry
+@endif
+
+Mouse:
+
+@GetOption
+                             Select Mouse Type:
+
+
+           @Option 501 = "None"
+           @Option 502 = "Microsoft Mouse"
+           @Option 503 = "IBM PS/2 Mouse"
+@EndOption
+
+@if (502 [= @option || 503 [= @option)
+  @display
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  In addition to the GSS drivers for your mouse, which   º
+         º  INSTALL will copy to the output disk, there must be    º
+         º  an operating system driver for the mouse, which is     º
+         º  supplied by the mouse manufacturer.  INSTALL assumes   º
+         º  that this program is called MOUSE.SYS and that it      º
+         º  exists in the same subdirectory you are installing to. º
+         º  Either copy MOUSE.SYS to that subdirectory, or change  º
+         º  the CONFIG.PAR file to point to where the mouse driver º
+         º  does exist.                                            º
+         ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @pause
+  @enddisplay
+@endif
+
+@If (2005 [= @Option)
+   @Goto Retry
+@endif
+
+VDisk:
+
+@GetOption
+  ÞßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßÝ
+  Þ  This program can use a RAM disk for temporary storage.  An Example    Ý
+  Þ  of a RAM disk program is RAMDRIVE.SYS, which is supplied with         Ý
+  Þ  DOS.  INSTALL will help you to set up one if these programs if you    Ý
+  Þ  choose.  If you are using a RAM disk from another manufacturer,       Ý
+  Þ  choose "No RAM Disk" here, then follow the instructions supplied      Ý
+  Þ  by the maker of the RAM disk program when INSTALL is finished.        Ý
+  Þ                                                                        Ý
+  Þ  INSTALL will calculate the best size for your RAM disk, and will      Ý
+  Þ  install statements in CONFIG.PAR and AUTOEXEC.PAR to activate the     Ý
+  Þ  disk when the computer is rebooted.                                   Ý
+  Þ  YOU must copy the RAM disk program from DOS disk into the directory   Ý
+  Þ  specified in the CONFIG.SYS file (often the DOS subdirectory of hard  Ý
+  Þ  disk drive "C:") after INSTALL is finished.                           Ý
+  ÞÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÝ
+
+                          Select the RAM disk type:
+
+ @Option 601 = "No RAM Disk"
+ @Option 602 = "RAMDRIVE.SYS"
+@LocalWindow(20, 38)
+@endOption
+
+/* if ramdrive selected, get memory type */
+
+@if (602 [= @option)
+
+  @display
+         ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+         º  Current versions of RAMDRIVE.SYS require that a driver º
+         º  named HIMEM.SYS be loaded before RAMDRIVE is loaded.   º
+         º  INSTALL will place a statement in CONFIG.SYS to load   º
+         º  HIMEM.SYS.  INSTALL assumes that HIMEM.SYS is located  º
+         º  in a directory called \DOS on your boot drive.  If it  º
+         º  is located elsewhere, you must either move it to the   º
+         º  \DOS directory or change the statement in CONFIG.SYS   º
+         º  to point to the real location of the file.             º
+         ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+                                     @pause
+  @enddisplay
+  @GetOption
+            RAMDRIVE can use either extended or expanded memory
+
+                            Select memory type:
+@LocalWindow(6,38)
+@Option 604 = "Extended Memory"
+@Option 605 = "Expanded Memory"
+  @endOption
+@endif
+
+@if (602 [= @Option)                   /* If RAMDRIVE selected */
+  @if (604 [= @Option)                 /* If extended mem selected */
+    @GetInteger @RamDiskSize
+    @if (((@LegExtAddr) < 0) || ((@LegExtAddr) > 16000000))
+        @Default = @ExtmemSz
+      @else
+        @Default = (@LegExtAddr)               /* New Construct */
+      @endif
+      @prompt = "Enter RAM Disk size"
+      °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+      °  You must leave at least 1024K of extended memory for use by   °
+      °  the program. This means that the size of your RAM disk cannot °
+      °  be larger than the size of your extended memory minus 1024K.  °
+      °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+                (You have @ExtmemSz Kilobytes of extended memory)
+                ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+               Enter the number of Kilobytes for the RAM Disk:
+    @LocalWindow(14, 50)
+    @endInteger
+  @elseif (605 [= @option)             /* if expanded memory selected */
+     @GetInteger @RamDiskSize
+     @Default = @EmmKbytes
+                You have @EmmKbytes Kilobytes of Expanded memory
+                Enter the number of Kilobytes for the RAM Disk:
+
+     @prompt = "Enter RAM disk size"
+    @LocalWindow(8, 48)
+    @endInteger
+  @endif /* extended mem RAMDRIVE */
+@endif   /* RAMDRIVE or VDISK */
+
+
+@If (2006 [= @Option)
+  @Goto Retry
+@endif
+
+MemAddr:
+
+@GetOption
+        ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+           The OMA controller board contains memory which is used
+        ²  for data from the detector.  You may choose the address  ²
+           of the board's memory.  This address should be greater
+        ²  than the highest memory address used by your computer's  ²
+           extended memory (@HiMemAddr K) and must be on a two
+        ²  megabyte boundary.  You should use the value supplied    ²
+           by the OMA hardware install program.
+        ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+
+                     Select the memory starting address:
+
+  @if ((@ExtmemSz + 2048) < 2048) @Default @endif @Option 1101 = "200000 (at 2048K)"
+  @if ((@ExtmemSz + 2048) > 2048) @Default @endif @Option 1102 = "400000 (at 4096K)"
+  @if ((@ExtmemSz + 2048) > 4096) @Default @endif @Option 1103 = "600000 (at 6144K)"
+  @if ((@ExtmemSz + 2048) > 6144) @Default @endif @Option 1104 = "800000 (at 8192K)"
+  @if ((@ExtmemSz + 2048) > 8192) @Default @endif @Option 1105 = "A00000 (at 10240K)"
+  @if ((@ExtmemSz + 2048) > 10240) @Default @endif @Option 1106 = "C00000 (at 12288K)"
+  @LocalWindow(16, 38)
+@endOption
+
+@If (2007 [= @Option)
+  @Goto Retry
+@endif
+
+PortAddr:
+@GetString @Port
+             ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+             º The I/O port address is a 3 digit hexadecimal number º
+             º  between 100 and F00.  This is the port selected by  º
+             º  the DIP switches on the OMA Controller board,  and  º
+             º  should be the same as the port address you used withº
+             º  the OMA Controller board installation program.      º
+             ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+@prompt = "I/O Port address:"
+@LocalWindow(9, 50)
+@endString
+
+@If (2008 [= @Option)
+  @Goto Retry
+@endif
+
+IntLevel:
+
+@GetOption
+           ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+           º The interrupt level must be either 4, 5, or 7. Level   º
+           º 5 will usually work.  However, you should use the same º
+           º level as the interrupt level parameter you used with   º
+           º the OMA Controller board installation program.         º
+           ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+             Enter the interrupt level of the OMA Controller Board:
+             @Option 1201 = "Interrupt Level 4"
+             @Default
+             @Option 1202 = "Interrupt Level 5"
+             @Option 1203 = "Interrupt Level 7"
+@LocalWindow(12, 39)
+@endOption
+
+@If (2009 [= @Option)
+   @Goto Retry
+@endif
+
+MemSize:
+
+@GetOption
+          ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+          º Select the amount of memory on the OMA controller board.º
+          º You should use the memory size you entered when you ran º
+          º the OMA Controller board installation program.          º
+          ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+               Enter the memory size of the OMA Controller Board:
+         @Option 1301 = "512 Kilobytes"
+         @Default
+         @Option 1302 = "2 Megabytes"
+         @Option 1303 = "4 Megabytes"
+         @Option 1304 = "6 Megabytes"
+         @Option 1305 = "8 Megabytes"
+@LocalWindow(12, 38)
+@endOption
+
+@If (2010 [= @Option)
+  @Goto Retry
+@endif
+
+CacheType:
+
+@if (@CPU >= 386)
+  @GetOption
+      ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ
+      Û  If your computer is an 80386 with caching or an 80486, the    Û
+      Û  cache must be disabled when the detector is accessed.  If     Û
+      Û  your computer caches memory which is not on the system board, Û
+      Û  and does not allow you to disable caching for the memory      Û
+      Û  region used by the detector using the BIOS Setup menu, the    Û
+      Û  OMA4000 program may be able to control the cache dynamically. Û
+      Û  If your computer is listed below, choose it and INSTALL will  Û
+      Û  set the OMA4000 program for the proper type of cache control. Û
+      ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ
+
+  @Option 1001 = "Other Computer (with No Caching)"
+  @Option 1002 = "Advanced Logic Research 386"
+  @Option 1003 = "Compaq 386 Deskpro"
+  @Option 1004 = "DELL System 310 386"
+  @Option 1005 = "Gateway 2000 386"
+  @Option 1006 = "PC-BRAND 386"
+  @Option 1007 = "ZEOS (AMI Mark II Motherboard)"
+  @Option 1008 = "Other 386 Computer (with Caching)"
+  @LocalWindow(16, 40)
+  @endOption
+@endif  /* of 80386 */
+
+@if (1008 [= @Option)
+  @GetOption
+   ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+   º   The OMA4000 program can attempt to support other types of     º
+   º   cache control if you know the values of certain parameters    ºÛÛÝ
+   º   for your computer.  You need to know if the cache controller  ºÛÛÝ
+   º   uses a memory-mapped register, or one or two I/O ports, as    ºÛÛÝ
+   º   well as the values to write to turn the cache ON and OFF. If  ºÛÛÝ
+   º   the controller uses two I/O ports, you also need the value    ºÛÛÝ
+   º   to write to the index port to select the cache controller.    ºÛÛÝ
+   º   The maker of your computer's motherboard should be able to    ºÛÛÝ
+   º   tell you these values.                                        ºÛÛÝ
+   º                                                                 ºÛÛÝ
+   º   EG&G PARC does not guarantee that cache control will succeed  ºÛÛÝ
+   º   in computers not listed in the previous screen.  If you do    ºÛÛÝ
+   º   not have the information required, select "No Caching" from   ºÛÛÝ
+   º   the options below.  Otherwise select "Non-standard Cache" to  ºÛÛÝ
+   º   enter the cache parameters.                                   ºÛÛÝ
+   ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼ÛÛÝ
+      ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÝ
+
+    @Option 1001 = "No Caching"
+    @Option 1008 = "Non-standard Cache"
+    @LocalWindow(20,40)
+  @endOption
+@endif
+@if ( 1008 [= @Option)
+  @Getoption
+    Enter the type of cache controller:
+    @Option 1010 = "Memory Mapped Register"
+    @Option 1011 = "One Port Address"
+    @Option 1012 = "Two Port Addresses (Control and Index Ports)"
+  @Endoption
+@endif
+@if ((1008 [= @Option) && (1010 [= @Option))
+  @Getstring @memreg
+    Enter the control register address in hexadecimal
+    @prompt = "Control register address:"
+    @LocalWindow(6,40)
+  @Endstring
+@endif
+@if ((1008 [= @Option) && ((1011 [= @Option) || (1012 [= @Option)))
+  @Getstring @memport1
+    Enter the control register port in hexadecimal
+    @prompt = "Control register port address:"
+    @LocalWindow(6,40)
+  @endstring
+@endif
+@if ((1008 [= @Option) && (1012 [= @Option))
+  @Getstring @memport2
+    Enter the Index register port in hexadecimal
+    @prompt = "Index register port address:"
+    @LocalWindow(6,40)
+  @Endstring
+  @Getstring @conselect
+    Enter the index port value to select cache control in hexadecimal
+    @prompt = "Index register select value:"
+    @LocalWindow(6,40)
+  @Endstring
+@endif
+@if (1008 [= @Option)
+  @Getstring @Cacheoff
+    Enter the value to turn the cache off in hexadecimal
+    @prompt = "Cache off value:"
+    @LocalWindow(6,40)
+  @Endstring
+  @Getstring @Cacheon
+    Enter the value to turn the cache on in hexadecimal
+    @prompt = "Cache on value:"
+    @LocalWindow(6,40)
+  @Endstring
+@endif
+@If (2011 [= @Option)
+  @Goto Retry
+@endif
+
+Getdisk:
+@GetOutDrive
+@Cls
+          On which disk drive do you wish to install OMA Spec 4000?
+
+@EndOutDrive
+@if (2012 [= @option) @Goto Retry @endif
+
+Getdir:
+@GetSubdir
+   @Cls
+          Now you need to specify the disk destination subdirectory.
+
+   @Prompt = "Which subdirectory ([Enter] = @Subdir) ?"
+  @localwindow(4,51)
+@EndSubdir
+@if (2013 [= @option) @Goto Retry @endif
+
+Retry:
+@GetOption
+          These are the options you selected.  Move to the option
+            to change and press ENTER.  Select ALL OK when done.
+  @if     (103  [= @Option) @Option 2001 = "IBM Enhanced Graphics Adaptor (EGA)"
+  @elseif (104  [= @Option) @Option 2001 = "IBM Video Graphics Array (VGA)"
+  @elseif (102  [= @Option) @Option 2001 = "IBM Color Graphics Adaptor (CGA)"
+  @elseif (101  [= @Option) @Option 2001 = "Hercules Graphics card (Monochrome)"
+  @endif
+  @if     (201  [= @Option) @Option 2002 = "No Printer"
+  @elseif (202  [= @Option) @Option 2002 = "IBM Graphics Printer"
+  @elseif (203  [= @Option) @Option 2002 = "IBM Proprinter II or XL"
+  @elseif (204  [= @Option) @Option 2002 = "IBM Proprinter X24 or X24L"
+  @elseif (205  [= @Option) @Option 2002 = "IBM Quietwriter II"
+  @elseif (206  [= @Option) @Option 2002 = "Epson MX, FX, EX Printer"
+  @elseif (207  [= @Option) @Option 2002 = "Epson LQ series Printer"
+  @elseif (208  [= @Option) @Option 2002 = "HP ThinkJet Printer"
+  @elseif (209  [= @Option) @Option 2002 = "HP LaserJet Plus/II/III" @endif
+  @if     (703  [= @Option) @Option 2002 = "Printer Port LPT1:"
+  @elseif (704  [= @Option) @Option 2002 = "Printer Port LPT2:"
+  @elseif (705  [= @Option) @Option 2002 = "Printer Port COM1:"
+  @elseif (706  [= @Option) @Option 2002 = "Printer Port COM2:" @endif
+  @if     (301  [= @Option) @Option 2003 = "No Plotter"
+  @elseif (302  [= @Option) @Option 2003 = "IBM 7372 Plotter"
+  @elseif (303  [= @Option) @Option 2003 = "IBM 7371 Plotter"
+  @elseif (304  [= @Option) @Option 2003 = "HP 7440 Plotter"
+  @elseif (305  [= @Option) @Option 2003 = "HP 7470 Plotter"
+  @elseif (306  [= @Option) @Option 2003 = "HP 7475A Plotter"
+  @elseif (307  [= @Option) @Option 2003 = "HP 7580 Plotter"
+  @elseif (308  [= @Option) @Option 2003 = "HP 7585 Plotter"
+  @elseif (309  [= @Option) @Option 2003 = "HP ColorPro Plotter"
+  @elseif (310  [= @Option) @Option 2003 = "Houston DMP Plotter" @endif
+  @if     (701  [= @Option) @Option 2003 = "Plotter Port COM1:"
+  @elseif (702  [= @Option) @Option 2003 = "Plotter Port COM2:" @endif
+  @if     (401  [= @Option) @Option 2004 = "GPIB-2"
+  @elseif (402  [= @Option) @Option 2004 = "GPIB-2A"
+  @elseif (403  [= @Option) @Option 2004 = "GPIB 3"
+  @elseif (404  [= @Option) @Option 2004 = "MCGPIB (PS/2)"
+  @elseif (405  [= @Option) @Option 2004 = "AT-GPIB"
+  @elseif (406  [= @Option) @Option 2004 = "No GPIB Card" @endif
+  @if     (501  [= @Option) @Option 2005 = "No Mouse"
+  @elseif (502  [= @Option) @Option 2005 = "Microsoft Mouse"
+  @elseif (503  [= @Option) @Option 2005 = "IBM PS/2 Mouse" @endif
+  @if     (601  [= @Option) @Option 2006 = "No RAM Disk"
+  @elseif (602  [= @Option) @Option 2006 = "RAMDRIVE Size: @RamDiskSize K"
+  @endif
+  @if     (1101 [= @Option) @Option 2007 = "OMA Memory Address: 2048K"
+  @elseif (1102 [= @Option) @Option 2007 = "OMA Memory Address: 4096K"
+  @elseif (1103 [= @Option) @Option 2007 = "OMA Memory Address: 6144K"
+  @elseif (1104 [= @Option) @Option 2007 = "OMA Memory Address: 8192K"
+  @elseif (1105 [= @Option) @Option 2007 = "OMA Memory Address: 10240K"
+  @elseif (1106 [= @Option) @Option 2007 = "OMA Memory Address: 12288K"
+  @endif
+                            @Option 2008 = "OMA Port Address: @Port"
+  @if     (1201 [= @Option) @Option 2009 = "OMA Interrupt Level: 4"
+  @elseif (1202 [= @Option) @Option 2009 = "OMA Interrupt Level: 5"
+  @elseif (1203 [= @Option) @Option 2009 = "OMA Interrupt Level: 7"
+  @endif
+  @if     (1301 [= @Option) @Option 2010 = "OMA Memory Size: 512K"
+  @elseif (1302 [= @Option) @Option 2010 = "OMA Memory Size: 2048K"
+  @elseif (1303 [= @Option) @Option 2010 = "OMA Memory Size: 4096K"
+  @elseif (1304 [= @Option) @Option 2010 = "OMA Memory Size: 6144K"
+  @elseif (1305 [= @Option) @Option 2010 = "OMA Memory Size: 8192K"
+  @endif
+  @if     (1001 [= @Option) @Option 2011 = "No caching"
+  @elseif (1002 [= @Option) @Option 2011 = "Cache Type: ALR 386"
+  @elseif (1003 [= @Option) @Option 2011 = "Cache Type: Compaq 386 DeskPro"
+  @elseif (1004 [= @Option) @Option 2011 = "Cache Type: DELL 386 Computer"
+  @elseif (1005 [= @Option) @Option 2011 = "Cache Type: Gateway 2000 386"
+  @elseif (1006 [= @Option) @Option 2011 = "Cache Type: PC-BRAND 386"
+  @elseif (1007 [= @Option) @Option 2011 = "Cache Type: ZEOS (AMI Mark II)"
+  @elseif (1008 [= @Option) @Option 2011 = "Other Caching Computer"
+  @endif
+                            @Option 2012 = "Install on Drive @Outdrive:"
+                            @Option 2013 = "Install in @Subdir"
+  @Default @Option 2014 = "All selections are OK"
+@EndOption
+
+@If (2014 [= @Option)
+  @Goto AllOK
+@Elseif (2001 [= @Option)
+  @Goto Display
+@Elseif (2002 [= @Option)
+  @Goto Printer
+@Elseif (2003 [= @Option)
+  @Goto Plotter
+@Elseif (2004 [= @Option)
+  @Goto GPIB
+@Elseif (2005 [= @Option)
+  @Goto Mouse
+@Elseif (2006 [= @Option)
+  @Goto Vdisk
+@Elseif (2007 [= @Option)
+  @Goto MemAddr
+@Elseif (2008 [= @Option)
+  @Goto PortAddr
+@Elseif (2009 [= @Option)
+  @Goto IntLevel
+@Elseif (2010 [= @Option)
+  @Goto MemSize
+@Elseif (2011 [= @Option)
+  @Goto CacheType
+@Elseif (2012 [= @Option)
+  @Goto Getdisk
+@Elseif (2013 [= @Option)
+  @Goto Getdir
+@endif
+
+AllOK:
+
+@if ((@disksize @indrive) > 1457660) /* 1.44 or bigger */
+  @DefineDisk
+    @Label = "Program 1"
+    @Version = "4.08"
+    @Name = "OMA4000 program"
+    @File oma4000.exe
+    @File oma4000.clr
+    @File oma4000.ers
+    @File oma4000.fld
+    @File oma4000.frm
+    @File oma4000.hlp
+    @File oma4000.mac
+    @File default.met
+    @File default.met @out oma4000.met
+    @File 1ksqscan.abj
+    @File eevscans.abj
+    @File mmscans.abj
+    @File scans.abj
+    @File smscans.abj
+    @File specscan.abj
+    @File ops.add
+    @File alcommon.asc
+    @File 1ksqscan.asc
+    @File eevscans.asc
+    @File mmscans.asc
+    @File smscans.asc
+    @File specscan.asc
+    @File sccommon.asc
+    @File switcher.asc
+    @File oma4c.bat
+    @File standard.dac
+    @File ontrig.dac
+    @File autoback.dac
+    @File da_9.dac
+    @File 1ksqscan.dac
+    @File eevscans.dac
+    @File ident2.dac
+    @File init.dac
+    @File kclean.dac
+    @File mmscans.dac
+    @File smscans.dac
+    @File specscan.dac
+    @File user.dac
+    @File switcher.dac
+    @File dtt.dat
+    @File 1ksqscan.dbj
+    @File eevscans.dbj
+    @File mmscans.dbj
+    @File scans.dbj
+    @File smscans.dbj
+    @File specscan.dbj
+    @File colors.exe
+    @File oma4.exe
+    @File monitor.bin
+    @File ccd1ksq.inc
+    @File ccd256sp.inc
+    @File ccd512tc.inc
+    @File ccd512ts.inc
+    @File ccdeev.inc
+    @File hooks.inc
+    @File omacp.inc
+    @File dac.mac
+    @File read.me
+    @File demo.key
+    @File com.pas
+    @File crr.pas
+    @File cvtdata.pas
+    @File fabs.pas
+    @File filenum.pas
+    @File hiresyt.pas
+    @File lyt.pas
+    @File metoffst.pas
+    @File ratio.pas
+    @File sdemo.pas
+    @File splice.pas
+    @File strings.pas
+    @File par.ico
+  @EndDisk
+
+@else   /* 720 or 1.2 */
+
+  @DefineDisk
+    @Label = "Program 1"
+    @Version = "4.08"
+    @Name = "OMA4000 program"
+    @File oma4000.exe
+    @File oma4000.clr
+    @File oma4000.fld
+    @File oma4000.frm
+    @File oma4000.hlp
+  @EndDisk
+
+  @DefineDisk
+    @Label = "Program 2"
+    @Version = "4.08"
+    @Name = "OMA4000 program"
+    @File oma4000.ers
+    @File oma4000.mac
+    @File default.met
+    @File default.met @out oma4000.met
+    @File 1ksqscan.abj
+    @File eevscans.abj
+    @File mmscans.abj
+    @File scans.abj
+    @File smscans.abj
+    @File specscan.abj
+    @File dtt.dat
+    @File 1ksqscan.dbj
+    @File eevscans.dbj
+    @File mmscans.dbj
+    @File scans.dbj
+    @File smscans.dbj
+    @File specscan.dbj
+    @File colors.exe
+    @File oma4.exe
+    @File monitor.bin
+    @File read.me
+    @File demo.key
+    @File com.pas
+    @File crr.pas
+    @File cvtdata.pas
+    @File fabs.pas
+    @File filenum.pas
+    @File hiresyt.pas
+    @File lyt.pas
+    @File metoffst.pas
+    @File ratio.pas
+    @File sdemo.pas
+    @File splice.pas
+    @File strings.pas
+    @File par.ico
+    @File ops.add
+    @File 1ksqscan.asc
+    @File alcommon.asc
+    @File eevscans.asc
+    @File mmscans.asc
+    @File smscans.asc
+    @File specscan.asc
+    @File sccommon.asc
+    @File switcher.asc
+    @File oma4c.bat
+    @File standard.dac
+    @File ontrig.dac
+    @File autoback.dac
+    @File da_9.dac
+    @File eevscans.dac
+    @File ident2.dac
+    @File init.dac
+    @File kclean.dac
+    @File 1ksqscan.dac
+    @File mmscans.dac
+    @File smscans.dac
+    @File specscan.dac
+    @File user.dac
+    @File switcher.dac
+    @File ccd256sp.inc
+    @File ccd1ksq.inc
+    @File ccd512tc.inc
+    @File ccd512ts.inc
+    @File ccdeev.inc
+    @File hooks.inc
+    @File omacp.inc
+    @File dac.mac
+  @EndDisk
+@endif
+
+@display
+            ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+            ² Install will create a file named AUTOEXEC.PAR in    ²
+            ² the root directory of your boot drive.  This file   ²
+            ² will contain the line:                              ²
+            ²                 SET TMP=E:\                         ²
+            ² You may need to change the 'E:' in AUTOEXEC.PAR     ²
+            ² to be the drive you wish to use for temporary files.²
+            ² This will normally be your RAM disk.                ²
+            ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²
+
+               Press any key to begin copying files to @OUTDRIVE:@SUBDIR...
+
+                                      @pause
+@endDisplay
+
+@chain("Install Disk 1", "@Indrive:\\DRIVERS.DAT")
+
+Wrapup:
+
+/* create config.par */
+
+  @SetConfig
+     @DiskProto
+     @Buffers = 10
+     @Files = 20
+  @if (406 [! @option)
+     @device = "@outdrive:\\@subdir\\gpib.com"
+  @endif
+  @if (602 [= @option)
+     @device = "@bootdrive:\\DOS\\himem.sys"
+     @if (604 [= @option)
+     @device = "@bootdrive:\\DOS\\ramdrive.sys @RamDiskSize 512 /E"
+     @elseif (605 [= @option)
+     @device = "@bootdrive:\\DOS\\ramdrive.sys @RamDiskSize 512 /A"
+     @endif
+  @endif
+  @if (502 [= @option || 503 [= @option)
+     @device = "@outdrive:\\@subdir\\mouse.sys"
+  @endif
+  @EndConfig
+
+  /* create autoexec.par */
+
+  @SetAutoexec
+  @DiskProto
+  @SetReplace( "TMP", "E:\\" )
+  @SetReplace( "CGIPATH", "@outdrive:\\@subdir")
+  @EndAutoexec
+
+@Finish
+/* @chdrive @outdrive */
+/* @chdir "@subdir"   */
+
+/* create cgi.cfg */
+@cls
+        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+        ° Creating the configuration file for the graphics drivers.  °
+        ° This file is called CGI.CFG.                               °
+        ° It contains the information about which display, plotter,  °
+        ° printer, mouse, etc. you are using.                        °
+        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+@pause
+@write("@outdrive:\\@subdir\\cgi.cfg", "w+t","driver=@outdrive:\\@subdir\\gsscgi.sys\n")
+@if (101 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\hercbw.sys /G:DISPLAY\n")
+@endif
+@if (102 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmbw.sys /G:DISPLAY\n")
+@endif
+@if (103 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmega.sys /G:DISPLAY\n")
+@endif
+@if (104 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmvga12.sys /G:DISPLAY\n")
+@endif
+@write("@outdrive:\\@subdir\\cgi.cfg","a+t","orientation=landscape\n")
+@if (202 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmgpr.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=ibmgpr.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmgpr=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmgpr=lpt2\n")
+   @endif
+@endif
+@if (203 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmpro.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=ibmpro.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmpro=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmpro=lpt2\n")
+   @endif
+@endif
+@if (204 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmxl24.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=ibmxl24.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmxl24=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmxl24=lpt2\n")
+   @endif
+@endif
+@if (205 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ibmqw2.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=ibmqw2.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmqw2=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","ibmqw2=lpt2\n")
+   @endif
+@endif
+@if (206 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\epsonx.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=epsonx.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","epsonx=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","epsonx=lpt2\n")
+   @endif
+@endif
+@if (207 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\epsonlq.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=epsonlq.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","epsonlq=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","epsonlq=lpt2\n")
+   @endif
+@endif
+@if (208 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\thinkjet.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=thinkjet.sys\n")
+   @endif
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","thinkjet=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","thinkjet=lpt2\n")
+   @endif
+@endif
+@if (209 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\laserjet.sys /G:PRINTER\n")
+   @if (301 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PLOTTER=laserjet.sys\n")
+   @endif
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","RESOLUTION=300\n")
+   @if (703 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","laserjet=lpt1\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","laserjet=lpt2\n")
+   @endif
+@endif
+@if ((301 [! @option) && (310 [! @option))
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\hpplot.sys /G:PLOTTER\n")
+   @if (201 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PRINTER=hpplot.sys\n")
+   @endif
+   @if (701 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","hpplot=com1\n")
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","com1=9600\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","hpplot=com2\n")
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","com2=9600\n")
+   @endif
+@endif
+@if (310 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\hipt29.sys /G:PLOTTER\n")
+   @if (201 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","PRINTER=hipt29.sys\n")
+   @endif
+   @if (701 [= @option)
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","hipt29=com1\n")
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","com1=2400\n")
+   @else
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","hipt29=com2\n")
+       @write("@outdrive:\\@subdir\\cgi.cfg","a+t","com2=2400\n")
+   @endif
+@endif
+@if (502 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\msmouse.sys /G:MOUSE\n")
+@endif
+@if (503 [= @option)
+   @write("@outdrive:\\@subdir\\cgi.cfg","a+t","driver=@outdrive:\\@subdir\\ps2mouse.sys /G:MOUSE\n")
+@endif
+
+@cls
+        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+        ° Creating the start up batch file for your application.     °
+        ° This batch file is called 4000.BAT.                        °
+        ° To start the application, change to the @subdir directory     °
+        ° and enter the command '4000'                               °
+        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+@pause
+@write("@outdrive:\\@subdir\\4000.bat","w+t","if exist \\oma2 del \\oma2\n")
+@write("@outdrive:\\@subdir\\4000.bat","a+t","if exist c:\\oma2 del \\oma2\n")
+@write("@outdrive:\\@subdir\\4000.bat","a+t","drivers\n")
+/* add memory address parameter */
+@if (1101 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -A200000")
+@elseif (1102 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -A400000")
+@elseif (1103 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -A600000")
+@elseif (1104 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -A800000")
+@elseif (1105 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -AA00000")
+@elseif (1106 [= @Option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t","OMA4000 -AC00000")
+@endif
+@write("@outdrive:\\@subdir\\4000.bat","a+t"," -P@port")
+/* Add memory size parameter */
+@if (1301 [= @option)
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -S512")
+  @elseif (1302 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -S200000")
+  @elseif (1303 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -S400000")
+  @elseif (1304 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -S600000")
+  @elseif (1305 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -S800000")
+@endif
+/* add cache type parameter if needed */
+@if (1002 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C ALR")
+@elseif (1003 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C COMPAQ")
+@elseif (1004 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C DELL")
+@elseif (1005 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C GATE1")
+@elseif (1006 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C PCBRND")
+@elseif (1007 [= @option )
+  @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C ZEOS")
+@elseif (1008 [= @option )
+  @if     (1010 [= @Option)
+    @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C \"cm@Memreg,@cacheoff,@cacheon\"")
+  @elseif (1011 [= @Option)
+    @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C \"cp@Memport1,@cacheoff,@cacheon\"")
+  @elseif (1012 [= @Option)
+    @write("@outdrive:\\@subdir\\4000.bat","a+t"," -C \"cs@Memport1,@Memport2,@conselect,@cacheoff,@cacheon\"")
+  @endif
+@endif
+@write("@outdrive:\\@subdir\\4000.bat","a+t"," %1 %2 \n")
+@write("@outdrive:\\@subdir\\4000.bat","a+t","drivers /a\n")
+@chdrive @outdrive
+@chdir "@subdir"
+@system "@indrive:v read.me"
+/* @elseif (902 [= @option)
+  @system "oma -o"
+  @system "del oma.exe"
+  @cls
+       The start up batch file for your application is called 2000.BAT
+       To start the application, change to the @subdir directory
+       and enter the command '2000'
+*/
+@EndFinish
+/* end-of-file */
+

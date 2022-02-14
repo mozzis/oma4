@@ -1,0 +1,26 @@
+;Example lines for changes to CGI.CFG to support SuperVGA (256 colors or
+;higher resolution than 640X480) GSS displays
+
+;Use one of these to REPLACE the /G:DISPLAY line in CGI.CFG
+
+DRIVER=ET4000.SYS /G:DISPLAY     ; For Tseng Labs ET4000 based SVGA
+DRIVER=HRVGA256.SYS /G:DISPLAY   ; For Tseng Labs ET3000 based SVGA
+DRIVER=ATI256.SYS /G:DISPLAY     ; For ATI based SVGA
+
+;If the driver is ET4000.SYS, ADD one of these lines to select resolution
+
+ET4000=640,480,2EH
+ET4000=800,600,30H
+ET4000=1024,768,38H
+
+;If the driver is HRVGA256.SYS, ADD one of these lines to select resolution
+
+VGA256=640,480
+VGA256=800,600,49h
+
+;If the driver is ATI256.SYS, ADD one of these lines to select resolution
+
+;ATI256=640,480
+;ATI256=800,600
+;ATI256=800,600
+

@@ -1,0 +1,825 @@
+
+ DATMGR
+
+ Start     Length     Name                   Class
+ 0001:0000 00000H     DATMGR_TEXT            CODE 16-bit
+ 0001:0000 00000H     WINTCL_TEXT            CODE 16-bit
+ 0001:0000 034C1H     _TEXT                  CODE 16-bit
+           at offset 00000H 000FEH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\crt0.asm)
+           at offset 000FEH 000D4H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fclose.c)
+           at offset 001D2H 00014H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\windgrpx.c)
+           at offset 001E6H 0005AH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fopen.c)
+           at offset 00240H 0017FH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fread.asm)
+           at offset 003C0H 001A4H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fwrite.asm)
+           at offset 00564H 0003CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strcpy.asm)
+           at offset 005A0H 00068H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (freopen.c)
+           at offset 00608H 00084H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fseek.c)
+           at offset 0068CH 0004AH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (rewind.c)
+           at offset 006D6H 00045H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (stricmp.asm)
+           at offset 0071CH 000CAH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (hmemcpy.asm)
+           at offset 007E6H 00032H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (lmul.asm)
+           at offset 00818H 00029H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strcmp.asm)
+           at offset 00842H 0003CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strcpy.asm)
+           at offset 0087EH 00048H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (hmemset.asm)
+           at offset 008C6H 000CAH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (hmemcpy.asm)
+           at offset 00990H 0003DH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\87ftol.asm)
+           at offset 009CEH 00014H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\fltusedc.asm)
+           at offset 009E2H 0002CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\stubmain.asm)
+           at offset 00A0EH 000E3H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0dat.asm)
+           at offset 00AF2H 00023H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0msg.asm)
+           at offset 00B16H 00097H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\stdenvp.asm)
+           at offset 00BAEH 000C8H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\lseek.asm)
+           at offset 00C76H 0014BH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\read.asm)
+           at offset 00DC2H 0018BH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (write.asm)
+           at offset 00F4EH 000E2H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_flsbuf.asm)
+           at offset 01030H 000AAH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_filbuf.asm)
+           at offset 010DAH 00037H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_freebuf.asm)
+           at offset 01112H 00140H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_open.c)
+           at offset 01252H 0015CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fflush.c)
+           at offset 013AEH 00054H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (stream.c)
+           at offset 01402H 00037H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\close.asm)
+           at offset 0143AH 00054H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strcat.asm)
+           at offset 0148EH 0001CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (itoa.asm)
+           at offset 014AAH 00020H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (os2\hdiff.asm)
+           at offset 014CAH 001A6H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (ftell.c)
+           at offset 01670H 0005EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (hmemcpy.asm)
+           at offset 016CEH 00026H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\unlink.asm)
+           at offset 016F4H 00670H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cvt.c)
+           at offset 01D64H 00024H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfpsig.asm)
+           at offset 01D88H 0004EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\nmsghdr.asm)
+           at offset 01DD6H 0005AH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\wchkstk.asm)
+           at offset 01E30H 0004CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\fatal.asm)
+           at offset 01E7CH 0005EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (commit.c)
+           at offset 01EDAH 00006H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (crt0fp.asm)
+           at offset 01EE0H 0002DH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\stdalloc.asm)
+           at offset 01F0EH 0005DH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\dosret.asm)
+           at offset 01F6CH 00010H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\windgrp.asm)
+           at offset 01F7CH 00001H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (nearstub.asm)
+           at offset 01F7EH 0004BH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_getbuf.asm)
+           at offset 01FCAH 002E8H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\open.asm)
+           at offset 022B2H 00014H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (stackava.asm)
+           at offset 022C6H 0005EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (atof.c)
+           at offset 02324H 000AEH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_fptostr.c)
+           at offset 023D2H 00063H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (xtoa.asm)
+           at offset 02436H 00019H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strlen.asm)
+           at offset 02450H 00055H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfout.asm)
+           at offset 024A6H 00117H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (growseg.asm)
+           at offset 025BEH 000C8H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fmalloc.asm)
+           at offset 02686H 00019H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (strlen.asm)
+           at offset 026A0H 00024H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\d_commit.asm)
+           at offset 026C4H 00193H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\x8fout.asm)
+           at offset 02858H 00064H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfinn.c)
+           at offset 028BCH 00081H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (newseg.asm)
+           at offset 0293EH 0000DH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fdata.asm)
+           at offset 0294CH 0007CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (searchsg.asm)
+           at offset 029C8H 001B9H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\x8tmul.asm)
+           at offset 02B82H 00068H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\strgtod.asm)
+           at offset 02BEAH 0002AH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (freelist.asm)
+           at offset 02C14H 00034H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (initseg.asm)
+           at offset 02C48H 00036H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (linkseg.asm)
+           at offset 02C7EH 00268H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\strgtold.asm)
+           at offset 02EE6H 00511H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\tenpow.asm)
+           at offset 033F8H 000B9H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\mantold.asm)
+
+ 0001:34D0 000A2H     FAST_TEXT              CODE 16-bit
+           at offset 00000H 000A2H bytes from ..\BASEDISP\OMABLT.LIB (omablt.asm)
+
+ 0001:3572 00054H     WEP_TEXT               CODE 16-bit
+           at offset 00000H 0003CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\wep.asm)
+           at offset 0003CH 00018H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\stubwep.asm)
+
+ 0001:35D0 017AFH     COMDAT_SEG1            CODE 16-bit
+           at offset 00000H 0000FH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00010H 00037H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00048H 0001EH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00066H 000FAH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00160H 00105H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00266H 0001AH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00280H 00031H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 002B2H 00054H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00306H 0005BH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00362H 0004AH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 003ACH 00072H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 0041EH 00126H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00544H 00096H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 005DAH 001B2H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 0078CH 000D5H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00862H 00069H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 008CCH 00152H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00A1EH 0016FH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00B8EH 001DEH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00D6CH 000FDH bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00E6AH 00006H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00E70H 00009H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00E7AH 00003H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00E7EH 00004H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00E82H 0003CH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 00EBEH 0030DH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 011CCH 000A5H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 01272H 001A6H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 01418H 0028EH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 016A6H 000E3H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 0178AH 0000EH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 01798H 0000EH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 017A6H 00009H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+
+ 0002:0000 00006H     DATMGR10_DATA          FAR_DATA 16-bit
+           at offset 00000H 00006H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+
+ 0003:0000 00200H     WINTCL5_DATA           FAR_DATA 16-bit
+           at offset 00000H 00200H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+
+ 0004:0000 00010H     NULL                   BEGDATA 16-bit
+           at offset 00000H 00010H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\crt0.asm)
+
+ 0004:0010 0025EH     _DATA                  DATA 16-bit
+           at offset 00000H 00006H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00006H 00002H bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 00008H 00015H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\crt0.asm)
+           at offset 0001EH 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fclose.c)
+           at offset 00022H 00014H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\fltusedc.asm)
+           at offset 00036H 00044H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0dat.asm)
+           at offset 0007AH 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0msg.asm)
+           at offset 0007EH 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (file.asm)
+           at offset 00080H 00022H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (cmiscdat.asm)
+           at offset 000A2H 0000BH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cvt.c)
+           at offset 000AEH 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (windows\wchkstk.asm)
+           at offset 000B2H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (_cflush.asm)
+           at offset 000B4H 00014H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\dosret.asm)
+           at offset 000C8H 00001H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (ncommode.asm)
+           at offset 000CAH 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (seekfast.asm)
+           at offset 000CCH 00101H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (ctype.asm)
+           at offset 001CEH 00025H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfout.asm)
+           at offset 001F4H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (growseg.asm)
+           at offset 001F6H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (txtmode.asm)
+           at offset 001F8H 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fmalloc.asm)
+           at offset 001FCH 00049H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\x8fout.asm)
+           at offset 00246H 0000EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (fdata.asm)
+           at offset 00254H 0000AH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\strgtod.asm)
+
+ 0004:026E 00000H     XIFCB                  DATA 16-bit
+ 0004:026E 00004H     XIFU                   DATA 16-bit
+           at offset 00000H 00004H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+
+ 0004:0272 00000H     XIFL                   DATA 16-bit
+ 0004:0272 00000H     XIFM                   DATA 16-bit
+ 0004:0272 00000H     XIFCE                  DATA 16-bit
+ 0004:0272 0000EH     CDATA                  DATA 16-bit
+           at offset 00000H 0000EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\fixups.asm)
+           at offset 00000H 0000EH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0dat.asm)
+
+ 0004:0280 00000H     XIB                    DATA 16-bit
+ 0004:0280 00004H     XI                     DATA 16-bit
+           at offset 00000H 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\fltusedc.asm)
+
+ 0004:0284 00000H     XIE                    DATA 16-bit
+ 0004:0284 00000H     XIFB                   DATA 16-bit
+ 0004:0284 00000H     XIF                    DATA 16-bit
+ 0004:0284 00000H     XIFE                   DATA 16-bit
+ 0004:0284 00000H     XPB                    DATA 16-bit
+ 0004:0284 00000H     XP                     DATA 16-bit
+ 0004:0284 00000H     XPE                    DATA 16-bit
+ 0004:0284 00000H     XCB                    DATA 16-bit
+ 0004:0284 00000H     XC                     DATA 16-bit
+ 0004:0284 00000H     XCE                    DATA 16-bit
+ 0004:0284 00000H     XCFB                   DATA 16-bit
+ 0004:0284 00000H     XCFCRT                 DATA 16-bit
+ 0004:0284 00000H     XCF                    DATA 16-bit
+ 0004:0284 00000H     XCFE                   DATA 16-bit
+ 0004:0284 000E4H     IOB                    DATA 16-bit
+           at offset 00000H 000E4H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (file.asm)
+
+ 0004:0368 00000H     IOBX                   DATA 16-bit
+ 0004:0368 0000CH     IOBE                   DATA 16-bit
+           at offset 00000H 0000CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (file.asm)
+
+ 0004:0374 000E4H     IOB2                   DATA 16-bit
+           at offset 00000H 000E4H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (file.asm)
+
+ 0004:0458 00000H     IOB2X                  DATA 16-bit
+ 0004:0458 0000CH     IOB2E                  DATA 16-bit
+           at offset 00000H 0000CH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (file.asm)
+
+ 0004:0464 00000H     DBDATA                 DATA 16-bit
+ 0004:0464 0001CH     CONST                  CONST 16-bit
+           at offset 00000H 00006H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00006H 0000EH bytes from WINTCL.OBJ (d:\code\oma4\datmgr\wintcl.cpp)
+           at offset 00014H 00008H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cvt.c)
+
+ 0004:0480 00008H     HDR                    MSG 16-bit
+           at offset 00000H 00008H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\nmsghdr.asm)
+
+ 0004:0488 00354H     MSG                    MSG 16-bit
+           at offset 00000H 000A5H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0msg.asm)
+           at offset 000A5H 00280H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfpsig.asm)
+           at offset 00325H 0002FH bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (crt0fp.asm)
+
+ 0004:07DC 00002H     PAD                    MSG 16-bit
+           at offset 00000H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\crt0msg.asm)
+           at offset 00000H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\nmsghdr.asm)
+           at offset 00000H 00002H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (crt0fp.asm)
+
+ 0004:07DE 00001H     EPAD                   MSG 16-bit
+           at offset 00000H 00001H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (dos\nmsghdr.asm)
+
+ 0004:07E0 0001AH     _BSS                   BSS 16-bit
+           at offset 00000H 00006H bytes from DATMGR.OBJ (d:\code\oma4\datmgr\datmgr.cpp)
+           at offset 00006H 00004H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cvt.c)
+           at offset 0000AH 00010H bytes from C:\TOOLS\MSVC\LIB\ldllcew.lib (.\cfinn.c)
+
+ 0004:07FA 00000H     XOB                    BSS 16-bit
+ 0004:07FA 00000H     XO                     BSS 16-bit
+ 0004:07FA 00000H     XOE                    BSS 16-bit
+ 0004:07FA 00000H     XOFB                   BSS 16-bit
+ 0004:07FA 00000H     XOF                    BSS 16-bit
+ 0004:07FA 00000H     XOFE                   BSS 16-bit
+ 0004:0800 00008H     c_common               BSS 16-bit
+
+ Origin   Group
+ 0004:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0001:433C ?XlateData2BMP@@ZCHFPEIUdsize_struct@@1KM@Z  ?XlateData2BMP@@ZCHFPEIUdsize_struct@@1KM@Z
+ 0001:397C GETFILEDATAPOINTER      GETFILEDATAPOINTER
+ 0001:3E9C GETINTHEADERPARAM       GETINTHEADERPARAM
+ 0001:3932 GETSOURCEISLIVE         GETSOURCEISLIVE
+ 0001:3BAA INSERTDATA              INSERTDATA
+ 0001:3B14 NEWDATASOURCE           NEWDATASOURCE
+ 0001:39EE OPENDATASOURCE          OPENDATASOURCE
+ 0001:3E32 RENAMEDATASOURCE        RENAMEDATASOURCE
+ 0001:3D5C SAVEDATASOURCE          SAVEDATASOURCE
+ 0001:415E SETHEADERPARAM          SETHEADERPARAM
+ 0001:3FEE SETINTHEADERPARAM       SETINTHEADERPARAM
+ 0001:3572 WEP                     WEP
+ 0001:01E2 ___EXPORTEDSTUB         ___EXPORTEDSTUB
+
+  Address         Publics by Name
+
+ 0001:2722       $i8_output
+ 0001:2B54       $i8_tpwr10
+ 0001:444A       ??_C@_02JKAF@rb?$AA@
+                    ??_C@_02JKAF@rb?$AA@
+
+ 0001:444E       ??_C@_03KBID@w?$CLb?$AA@
+                    ??_C@_03KBID@w?$CLb?$AA@
+
+ 0001:4D76       ??_C@_08EMBH@Datafile?$AA@
+                    ??_C@_08EMBH@Datafile?$AA@
+
+ 0001:4440       ??_C@_08FAKI@lastlive?$AA@
+                    ??_C@_08FAKI@lastlive?$AA@
+
+ 0001:4D68       ??_C@_0O@BIPD@DATMGR?5error?$CB?$AA@
+                    ??_C@_0O@BIPD@DATMGR?5error?$CB?$AA@
+
+ 0001:4D5A       ??_C@_0O@NOLI@error?5?$CFd?3?5?$CFs?6?$AA@
+                    ??_C@_0O@NOLI@error?5?$CFd?3?5?$CFs?6?$AA@
+
+ 0004:0016       ?DebugDump@@3HE
+                    int __far DebugDump
+
+ 0002:0000       ?Directory@@3Udata_directory@@E
+                    struct data_directory __far Directory
+
+ 0001:4452       ?error@@ZAHHPED@Z
+                    int __far __cdecl error(int,char __far*)
+
+ 0004:07E4       ?hDir@@3IE
+                    unsigned int __far hDir
+
+ 0004:0010       ?hEnt@@3IE
+                    unsigned int __far hEnt
+
+ 0001:479C       ?IsFileTCL@@ZAHPEU_iobuf@@@Z
+                    int __far __cdecl IsFileTCL(struct _iobuf __far*)
+
+ 0001:4842       ?ReadTCLData@@ZAHPEU_iobuf@@PEUdir_entry@@KK@Z
+                    int __far __cdecl ReadTCLData(struct _iobuf __far*,struct dir_entry __far*,unsigned long,unsigned long)
+
+ 0001:448E       ?ReadTCLHeader@@ZAHPEU_iobuf@@PEUdir_entry@@@Z
+                    int __far __cdecl ReadTCLHeader(struct _iobuf __far*,struct dir_entry __far*)
+
+ 0003:0000       ?TCL_Header@@3UTCL_HEADER@@E
+                    struct TCL_HEADER __far TCL_Header
+
+ 0001:4C76       ?WriteTCLData@@ZAHPEU_iobuf@@PEUdir_entry@@KK@Z
+                    int __far __cdecl WriteTCLData(struct _iobuf __far*,struct dir_entry __far*,unsigned long,unsigned long)
+
+ 0001:49E8       ?WriteTCLHeader@@ZAHPEU_iobuf@@PEUdir_entry@@@Z
+                    int __far __cdecl WriteTCLHeader(struct _iobuf __far*,struct dir_entry __far*)
+
+ 0001:433C       ?XlateData2BMP@@ZCHFPEIUdsize_struct@@1KM@Z
+                    int __far __pascal XlateData2BMP(short,unsigned int __far*,struct dsize_struct,unsigned int __far*,unsigned long,float)
+
+ 0000:0000  Imp  DOS3CALL             (KERNEL.102)
+ 0000:0000  Imp  FATALAPPEXIT         (KERNEL.137)
+ 0000:0000  Imp  FATALEXIT            (KERNEL.1)
+ 0000:FE32  Abs  FIARQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:0632  Abs  FISRQQ
+ 0000:A23D  Abs  FIWRQQ
+ 0000:4000  Abs  FJARQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0000:0000  Imp  GETDOSENVIRONMENT    (KERNEL.131)
+ 0001:397C       GETFILEDATAPOINTER
+ 0001:3E9C       GETINTHEADERPARAM
+ 0000:0000  Imp  GETMODULEUSAGE       (KERNEL.48)
+ 0001:3932       GETSOURCEISLIVE
+ 0000:0000  Imp  GETVERSION           (KERNEL.3)
+ 0000:0000  Imp  GLOBALALLOC          (KERNEL.15)
+ 0000:0000  Imp  GLOBALFREE           (KERNEL.17)
+ 0000:0000  Imp  GLOBALHANDLE         (KERNEL.21)
+ 0000:0000  Imp  GLOBALLOCK           (KERNEL.18)
+ 0000:0000  Imp  GLOBALREALLOC        (KERNEL.16)
+ 0000:0000  Imp  GLOBALSIZE           (KERNEL.20)
+ 0000:0000  Imp  GLOBALUNLOCK         (KERNEL.19)
+ 0000:0000  Imp  INITTASK             (KERNEL.91)
+ 0001:3BAA       INSERTDATA
+ 0000:0000  Imp  ISBADHUGEREADPTR     (KERNEL.346)
+ 0000:0000  Imp  ISBADHUGEWRITEPTR    (KERNEL.347)
+ 0001:35E0       LIBMAIN
+ 0000:0000  Imp  LOCALINIT            (KERNEL.4)
+ 0000:0000  Imp  LOCKSEGMENT          (KERNEL.23)
+ 0000:0000  Imp  MESSAGEBOX           (USER.1)
+ 0001:3B14       NEWDATASOURCE
+ 0001:39EE       OPENDATASOURCE
+ 0000:0008  Abs  pAtomTable
+ 0000:0006  Abs  pLocalHeap
+ 0000:000E  Abs  pStackBot
+ 0000:000C  Abs  pStackMin
+ 0000:000A  Abs  pStackTop
+ 0001:3E32       RENAMEDATASOURCE
+ 0004:0004       rsrvptrs
+ 0001:3D5C       SAVEDATASOURCE
+ 0001:415E       SETHEADERPARAM
+ 0001:3FEE       SETINTHEADERPARAM
+ 0001:3572       WEP
+ 0004:0027       _aseghi
+ 0004:0025       _aseglo
+ 0001:22D6       _atof
+ 0001:34D0       _CopyBlock
+ 0004:07E0       _edata
+ 0004:0808       _end
+ 0004:0054       _errno
+ 0001:010E       _fclose
+ 0001:1262       _fflush
+ 0001:0230       _fopen
+ 0001:0250       _fread
+ 0001:05B0       _freopen
+ 0001:0618       _fseek
+ 0001:14DA       _ftell
+ 0001:03D0       _fwrite
+ 0001:1680       _memcpy
+ 0001:072C       _memmove
+ 0001:16DE       _remove
+ 0001:069C       _rewind
+ 0004:0018       _STKHQQ
+ 0001:144A       _strcat
+ 0001:0574       _strcpy
+ 0001:2696       _strlen
+ 0000:0000  Imp  _wsprintf            (USER.420)
+ 0004:00BE       __aaltstkovr
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0004:008A       __adbgmsg
+ 0000:D6D6  Abs  __aDBused
+ 0001:14BA       __aFahdiff
+ 0001:1E06       __aFchkstk
+ 0001:09A0       __aFftol
+ 0001:07F6       __aFlmul
+ 0001:07F6       __aFulmul
+ 0000:0000  Imp  __AHINCR             (KERNEL.114)
+ 0000:0000  Imp  __AHSHIFT            (KERNEL.113)
+ 0004:0046       __aintdiv
+ 0004:0204       __amblksiz
+ 0001:1E4A       __amsg_exit
+ 0001:1DE6       __aNchkstk
+ 0004:00B0       __asizeC
+ 0004:00B1       __asizeD
+ 0001:0054       __astart
+ 0001:0A66       __cexit
+ 0001:1CD2       __cfltcvt
+ 0004:0090       __cfltcvt_tab
+ 0004:00C2       __cflush
+ 0001:188E       __cftoe
+ 0001:1A5A       __cftof
+ 0001:1BF2       __cftog
+ 0004:0087       __child
+ 0001:1E06       __chkstk
+ 0001:0A1E       __cinit
+ 0001:1E40       __cintDIV
+ 0001:1412       __close
+ 0001:23E2       __cltoasub
+ 0001:1E8C       __commit
+ 0004:00D8       __commode
+ 0004:005F       __cpumode
+ 0001:177A       __cropzeros
+ 0001:0AC5       __ctermsub
+ 0004:00DC       __ctype
+ 0004:00DC       __ctype_
+ 0001:22B1       __cXENIXtoDOSmode
+ 0001:23EF       __cxtoa
+ 0001:0A77       __c_exit
+ 0004:0024       __dllinit
+ 0004:0060       __doserrno
+ 0001:1F1E       __dosret0
+ 0001:1F3D       __dosretax
+ 0001:1F2B       __dosreturn
+ 0001:26B0       __dos_commit
+ 0004:07E0       __edata
+ 0004:0808       __end
+ 0004:007E       __environ
+ 0004:0089       __exitflag
+ 0004:004A       __fac
+ 0001:1836       __fassign
+ 0001:25CE       __ffree
+ 0001:0B02       __FF_MSGBANNER
+ 0004:0256       __fheap
+ 0001:1040       __filbuf
+ 0001:25AD       __findlast
+ 0001:0F5E       __flsbuf
+ 0001:2868       __fltin
+ 0001:2460       __fltout
+ 0000:9876  Abs  __fltused
+ 0001:12BE       __flush
+ 0001:133E       __flushall
+ 0001:25EF       __fmalloc
+ 0001:08D6       __fmemmove
+ 0001:088E       __fmemset
+ 0004:0206       __fmode
+ 0001:1704       __forcdecpt
+ 0004:0274       __fpinit
+ 0000:0000  Imp  __fpmath             (WIN87EM.1)
+ 0001:1D74       __fpsignal
+ 0000:9876  Abs  __fptaskdata
+ 0001:2334       __fptostr
+ 0001:1EEA       __fptrap
+ 0001:10EA       __freebuf
+ 0001:294E       __freefarheap
+ 0001:2BFA       __freelist
+ 0001:01F6       __fsopen
+ 0001:0828       __fstrcmp
+ 0001:0852       __fstrcpy
+ 0001:2446       __fstrlen
+ 0001:09A0       __ftol
+ 0001:1F8E       __getbuf
+ 0001:1F7C       __GetDGROUP
+ 0001:13BE       __getstream
+ 0001:24B6       __growseg
+ 0004:001A       __hModule
+ 0001:2547       __incseg
+ 0001:2C24       __initseg
+ 0004:0284       __iob
+ 0004:0374       __iob2
+ 0004:0206       __iomode
+ 0001:149E       __itoa
+ 0004:008E       __lastiob
+ 0001:3283       __LD12MULT
+ 0001:31AE       __LD12MULTTENPOWER
+ 0001:2C58       __linkseg
+ 0004:0020       __lpszCmdLine
+ 0001:0BBE       __lseek
+ 0004:00DA       __lseekchk
+ 0001:3408       __MANTOLD12
+ 0001:1F4F       __maperror
+ 0004:0800       __mbac
+ 0001:1EF0       __myalloc
+ 0001:1F8C       __nearstub
+ 0001:28CC       __newseg
+ 0004:0062       __nfile
+ 0001:1D98       __NMSG_TEXT
+ 0001:1DCF       __NMSG_WRITE
+ 0001:00F6       __nomain
+ 0001:1FF2       __open
+ 0001:1122       __openfile
+ 0004:0060       __oserr
+ 0004:0064       __osfile
+ 0004:005B       __osmajor
+ 0004:005A       __osminor
+ 0004:005E       __osmode
+ 0004:005A       __osver
+ 0004:005C       __osversion
+ 0004:0082       __pgmptr
+ 0004:0208       __pnhFarHeap
+ 0001:17FE       __positive
+ 0001:0C86       __read
+ 0001:295C       __searchseg
+ 0001:0B26       __setenvp
+ 0004:00AE       __sigintoff
+ 0004:00AC       __sigintseg
+ 0000:0001  Abs  __sizec
+ 0000:0001  Abs  __sized
+ 0001:1FDA       __sopen
+ 0001:22C2       __stackavail
+ 0001:06E6       __strcmpi
+ 0001:06E6       __stricmp
+ 0001:2B92       __STRINGTOD
+ 0001:2C8E       __STRINGTOLD
+ 0001:09F2       __stubmain
+ 0001:35AE       __STUBWEP
+ 0004:0056       __umaskval
+ 0001:16DE       __unlink
+ 0004:001C       __wDataSeg
+ 0001:0010       __wflags
+ 0004:001E       __wHeapSize
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0004:0059       __winmajor
+ 0004:0058       __winminor
+ 0004:0058       __winver
+ 0001:0DD2       __write
+ 0004:002B       ___aDBrterr
+ 0004:0029       ___aDBswpflg
+ 0004:0078       ___argc
+ 0004:007A       ___argv
+ 0001:01E2       ___EXPORTEDSTUB
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  INITTASK             (KERNEL.91)
+ 0000:0000  Imp  LOCALINIT            (KERNEL.4)
+ 0000:0000  Imp  __AHSHIFT            (KERNEL.113)
+ 0000:0000  Imp  __AHINCR             (KERNEL.114)
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0000:0000  Imp  GLOBALFREE           (KERNEL.17)
+ 0000:0000  Imp  __fpmath             (WIN87EM.1)
+ 0000:0000  Imp  GLOBALHANDLE         (KERNEL.21)
+ 0000:0000  Imp  GLOBALSIZE           (KERNEL.20)
+ 0000:0000  Imp  GLOBALALLOC          (KERNEL.15)
+ 0000:0000  Imp  GETDOSENVIRONMENT    (KERNEL.131)
+ 0000:0000  Imp  ISBADHUGEREADPTR     (KERNEL.346)
+ 0000:0000  Imp  MESSAGEBOX           (USER.1)
+ 0000:0000  Imp  FATALEXIT            (KERNEL.1)
+ 0000:0000  Imp  GETVERSION           (KERNEL.3)
+ 0000:0000  Imp  GETMODULEUSAGE       (KERNEL.48)
+ 0000:0000  Imp  GLOBALUNLOCK         (KERNEL.19)
+ 0000:0000  Imp  LOCKSEGMENT          (KERNEL.23)
+ 0000:0000  Imp  DOS3CALL             (KERNEL.102)
+ 0000:0000  Imp  FATALAPPEXIT         (KERNEL.137)
+ 0000:0000  Imp  _wsprintf            (USER.420)
+ 0000:0000  Imp  GLOBALREALLOC        (KERNEL.16)
+ 0000:0000  Imp  ISBADHUGEWRITEPTR    (KERNEL.347)
+ 0000:0000  Imp  GLOBALLOCK           (KERNEL.18)
+ 0000:0001  Abs  __sized
+ 0000:0001  Abs  __sizec
+ 0000:0006  Abs  pLocalHeap
+ 0000:0008  Abs  pAtomTable
+ 0000:000A  Abs  pStackTop
+ 0000:000C  Abs  pStackMin
+ 0000:000E  Abs  pStackBot
+ 0000:0632  Abs  FISRQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __fptaskdata
+ 0000:9876  Abs  __fltused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:D6D6  Abs  __aDBused
+ 0001:0010       __wflags
+ 0001:0054       __astart
+ 0001:00F6       __nomain
+ 0001:010E       _fclose
+ 0001:01E2       ___EXPORTEDSTUB
+ 0001:01F6       __fsopen
+ 0001:0230       _fopen
+ 0001:0250       _fread
+ 0001:03D0       _fwrite
+ 0001:0574       _strcpy
+ 0001:05B0       _freopen
+ 0001:0618       _fseek
+ 0001:069C       _rewind
+ 0001:06E6       __stricmp
+ 0001:06E6       __strcmpi
+ 0001:072C       _memmove
+ 0001:07F6       __aFlmul
+ 0001:07F6       __aFulmul
+ 0001:0828       __fstrcmp
+ 0001:0852       __fstrcpy
+ 0001:088E       __fmemset
+ 0001:08D6       __fmemmove
+ 0001:09A0       __aFftol
+ 0001:09A0       __ftol
+ 0001:09F2       __stubmain
+ 0001:0A1E       __cinit
+ 0001:0A66       __cexit
+ 0001:0A77       __c_exit
+ 0001:0AC5       __ctermsub
+ 0001:0B02       __FF_MSGBANNER
+ 0001:0B26       __setenvp
+ 0001:0BBE       __lseek
+ 0001:0C86       __read
+ 0001:0DD2       __write
+ 0001:0F5E       __flsbuf
+ 0001:1040       __filbuf
+ 0001:10EA       __freebuf
+ 0001:1122       __openfile
+ 0001:1262       _fflush
+ 0001:12BE       __flush
+ 0001:133E       __flushall
+ 0001:13BE       __getstream
+ 0001:1412       __close
+ 0001:144A       _strcat
+ 0001:149E       __itoa
+ 0001:14BA       __aFahdiff
+ 0001:14DA       _ftell
+ 0001:1680       _memcpy
+ 0001:16DE       _remove
+ 0001:16DE       __unlink
+ 0001:1704       __forcdecpt
+ 0001:177A       __cropzeros
+ 0001:17FE       __positive
+ 0001:1836       __fassign
+ 0001:188E       __cftoe
+ 0001:1A5A       __cftof
+ 0001:1BF2       __cftog
+ 0001:1CD2       __cfltcvt
+ 0001:1D74       __fpsignal
+ 0001:1D98       __NMSG_TEXT
+ 0001:1DCF       __NMSG_WRITE
+ 0001:1DE6       __aNchkstk
+ 0001:1E06       __aFchkstk
+ 0001:1E06       __chkstk
+ 0001:1E40       __cintDIV
+ 0001:1E4A       __amsg_exit
+ 0001:1E8C       __commit
+ 0001:1EEA       __fptrap
+ 0001:1EF0       __myalloc
+ 0001:1F1E       __dosret0
+ 0001:1F2B       __dosreturn
+ 0001:1F3D       __dosretax
+ 0001:1F4F       __maperror
+ 0001:1F7C       __GetDGROUP
+ 0001:1F8C       __nearstub
+ 0001:1F8E       __getbuf
+ 0001:1FDA       __sopen
+ 0001:1FF2       __open
+ 0001:22B1       __cXENIXtoDOSmode
+ 0001:22C2       __stackavail
+ 0001:22D6       _atof
+ 0001:2334       __fptostr
+ 0001:23E2       __cltoasub
+ 0001:23EF       __cxtoa
+ 0001:2446       __fstrlen
+ 0001:2460       __fltout
+ 0001:24B6       __growseg
+ 0001:2547       __incseg
+ 0001:25AD       __findlast
+ 0001:25CE       __ffree
+ 0001:25EF       __fmalloc
+ 0001:2696       _strlen
+ 0001:26B0       __dos_commit
+ 0001:2722       $i8_output
+ 0001:2868       __fltin
+ 0001:28CC       __newseg
+ 0001:294E       __freefarheap
+ 0001:295C       __searchseg
+ 0001:2B54       $i8_tpwr10
+ 0001:2B92       __STRINGTOD
+ 0001:2BFA       __freelist
+ 0001:2C24       __initseg
+ 0001:2C58       __linkseg
+ 0001:2C8E       __STRINGTOLD
+ 0001:31AE       __LD12MULTTENPOWER
+ 0001:3283       __LD12MULT
+ 0001:3408       __MANTOLD12
+ 0001:34D0       _CopyBlock
+ 0001:3572       WEP
+ 0001:35AE       __STUBWEP
+ 0001:35E0       LIBMAIN
+ 0001:3932       GETSOURCEISLIVE
+ 0001:397C       GETFILEDATAPOINTER
+ 0001:39EE       OPENDATASOURCE
+ 0001:3B14       NEWDATASOURCE
+ 0001:3BAA       INSERTDATA
+ 0001:3D5C       SAVEDATASOURCE
+ 0001:3E32       RENAMEDATASOURCE
+ 0001:3E9C       GETINTHEADERPARAM
+ 0001:3FEE       SETINTHEADERPARAM
+ 0001:415E       SETHEADERPARAM
+ 0001:433C       ?XlateData2BMP@@ZCHFPEIUdsize_struct@@1KM@Z
+                    int __far __pascal XlateData2BMP(short,unsigned int __far*,struct dsize_struct,unsigned int __far*,unsigned long,float)
+
+ 0001:4440       ??_C@_08FAKI@lastlive?$AA@
+                    ??_C@_08FAKI@lastlive?$AA@
+
+ 0001:444A       ??_C@_02JKAF@rb?$AA@
+                    ??_C@_02JKAF@rb?$AA@
+
+ 0001:444E       ??_C@_03KBID@w?$CLb?$AA@
+                    ??_C@_03KBID@w?$CLb?$AA@
+
+ 0001:4452       ?error@@ZAHHPED@Z
+                    int __far __cdecl error(int,char __far*)
+
+ 0001:448E       ?ReadTCLHeader@@ZAHPEU_iobuf@@PEUdir_entry@@@Z
+                    int __far __cdecl ReadTCLHeader(struct _iobuf __far*,struct dir_entry __far*)
+
+ 0001:479C       ?IsFileTCL@@ZAHPEU_iobuf@@@Z
+                    int __far __cdecl IsFileTCL(struct _iobuf __far*)
+
+ 0001:4842       ?ReadTCLData@@ZAHPEU_iobuf@@PEUdir_entry@@KK@Z
+                    int __far __cdecl ReadTCLData(struct _iobuf __far*,struct dir_entry __far*,unsigned long,unsigned long)
+
+ 0001:49E8       ?WriteTCLHeader@@ZAHPEU_iobuf@@PEUdir_entry@@@Z
+                    int __far __cdecl WriteTCLHeader(struct _iobuf __far*,struct dir_entry __far*)
+
+ 0001:4C76       ?WriteTCLData@@ZAHPEU_iobuf@@PEUdir_entry@@KK@Z
+                    int __far __cdecl WriteTCLData(struct _iobuf __far*,struct dir_entry __far*,unsigned long,unsigned long)
+
+ 0001:4D5A       ??_C@_0O@NOLI@error?5?$CFd?3?5?$CFs?6?$AA@
+                    ??_C@_0O@NOLI@error?5?$CFd?3?5?$CFs?6?$AA@
+
+ 0001:4D68       ??_C@_0O@BIPD@DATMGR?5error?$CB?$AA@
+                    ??_C@_0O@BIPD@DATMGR?5error?$CB?$AA@
+
+ 0001:4D76       ??_C@_08EMBH@Datafile?$AA@
+                    ??_C@_08EMBH@Datafile?$AA@
+
+ 0002:0000       ?Directory@@3Udata_directory@@E
+                    struct data_directory __far Directory
+
+ 0003:0000       ?TCL_Header@@3UTCL_HEADER@@E
+                    struct TCL_HEADER __far TCL_Header
+
+ 0004:0004       rsrvptrs
+ 0004:0010       ?hEnt@@3IE
+                    unsigned int __far hEnt
+
+ 0004:0016       ?DebugDump@@3HE
+                    int __far DebugDump
+
+ 0004:0018       _STKHQQ
+ 0004:001A       __hModule
+ 0004:001C       __wDataSeg
+ 0004:001E       __wHeapSize
+ 0004:0020       __lpszCmdLine
+ 0004:0024       __dllinit
+ 0004:0025       _aseglo
+ 0004:0027       _aseghi
+ 0004:0029       ___aDBswpflg
+ 0004:002B       ___aDBrterr
+ 0004:0046       __aintdiv
+ 0004:004A       __fac
+ 0004:0054       _errno
+ 0004:0056       __umaskval
+ 0004:0058       __winminor
+ 0004:0058       __winver
+ 0004:0059       __winmajor
+ 0004:005A       __osminor
+ 0004:005A       __osver
+ 0004:005B       __osmajor
+ 0004:005C       __osversion
+ 0004:005E       __osmode
+ 0004:005F       __cpumode
+ 0004:0060       __oserr
+ 0004:0060       __doserrno
+ 0004:0062       __nfile
+ 0004:0064       __osfile
+ 0004:0078       ___argc
+ 0004:007A       ___argv
+ 0004:007E       __environ
+ 0004:0082       __pgmptr
+ 0004:0087       __child
+ 0004:0089       __exitflag
+ 0004:008A       __adbgmsg
+ 0004:008E       __lastiob
+ 0004:0090       __cfltcvt_tab
+ 0004:00AC       __sigintseg
+ 0004:00AE       __sigintoff
+ 0004:00B0       __asizeC
+ 0004:00B1       __asizeD
+ 0004:00BE       __aaltstkovr
+ 0004:00C2       __cflush
+ 0004:00D8       __commode
+ 0004:00DA       __lseekchk
+ 0004:00DC       __ctype_
+ 0004:00DC       __ctype
+ 0004:0204       __amblksiz
+ 0004:0206       __iomode
+ 0004:0206       __fmode
+ 0004:0208       __pnhFarHeap
+ 0004:0256       __fheap
+ 0004:0274       __fpinit
+ 0004:0284       __iob
+ 0004:0374       __iob2
+ 0004:07E0       _edata
+ 0004:07E0       __edata
+ 0004:07E4       ?hDir@@3IE
+                    unsigned int __far hDir
+
+ 0004:0800       __mbac
+ 0004:0808       __end
+ 0004:0808       _end
+ 0000:4000  Abs  FJARQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0000:A23D  Abs  FIWRQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:FE32  Abs  FIARQQ
+
+Program entry point at 0001:0054

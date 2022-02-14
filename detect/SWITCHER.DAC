@@ -1,0 +1,63 @@
+;********************************************************************
+;* SWITCHER will shift lines back and forth on the CCD in order
+;* to integrate multiple shots from different signal sources
+;********************************************************************
+SWITCHER DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         DO_PREPS
+         DO JCNTR                          ;Do Mems
+           OPEN_SHUTTER
+           MOVE W #0,I1ADDR
+           DO ICNTR                        ;Do Scans
+             SWITCH_A                      ;Shift toward A register
+             WIPE_SR                       ;Clean the A register
+             SWITCH_B                      ;Shift toward B register
+             WIPE_SR                       ;Clean the B register
+             ADD W #1, I1ADDR              ;Tell PC another scan done
+           LOOP
+           CLOSE_SHUTTER
+           REP_SCMP
+           ACQ_TRACKS DC_REPMODE           ;Replace data in frame
+           ADD W #1, L1ADDR                ;Tell PC another scan done
+           DO_IGNS                         ;Do ignores if any
+           DO_PIA
+           ADD W #1, J1ADDR                ;Tell PC another scan done
+           INC_MEM                         ;Inc memory pointer
+         LOOP                              ;End of mems loop
+         SET_LCI                           ;Main reason - to reset LCI
+         DONE
+
+;********************************************************************
+;* SWITCHOT will shift lines back and forth on the CCD in order to
+;* integrate multiple shots from different signal sources
+;********************************************************************
+SWITCHOT DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         DO_PREPS
+         DO JCNTR                          ;Do Mems
+           ON_TRIGGER
+           OPEN_SHUTTER
+           MOVE W #0,I1ADDR
+           DO ICNTR                        ;Do Scans
+             SWITCH_A                      ;Shift toward A register
+             WIPE_SR                       ;Clean the A register
+             SWITCH_B                      ;Shift toward B register
+             WIPE_SR                       ;Clean the B register
+             ADD W #1, I1ADDR              ;Tell PC another scan done
+           LOOP
+           CLOSE_SHUTTER
+           REP_SCMP
+           ACQ_TRACKS DC_REPMODE           ;Replace data in frame
+           ADD W #1, L1ADDR                ;Tell PC another scan done
+           DO_IGNS                         ;Do ignores if any
+           DO_PIA
+           ADD W #1, J1ADDR                ;Tell PC another scan done
+           INC_MEM                         ;Inc memory pointer
+         LOOP                              ;End of mems loop
+         SET_LCI                           ;Main reason - to reset LCI
+         DONE
+
+
+

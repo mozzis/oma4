@@ -1,0 +1,103 @@
+                PARTNO                          ;
+                NAME            OMAIV70         ;
+                DATE            07/26/89        ;
+                DESIGNER        DAVID DIPRATO   ;
+                COMPANY         EG&G PAR        ;
+                ASSEMBLY                        ;
+                LOCATION        U               ;
+
+/***************************************************************************/
+/*                                                                         */
+/*      SYSTEM NAME     : OMAIV, OMA Controller board.                     */
+/*                                                                         */
+/*      FUNCTIONAL NAME : IBM-AT Address Decider.                          */
+/*                                                                         */
+/*      DESCRIPTION     :                                                  */
+/*                                                                         */
+/*      ALLOWABLE TARGET DEVICE TYPES     : GAL20V8-15                     */
+/*                                                                         */
+/*      REVISION HISTORY :                                                 */
+/*    Version   DCN #     Date       Author    Device #     Checksum       */
+/*    -------   -----   ---------    ------    --------     --------       */
+/*      001     ----    28-JUN-90      DWD     GAL20V8          ssss       */
+/*                                                                         */
+/*      DESCRIPTION OF CHANGE : Initial version.                           */
+/*                                                                         */
+/***************************************************************************/
+
+/*****  Inputs (Include unused pins) ***************************************/
+
+PIN 1   = BALEB         ;       /* <- This signal is used to clock the     */
+                                /*    unlatched address inputs stable.     */
+                                /*    It is active when the address is     */
+                                /*    changing.                            */
+PIN 2   = 1BANK         ;       /* <- These inputs are used to map the     */
+PIN 3   = 2BANK         ;       /*    OMA Controller's memory in the       */
+PIN 4   = 3BANK         ;       /*    Host's address space                 */
+PIN 5   = 4BANK         ;                                                  */
+PIN 6   = 5BANK         ;       
+PIN 7   = 6BANK         ;       
+PIN 8   = BALEBB        ;       
+PIN 9   = A21S          ;       /* <- these inputs are the non-latched     */
+PIN 10  = A22S          ;       /*    upper address bits from the host     */
+PIN 11  = A23S          ;       
+PIN 13  = OUTPUTENB     ;
+PIN 14  = !MEMWB        ;       /* <- This input is the Host computer's    */
+                                /*    Write Data strobe.                   */
+PIN 23  = !REFB         ;       /* <- This input is active on a refresh    */
+                                /*    cycle.                               */
+PIN 21  = !MEMRB        ;       /* <- This input is the Host computer's    */
+                                /*    Read Data strobe.                    */
+PIN 20  = !CYCCONT      ;       /* <- This input is used to continue a     */
+                                /*    memory cycle.                        */
+
+/*****  Outputs (Include unused pins) **************************************/
+
+PIN 15  = A21_COND      ;       /* <- These outputs are the conditioned    */
+PIN 16  = A22_COND      ;       /*    address bits used for Data Memory.   */
+PIN 17  = !MEM_MATCH    ;       /* <- This output is the memory board      */
+                                /*    select signal                        */
+PIN 18  = !ENMEM16      ;       /* <- This active low output is the        */
+                                /*    enable for the 'I am a 16 bit card'  */
+                                /*    signal CSMEM16.                      */
+PIN 19  = !MATCH        ;       /* <- This output is used to generate      */
+                                /*    signal MEM_MATCH.                    */
+PIN 22  = !ENIORDY      ;       /* <- This active low output is the enable */
+                                /*    for the 'Wait until I tell you'      */
+                                /*    signal IOCHRDY.                      */
+
+/*****  Declarations and Intermediate Variable Definitions *****************/
+
+$define + #
+
+1STBLOCK        = 1BANK                                                    ;
+2NDBLOCK        = !1BANK & 2BANK                                           ;
+3RDBLOCK        = !1BANK & !2BANK & 3BANK                                  ;
+4THBLOCK        = !1BANK & !2BANK & !3BANK & 4BANK                         ;
+5THBLOCK        = !1BANK & !2BANK & !3BANK & !4BANK & 5BANK                ;
+6THBLOCK        = !1BANK & !2BANK & !3BANK & !4BANK & !5BANK & 6BANK       ;
+
+FIELD    UNLATCHED_ADDR = [A23S,A22S,A21S]                                 ;
+
+UL_MATCH        = 1BANK & UNLATCHED_ADDR:1 + 2BANK & UNLATCHED_ADDR:2 +    ;
+                  3BANK & UNLATCHED_ADDR:3 + 4BANK & UNLATCHED_ADDR:4 +    ;
+                  5BANK & UNLATCHED_ADDR:5 + 6BANK & UNLATCHED_ADDR:6      ;
+
+/*****  Logic Equations*****************************************************/
+
+A21_COND.d     = 1STBLOCK & A21S +
+                 2NDBLOCK & A21S +
+                 3RDBLOCK & !A21S +
+                 4THBLOCK & A21S +
+                 5THBLOCK & A22S & !A21S +
+                 6THBLOCK & A22S & A21S                                    ;
+A22_COND.d     = 1STBLOCK & !(A22S $ A21S) +
+                 2NDBLOCK & !A22S +
+                 3RDBLOCK & (A22S $ A21S) +
+                 4THBLOCK & A22S +
+                 5THBLOCK & A22S & A21S                                    ;
+MATCH.d        = UL_MATCH                                                  ;
+MEM_MATCH      = MATCH & BALEB                                             ;
+ENMEM16        = UL_MATCH                                                  ;
+ENIORDY        = !CYCCONT & MATCH & (MEMWB + (MEMRB & !REFB))              ;
+

@@ -1,0 +1,73 @@
+;*********************************************************
+;*                                                       *
+;*    This program TCMSU only enables trigger for the    *
+;*    first 25 or so memories of the acquisition         *
+;*    STREAK mode is not supported here!                 *
+;*                                                       *
+;*********************************************************
+
+;This routine does not use J ('Memories' on Run Setup menu)
+;to control the number of frames taken, rather it uses
+;the constants defined below. However, the Memories setting
+;is still used by the OMA4000 program to tell how much data
+;to read back into the data file.
+
+MEM_WI_TRIGS EQU 5 ;change these constants and recompile
+MEM_NO_TRIGS EQU 5 ;to change the number of memories.
+
+TCMSU    DAC_BLOCK  
+         SET_MEM_0                     ;Set memory pointer to 0
+         INIT_CNTRS                    ;Setup I, J, K etc.
+         DO_PREPS
+
+         TRIGA_LO     ;Do rest of memories with trigger low
+
+         DO #MEM_WI_TRIGS
+           MOVE W #0,I1ADDR
+           DO ICNTR                    ;Do Scans
+             TRIGA_HI     ;Do first memories with trigger high
+             SHUTTER_EXPOSE            ;Run overhead and shutter
+             ADD_SCMP                  ;Add to current source comp value
+             ACQ_TRACKS DC_REPMODE     ;Add following frames
+             ADD W #1, I1ADDR          ;Tell PC another scan done
+             ADD W #1, L1ADDR          ;Tell PC another scan done
+             DO_IGNS                   ;Do ignores if any
+             DO_PIA                    ;Read and write PIA bits
+           LOOP                        ;End of scans loop
+           ADD W #1, J1ADDR            ;Tell PC another scan done
+           INC_MEM                     ;Inc memory pointer
+         LOOP                          ;End of mems loop
+
+         DO #MEM_NO_TRIGS
+           MOVE W #0,I1ADDR
+           DO ICNTR                    ;Do Scans
+             TRIGA_LO     ;Do rest of memories with trigger low
+             SHUTTER_EXPOSE            ;Run overhead and shutter
+             ADD_SCMP                  ;Add to current source comp value
+             ACQ_TRACKS DC_REPMODE     ;Add following frames
+             ADD W #1, I1ADDR          ;Tell PC another scan done
+             ADD W #1, L1ADDR          ;Tell PC another scan done
+             DO_IGNS                   ;Do ignores if any
+             DO_PIA                    ;Read and write PIA bits
+           LOOP                        ;End of scans loop
+           ADD W #1, J1ADDR            ;Tell PC another scan done
+           INC_MEM                     ;Inc memory pointer
+         LOOP                          ;End of mems loop
+
+         SET_LCI                       ;Reset LCI
+       
+         DONE
+
+;*********************************************************************
+TTEST    DAC_BLOCK  
+         SET_MEM_0                         ;Set memory pointer to 0
+         INIT_CNTRS                        ;Setup I, J, K etc.
+         DO ICNTR
+           TRIGA_HI
+           TRIGA_LO
+           ADD W #1, I1ADDR
+           ADD W #1, L1ADDR
+         LOOP
+         SET_LCI                           ;Reset LCI
+         DONE
+

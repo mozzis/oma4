@@ -1,0 +1,144 @@
+;****************************************************************        
+;*                                                              *
+;*      This program (CKPIA.ASC) will walk ones across the      *
+;*      Detector Controller's PIA port and toggles the trigger  *
+;*      output bits.                                            *
+;*                                                              *
+;****************************************************************
+
+LINK	'CKPIA.ABJ'
+INCLUDE 'OPS.ADD'              
+
+;------- ASIC register assignments. ----------------------------
+
+FCPROG  EQU     $30001                  ;FC Program register, 2 bytes.
+FCMASK  EQU     $30005                  ;FC Output Mask register, 2 bytes.
+DCPROG  EQU     $30009                  ;DC Program register, 2 bytes.
+BGBASE  EQU     $3000D                  ;Background Base register, 3 bytes.
+FBASE   EQU     $30013                  ;Frame Base Register, 3 bytes.
+
+MEM1    EQU     $30                     ;First memory.
+CNTR    EQU     $800060                 ;DAC Loop counter.     
+MSG     EQU     $800000                 ;Message area.
+PCINT   EQU     $10000                  ;IBM Interrupt request area.
+
+CHEKSUM EQU     $800070                 ;Check Sum varible, L-Word.
+MEMADDR EQU     $800080                 ;Address Pointer varible, L-word.
+DATA    EQU     $800030                 ;Begining of data memory.
+
+;------- Erase data memory -------------------------------------
+
+BEGIN	DAC_BLOCK
+        MOVE L	#$800000,MEMADDR	;Initialize address pointer.
+	DO #$20			        ;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Write Passed message ----------------------------------
+
+        MOVE W  #$2020,MSG              ;Space characters.
+        MOVE W  #$2020,MSG+2            ;Space characters.
+        MOVE W  #$2020,MSG+4            ;Space characters.
+        MOVE W  #$2020,MSG+6            ;Space characters.
+        MOVE W  #$2D20,MSG+8            ;Space characters.
+        MOVE W  #$5020,MSG+10           ; P characters.
+        MOVE W  #$4149,MSG+12           ;IA characters.
+        MOVE W  #$2020,MSG+14           ;   characters.
+        MOVE W  #$6554,MSG+16           ;Te characters.
+        MOVE W  #$7473,MSG+18           ;st characters.
+        MOVE W  #$203A,MSG+20           ;:  characters.
+        MOVE W  #$4150,MSG+22           ;PA characters.
+        MOVE W  #$5353,MSG+24           ;SS characters.
+        MOVE W  #$4445,MSG+26           ;ED characters.
+        MOVE W  #$0000,MSG+28           ;End of string.
+
+;------- Erase data memory -------------------------------------
+
+START   MOVE L	#DATA,MEMADDR	        ;Initialize address pointer.
+	DO #$200			;Erase Data memory.
+	  MOVE W  #0,[MEMADDR]
+	  ADD L  #2,MEMADDR
+	LOOP
+
+;------- Synchronize System ------------------------------------
+
+        MOVE W  #FCINIT,FCPROG ASIC     ;Sync. DAC w/ASIC.
+        WAIT_FC
+        MOVE W  #FCINIT,FCPROG ASIC
+
+MASK    WAIT_FC                         ;No FC mask.
+        MOVE W  #$FFFF,FCMASK ASIC      
+        MOVE W  #FCINIT,FCPROG ASIC     
+        MOVE W  #DCINIT,DCPROG ASIC	
+
+INIT    WAIT_DMA                        ;Do Initialization.
+        MOVE W  #FCINIT,FCPROG ASIC     
+        MOVE W  #DCINIT,DCPROG ASIC	
+	MOVE W  #0,CNTR
+
+MAIN    DO #$3FFF
+          WAIT_DMA                        ;Do PIA Loopback.
+          MOVE W  #FCPIA,FCPROG ASIC
+          MOVE W  #DCPIA,DCPROG ASIC
+          MOVE L  #MEM1,FBASE ASIC 
+	  ADD W	#1,CNTR
+        LOOP
+        
+;------- Check Data memory for proper signature  ----------------
+
+        WAIT_DMA                        ;Wait for test completed.
+        MOVE W  #FCINIT,FCPROG ASIC     
+        MOVE W  #DCINIT,DCPROG ASIC	
+
+        WAIT_DMA                        ;Wait for test completed.
+        COMP L  #$BF01003F,DATA        ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$7F02003F,DATA + 4    ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$3F03003F,DATA + 8    ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF05003E,DATA + 12   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF09003D,DATA + 16   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF11003B,DATA + 20   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF210037,DATA + 24   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF41002F,DATA + 28   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+        COMP L  #$BF81001F,DATA + 32   ;Check for valid pattern.
+        BGT     EOP                   ;Jump if not valid.
+        BLT     EOP        
+
+;------- Interrupt the IBM  ------------------------------------
+
+        MOVE W  #0,PCINT
+        GOTO    START                   ;Continue until failure or reset.
+
+;------- Write Failed message ----------------------------------
+
+EOP     MOVE W  #$4146,MSG+22           ;FA characters.
+        MOVE W  #$4C49,MSG+24           ;IE characters.
+        MOVE W  #$4445,MSG+26           ;ED characters.
+
+        MOVE W  #0,PCINT
+	DONE
+

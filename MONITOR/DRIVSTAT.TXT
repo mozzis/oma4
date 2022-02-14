@@ -1,0 +1,64 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                             To State                                    ³
+³ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³ ³  \      ³          ³         ³         ³         ³          ³         ³
+³ ³   \     ³          ³         ³         ³         ³          ³         ³
+³ ³    \    ³          ³         ³         ³         ³          ³         ³
+³ ³     \   ³   Idle   ³ Process ³   Ack   ³ Execute ³ Complete ³  ERR    ³
+³ ³      \  ³   State  ³ Command ³ Command ³ Command ³ Command  ³         ³
+³ ³       \ ³          ³         ³         ³         ³          ³         ³
+³ ³        \³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ\ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ Idle    ³          ³         ³         ³         ³          ³         ³
+³ ³ State   ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ Process ³          ³         ³         ³         ³          ³         ³
+³ ³ Command ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ Ack     ³          ³         ³         ³         ³          ³         ³
+³ ³ Command ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³F³ Execute ³          ³         ³         ³         ³          ³         ³
+³r³ Command ³          ³         ³         ³         ³          ³         ³
+³o³         ³          ³         ³         ³         ³          ³         ³
+³m³         ³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³S³         ³          ³         ³         ³         ³          ³         ³
+³t³ Complete³          ³         ³         ³         ³          ³         ³
+³a³ Command ³          ³         ³         ³         ³          ³         ³
+³t³         ³          ³         ³         ³         ³          ³         ³
+³e³         ³          ³         ³         ³         ³          ³         ³
+³ ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄÄ³ÄÄÄÄÄÄÄÄÄ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³ ERR     ³          ³         ³         ³         ³          ³         ³
+³ ³ State   ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+³ ³         ³          ³         ³         ³         ³          ³         ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ                                                                        
+                                                                              
+                                                                                
+³ 179
+¿ 191
+À 192
+Ú 218
+Ä 196
+Ù 217

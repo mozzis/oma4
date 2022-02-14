@@ -1,0 +1,22 @@
+bm.bat             Batch file to compile Borland version
+mm.bat             Batch file to compile Microsoft version
+wm.bat             Batch file to compile Watcom version
+
+fabsbc.mak         Makefile for Borland version
+fabsmc.mak         Makefile for Microsoft version
+fabswc.mak         Makefile for Watcom version
+
+fabsdata.c         Detector setup and data acquisition
+fabsgraf.c         Plotting and printing
+fabsmain.c         Main loop
+grafbc.c           Borland-specific graphics
+grafmc.c           Microsoft/Watcom-specific graphics
+
+fabsdata.h         
+fabserrs.h         Header files
+fabsgraf.h
+
+egavga.bgi         Video driver for Borland version
+helvb.fon          Font file for Microsoft/Watcom versions
+
+fabs.exe           Executable Fast ABSorbance program

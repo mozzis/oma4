@@ -1,0 +1,262 @@
+Line 32: Class Threed.SSPanel of control Pnl_ScanRan was not a loaded control class.
+Line 117: Class Spin.SpinButton of control Spn_RTracks was not a loaded control class.
+Line 133: Class MSGrid.Grid of control Grd_Tracks was not a loaded control class.
+Line 183: Class Threed.SSPanel of control Panel3D1 was not a loaded control class.
+Line 209: Class Threed.SSPanel of control Pnl_Device was not a loaded control class.
+Line 501: Class Threed.SSPanel of control Panel3D7 was not a loaded control class.
+Line 605: Class Threed.SSPanel of control Panel3D5 was not a loaded control class.
+Line 661: Class Threed.SSPanel of control Panel3D6 was not a loaded control class.
+Line 745: Class Threed.SSPanel of control Panel3D4 was not a loaded control class.
+Line 821: Class Threed.SSPanel of control Panel3D3 was not a loaded control class.
+Line 944: Class Spin.SpinButton of control Spn_Preps was not a loaded control class.
+Line 960: Class Spin.SpinButton of control Spn_Igns was not a loaded control class.
+Line 976: Class Spin.SpinButton of control Spn_Scans was not a loaded control class.
+Line 992: Class Spin.SpinButton of control Spn_Mems was not a loaded control class.
+Line 1008: Class Spin.SpinButton of control Spn_DAProg was not a loaded control class.
+Line 1146: Class Threed.SSPanel of control Pnl_ScanSpec was not a loaded control class.
+Line 1310: Class Spin.SpinButton of control Spn_X0 was not a loaded control class.
+Line 1326: Class Spin.SpinButton of control Spn_Antibloom was not a loaded control class.
+Line 1342: Class Spin.SpinButton of control Spn_Tracks was not a loaded control class.
+Line 1358: Class Spin.SpinButton of control Spn_DeltaY was not a loaded control class.
+Line 1374: Class Spin.SpinButton of control Spn_Y0 was not a loaded control class.
+Line 1390: Class Spin.SpinButton of control Spn_Points was not a loaded control class.
+Line 1406: Class Spin.SpinButton of control Spn_DeltaX was not a loaded control class.
+Line 1577: Class Threed.SSPanel of control Pnl_ScanImg was not a loaded control class.
+Line 1742: Class Spin.SpinButton of control Spn_RoiAntiBlm was not a loaded control class.
+Line 1758: Class Spin.SpinButton of control Spn_RoiX0 was not a loaded control class.
+Line 1774: Class Spin.SpinButton of control Spn_RoiSzY was not a loaded control class.
+Line 1790: Class Spin.SpinButton of control Spn_RoiDY was not a loaded control class.
+Line 1806: Class Spin.SpinButton of control Spn_RoiY0 was not a loaded control class.
+Line 1822: Class Spin.SpinButton of control Spn_RoiSzX was not a loaded control class.
+Line 1838: Class Spin.SpinButton of control Spn_RoiDX was not a loaded control class.
+Line 2147: Class Threed.SSRibbon of control Tgl_Live was not a loaded control class.
+Line 2161: Class Threed.SSCommand of control Btn_Run was not a loaded control class.
+Line 38: The property name _version in Pnl_ScanRan is invalid.
+Line 39: The property name _extentx in Pnl_ScanRan is invalid.
+Line 40: The property name _extenty in Pnl_ScanRan is invalid.
+Line 41: The property name _stockprops in Pnl_ScanRan is invalid.
+Line 53: The property name borderwidth in Pnl_ScanRan is invalid.
+Line 54: The property name bevelouter in Pnl_ScanRan is invalid.
+Line 55: The property name outline in Pnl_ScanRan is invalid.
+Line 123: The property name _version in Spn_RTracks is invalid.
+Line 124: The property name _extentx in Spn_RTracks is invalid.
+Line 125: The property name _extenty in Spn_RTracks is invalid.
+Line 126: The property name _stockprops in Spn_RTracks is invalid.
+Line 129: The property name delay in Spn_RTracks is invalid.
+Line 130: The property name shadowthickness in Spn_RTracks is invalid.
+Line 131: The property name tdthickness in Spn_RTracks is invalid.
+Line 139: The property name _version in Grd_Tracks is invalid.
+Line 140: The property name _extentx in Grd_Tracks is invalid.
+Line 141: The property name _extenty in Grd_Tracks is invalid.
+Line 142: The property name _stockprops in Grd_Tracks is invalid.
+Line 154: The property name rows in Grd_Tracks is invalid.
+Line 155: The property name cols in Grd_Tracks is invalid.
+Line 156: The property name scrollbars in Grd_Tracks is invalid.
+Line 157: The property name highlight in Grd_Tracks is invalid.
+Line 133: Property MouseIcon in Grd_Tracks could not be set.
+Line 189: The property name _version in Panel3D1 is invalid.
+Line 190: The property name _extentx in Panel3D1 is invalid.
+Line 191: The property name _extenty in Panel3D1 is invalid.
+Line 192: The property name _stockprops in Panel3D1 is invalid.
+Line 193: The property name caption in Panel3D1 is invalid.
+Line 205: The property name bevelwidth in Panel3D1 is invalid.
+Line 206: The property name borderwidth in Panel3D1 is invalid.
+Line 207: The property name bevelinner in Panel3D1 is invalid.
+Line 208: The property name outline in Panel3D1 is invalid.
+Line 215: The property name _version in Pnl_Device is invalid.
+Line 216: The property name _extentx in Pnl_Device is invalid.
+Line 217: The property name _extenty in Pnl_Device is invalid.
+Line 218: The property name _stockprops in Pnl_Device is invalid.
+Line 219: The property name caption in Pnl_Device is invalid.
+Line 231: The property name bevelinner in Pnl_Device is invalid.
+Line 232: The property name outline in Pnl_Device is invalid.
+Line 507: The property name _version in Panel3D7 is invalid.
+Line 508: The property name _extentx in Panel3D7 is invalid.
+Line 509: The property name _extenty in Panel3D7 is invalid.
+Line 510: The property name _stockprops in Panel3D7 is invalid.
+Line 522: The property name bevelouter in Panel3D7 is invalid.
+Line 523: The property name outline in Panel3D7 is invalid.
+Line 611: The property name _version in Panel3D5 is invalid.
+Line 612: The property name _extentx in Panel3D5 is invalid.
+Line 613: The property name _extenty in Panel3D5 is invalid.
+Line 614: The property name _stockprops in Panel3D5 is invalid.
+Line 626: The property name bevelinner in Panel3D5 is invalid.
+Line 627: The property name outline in Panel3D5 is invalid.
+Line 628: The property name floodcolor in Panel3D5 is invalid.
+Line 667: The property name _version in Panel3D6 is invalid.
+Line 668: The property name _extentx in Panel3D6 is invalid.
+Line 669: The property name _extenty in Panel3D6 is invalid.
+Line 670: The property name _stockprops in Panel3D6 is invalid.
+Line 682: The property name borderwidth in Panel3D6 is invalid.
+Line 683: The property name bevelouter in Panel3D6 is invalid.
+Line 684: The property name bevelinner in Panel3D6 is invalid.
+Line 685: The property name outline in Panel3D6 is invalid.
+Line 751: The property name _version in Panel3D4 is invalid.
+Line 752: The property name _extentx in Panel3D4 is invalid.
+Line 753: The property name _extenty in Panel3D4 is invalid.
+Line 754: The property name _stockprops in Panel3D4 is invalid.
+Line 766: The property name bevelinner in Panel3D4 is invalid.
+Line 767: The property name outline in Panel3D4 is invalid.
+Line 827: The property name _version in Panel3D3 is invalid.
+Line 828: The property name _extentx in Panel3D3 is invalid.
+Line 829: The property name _extenty in Panel3D3 is invalid.
+Line 830: The property name _stockprops in Panel3D3 is invalid.
+Line 842: The property name bevelinner in Panel3D3 is invalid.
+Line 843: The property name outline in Panel3D3 is invalid.
+Line 950: The property name _version in Spn_Preps is invalid.
+Line 951: The property name _extentx in Spn_Preps is invalid.
+Line 952: The property name _extenty in Spn_Preps is invalid.
+Line 953: The property name _stockprops in Spn_Preps is invalid.
+Line 956: The property name delay in Spn_Preps is invalid.
+Line 957: The property name shadowthickness in Spn_Preps is invalid.
+Line 958: The property name tdthickness in Spn_Preps is invalid.
+Line 966: The property name _version in Spn_Igns is invalid.
+Line 967: The property name _extentx in Spn_Igns is invalid.
+Line 968: The property name _extenty in Spn_Igns is invalid.
+Line 969: The property name _stockprops in Spn_Igns is invalid.
+Line 972: The property name delay in Spn_Igns is invalid.
+Line 973: The property name shadowthickness in Spn_Igns is invalid.
+Line 974: The property name tdthickness in Spn_Igns is invalid.
+Line 982: The property name _version in Spn_Scans is invalid.
+Line 983: The property name _extentx in Spn_Scans is invalid.
+Line 984: The property name _extenty in Spn_Scans is invalid.
+Line 985: The property name _stockprops in Spn_Scans is invalid.
+Line 988: The property name delay in Spn_Scans is invalid.
+Line 989: The property name shadowthickness in Spn_Scans is invalid.
+Line 990: The property name tdthickness in Spn_Scans is invalid.
+Line 998: The property name _version in Spn_Mems is invalid.
+Line 999: The property name _extentx in Spn_Mems is invalid.
+Line 1000: The property name _extenty in Spn_Mems is invalid.
+Line 1001: The property name _stockprops in Spn_Mems is invalid.
+Line 1004: The property name delay in Spn_Mems is invalid.
+Line 1005: The property name shadowthickness in Spn_Mems is invalid.
+Line 1006: The property name tdthickness in Spn_Mems is invalid.
+Line 1014: The property name _version in Spn_DAProg is invalid.
+Line 1015: The property name _extentx in Spn_DAProg is invalid.
+Line 1016: The property name _extenty in Spn_DAProg is invalid.
+Line 1017: The property name _stockprops in Spn_DAProg is invalid.
+Line 1020: The property name delay in Spn_DAProg is invalid.
+Line 1021: The property name shadowthickness in Spn_DAProg is invalid.
+Line 1022: The property name tdthickness in Spn_DAProg is invalid.
+Line 1152: The property name _version in Pnl_ScanSpec is invalid.
+Line 1153: The property name _extentx in Pnl_ScanSpec is invalid.
+Line 1154: The property name _extenty in Pnl_ScanSpec is invalid.
+Line 1155: The property name _stockprops in Pnl_ScanSpec is invalid.
+Line 1167: The property name bevelinner in Pnl_ScanSpec is invalid.
+Line 1168: The property name outline in Pnl_ScanSpec is invalid.
+Line 1316: The property name _version in Spn_X0 is invalid.
+Line 1317: The property name _extentx in Spn_X0 is invalid.
+Line 1318: The property name _extenty in Spn_X0 is invalid.
+Line 1319: The property name _stockprops in Spn_X0 is invalid.
+Line 1322: The property name delay in Spn_X0 is invalid.
+Line 1323: The property name shadowthickness in Spn_X0 is invalid.
+Line 1324: The property name tdthickness in Spn_X0 is invalid.
+Line 1332: The property name _version in Spn_Antibloom is invalid.
+Line 1333: The property name _extentx in Spn_Antibloom is invalid.
+Line 1334: The property name _extenty in Spn_Antibloom is invalid.
+Line 1335: The property name _stockprops in Spn_Antibloom is invalid.
+Line 1338: The property name delay in Spn_Antibloom is invalid.
+Line 1339: The property name shadowthickness in Spn_Antibloom is invalid.
+Line 1340: The property name tdthickness in Spn_Antibloom is invalid.
+Line 1348: The property name _version in Spn_Tracks is invalid.
+Line 1349: The property name _extentx in Spn_Tracks is invalid.
+Line 1350: The property name _extenty in Spn_Tracks is invalid.
+Line 1351: The property name _stockprops in Spn_Tracks is invalid.
+Line 1354: The property name delay in Spn_Tracks is invalid.
+Line 1355: The property name shadowthickness in Spn_Tracks is invalid.
+Line 1356: The property name tdthickness in Spn_Tracks is invalid.
+Line 1364: The property name _version in Spn_DeltaY is invalid.
+Line 1365: The property name _extentx in Spn_DeltaY is invalid.
+Line 1366: The property name _extenty in Spn_DeltaY is invalid.
+Line 1367: The property name _stockprops in Spn_DeltaY is invalid.
+Line 1370: The property name delay in Spn_DeltaY is invalid.
+Line 1371: The property name shadowthickness in Spn_DeltaY is invalid.
+Line 1372: The property name tdthickness in Spn_DeltaY is invalid.
+Line 1380: The property name _version in Spn_Y0 is invalid.
+Line 1381: The property name _extentx in Spn_Y0 is invalid.
+Line 1382: The property name _extenty in Spn_Y0 is invalid.
+Line 1383: The property name _stockprops in Spn_Y0 is invalid.
+Line 1386: The property name delay in Spn_Y0 is invalid.
+Line 1387: The property name shadowthickness in Spn_Y0 is invalid.
+Line 1388: The property name tdthickness in Spn_Y0 is invalid.
+Line 1396: The property name _version in Spn_Points is invalid.
+Line 1397: The property name _extentx in Spn_Points is invalid.
+Line 1398: The property name _extenty in Spn_Points is invalid.
+Line 1399: The property name _stockprops in Spn_Points is invalid.
+Line 1402: The property name delay in Spn_Points is invalid.
+Line 1403: The property name shadowthickness in Spn_Points is invalid.
+Line 1404: The property name tdthickness in Spn_Points is invalid.
+Line 1412: The property name _version in Spn_DeltaX is invalid.
+Line 1413: The property name _extentx in Spn_DeltaX is invalid.
+Line 1414: The property name _extenty in Spn_DeltaX is invalid.
+Line 1415: The property name _stockprops in Spn_DeltaX is invalid.
+Line 1418: The property name delay in Spn_DeltaX is invalid.
+Line 1419: The property name shadowthickness in Spn_DeltaX is invalid.
+Line 1420: The property name tdthickness in Spn_DeltaX is invalid.
+Line 1584: The property name _version in Pnl_ScanImg is invalid.
+Line 1585: The property name _extentx in Pnl_ScanImg is invalid.
+Line 1586: The property name _extenty in Pnl_ScanImg is invalid.
+Line 1587: The property name _stockprops in Pnl_ScanImg is invalid.
+Line 1599: The property name bevelinner in Pnl_ScanImg is invalid.
+Line 1600: The property name outline in Pnl_ScanImg is invalid.
+Line 1748: The property name _version in Spn_RoiAntiBlm is invalid.
+Line 1749: The property name _extentx in Spn_RoiAntiBlm is invalid.
+Line 1750: The property name _extenty in Spn_RoiAntiBlm is invalid.
+Line 1751: The property name _stockprops in Spn_RoiAntiBlm is invalid.
+Line 1754: The property name delay in Spn_RoiAntiBlm is invalid.
+Line 1755: The property name shadowthickness in Spn_RoiAntiBlm is invalid.
+Line 1756: The property name tdthickness in Spn_RoiAntiBlm is invalid.
+Line 1764: The property name _version in Spn_RoiX0 is invalid.
+Line 1765: The property name _extentx in Spn_RoiX0 is invalid.
+Line 1766: The property name _extenty in Spn_RoiX0 is invalid.
+Line 1767: The property name _stockprops in Spn_RoiX0 is invalid.
+Line 1770: The property name delay in Spn_RoiX0 is invalid.
+Line 1771: The property name shadowthickness in Spn_RoiX0 is invalid.
+Line 1772: The property name tdthickness in Spn_RoiX0 is invalid.
+Line 1780: The property name _version in Spn_RoiSzY is invalid.
+Line 1781: The property name _extentx in Spn_RoiSzY is invalid.
+Line 1782: The property name _extenty in Spn_RoiSzY is invalid.
+Line 1783: The property name _stockprops in Spn_RoiSzY is invalid.
+Line 1786: The property name delay in Spn_RoiSzY is invalid.
+Line 1787: The property name shadowthickness in Spn_RoiSzY is invalid.
+Line 1788: The property name tdthickness in Spn_RoiSzY is invalid.
+Line 1796: The property name _version in Spn_RoiDY is invalid.
+Line 1797: The property name _extentx in Spn_RoiDY is invalid.
+Line 1798: The property name _extenty in Spn_RoiDY is invalid.
+Line 1799: The property name _stockprops in Spn_RoiDY is invalid.
+Line 1802: The property name delay in Spn_RoiDY is invalid.
+Line 1803: The property name shadowthickness in Spn_RoiDY is invalid.
+Line 1804: The property name tdthickness in Spn_RoiDY is invalid.
+Line 1812: The property name _version in Spn_RoiY0 is invalid.
+Line 1813: The property name _extentx in Spn_RoiY0 is invalid.
+Line 1814: The property name _extenty in Spn_RoiY0 is invalid.
+Line 1815: The property name _stockprops in Spn_RoiY0 is invalid.
+Line 1818: The property name delay in Spn_RoiY0 is invalid.
+Line 1819: The property name shadowthickness in Spn_RoiY0 is invalid.
+Line 1820: The property name tdthickness in Spn_RoiY0 is invalid.
+Line 1828: The property name _version in Spn_RoiSzX is invalid.
+Line 1829: The property name _extentx in Spn_RoiSzX is invalid.
+Line 1830: The property name _extenty in Spn_RoiSzX is invalid.
+Line 1831: The property name _stockprops in Spn_RoiSzX is invalid.
+Line 1834: The property name delay in Spn_RoiSzX is invalid.
+Line 1835: The property name shadowthickness in Spn_RoiSzX is invalid.
+Line 1836: The property name tdthickness in Spn_RoiSzX is invalid.
+Line 1844: The property name _version in Spn_RoiDX is invalid.
+Line 1845: The property name _extentx in Spn_RoiDX is invalid.
+Line 1846: The property name _extenty in Spn_RoiDX is invalid.
+Line 1847: The property name _stockprops in Spn_RoiDX is invalid.
+Line 1850: The property name delay in Spn_RoiDX is invalid.
+Line 1851: The property name shadowthickness in Spn_RoiDX is invalid.
+Line 1852: The property name tdthickness in Spn_RoiDX is invalid.
+Line 2153: The property name _version in Tgl_Live is invalid.
+Line 2154: The property name _extentx in Tgl_Live is invalid.
+Line 2155: The property name _extenty in Tgl_Live is invalid.
+Line 2156: The property name _stockprops in Tgl_Live is invalid.
+Line 2158: The property name pictureup in Tgl_Live is invalid.
+Line 2159: The property name picturedn in Tgl_Live is invalid.
+Line 2167: The property name _version in Btn_Run is invalid.
+Line 2168: The property name _extentx in Btn_Run is invalid.
+Line 2169: The property name _extenty in Btn_Run is invalid.
+Line 2170: The property name _stockprops in Btn_Run is invalid.
+Line 2171: The property name caption in Btn_Run is invalid.
+Line 2182: The property name font3d in Btn_Run is invalid.

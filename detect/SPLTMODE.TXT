@@ -1,0 +1,65 @@
+                                                                OMA4.027
+                                                                8/07/91
+
+
+            OMAIV, CCD Splitmode Instruction Definition.
+
+-----------------------------------------------------------------------------
+
+    ====== Received Data ======   ========== Definition ============= = Time=
+                        1 1 1 1                                         (uS)
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 
+    - - - - - - - - - - - - - - 
+    . . . . . . . . X X X X X 0   <- Instruction description.   
+    . . . . . . . . 0 0 0 0 0 0      - No Operation.                      3
+    . . . . . . . . 1 0 0 0 0 0      - Normal 1st Half Channel Fast,(4).  5
+    . . . . . . . . 0 1 0 0 0 0      - Normal 1st Half Channel,(4).       9
+    . . . . . . . . 1 1 0 0 0 0      - Normal 2nd Half Channel Fast,(5).  5
+    . . . . . . . . 1 0 1 0 0 0      - Dump Pixel Slow.                   5
+    . . . . . . . . 0 1 1 0 0 0      - Trash Pixel Slow.                  5
+    . . . . . . . . 0 0 1 0 0 0      - Normal 2nd Half Channel Fast,(5).  9
+    . . . . . . . . 1 1 1 0 0 0      - Dump Pixel.                        3
+    . . . . . . . . 0 0 1 1 0 0      - Trash Pixel.                       3
+    . . . . . . . . 1 0 1 1 0 0      - Shift Image Fast,(3).             10
+    . . . . . . . . 1 1 1 1 0 0      - Start Source Compensation,(6).    10
+    . . . . . . . . 0 0 0 0 1 0      - Read 1st Half Source Comp,(6).     5
+    . . . . . . . . 1 0 0 0 1 0      - Read 2nd Half Source Comp,(6).    6.5
+    . . . . . . . . 1 0 1 1 1 0      - Flush Pipe-line,(5).               5
+    . . . . . . . . 0 1 1 1 1 0      - Test Instruction One,(7).          
+    . . . . . . . . 1 1 1 1 1 0      - Test Instruction Two,(7).
+    X X X X X X X X . . . . . 0   <- Trigger Control.
+    1 0 . . . . . . . . . . . 0      - Open Shutter.
+    0 1 . . . . . . . . . . . 0      - Close Shutter.
+    . . 1 0 . . . . . . . . . 0      - Set Trigger Out A.
+    . . 0 1 . . . . . . . . . 0      - Reset Trigger Out A.
+    . . . . 1 0 . . . . . . . 0      - Set Trigger Out B.
+    . . . . 0 1 . . . . . . . 0      - Reset Trigger Out B.  
+    . . . . . . 1 . . . . . . 0      - Enable Sync Input,(8).
+    . . . . . . . 1 . . . . . 0      - Rearm Trigger Input
+    X X X X X X X X X X X X . 1   <- AUX Bus message.
+    X X X X X X X X . . . . . 1      - Data Out.
+    . . . . . . . . X X X X . 1      - Address Out.
+
+    Notes:
+    (1) This firmware can be identified by checking the Detector Controller's
+        reply equal to FE.
+    (2) This firmware requires specs. 221433, 221434, 221435, 221436 and
+        221428 programed in the Detector Controller II board 221439.
+    (3) The AUX bus must be written to change the image shift direction.
+    (4) These instructions must be followed by a '2nd Half' instruction.
+    (5) A '2nd Half' instruction MUST be followed by and instruction pair
+        totaling 10uS minimum.
+    (6) Start Source Compensation followed by Read 1st and 2nd Half Source
+        Compensation will produce a 20us intergration time.
+    (7) These instructions should NOT be coded, they are used for board test.
+    (8) It is recommended to use this value with a 'NOP' instruction.
+
+
+
+
+
+
+
+                                   
+                                   
+

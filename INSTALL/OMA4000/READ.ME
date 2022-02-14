@@ -1,0 +1,98 @@
+ This file contains information on topics which are extremely significant or 
+ have changed since the printing of the manual or addenda.
+
+ The OMA4000 Software manual addendum pn. 222690-MNL-A lists new features,
+ corrections to descriptions of older features, and bug fixes. Make sure 
+ you get it!  To get started quickly on some of the new features, refer 
+ to the following list, and use the F1 (Help) key in each of the new fields:
+
+  Live Filters                      - Go to Run / Live or Live-B Menu.
+  Intensity Calibration             - Go to Calibration / Y Calibration Menu
+  Streak Mode                       - Go to Scan Setup menu
+  TIFF and TCL (HiDRIS) File saving - Go to File / Translate Menu.
+                                   
+ You may be able to use one of the new GSS SuperVGA drivers to achieve 256
+ color (grayscale) display in False Color, and greater resolution than the
+ default 640X480 screen pixels.  The new drivers are ET4000.SYS, ATI256.SYS,
+ and HRVGA256.SYS; they are located on the SuperVGA driver disk. The text 
+ file CGI.VGA, also on that disk, lists examples of changes to make to your 
+ CGI.CFG file to enable use of one of the new drivers.  For more details, see 
+ the new addendum referenced above.
+_____________________________________________________________________________ 
+       Press Page Down or  for more : Press Escape to exit READ.ME
+-----------------------------------------------------------------------------
+ If peak labeling is used you will need to reserve two code pages to allow
+ the text to display correctly.  This is done by adding
+
+   DEVICE=C:\DOS\DISPLAY.SYS CON=(EGA,437,2)
+
+ to your config.sys file.
+
+ Macro functions were added to address the PC serial ports, to read the 
+ mouse position and button state, to start a macro or keystroke program 
+ automatically when OMA4000 first starts, and to support the new functions
+ such as Live Filters.
+
+ Not in the addendum are the following new macro functions:
+
+ FUNCTION NOW() : LONG INTEGER;
+ returns number of seconds since 00:00:00 on Jan. 1, 1970.
+
+ FUNCTION G_CALIB(VAR A0, VAR A1, VAR A2, VAR A3, VAR ExWl : REAL) : INTEGER;
+ returns calibration units; puts calibration coefficients in A0-A1, and
+ puts Raman excitation wavelength in ExWl.
+
+--------------- Press PgUp/PgDn to see the rest of the file -----------------
+
+ PROCEDURE G_PLOT_STYLE(VAR AutoScaleZ : BOOLEAN
+                        VAR AutoScaleY : BOOLEAN
+                        VAR AutoScaleX : BOOLEAN
+                        VAR LineStyle  : INTEGER
+                        VAR ZYPercent  : INTEGER
+                        VAR ZXPercent  : INTEGER
+                        VAR ZSide      : INTEGER
+                        VAR ZLabel     : STRING
+                        VAR YLabel     : STRING
+                        VAR XLabel     : STRING
+                        VAR PlotTitle  : STRING
+                        VAR ZUnits     : WORD
+                        VAR YUnits     : WORD
+                        VAR XUnits     : WORD
+                        VAR ZMax       : REAL
+                        VAR ZMin       : REAL
+                        VAR YMax       : REAL
+                        VAR YMin       : REAL
+                        VAR XMax       : REAL
+                        VAR XMin       : REAL);
+ Gets the current plot setup parameters.
+
+--------------- Press PgUp/PgDn to see the rest of the file -----------------
+
+ Method Files - Method menu now checks for the existence of a method file,
+ and displays its description if found, whenever a new name is entered.
+
+ Some bugs fixed:
+   
+  File translate to OMA1460 format waited for user keystroke for each curve.
+  Multi-Column file translation was incorrect.
+  Calling user procedures more than 100 times could crash macros.
+  Loading a curve or executing a macro could change the current directory.
+  Attempting to delete a non-existent curve set could crash the program.
+  Problems associated with string variables and curve set descriptions in
+  macros.
+  These macro commands had bugs and were fixed : D_ADD_MEMORY, D_AREA,
+  D_CAREA, D_CLR_ALL, D_CRM, D_LOAD_MEM, D_READ_MEM, D_SUB, DS_DT, DG_DT.
+  The Fast Shift Mode control (Run - Setup menu) was not correctly imp-
+  lemented, so that users who had Fast Shift capable detectors could not
+  use the feature.
+  Communication with newer Acton spectrographs still had problems.
+
+ Some changes for 3.0 (the previous release version):
+ 
+ New Statistics menu and new Math routines.
+
+ The keys PgUp, PgDn, Ins, and Del are now used "quickzooming" of the Y and 
+ X axes, and ALT-F8, CTRL-F8 and SHIFT-F8 autoscale the Y, X, and Z axes 
+ independently.  Try them during live display!
+
+ --------------------- Hit escape to exit READ.ME -------------------------

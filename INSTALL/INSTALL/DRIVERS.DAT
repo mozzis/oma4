@@ -1,0 +1,108 @@
+/*
+ * FILE:        DRIVERS.DAT   Version 3.2
+ *
+ * DESCRIPTION:
+ *     This  script file will load all the selected drivers.  This file
+ *     can be chained to from Program.DAT after the options have been 
+ *     selected.  Note this could be avoided if DCB were'nt pigheaded
+ *     about using "Process" in his project and disk id Process.
+ *
+ *     At the conclusion of drivers, this chains to the file:
+ *                      "Program.DAT"
+ *     which must(?) have a label "Program 1"; It does a goto location
+ *     "WrapUp" and continues from there.
+ *
+ *    The following are required!!!! Option values for the script file:
+ *    See the option numbers in the @File statements below for the
+ *    individual driver option numbers.
+ *
+ *   100 Video graphic types (101-1xx)
+ *   200 Printers (201-2xx)
+ *   300 Plotters (301-3xx)
+ *   400 GPIB Cards (401-4xx)
+ *   500 Pointing devices (501-5xx)
+ *   600 Type of RAM disk software (601-603)
+ *   600 Memory type for RAM disk (604-605)
+ *   700 Output ports (701-7xx)
+ *   900 Application program (901-9xx)
+ *
+ */
+
+@DefineProject
+   @Name      = "PARC Software"
+   @Immediate = 1               /* Want to load it as defined. */
+@EndProject
+
+@DefineDisk
+   @Label = "Install Disk 1"
+   @BeginLib DRIVERS.LIB
+   @File gsscgi.sys
+   @File drivers.exe
+   @File hercbw.sys     @Option 101
+   @File ibmbw.sys      @Option 102
+   @File ibmega.sys     @Option 103
+   @File ibmvga12.sys   @Option 104
+   @File ibmgpr.sys     @Option 202
+@If (203 [= @option)
+   @File ibmpro.sys
+   @File ihw6x16.fnt
+   @File ihw12x8.fnt
+   @File ihw6x8.fnt
+@ElseIf (204 [= @option)
+   @File ibmxl24.sys
+@ElseIf (205 [= @option)
+   @File ibmqw2.sys
+@ElseIf (206 [= @option)
+   @File epsonx.sys
+   @File ihw6x16.fnt
+   @File ihw12x8.fnt
+@ElseIf (207 [= @option)
+   @File epsonlq.sys
+   @File ihw12x24.fnt
+   @File ihw18x24.fnt
+@ElseIf (208 [= @option)
+   @File thinkjet.sys
+   @File ihw6x16.fnt
+   @File ihw12x8.fnt
+   @File ihw6x8.fnt
+@ElseIf (209 [= @option)
+   @File laserjet.sys
+@endif
+@if ((301 [! @option) && (310 [! @option))
+   @File hpplot.sys
+@elseif (310 [= @option)
+   @File hipt29.sys
+@endif
+@If (401 [= @option)
+   @File gpib2.com      @out gpib.com
+   @File ibconf.exe
+@ElseIf (402 [= @option)
+   @File gpib2a.com     @out gpib.com
+   @File ibconf.exe
+@ElseIf (403 [= @option)
+   @File gpib3.com      @out gpib.com
+@ElseIf (405 [= @option)
+   @File gpibat.com     @out gpib.com
+   @File ibatconf.exe   @out ibconf.exe
+@Endif
+   @EndLib
+@EndDisk
+
+@DefineDisk
+   @Label = "Install Disk 1"
+   @BeginLib DRIVERS.LIB
+@If (502 [= @option)
+   @File msmouse.sys
+@ElseIf (503 [= @option)
+   @File ps2mouse.sys
+@Endif
+   @EndLib
+@EndDisk
+
+
+@Display                        /* clean the screen.*/      
+@EndDisplay
+                                /* Go back and finish installation. */
+@Chain ("Program 1", "@InDrive:\\Program.Dat", "WrapUp")
+
+/* End of file */

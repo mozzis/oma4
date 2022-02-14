@@ -1,0 +1,219 @@
+                Structure of OMA2000 version '12' files
+
+Definition of values for axis           Definition of values for
+and calibration units:                  interface type:
+
+Counts          0                       0 = none
+Angstrom        1                       1 = AT
+Nanometer       2                       2 = PS/2
+Micrometer      3                       3 = 1460
+Millimeter      4                       4 = OMA88
+Centimeter      5                       5 = MAC
+Meter           6
+Wavenumber      7                       Definition of values for shiftmode:
+Rshift          8
+Electron Volt   9                       0 = CCD
+Joule          10                       1 = diode array
+Erg            11                       2 = streak camera
+Herz           12
+Adjusted nm    13 (for spectrograph
+                   control)
+
+Definition of values for data type in curve header:
+
+ Value in  Value in   Number     Data Type
+  Decimal   Hex      of bytes      Name
+
+    01       01         1      unsigned char
+    18       12         2      short integer
+    02       02         3      unsigned short
+    20       14         4      long integer
+    04       04         4      unsigned long
+    52       34         4      float
+    56       38         8      double float
+
+File consists of Method header followed by zero or more curves.
+
+Method header structure:
+
+ File  Number Size  Data               Meaning
+offset  of     of   type
+       items  each
+
+ 0      40     1   char     String identifying file as DATA, METHOD, etc.
+ 40      1     1   char     Version of this structure, should be '12'
+ 41      1     2   integer  Length of file = header length + group_tables
+ 43      1     1   char     A user number or character
+ 44     81     1   char     User description of file
+ 125     1     2   integer  Number of curves stored in this file
+ 127     1     1   char     Interface type (see above for definition)
+ 128     1     1   char     Active detector number
+ 129    77     1   char     scan pattern file
+
+ 206     1     1   char     Normalize - nonzero if curves are normalized
+ 207     1     1   char     Spectrograph scanning units (see above for def.)
+ 208     1     4   float    Excitation wavelength for Raman Shift (nm)
+ 212     4     4   float    Settings for 4 spectrographs in above units
+ 228     4     4   float    Increment value in spectrograph units
+                              for scanning spectrographs
+ 244    16     4   float    Spectrograph slit width
+ 308    12     4   float    X,Y,Z axis calibration coefficients
+                              for least squares polynomial fitting
+ 356     3     1   char     Calibration units - see above for definition
+ 359    77     1   char     Filename for background data
+ 436    77     1   char     100 % Transmittance data file to be used for
+                              ABS, %T and other calculations
+ 513    77     1   char     General purpose input file
+ 590    77     1   char     General purpose output file
+
+ 667     1     4   float    YT data point or scan interval in seconds
+ 671     1     4   float    YT delay before taking any measurements
+ 675     2     2   integer  Starting PIA values
+ 679     1     2   integer  Software Version that wrote this file
+ 681     1     2   integer  Plot window style, 1...10
+ 683     1     2   integer  Active plot setup
+
+ 685     1     2   integer  Non-zero = AutoScale X axis
+ 687     1     2   integer  Non-zero = AutoScale Y axis
+ 689     1     2   integer  Non-zero = AutoScale Z axis
+
+ 691     8     1   integer  Window number for each plot setup
+
+Repeat the following structure 8 times:
+
+ 707    30     1   char     Title
+ 737    30     1   char     XLegend
+ 767     1     4   float    XMax
+ 768     1     4   float    XMin
+ 772     1     2   integer  XAscending
+ 774     1     2   integer  XUnits
+ 776    30     1   char     YLegend
+ 806     1     4   float    YMax
+ 810     1     4   float    YMin
+ 814     1     2   integer  YAscending
+ 816     1     2   integer  YUnits
+ 818    30     1   char     ZLegend
+ 848     1     4   float    ZMax
+ 852     1     4   float    ZMin
+ 856     1     2   integer  ZAscending
+ 858     1     2   integer  ZUnits
+ 860     1     2   integer  XZPercent
+ 862     1     2   integer  YZPercent
+ 864     1     2   integer  ZPosition
+ 866     1     2   integer  Style
+ 868     1     2   integer  PlotPeakLabels
+   .
+   .
+   .
+
+ 2035  100     1   char     Reserved
+ 2135    1     1   char     Number of detector setups in file
+
+Detector Info Structure:
+
+ 2136    1     2   integer  length of this detector info section
+ 2138    1     4   float    Version of detector software
+ 2142    1     2   integer  DA mode number
+ 2146    1     2   integer  Detector port address, 100 - F00
+ 2148    1     2   integer  data word size, bytes/point, 0 is 2, 1 is 4
+ 2150    1     2   integer  scans, assume = value of I
+ 2152    1     2   integer  memories, assume = value of J
+ 2154    1     2   integer  ignored scans, assume = value of K
+ 2156    1     2   integer  prep frames, assume = value of H
+ 2158    1     2   integer  detector temp
+ 2160    1     2   integer  cooler locked, 1 if it is.
+ 2162    1     2   integer  detector type
+ 2164    1     2   integer  detector speed, meaning depends on detector
+ 2166    1     2   integer  line freq, 0 = 50, 1= 60 (Hz)
+ 2168    1     2   integer  source comp, 0 = Sample, 1 = integrate
+ 2170    1     2   integer  shutter control, 0 = Internal, 1 = External
+ 2172    1     2   integer  external start, 0 if internal, 1 external.
+ 2174    1     4   long int base address for the board
+ 2178    1     4   long int size of memory on the board
+ 2182    1     2   integer  shutter open sync, TRUE = wait for sync
+ 2184    1     2   integer  shutter close sync, TRUE = wait for sync
+ 2186    1     2   integer  shutter forced mode, 0=norm, 1=closed, 2=open
+ 2188    1     2   integer  need expose, TRUE if need expose
+ 2190    1     4   float    Current expose time in secs
+ 2192    1     2   integer  min exposure time Units of NOPS
+ 2194    1     2   integer  anti bloom percent  0 to 100 percent
+ 2196    1     2   integer  pix time 0 = 18us, 1 = 10us, what else???
+ 2198    1     2   integer  nop time 0 = 18us, 1 = 10us, what else???
+ 2200    1     2   integer  pulser type
+ 2202    1     4   float    pulser delay
+ 2206    1     4   float    pulser width
+ 2210    1     2   integer  pulser enabled
+ 2212    1     2   integer  pulser oneshot
+ 2214    1     2   integer  pulser freerun
+ 2216    1     2   integer  predelay clock cycles;
+ 2218    1     4   float    pulser delay inc Auto inc to delay if supported
+ 2222    1     4   float    pulser width inc Auto inc to width if supported
+ 2226    1     2   integer  tracks per memory
+ 2228    1     2   integer  points per track
+ 2230    1     4   long int reserved 1
+ 2234    1     2   integer  ActiveX, Array size, #channels X axis
+ 2236    1     2   integer  ActiveY, Array size, #channels Y axis
+ 2238    1     4   long int reserved 2
+ 2242    1     2   integer  reserved 3
+ 2246    1     2   integer  StartMemory, result of MEM command.
+ 2248    1     2   integer  Current Point Slice # being set up
+ 2250    1     2   integer  Current Track Track number being set up
+ 2252    1     2   integer  max memory, highest legal memory number
+ 2254    1     2   integer  pointmode 0 = uniform, 1 = non-uniform
+ 2256    1     2   integer  trackmode 0 = contiguous, 1 = random
+ 2258    1     2   16 bits  shiftmode      2 bits : 0 = CCD, 1 = diode array,
+                                                    2 = streak camera
+                            outputReg      1 bit  : 0 = A, 1 = B
+ 2260    1     2   integer  da active 1 if it is
+ 2262    1     2   integer  background active, 1 if it is
+ 2264   ???   ???  grp_tabl XPixelGroups;
+        ???   ???  grp_tabl YPixelGroups;
+        ???   ???  grp_tab  TriggerGroups;
+        ???   ???  grp_tab  ETGroups;
+
+Xpixel group table structure:
+{
+int X0[Number of Xpixel groups];
+int DeltaX[Number of Xpixel groups];
+}
+
+Ypixel group table structure:
+{
+int Y0[Number of Ypixel groups];
+int DeltaY[Number of Ypixel groups];
+}
+
+Trigger group table structure:
+{
+int StartPixel[Number of Trigger groups];
+int Number of Pixels[Number of Trigger groups];
+}
+
+Data follows group tables as CURVEHDR CURVE; CURVEHDR CURVE ... <EOF>
+Curves consist of Y data followed by optional X data
+
+Curve header structure:
+
+ File  Number Size  Data                Meaning
+offset  of     of   type
+       items  each
+  0      1     2    integer    Number of points in this curve
+  2      1     1    char       X axis units (see above for definition)
+  3      1     4    pointer    If 0, no X axis data in file
+  7      1     1    char       Y axis units (see above for values)
+  8      1     2    integer    Data type (int, float, etc.
+  10     1     2    integer    Related experiment number from the DAD file
+  12     1     4    float      Time in seconds from start of scan
+  16     1     4    long int   Source Compensation value
+  20     2     2    pia[2];    PIA port values
+  24     1     2    integer    Frame number curve belongs to
+  26     1     2    integer    Track number of curve
+  28     1     4    float      Min amplitude of points in curve
+  32     1     4    float      Max amplitude of points in curve
+  36     1     4    float      Min value of X axis
+  40     1     4    float      Max value of X axis
+  44     1     2    integer    MemData, TRUE if data is in (OMA4) memory
+  46     1     2    integer    Number of curves for this header
+
+  48    ???   ???   ????       Y data
+  ???   ???   ???   ????       X data if present

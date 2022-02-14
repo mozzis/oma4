@@ -1,0 +1,116 @@
+use makefile in mode RELEASE to build oma4000 
+big compile ..\main\access4.c 
+..\main\access4.c
+..\main\access4.c(233) : warning C4203: 'access_alternating_bytes' : function too large for global optimizations
+link to create oma4000.exe 
+Object Modules [.OBJ]: /NOLOGO /ST:0x4000 /NOE /MAP /NOI /SEGMENTS:240 +
+Object Modules [.OBJ]: ..\obj\dos\access4.obj +
+Object Modules [.OBJ]: ..\obj\dos\autopeak.obj +
+Object Modules [.OBJ]: ..\obj\dos\autoscal.obj +
+Object Modules [.OBJ]: ..\obj\dos\backgrnd.obj +
+Object Modules [.OBJ]: ..\obj\dos\basepath.obj +
+Object Modules [.OBJ]: ..\obj\dos\baslnsub.obj +
+Object Modules [.OBJ]: ..\obj\dos\cache386.obj +
+Object Modules [.OBJ]: ..\obj\dos\calib.obj +
+Object Modules [.OBJ]: ..\obj\dos\change.obj +
+Object Modules [.OBJ]: ..\obj\dos\cntrloma.obj +
+Object Modules [.OBJ]: ..\obj\dos\config.obj +
+Object Modules [.OBJ]: ..\obj\dos\convert.obj +
+Object Modules [.OBJ]: ..\obj\dos\coolstat.obj +
+Object Modules [.OBJ]: ..\obj\dos\crventry.obj +
+Object Modules [.OBJ]: ..\obj\dos\crvhdr35.obj +
+Object Modules [.OBJ]: ..\obj\dos\cursor.obj +
+Object Modules [.OBJ]: ..\obj\dos\curvbufr.obj +
+Object Modules [.OBJ]: ..\obj\dos\curvdraw.obj +
+Object Modules [.OBJ]: ..\obj\dos\curvedir.obj +
+Object Modules [.OBJ]: ..\obj\dos\detdriv.obj +
+Object Modules [.OBJ]: ..\obj\dos\detinfo.obj +
+Object Modules [.OBJ]: ..\obj\dos\device.obj +
+Object Modules [.OBJ]: ..\obj\dos\di_util.obj +
+Object Modules [.OBJ]: ..\obj\dos\doplot.obj +
+Object Modules [.OBJ]: ..\obj\dos\dosshell.obj +
+Object Modules [.OBJ]: ..\obj\dos\fcolor.obj +
+Object Modules [.OBJ]: ..\obj\dos\filedos.obj +
+Object Modules [.OBJ]: ..\obj\dos\fileform.obj +
+Object Modules [.OBJ]: ..\obj\dos\fkeyfunc.obj +
+Object Modules [.OBJ]: ..\obj\dos\formtabs.obj +
+Object Modules [.OBJ]: ..\obj\dos\gpibcom.obj +
+Object Modules [.OBJ]: ..\obj\dos\grafmous.obj +
+Object Modules [.OBJ]: ..\obj\dos\graphops.obj +
+Object Modules [.OBJ]: ..\obj\dos\hline.obj +
+Object Modules [.OBJ]: ..\obj\dos\int24.obj +
+Object Modules [.OBJ]: ..\obj\dos\lineplot.obj +
+Object Modules [.OBJ]: ..\obj\dos\live.obj +
+Object Modules [.OBJ]: ..\obj\dos\livedisk.obj +
+Object Modules [.OBJ]: ..\obj\dos\loadoma.obj +
+Object Modules [.OBJ]: ..\obj\dos\macrofrm.obj +
+Object Modules [.OBJ]: ..\obj\dos\malloc16.obj +
+Object Modules [.OBJ]: ..\obj\dos\d16mphys.obj +
+Object Modules [.OBJ]: ..\obj\dos\mathform.obj +
+Object Modules [.OBJ]: ..\obj\dos\mcibpar.obj +
+Object Modules [.OBJ]: ..\obj\dos\multi.obj +
+Object Modules [.OBJ]: ..\obj\dos\oma4000.obj +
+Object Modules [.OBJ]: ..\obj\dos\omaerror.obj +
+Object Modules [.OBJ]: ..\obj\dos\omaform1.obj +
+Object Modules [.OBJ]: ..\obj\dos\omamenu.obj +
+Object Modules [.OBJ]: ..\obj\dos\omameth.obj +
+Object Modules [.OBJ]: ..\obj\dos\omazoom.obj +
+Object Modules [.OBJ]: ..\obj\dos\pa.obj +
+Object Modules [.OBJ]: ..\obj\dos\plot.obj +
+Object Modules [.OBJ]: ..\obj\dos\plotbox.obj +
+Object Modules [.OBJ]: ..\obj\dos\pltsetup.obj +
+Object Modules [.OBJ]: ..\obj\dos\points.obj +
+Object Modules [.OBJ]: ..\obj\dos\rapset.obj +
+Object Modules [.OBJ]: ..\obj\dos\runforms.obj +
+Object Modules [.OBJ]: ..\obj\dos\runsetup.obj +
+Object Modules [.OBJ]: ..\obj\dos\scanset.obj +
+Object Modules [.OBJ]: ..\obj\dos\spgraph.obj +
+Object Modules [.OBJ]: ..\obj\dos\spline-3.obj +
+Object Modules [.OBJ]: ..\obj\dos\splitfrm.obj +
+Object Modules [.OBJ]: ..\obj\dos\statform.obj +
+Object Modules [.OBJ]: ..\obj\dos\symbol.obj +
+Object Modules [.OBJ]: ..\obj\dos\tagcurve.obj +
+Object Modules [.OBJ]: ..\obj\dos\tempdata.obj +
+Object Modules [.OBJ]: ..\obj\dos\vdata.obj +
+Object Modules [.OBJ]: ..\obj\dos\wintags.obj +
+Object Modules [.OBJ]: ..\obj\dos\ycalib.obj +
+Object Modules [.OBJ]: ..\obj\dos\oma4tiff.obj +
+Object Modules [.OBJ]: ..\obj\dos\cmdtbl.obj +
+Object Modules [.OBJ]: ..\obj\dos\barmenu.obj +
+Object Modules [.OBJ]: ..\obj\dos\filemsg.obj +
+Object Modules [.OBJ]: ..\obj\dos\fltfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\forms.obj +
+Object Modules [.OBJ]: ..\obj\dos\formwind.obj +
+Object Modules [.OBJ]: ..\obj\dos\frmatfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\hxintfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\intfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\keyibmpc.obj +
+Object Modules [.OBJ]: ..\obj\dos\mousefrm.obj +
+Object Modules [.OBJ]: ..\obj\dos\mousegss.obj +
+Object Modules [.OBJ]: ..\obj\dos\scfltfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\scrlform.obj +
+Object Modules [.OBJ]: ..\obj\dos\scrngss.obj +
+Object Modules [.OBJ]: ..\obj\dos\selctfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\tglfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\unintfld.obj +
+Object Modules [.OBJ]: ..\obj\dos\macparse.obj +
+Object Modules [.OBJ]: ..\obj\dos\macsymbl.obj +
+Object Modules [.OBJ]: ..\obj\dos\maccomp.obj +
+Object Modules [.OBJ]: ..\obj\dos\macruntm.obj +
+Object Modules [.OBJ]: ..\obj\dos\macrores.obj +
+Object Modules [.OBJ]: ..\obj\dos\macres2.obj +
+Object Modules [.OBJ]: ..\obj\dos\macnres.obj +
+Object Modules [.OBJ]: ..\obj\dos\macnres2.obj +
+Object Modules [.OBJ]: ..\obj\dos\macnres3.obj +
+Object Modules [.OBJ]: ..\obj\dos\macrecor.obj +
+Object Modules [.OBJ]: ..\obj\dos\mdatstak.obj
+Run File [access4.exe]: ..\run\oma4000.exe
+List File [D:oma4000.map]: ..\run\oma4000.map
+Libraries [.LIB]: c:\tools\dos16m\lib\msc60l.lib c:\tools\gss\lib\msccgira.lib llibc7.lib
+Definitions File [NUL.DEF]: NUL
+Temporary file C:\TEMP\ln004780 has been created.
+dos16m makepm to create oma4000.exp 
+dos16m splice 
+dos16m banner delete on oma4000.exe 
+end polymake build of oma4000 
+OMA4000  EXE       592,963 06-07-96  10:50a

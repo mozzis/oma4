@@ -1,0 +1,17 @@
+Conversation with Norm Bodett of Berthold
+Wed -11AM, Thur next Week
+Lothar resp for imaging 
+Chris Steiner prod mgr for imaging
+convert DAR
+capt, correct, save
+(flat field - dark fld - stretching - s/t else)
+DAR - get data - calib position with 2cm plate, store 9X9 xavg & yavg linear interp
+             and calib efficiency 9X9
+Plan to correct for position
+DAR a kludge
+Behind Microsoft - less OLE (docucentric), vs. Microsoft
+Financial - sold Quattro??
+Consider 4K-8K
+Berthold in Wilbad has system with Siemens Saticon 1" camera with DOS 
+DAR - have to have DSP to process - $4K extra
+617-933-3739

@@ -1,0 +1,29 @@
+;*******************************************************************
+;*                                                                 *
+;*  This program will run the CCD in streak camera mode On Trigger *
+;*                                                                 *
+;*******************************************************************
+
+STRKROT DAC_BLOCK
+        INIT_CNTRS                         ;Set initial counter vals
+        SET_MEM_0                          ;Set memory pointer to 0
+        CLEAR_ALL                          ;Clear memory
+        DO_PREPS                           ;Do Preps if any
+        DO JCNTR                           ;Do Mems
+          MOVE W #0,I1ADDR                 ;Tell PC no scans yet
+          DO ICNTR                         ;Do scans
+            OTSTREAK                       ;Shift the image under a mask
+            ACQ_TRACKS DC_ADDMODE          ;Add data to memory
+            ADD W #1, I1ADDR               ;Tell PC another scan done
+            DO_IGNS                        ;Do ignores if any
+          LOOP                             ;End of scans loop
+          INC_MEM                          ;Inc memory pointer
+          ADD W #1, L1ADDR                 ;Tell PC another scan done
+          ADD W #1, J1ADDR                 ;Let PC track da seq.
+        LOOP                               ;End of mems loop
+
+        KEEP_CLEAN
+        WAIT_DMA
+        DONE
+
+

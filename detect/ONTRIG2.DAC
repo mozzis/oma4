@@ -1,0 +1,60 @@
+;*********************************************************
+;*                                                       *
+;*      This program ACCUM2 will read data from the CCD  *
+;*                                                       *
+;*********************************************************
+
+ONTRIG2 DAC_BLOCK 
+        SET_MEM_0                          ;Set memory pointer to 0
+        INIT_CNTRS                         ;Set initial counter vals
+        SUB W #1, ICNTR                    ;Does one rep outside of I loop
+        DO_PREPS                           ;Do Preps if any
+        TEST STREAKFLG                     ;Yes, skip to streak stuff
+        BEQ OT2STR0
+        ON_TRIGGER                         ;Do keep clean till trigger
+OT2STR0 DO JCNTR                           ;Do Mems
+          MOVE W #0, T1ADDR                ;See if streak mode
+          TEST STREAKFLG                   ;Yes, skip to streak stuff
+          BGT  OTRNSTR20                   ;If not streakmode do ONTRIG
+OTRNSTR20 MOVE W #0,I1ADDR
+
+          TEST STREAKFLG
+          BEQ  OTRNSTR21
+          OTSTREAK                         ;Shift image under mask
+          GOTO OTR_REG21
+
+OTRNSTR21 EQU @
+          SHUTTER_EXPOSE                   ;Run overhead and shutter
+          REP_SCMP                         ;Get source comp value
+OTR_REG21 EQU @
+          ACQ_TRACKS DC_REPMODE            ;Replace first frame
+          ADD W #1, I1ADDR                 ;Tell PC another scan done
+          ADD W #1, L1ADDR                 ;Tell PC another scan done
+
+          DO_IGNS                          ;Do ignores if any
+
+          TEST ICNTR                       ;If no more scans
+          BEQ  ACCUM22B                    ;Skip to end of loop
+
+          DO ICNTR                         ;Do Scans
+            TEST STREAKFLG
+            BEQ  OTRNSTR22
+            OTSTREAK                       ;Shift image under mask
+            GOTO OTR_REG22
+OTRNSTR22   EQU @
+            SHUTTER_EXPOSE                 ;Run overhead and shutter
+            ADD_SCMP                         ;Get source comp value
+OTR_REG22   EQU @
+            ACQ_TRACKS DC_ADDMODE          ;Add following frames
+            ADD W #1, I1ADDR               ;Tell PC another scan done
+            ADD W #1, L1ADDR               ;Tell PC another scan done
+            DO_IGNS                        ;Do ignores if any
+          LOOP                             ;End of scans loop
+ACCUM22B  ADD W #1, J1ADDR                 ;Let PC track da seq.
+          INC_MEM                          ;Inc memory pointer
+        LOOP                               ;End of mems loop
+
+        RESET_OMA                          ;Main reason - to reset LCI
+
+        DONE
+

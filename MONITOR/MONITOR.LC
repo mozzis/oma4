@@ -1,0 +1,7 @@
+LOCATE ( CLASS (pdata)    : #700,
+	      CLASS (sdata)    : AFTER #0, 
+         CLASS (udata)    : AFTER #700, 
+         CLASS (sprogram) : AFTER #4000);
+MEMORY ( #FFFF );
+        
+

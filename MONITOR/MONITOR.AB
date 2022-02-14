@@ -1,0 +1,3509 @@
+.id "date" "Nov  1 1993  18:17:27"
+.id "target" "68000"
+.seg {PSCT} %1 1 u {}
+.seg {VTABLE} %2 1 u {sdata}
+.len %2 #3f0
+.abs %2 0
+.seg {STACK} %3 1 u {sdata}
+.seg {POINTERS} %4 1 u {pdata}
+.seg {DATA} %5 1 u {udata}
+.seg {CODE} %6 1 u {sprogram}
+.len %4 #38
+.abs %4 #700
+.len %3 #200
+.abs %3 #3f0
+.len %5 #2354
+.abs %5 #738
+.len %6 #10f8
+.abs %6 #4000
+.len %1 0
+.abs %1 0
+.id "translator" "locator"
+.defg {FCTBLPTR} %7 #700
+.defg {FCTBLINX} %8 #702
+.defg {FCCODPTR} %9 #704
+.defg {DCTBLPTR} %10 #706
+.defg {DCTBLINX} %11 #708
+.defg {DCCODPTR} %12 #70a
+.defg {DACTBLPTR} %13 #70c
+.defg {DACTBLINX} %14 #70e
+.defg {DACCODPTR} %15 #710
+.defg {LCTBLPTR} %16 #712
+.defg {LCTBLINX} %17 #714
+.id "as68k.exe sid" "@(#)as68k.PL 3.18.1.1"
+.id "mod" "monitor.ol"
+.file "monitor.asm"
+.id "Monitor" "3,0"
+.aorg %2 0
+#5f0 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#491e :L
+#491e :L
+#491e :L
+#491e :L
+#491e :L
+#491e :L
+#491e :L
+#491e :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+#4666 :L
+.aorg %2 1008
+.aorg %4 #700
+#838 :W
+'0000'
+'0000'
+#1008 :W
+'0000'
+'0000'
+#17d8 :W
+'0000'
+#4928 :W
+#1fa8 :W
+'0000'
+'00800000'
+'00800000'
+'4f4d4134204d6f6e69746f722076657273696f6e20332e302000'
+.aorg %5 #73a
+'ffff0000'
+'00000000'
+'0000'
+'0000'
+.aorg %5 #836
+#7be :W
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+'ffffffffffffffffffffffffffffffff'
+.mark 403 #4000
+.aorg %6 #4000
+'301c'
+.mark 404 #4002
+'205c'
+.mark 405 #4004
+'d110'
+.mark 406 #4006
+'3a5c'
+.mark 406 #4008
+'4ed5'
+.mark 410 #400a
+'301c'
+.mark 411 #400c
+'205c'
+.mark 412 #400e
+'d150'
+.mark 413 #4010
+'3a5c'
+.mark 413 #4012
+'4ed5'
+.mark 417 #4014
+'201c'
+.mark 418 #4016
+'205c'
+.mark 419 #4018
+'d190'
+.mark 420 #401a
+'3a5c'
+.mark 420 #401c
+'4ed5'
+.mark 425 #401e
+'301c'
+.mark 426 #4020
+'205c'
+.mark 427 #4022
+'2050'
+.mark 428 #4024
+'d110'
+.mark 429 #4026
+'3a5c'
+.mark 429 #4028
+'4ed5'
+.mark 433 #402a
+'301c'
+.mark 434 #402c
+'205c'
+.mark 435 #402e
+'2050'
+.mark 436 #4030
+'d150'
+.mark 437 #4032
+'3a5c'
+.mark 437 #4034
+'4ed5'
+.mark 441 #4036
+'201c'
+.mark 442 #4038
+'205c'
+.mark 443 #403a
+'2050'
+.mark 444 #403c
+'d190'
+.mark 445 #403e
+'3a5c'
+.mark 445 #4040
+'4ed5'
+.mark 449 #4042
+'205c'
+.mark 450 #4044
+'1010'
+.mark 451 #4046
+'225c'
+.mark 452 #4048
+'d111'
+.mark 453 #404a
+'3a5c'
+.mark 453 #404c
+'4ed5'
+.mark 457 #404e
+'205c'
+.mark 458 #4050
+'3010'
+.mark 459 #4052
+'225c'
+.mark 460 #4054
+'d151'
+.mark 461 #4056
+'3a5c'
+.mark 461 #4058
+'4ed5'
+.mark 465 #405a
+'205c'
+.mark 466 #405c
+'2010'
+.mark 467 #405e
+'225c'
+.mark 468 #4060
+'d191'
+.mark 469 #4062
+'3a5c'
+.mark 469 #4064
+'4ed5'
+.mark 473 #4066
+'205c'
+.mark 474 #4068
+'1010'
+.mark 475 #406a
+'225c'
+.mark 476 #406c
+'2251'
+.mark 477 #406e
+'d111'
+.mark 478 #4070
+'3a5c'
+.mark 478 #4072
+'4ed5'
+.mark 482 #4074
+'205c'
+.mark 483 #4076
+'3010'
+.mark 484 #4078
+'225c'
+.mark 485 #407a
+'2251'
+.mark 486 #407c
+'d151'
+.mark 487 #407e
+'3a5c'
+.mark 487 #4080
+'4ed5'
+.mark 491 #4082
+'205c'
+.mark 492 #4084
+'2010'
+.mark 493 #4086
+'225c'
+.mark 494 #4088
+'2251'
+.mark 495 #408a
+'d191'
+.mark 496 #408c
+'3a5c'
+.mark 496 #408e
+'4ed5'
+.mark 500 #4090
+'205c'
+.mark 501 #4092
+'2050'
+.mark 502 #4094
+'1010'
+.mark 503 #4096
+'225c'
+.mark 504 #4098
+'d111'
+.mark 505 #409a
+'3a5c'
+.mark 505 #409c
+'4ed5'
+.mark 509 #409e
+'205c'
+.mark 510 #40a0
+'2050'
+.mark 511 #40a2
+'3010'
+.mark 512 #40a4
+'225c'
+.mark 513 #40a6
+'d151'
+.mark 514 #40a8
+'3a5c'
+.mark 514 #40aa
+'4ed5'
+.mark 518 #40ac
+'205c'
+.mark 519 #40ae
+'2050'
+.mark 520 #40b0
+'2010'
+.mark 521 #40b2
+'225c'
+.mark 522 #40b4
+'d191'
+.mark 523 #40b6
+'3a5c'
+.mark 523 #40b8
+'4ed5'
+.mark 527 #40ba
+'205c'
+.mark 528 #40bc
+'2050'
+.mark 529 #40be
+'1010'
+.mark 530 #40c0
+'225c'
+.mark 531 #40c2
+'2251'
+.mark 532 #40c4
+'d111'
+.mark 533 #40c6
+'3a5c'
+.mark 533 #40c8
+'4ed5'
+.mark 537 #40ca
+'205c'
+.mark 538 #40cc
+'2050'
+.mark 539 #40ce
+'3010'
+.mark 540 #40d0
+'225c'
+.mark 541 #40d2
+'2251'
+.mark 542 #40d4
+'d151'
+.mark 543 #40d6
+'3a5c'
+.mark 543 #40d8
+'4ed5'
+.mark 547 #40da
+'205c'
+.mark 548 #40dc
+'2050'
+.mark 549 #40de
+'2010'
+.mark 550 #40e0
+'225c'
+.mark 551 #40e2
+'2251'
+.mark 552 #40e4
+'d191'
+.mark 553 #40e6
+'3a5c'
+.mark 553 #40e8
+'4ed5'
+.mark 558 #40ea
+'301c'
+.mark 559 #40ec
+'205c'
+.mark 560 #40ee
+'9110'
+.mark 561 #40f0
+'3a5c'
+.mark 561 #40f2
+'4ed5'
+.mark 565 #40f4
+'301c'
+.mark 566 #40f6
+'205c'
+.mark 567 #40f8
+'9150'
+.mark 568 #40fa
+'3a5c'
+.mark 568 #40fc
+'4ed5'
+.mark 572 #40fe
+'201c'
+.mark 573 #4100
+'205c'
+.mark 574 #4102
+'9190'
+.mark 575 #4104
+'3a5c'
+.mark 575 #4106
+'4ed5'
+.mark 579 #4108
+'301c'
+.mark 580 #410a
+'205c'
+.mark 581 #410c
+'2050'
+.mark 582 #410e
+'9110'
+.mark 583 #4110
+'3a5c'
+.mark 583 #4112
+'4ed5'
+.mark 587 #4114
+'301c'
+.mark 588 #4116
+'205c'
+.mark 589 #4118
+'2050'
+.mark 590 #411a
+'9150'
+.mark 591 #411c
+'3a5c'
+.mark 591 #411e
+'4ed5'
+.mark 595 #4120
+'201c'
+.mark 596 #4122
+'205c'
+.mark 597 #4124
+'2050'
+.mark 598 #4126
+'9190'
+.mark 599 #4128
+'3a5c'
+.mark 599 #412a
+'4ed5'
+.mark 603 #412c
+'205c'
+.mark 604 #412e
+'1010'
+.mark 605 #4130
+'225c'
+.mark 606 #4132
+'9111'
+.mark 607 #4134
+'3a5c'
+.mark 607 #4136
+'4ed5'
+.mark 611 #4138
+'205c'
+.mark 612 #413a
+'3010'
+.mark 613 #413c
+'225c'
+.mark 614 #413e
+'9151'
+.mark 615 #4140
+'3a5c'
+.mark 615 #4142
+'4ed5'
+.mark 619 #4144
+'205c'
+.mark 620 #4146
+'2010'
+.mark 621 #4148
+'225c'
+.mark 622 #414a
+'9191'
+.mark 623 #414c
+'3a5c'
+.mark 623 #414e
+'4ed5'
+.mark 627 #4150
+'205c'
+.mark 628 #4152
+'1010'
+.mark 629 #4154
+'225c'
+.mark 630 #4156
+'2251'
+.mark 631 #4158
+'9111'
+.mark 632 #415a
+'3a5c'
+.mark 632 #415c
+'4ed5'
+.mark 636 #415e
+'205c'
+.mark 637 #4160
+'3010'
+.mark 638 #4162
+'225c'
+.mark 639 #4164
+'2251'
+.mark 640 #4166
+'9151'
+.mark 641 #4168
+'3a5c'
+.mark 641 #416a
+'4ed5'
+.mark 645 #416c
+'205c'
+.mark 646 #416e
+'2010'
+.mark 647 #4170
+'225c'
+.mark 648 #4172
+'2251'
+.mark 649 #4174
+'9191'
+.mark 650 #4176
+'3a5c'
+.mark 650 #4178
+'4ed5'
+.mark 654 #417a
+'205c'
+.mark 655 #417c
+'2050'
+.mark 656 #417e
+'1010'
+.mark 657 #4180
+'225c'
+.mark 658 #4182
+'9111'
+.mark 659 #4184
+'3a5c'
+.mark 659 #4186
+'4ed5'
+.mark 663 #4188
+'205c'
+.mark 664 #418a
+'2050'
+.mark 665 #418c
+'3010'
+.mark 666 #418e
+'225c'
+.mark 667 #4190
+'9151'
+.mark 668 #4192
+'3a5c'
+.mark 668 #4194
+'4ed5'
+.mark 672 #4196
+'205c'
+.mark 673 #4198
+'2050'
+.mark 674 #419a
+'2010'
+.mark 675 #419c
+'225c'
+.mark 676 #419e
+'9191'
+.mark 677 #41a0
+'3a5c'
+.mark 677 #41a2
+'4ed5'
+.mark 681 #41a4
+'205c'
+.mark 682 #41a6
+'2050'
+.mark 683 #41a8
+'1010'
+.mark 684 #41aa
+'225c'
+.mark 685 #41ac
+'2251'
+.mark 686 #41ae
+'9111'
+.mark 687 #41b0
+'3a5c'
+.mark 687 #41b2
+'4ed5'
+.mark 691 #41b4
+'205c'
+.mark 692 #41b6
+'2050'
+.mark 693 #41b8
+'3010'
+.mark 694 #41ba
+'225c'
+.mark 695 #41bc
+'2251'
+.mark 696 #41be
+'9151'
+.mark 697 #41c0
+'3a5c'
+.mark 697 #41c2
+'4ed5'
+.mark 701 #41c4
+'205c'
+.mark 702 #41c6
+'2050'
+.mark 703 #41c8
+'2010'
+.mark 704 #41ca
+'225c'
+.mark 705 #41cc
+'2251'
+.mark 706 #41ce
+'9191'
+.mark 707 #41d0
+'3a5c'
+.mark 707 #41d2
+'4ed5'
+.mark 711 #41d4
+'301c'
+.mark 712 #41d6
+'205c'
+.mark 713 #41d8
+'c110'
+.mark 714 #41da
+'3a5c'
+.mark 714 #41dc
+'4ed5'
+.mark 718 #41de
+'301c'
+.mark 719 #41e0
+'205c'
+.mark 720 #41e2
+'c150'
+.mark 721 #41e4
+'3a5c'
+.mark 721 #41e6
+'4ed5'
+.mark 725 #41e8
+'201c'
+.mark 726 #41ea
+'205c'
+.mark 727 #41ec
+'c190'
+.mark 728 #41ee
+'3a5c'
+.mark 728 #41f0
+'4ed5'
+.mark 732 #41f2
+'205c'
+.mark 733 #41f4
+'1010'
+.mark 734 #41f6
+'225c'
+.mark 735 #41f8
+'c191'
+.mark 736 #41fa
+'3a5c'
+.mark 736 #41fc
+'4ed5'
+.mark 740 #41fe
+'205c'
+.mark 741 #4200
+'3010'
+.mark 742 #4202
+'225c'
+.mark 743 #4204
+'c191'
+.mark 744 #4206
+'3a5c'
+.mark 744 #4208
+'4ed5'
+.mark 748 #420a
+'205c'
+.mark 749 #420c
+'2010'
+.mark 750 #420e
+'225c'
+.mark 751 #4210
+'c191'
+.mark 752 #4212
+'3a5c'
+.mark 752 #4214
+'4ed5'
+.mark 756 #4216
+'4a79'
+#738 :L
+.mark 757 #421c
+'6706'
+.mark 759 #421e
+'301c'
+.mark 760 #4220
+'3a5c'
+.mark 760 #4222
+'4ed5'
+.mark 762 #4224
+'3854'
+.mark 763 #4226
+'3a5c'
+.mark 763 #4228
+'4ed5'
+.mark 765 #422a
+'4a79'
+#738 :L
+.mark 766 #4230
+'6ef2'
+.mark 767 #4232
+'301c'
+.mark 768 #4234
+'3a5c'
+.mark 768 #4236
+'4ed5'
+.mark 770 #4238
+'4a79'
+#738 :L
+.mark 771 #423e
+'6de4'
+.mark 772 #4240
+'301c'
+.mark 773 #4242
+'3a5c'
+.mark 773 #4244
+'4ed5'
+.mark 778 #4246
+'4279'
+#738 :L
+.mark 779 #424c
+'3a5c'
+.mark 779 #424e
+'4ed5'
+.mark 781 #4250
+'33fcffff'
+#738 :L
+.mark 782 #4258
+'3a5c'
+.mark 782 #425a
+'4ed5'
+.mark 784 #425c
+'33fc0001'
+#738 :L
+.mark 785 #4264
+'3a5c'
+.mark 785 #4266
+'4ed5'
+.mark 789 #4268
+'201c'
+.mark 790 #426a
+'205c'
+.mark 791 #426c
+'b090'
+.mark 792 #426e
+'67d6'
+.mark 793 #4270
+'6eea'
+.mark 794 #4272
+'6ddc'
+.mark 798 #4274
+'301c'
+.mark 799 #4276
+'205c'
+.mark 800 #4278
+'b050'
+.mark 801 #427a
+'67ca'
+.mark 802 #427c
+'6ede'
+.mark 803 #427e
+'6dd0'
+.mark 807 #4280
+'301c'
+.mark 808 #4282
+'205c'
+.mark 809 #4284
+'b010'
+.mark 810 #4286
+'67be'
+.mark 811 #4288
+'6ed2'
+.mark 812 #428a
+'6dc4'
+.mark 816 #428c
+'205c'
+.mark 817 #428e
+'225c'
+.mark 818 #4290
+'b388'
+.mark 819 #4292
+'67b2'
+.mark 820 #4294
+'6ec6'
+.mark 821 #4296
+'6db8'
+.mark 825 #4298
+'205c'
+.mark 826 #429a
+'225c'
+.mark 827 #429c
+'b348'
+.mark 828 #429e
+'67a6'
+.mark 829 #42a0
+'6eba'
+.mark 830 #42a2
+'6dac'
+.mark 834 #42a4
+'205c'
+.mark 835 #42a6
+'225c'
+.mark 836 #42a8
+'b308'
+.mark 837 #42aa
+'679a'
+.mark 838 #42ac
+'6eae'
+.mark 839 #42ae
+'6da0'
+.mark 843 #42b0
+'205c'
+.mark 844 #42b2
+'4a50'
+.mark 845 #42b4
+'6790'
+.mark 846 #42b6
+'6ea4'
+.mark 847 #42b8
+'6d96'
+.mark 851 #42ba
+'201c'
+.mark 852 #42bc
+'225c'
+.mark 853 #42be
+'2280'
+.mark 854 #42c0
+'3a5c'
+.mark 854 #42c2
+'4ed5'
+.mark 858 #42c4
+'301c'
+.mark 859 #42c6
+'225c'
+.mark 860 #42c8
+'3280'
+.mark 861 #42ca
+'3a5c'
+.mark 861 #42cc
+'4ed5'
+.mark 865 #42ce
+'301c'
+.mark 866 #42d0
+'225c'
+.mark 867 #42d2
+'1280'
+.mark 868 #42d4
+'3a5c'
+.mark 868 #42d6
+'4ed5'
+.mark 872 #42d8
+'201c'
+.mark 873 #42da
+'225c'
+.mark 874 #42dc
+'2251'
+.mark 875 #42de
+'2280'
+.mark 876 #42e0
+'3a5c'
+.mark 876 #42e2
+'4ed5'
+.mark 880 #42e4
+'301c'
+.mark 881 #42e6
+'225c'
+.mark 882 #42e8
+'2251'
+.mark 883 #42ea
+'3280'
+.mark 884 #42ec
+'3a5c'
+.mark 884 #42ee
+'4ed5'
+.mark 888 #42f0
+'301c'
+.mark 889 #42f2
+'225c'
+.mark 890 #42f4
+'2251'
+.mark 891 #42f6
+'1280'
+.mark 892 #42f8
+'3a5c'
+.mark 892 #42fa
+'4ed5'
+.mark 896 #42fc
+'201c'
+.mark 897 #42fe
+'225c'
+.mark 898 #4300
+'1280'
+.mark 899 #4302
+'e040'
+.mark 900 #4304
+'13400002'
+.mark 901 #4308
+'4840'
+.mark 902 #430a
+'13400004'
+.mark 903 #430e
+'3a5c'
+.mark 903 #4310
+'4ed5'
+.mark 907 #4312
+'301c'
+.mark 908 #4314
+'225c'
+.mark 909 #4316
+'1280'
+.mark 910 #4318
+'e040'
+.mark 911 #431a
+'13400002'
+.mark 912 #431e
+'3a5c'
+.mark 912 #4320
+'4ed5'
+.mark 916 #4322
+'301c'
+.mark 917 #4324
+'225c'
+.mark 918 #4326
+'1280'
+.mark 919 #4328
+'3a5c'
+.mark 919 #432a
+'4ed5'
+.mark 923 #432c
+'205c'
+.mark 924 #432e
+'225c'
+.mark 925 #4330
+'2290'
+.mark 926 #4332
+'3a5c'
+.mark 926 #4334
+'4ed5'
+.mark 930 #4336
+'205c'
+.mark 931 #4338
+'225c'
+.mark 932 #433a
+'3290'
+.mark 933 #433c
+'3a5c'
+.mark 933 #433e
+'4ed5'
+.mark 937 #4340
+'205c'
+.mark 938 #4342
+'225c'
+.mark 939 #4344
+'1290'
+.mark 940 #4346
+'3a5c'
+.mark 940 #4348
+'4ed5'
+.mark 944 #434a
+'205c'
+.mark 945 #434c
+'225c'
+.mark 946 #434e
+'2010'
+.mark 947 #4350
+'1280'
+.mark 948 #4352
+'e040'
+.mark 949 #4354
+'13400002'
+.mark 950 #4358
+'4840'
+.mark 951 #435a
+'13400004'
+.mark 952 #435e
+'3a5c'
+.mark 952 #4360
+'4ed5'
+.mark 956 #4362
+'205c'
+.mark 957 #4364
+'225c'
+.mark 958 #4366
+'3010'
+.mark 959 #4368
+'1280'
+.mark 960 #436a
+'e040'
+.mark 961 #436c
+'13400002'
+.mark 962 #4370
+'3a5c'
+.mark 962 #4372
+'4ed5'
+.mark 966 #4374
+'205c'
+.mark 967 #4376
+'225c'
+.mark 968 #4378
+'1290'
+.mark 969 #437a
+'3a5c'
+.mark 969 #437c
+'4ed5'
+.mark 973 #437e
+'205c'
+.mark 974 #4380
+'2050'
+.mark 975 #4382
+'225c'
+.mark 976 #4384
+'2290'
+.mark 977 #4386
+'3a5c'
+.mark 977 #4388
+'4ed5'
+.mark 981 #438a
+'205c'
+.mark 982 #438c
+'2050'
+.mark 983 #438e
+'225c'
+.mark 984 #4390
+'3290'
+.mark 985 #4392
+'3a5c'
+.mark 985 #4394
+'4ed5'
+.mark 989 #4396
+'205c'
+.mark 990 #4398
+'2050'
+.mark 991 #439a
+'225c'
+.mark 992 #439c
+'1290'
+.mark 993 #439e
+'3a5c'
+.mark 993 #43a0
+'4ed5'
+.mark 997 #43a2
+'205c'
+.mark 998 #43a4
+'2050'
+.mark 999 #43a6
+'2010'
+.mark 1000 #43a8
+'225c'
+.mark 1001 #43aa
+'1280'
+.mark 1002 #43ac
+'e040'
+.mark 1003 #43ae
+'13400002'
+.mark 1004 #43b2
+'4840'
+.mark 1005 #43b4
+'13400004'
+.mark 1006 #43b8
+'3a5c'
+.mark 1006 #43ba
+'4ed5'
+.mark 1010 #43bc
+'205c'
+.mark 1011 #43be
+'2050'
+.mark 1012 #43c0
+'3010'
+.mark 1013 #43c2
+'225c'
+.mark 1014 #43c4
+'1280'
+.mark 1015 #43c6
+'e040'
+.mark 1016 #43c8
+'13400002'
+.mark 1017 #43cc
+'3a5c'
+.mark 1017 #43ce
+'4ed5'
+.mark 1022 #43d0
+'205c'
+.mark 1023 #43d2
+'2050'
+.mark 1024 #43d4
+'225c'
+.mark 1025 #43d6
+'3010'
+.mark 1026 #43d8
+'1280'
+.mark 1027 #43da
+'3a5c'
+.mark 1027 #43dc
+'4ed5'
+.mark 1031 #43de
+'205c'
+.mark 1032 #43e0
+'225c'
+.mark 1033 #43e2
+'2251'
+.mark 1034 #43e4
+'2290'
+.mark 1035 #43e6
+'3a5c'
+.mark 1035 #43e8
+'4ed5'
+.mark 1039 #43ea
+'205c'
+.mark 1040 #43ec
+'225c'
+.mark 1041 #43ee
+'2251'
+.mark 1042 #43f0
+'3290'
+.mark 1043 #43f2
+'3a5c'
+.mark 1043 #43f4
+'4ed5'
+.mark 1047 #43f6
+'205c'
+.mark 1048 #43f8
+'225c'
+.mark 1049 #43fa
+'2251'
+.mark 1050 #43fc
+'1290'
+.mark 1051 #43fe
+'3a5c'
+.mark 1051 #4400
+'4ed5'
+.mark 1055 #4402
+'205c'
+.mark 1056 #4404
+'2050'
+.mark 1057 #4406
+'225c'
+.mark 1058 #4408
+'2251'
+.mark 1059 #440a
+'2290'
+.mark 1060 #440c
+'3a5c'
+.mark 1060 #440e
+'4ed5'
+.mark 1064 #4410
+'205c'
+.mark 1065 #4412
+'2050'
+.mark 1066 #4414
+'225c'
+.mark 1067 #4416
+'2251'
+.mark 1068 #4418
+'3290'
+.mark 1069 #441a
+'3a5c'
+.mark 1069 #441c
+'4ed5'
+.mark 1073 #441e
+'205c'
+.mark 1074 #4420
+'2050'
+.mark 1075 #4422
+'225c'
+.mark 1076 #4424
+'2251'
+.mark 1077 #4426
+'1290'
+.mark 1078 #4428
+'3a5c'
+.mark 1078 #442a
+'4ed5'
+.mark 1087 #442c
+'301c'
+.mark 1088 #442e
+'205c'
+.mark 1089 #4430
+'8110'
+.mark 1090 #4432
+'3a5c'
+.mark 1090 #4434
+'4ed5'
+.mark 1094 #4436
+'301c'
+.mark 1095 #4438
+'205c'
+.mark 1096 #443a
+'8150'
+.mark 1097 #443c
+'3a5c'
+.mark 1097 #443e
+'4ed5'
+.mark 1101 #4440
+'201c'
+.mark 1102 #4442
+'205c'
+.mark 1103 #4444
+'8190'
+.mark 1104 #4446
+'3a5c'
+.mark 1104 #4448
+'4ed5'
+.mark 1108 #444a
+'205c'
+.mark 1109 #444c
+'1010'
+.mark 1110 #444e
+'225c'
+.mark 1111 #4450
+'8111'
+.mark 1112 #4452
+'3a5c'
+.mark 1112 #4454
+'4ed5'
+.mark 1116 #4456
+'205c'
+.mark 1117 #4458
+'3010'
+.mark 1118 #445a
+'225c'
+.mark 1119 #445c
+'8151'
+.mark 1120 #445e
+'3a5c'
+.mark 1120 #4460
+'4ed5'
+.mark 1124 #4462
+'205c'
+.mark 1125 #4464
+'2010'
+.mark 1126 #4466
+'225c'
+.mark 1127 #4468
+'8191'
+.mark 1128 #446a
+'3a5c'
+.mark 1128 #446c
+'4ed5'
+.mark 1132 #446e
+'207c00040001'
+.mark 1133 #4474
+'08100000'
+.mark 1134 #4478
+'67fa'
+.mark 1135 #447a
+'3a5c'
+.mark 1135 #447c
+'4ed5'
+.mark 1139 #447e
+'207c00040001'
+.mark 1140 #4484
+'08100001'
+.mark 1141 #4488
+'67fa'
+.mark 1142 #448a
+'3a5c'
+.mark 1142 #448c
+'4ed5'
+.mark 1190 #448e
+'389c'
+.mark 1191 #4490
+'3d0c'
+.mark 1192 #4492
+'544c'
+.mark 1193 #4494
+'3a5c'
+.mark 1193 #4496
+'4ed5'
+.mark 1195 #4498
+'365c'
+.mark 1196 #449a
+'38d3'
+.mark 1197 #449c
+'3d0c'
+.mark 1198 #449e
+'38d3'
+.mark 1199 #44a0
+'3a5c'
+.mark 1199 #44a2
+'4ed5'
+.mark 1201 #44a4
+'365c'
+.mark 1202 #44a6
+'3653'
+.mark 1203 #44a8
+'38d3'
+.mark 1204 #44aa
+'3d0c'
+.mark 1205 #44ac
+'38d3'
+.mark 1206 #44ae
+'3a5c'
+.mark 1206 #44b0
+'4ed5'
+.mark 1211 #44b2
+'364c'
+.mark 1212 #44b4
+'3856'
+.mark 1213 #44b6
+'535c'
+.mark 1214 #44b8
+'6704'
+.mark 1216 #44ba
+'3a5c'
+.mark 1216 #44bc
+'4ed5'
+.mark 1218 #44be
+'544e'
+.mark 1219 #44c0
+'384b'
+.mark 1220 #44c2
+'3a5c'
+.mark 1220 #44c4
+'4ed5'
+.mark 1224 #44c6
+'3854'
+.mark 1225 #44c8
+'3a5c'
+.mark 1225 #44ca
+'4ed5'
+.mark 1231 #44cc
+'3a5c'
+.mark 1231 #44ce
+'4ed5'
+'00800000'
+.mark 1242 #44d4
+'205c'
+.mark 1243 #44d6
+'2a18'
+.mark 1244 #44d8
+'2c08'
+.mark 1245 #44da
+'7e0a'
+.mark 1246 #44dc
+'9c47'
+.mark 1247 #44de
+'207c00030001'
+.mark 1248 #44e4
+'247c00040001'
+.mark 1249 #44ea
+'47f9'
+#44d0 :L
+.mark 1250 #44f0
+'2639'
+#716 :L
+.mark 1251 #44f6
+'7200'
+.mark 1253 #44f8
+'2401'
+.mark 1254 #44fa
+'3246'
+.mark 1256 #44fc
+'e24a'
+.mark 1257 #44fe
+'d2c7'
+.mark 1258 #4500
+'65fa'
+.mark 1260 #4502
+'08120001'
+.mark 1261 #4506
+'67fa'
+.mark 1263 #4508
+'11590002'
+.mark 1264 #450c
+'1099'
+.mark 1265 #450e
+'1159000a'
+.mark 1266 #4512
+'11590008'
+.mark 1267 #4516
+'2803'
+.mark 1268 #4518
+'d899'
+.mark 1269 #451a
+'2684'
+.mark 1270 #451c
+'116b00010016'
+.mark 1271 #4522
+'116b00020014'
+.mark 1272 #4528
+'116b00030012'
+.mark 1274 #452e
+'3251'
+.mark 1275 #4530
+'4a51'
+.mark 1276 #4532
+'672e'
+.mark 1278 #4534
+'08120001'
+.mark 1279 #4538
+'67fa'
+.mark 1281 #453a
+'11590002'
+.mark 1282 #453e
+'1099'
+.mark 1283 #4540
+'1159000a'
+.mark 1284 #4544
+'11590008'
+.mark 1285 #4548
+'2803'
+.mark 1286 #454a
+'d899'
+.mark 1287 #454c
+'2684'
+.mark 1288 #454e
+'116b00010016'
+.mark 1289 #4554
+'116b00020014'
+.mark 1290 #455a
+'116b00030012'
+.mark 1292 #4560
+'60ce'
+.mark 1294 #4562
+'5281'
+.mark 1295 #4564
+'5385'
+.mark 1296 #4566
+'6e90'
+.mark 1298 #4568
+'3a5c'
+.mark 1298 #456a
+'4ed5'
+.mark 1306 #456c
+'4279'
+#744 :L
+.mark 1307 #4572
+'45fa'
+-15926 :I
+.mark 1308 #4576
+'741f'
+.mark 1309 #4578
+'281c'
+.mark 1310 #457a
+'3a3a'
+-15930 :I
+.mark 1311 #457e
+'24ba'
+-15942 :I
+.mark 1312 #4582
+'267c00800000'
+.mark 1313 #4588
+'2012'
+.mark 1314 #458a
+'2604'
+.mark 1315 #458c
+'36c0'
+.mark 1316 #458e
+'e398'
+.mark 1317 #4590
+'4a40'
+.mark 1318 #4592
+'6602'
+.mark 1319 #4594
+'e398'
+.mark 1320 #4596
+'5583'
+.mark 1321 #4598
+'6ef2'
+.mark 1322 #459a
+'267c00800000'
+.mark 1323 #45a0
+'2012'
+.mark 1324 #45a2
+'2604'
+.mark 1325 #45a4
+'b05b'
+.mark 1326 #45a6
+'6622'
+.mark 1327 #45a8
+'e398'
+.mark 1328 #45aa
+'4a40'
+.mark 1329 #45ac
+'6602'
+.mark 1330 #45ae
+'e398'
+.mark 1331 #45b0
+'5583'
+.mark 1332 #45b2
+'6ef0'
+.mark 1333 #45b4
+'2012'
+.mark 1334 #45b6
+'e398'
+.mark 1335 #45b8
+'2480'
+.mark 1336 #45ba
+'4a45'
+.mark 1337 #45bc
+'57caffc4'
+.mark 1339 #45c0
+'5279'
+#744 :L
+.mark 1340 #45c6
+'3a5c'
+.mark 1340 #45c8
+'4ed5'
+.mark 1342 #45ca
+'3a5c'
+.mark 1342 #45cc
+'4ed5'
+.mark 1349 #45ce
+'245c'
+.mark 1350 #45d0
+'2452'
+.mark 1351 #45d2
+'265c'
+.mark 1352 #45d4
+'2013'
+.mark 1353 #45d6
+'429a'
+.mark 1354 #45d8
+'5980'
+.mark 1355 #45da
+'6efa'
+.mark 1356 #45dc
+'3a5c'
+.mark 1356 #45de
+'4ed5'
+.mark 1361 #45e0
+'265c'
+.mark 1362 #45e2
+'260b'
+.mark 1363 #45e4
+'2653'
+.mark 1364 #45e6
+'244b'
+.mark 1365 #45e8
+'588b'
+.mark 1367 #45ea
+'4280'
+.mark 1368 #45ec
+'225c'
+.mark 1369 #45ee
+'3011'
+.mark 1371 #45f0
+'2200'
+.mark 1372 #45f2
+'e581'
+.mark 1373 #45f4
+'95c1'
+.mark 1374 #45f6
+'280a'
+.mark 1375 #45f8
+'e280'
+.mark 1377 #45fa
+'2223'
+.mark 1378 #45fc
+'2692'
+.mark 1379 #45fe
+'24c1'
+.mark 1380 #4600
+'51c8fff8'
+.mark 1381 #4604
+'2443'
+.mark 1382 #4606
+'2484'
+.mark 1383 #4608
+'3a5c'
+.mark 1383 #460a
+'4ed5'
+.mark 1388 #460c
+'207c00040001'
+.mark 1389 #4612
+'227c00030001'
+.mark 1390 #4618
+'267c00000012'
+.mark 1392 #461e
+'32bc0000'
+.mark 1394 #4622
+'08100000'
+.mark 1395 #4626
+'67fa'
+.mark 1397 #4628
+'32bc0000'
+.mark 1399 #462c
+'08100000'
+.mark 1400 #4630
+'67fa'
+.mark 1402 #4632
+'337cffff0004'
+.mark 1403 #4638
+'32bc0000'
+.mark 1404 #463c
+'337c00000008'
+.mark 1406 #4642
+'08100001'
+.mark 1407 #4646
+'67fa'
+.mark 1409 #4648
+'32bc0000'
+.mark 1410 #464c
+'337c00000008'
+.mark 1412 #4652
+'303900800008'
+.mark 1413 #4658
+'e340'
+.mark 1414 #465a
+'60000096'
+.mark 1420 #465e
+'50f9'
+#2779 :L
+.mark 1421 #4664
+'6066'
+.mark 1427 #4666
+'007c0700'
+.mark 1428 #466a
+'4a7900020000'
+.mark 1429 #4670
+'33fc000400800002'
+.mark 1430 #4678
+'33fc000000800004'
+.mark 1432 #4680
+'43fa'
+-7940 :I
+.mark 1433 #4684
+'41f80008'
+.mark 1434 #4688
+'7221'
+.mark 1435 #468a
+'20d9'
+.mark 1436 #468c
+'b0fc0030'
+.mark 1437 #4690
+'6604'
+.mark 1438 #4692
+'d0fc0030'
+.mark 1439 #4696
+'51c9fff2'
+.mark 1441 #469a
+'007c0700'
+.mark 1442 #469e
+'21fc'
+#469a :L
+'0004'
+.mark 1443 #46a6
+'2e7c'
+#5f0 :L
+.mark 1444 #46ac
+'427900020000'
+.mark 1445 #46b2
+'4279'
+#2778 :L
+.mark 1446 #46b8
+'33fc000000800002'
+.mark 1447 #46c0
+'33fc000000800004'
+.mark 1448 #46c8
+'027cf8ff'
+.mark 1452 #46cc
+'41fa'
+-16024 :I
+.mark 1453 #46d0
+'43fa'
+-16148 :I
+.mark 1454 #46d4
+'3089'
+.mark 1455 #46d6
+'2c49'
+.mark 1457 #46d8
+'207c00040001'
+.mark 1458 #46de
+'227c00030001'
+.mark 1459 #46e4
+'267c00000012'
+.mark 1461 #46ea
+'303900800008'
+.mark 1462 #46f0
+'e340'
+.mark 1464 #46f2
+'49fa'
+-16360 :I
+.mark 1465 #46f6
+'3854'
+.mark 1466 #46f8
+'38740000'
+.mark 1468 #46fc
+'33fc000200800002'
+.mark 1470 #4704
+'3a5c'
+.mark 1470 #4706
+'4ed5'
+.mark 1475 #4708
+'33fc0002'
+#277c :L
+.mark 1476 #4710
+'33fcffff00800046'
+.mark 1477 #4718
+'60b2'
+.mark 1483 #471a
+'007c0700'
+.mark 1484 #471e
+'4a7900020000'
+.mark 1485 #4724
+'33fc000400800002'
+.mark 1487 #472c
+'303900800000'
+.mark 1488 #4732
+'673e'
+.mark 1490 #4734
+'0c400001'
+.mark 1491 #4738
+'6722'
+.mark 1493 #473a
+'0c400003'
+.mark 1494 #473e
+'671c'
+.mark 1496 #4740
+'0c400002'
+.mark 1497 #4744
+'6716'
+.mark 1499 #4746
+'33fc000300800002'
+.mark 1500 #474e
+'4a7900010000'
+.mark 1501 #4754
+'4279'
+#277c :L
+.mark 1502 #475a
+'4e73'
+.mark 1504 #475c
+'027cf8ff'
+.mark 1505 #4760
+'2e7c'
+#5f0 :L
+.mark 1507 #4766
+'4a7900010000'
+.mark 1508 #476c
+'4ef9'
+#46cc :L
+.mark 1510 #4772
+'4a7900800004'
+.mark 1511 #4778
+'67cc'
+.mark 1513 #477a
+'303900800006'
+.mark 1514 #4780
+'67c4'
+.mark 1516 #4782
+'0c400001'
+.mark 1517 #4786
+'66be'
+.mark 1519 #4788
+'427900800006'
+.mark 1520 #478e
+'427900800004'
+.mark 1521 #4794
+'4e73'
+.mark 1534 #4796
+'33fca1a100801428'
+.mark 1535 #479e
+'48f8ffff'
+#2808 :I
+.mark 1536 #47a4
+'3038'
+#2806 :I
+.mark 1537 #47a8
+'0c400021'
+.mark 1538 #47ac
+'6306'
+.mark 1539 #47ae
+'41fa'
+-7549 :I
+.mark 1540 #47b2
+'600a'
+.mark 1541 #47b4
+'e340'
+.mark 1542 #47b6
+'41fa'
+-7538 :I
+.mark 1543 #47ba
+'30700000'
+.mark 1544 #47be
+'43fa'
+-8056 :I
+.mark 1545 #47c2
+'7220'
+.mark 1546 #47c4
+'12d8'
+.mark 1547 #47c6
+'57c9fffc'
+.mark 1548 #47ca
+'6f08'
+.mark 1549 #47cc
+'12fc0020'
+.mark 1550 #47d0
+'51c9fffa'
+.mark 1552 #47d4
+'4e722700'
+.mark 1558 #47d8
+'31fc0000'
+#2806 :I
+.mark 1559 #47de
+'60b6'
+.mark 1561 #47e0
+'31fc0001'
+#2806 :I
+.mark 1562 #47e6
+'60ae'
+.mark 1564 #47e8
+'31fc0002'
+#2806 :I
+.mark 1565 #47ee
+'60a6'
+.mark 1567 #47f0
+'31fc0003'
+#2806 :I
+.mark 1568 #47f6
+'609e'
+.mark 1570 #47f8
+'31fc0004'
+#2806 :I
+.mark 1571 #47fe
+'6096'
+.mark 1573 #4800
+'31fc0005'
+#2806 :I
+.mark 1574 #4806
+'608e'
+.mark 1576 #4808
+'31fc0006'
+#2806 :I
+.mark 1577 #480e
+'6086'
+.mark 1579 #4810
+'31fc0007'
+#2806 :I
+.mark 1580 #4816
+'6000ff7e'
+.mark 1582 #481a
+'31fc0008'
+#2806 :I
+.mark 1583 #4820
+'6000ff74'
+.mark 1585 #4824
+'31fc0009'
+#2806 :I
+.mark 1586 #482a
+'6000ff6a'
+.mark 1588 #482e
+'31fc000a'
+#2806 :I
+.mark 1589 #4834
+'6000ff60'
+.mark 1591 #4838
+'31fc000b'
+#2806 :I
+.mark 1592 #483e
+'6000ff56'
+.mark 1594 #4842
+'31fc000c'
+#2806 :I
+.mark 1595 #4848
+'6000ff4c'
+.mark 1597 #484c
+'31fc000d'
+#2806 :I
+.mark 1598 #4852
+'6000ff42'
+.mark 1600 #4856
+'31fc000e'
+#2806 :I
+.mark 1601 #485c
+'6000ff38'
+.mark 1603 #4860
+'31fc000f'
+#2806 :I
+.mark 1604 #4866
+'6000ff2e'
+.mark 1606 #486a
+'31fc0010'
+#2806 :I
+.mark 1607 #4870
+'6000ff24'
+.mark 1609 #4874
+'31fc0011'
+#2806 :I
+.mark 1610 #487a
+'6000ff1a'
+.mark 1612 #487e
+'31fc0012'
+#2806 :I
+.mark 1613 #4884
+'6000ff10'
+.mark 1615 #4888
+'31fc0013'
+#2806 :I
+.mark 1616 #488e
+'6000ff06'
+.mark 1618 #4892
+'31fc0014'
+#2806 :I
+.mark 1619 #4898
+'6000fefc'
+.mark 1621 #489c
+'31fc0015'
+#2806 :I
+.mark 1622 #48a2
+'6000fef2'
+.mark 1624 #48a6
+'31fc0016'
+#2806 :I
+.mark 1625 #48ac
+'6000fee8'
+.mark 1627 #48b0
+'31fc0017'
+#2806 :I
+.mark 1628 #48b6
+'6000fede'
+.mark 1630 #48ba
+'31fc0018'
+#2806 :I
+.mark 1631 #48c0
+'6000fed4'
+.mark 1633 #48c4
+'31fc0019'
+#2806 :I
+.mark 1634 #48ca
+'6000feca'
+.mark 1636 #48ce
+'31fc001a'
+#2806 :I
+.mark 1637 #48d4
+'6000fec0'
+.mark 1639 #48d8
+'31fc001b'
+#2806 :I
+.mark 1640 #48de
+'6000feb6'
+.mark 1642 #48e2
+'31fc001c'
+#2806 :I
+.mark 1643 #48e8
+'6000feac'
+.mark 1645 #48ec
+'31fc001d'
+#2806 :I
+.mark 1646 #48f2
+'6000fea2'
+.mark 1648 #48f6
+'31fc001e'
+#2806 :I
+.mark 1649 #48fc
+'6000fe98'
+.mark 1651 #4900
+'31fc001f'
+#2806 :I
+.mark 1652 #4906
+'6000fe8e'
+.mark 1654 #490a
+'31fc0020'
+#2806 :I
+.mark 1655 #4910
+'6000fe84'
+.mark 1657 #4914
+'31fc0021'
+#2806 :I
+.mark 1658 #491a
+'6000fe7a'
+.mark 1660 #491e
+'31fc0022'
+#2806 :I
+.mark 1661 #4924
+'6000fe70'
+.aorg %5 #277e
+#47d8 :L
+#47e0 :L
+#47e8 :L
+#47f0 :L
+#47f8 :L
+#4800 :L
+#4808 :L
+#4810 :L
+#481a :L
+#4824 :L
+#482e :L
+#471a :L
+#4842 :L
+#471a :L
+#4856 :L
+#471a :L
+#486a :L
+#471a :L
+#487e :L
+#4888 :L
+#4892 :L
+#489c :L
+#48a6 :L
+#48b0 :L
+#48ba :L
+#48c4 :L
+#48ce :L
+#48d8 :L
+#48e2 :L
+#48ec :L
+#48f6 :L
+#4900 :L
+#490a :L
+#4914 :L
+.aorg %5 #2868
+'427573206572726f7200'
+'41646472657373206572726f7200'
+'496c6c6567616c20696e737472756374696f6e00'
+'5a65726f2064697669646500'
+'43484b20696e737472756374696f6e00'
+'545241505620696e7374727563746f6e00'
+'50726976696c6567652076696f6c6174696f6e00'
+'545241434520657863657074696f6e00'
+'4c696e65203130313000'
+'4c696e65203131313100'
+'53707572696f757320696e7465727275707400'
+'4c6576656c203120495251204175746f766563746f7200'
+'4c6576656c203220495251204175746f766563746f7200'
+'4c6576656c203320495251204175746f766563746f7200'
+'4c6576656c203420495251204175746f766563746f7200'
+'4c6576656c203520495251204175746f766563746f7200'
+'4c6576656c203620495251204175746f766563746f7200'
+'4c6576656c203720495251204175746f766563746f7200'
+'5472617020233000'
+'5472617020233100'
+'5472617020233200'
+'5472617020233300'
+'5472617020233400'
+'5472617020233500'
+'5472617020233600'
+'5472617020233700'
+'5472617020233800'
+'5472617020233900'
+'547261702023313000'
+'547261702023313100'
+'547261702023313200'
+'547261702023313300'
+'547261702023313400'
+'547261702023313500'
+'457863657074696f6e204572726f7200'
+'00'
+'0000'
+#2868 :W
+#2872 :W
+#2880 :W
+#2894 :W
+#28a0 :W
+#28b0 :W
+#28c1 :W
+#28d5 :W
+#28e5 :W
+#28ef :W
+#28f9 :W
+#290c :W
+#2923 :W
+#293a :W
+#2951 :W
+#2968 :W
+#297f :W
+#2996 :W
+#29ad :W
+#29b5 :W
+#29bd :W
+#29c5 :W
+#29cd :W
+#29d5 :W
+#29dd :W
+#29e5 :W
+#29ed :W
+#29f5 :W
+#29fd :W
+#2a06 :W
+#2a0f :W
+#2a18 :W
+#2a21 :W
+#2a2a :W
+#2a33 :W
+.aorg %6 #4928
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+#44cc :W
+.dcl 0 {monitor.asm} m 
+.bgn
+.dcl 1 {} r 0 f 2
+.bgn 0
+.dcl 2 {PSCT} l 0
+.dcl 3 {FCTBLPTR} l #700
+.dcl 4 {FCTBLINX} l #702
+.dcl 5 {FCCODPTR} l #704
+.dcl 6 {DCTBLPTR} l #706
+.dcl 7 {DCTBLINX} l #708
+.dcl 8 {DCCODPTR} l #70a
+.dcl 9 {DACTBLPTR} l #70c
+.dcl 10 {DACTBLINX} l #70e
+.dcl 11 {DACCODPTR} l #710
+.dcl 12 {LCTBLPTR} l #712
+.dcl 13 {LCTBLINX} l #714
+.dcl 14 {MSM_Act_RQ} l 8388608
+.dcl 15 {MSM_Act_RQ_RPL} l 8388610
+.dcl 16 {MSM_Sig_PC} l 8388612
+.dcl 17 {MSM_Sig_PC_RPL} l 8388614
+.dcl 18 {MSM_Pgm_Inx} l 8388616
+.dcl 19 {MSM_Data_Offset} l 8388618
+.dcl 20 {MSM_Bgnd_Offset} l 8388622
+.dcl 21 {MSM_Data_Size} l 8388626
+.dcl 22 {MSM_FC_OH} l 8388630
+.dcl 23 {Counter_H0} l 8388632
+.dcl 24 {Counter_H1} l 8388634
+.dcl 25 {Counter_I0} l 8388636
+.dcl 26 {Counter_I1} l 8388638
+.dcl 27 {Counter_J0} l 8388640
+.dcl 28 {Counter_J1} l 8388642
+.dcl 29 {Counter_K0} l 8388644
+.dcl 30 {Counter_K1} l 8388646
+.dcl 31 {Counter_L0} l 8388648
+.dcl 32 {Counter_L1} l 8388650
+.dcl 33 {Counter_T0} l 8388652
+.dcl 34 {Counter_T1} l 8388654
+.dcl 35 {Counter_S0} l 8388656
+.dcl 36 {Counter_S1} l 8388658
+.dcl 37 {MSM_FC_Scan_Mode} l 8388660
+.dcl 38 {MSM_FC_StreakMode} l 8388662
+.dcl 39 {MSM_FC_StrkOTMode} l 8388664
+.dcl 40 {MSM_DC_Add_Mode} l 8388666
+.dcl 41 {MSM_DC_Rep_Mode} l 8388668
+.dcl 42 {MSM_DC_Sub_Mode} l 8388670
+.dcl 43 {MSM_DC_Ign_Mode} l 8388672
+.dcl 44 {MSM_DC_OH} l 8388674
+.dcl 45 {MSM_DC_StreakMode} l 8388676
+.dcl 46 {MSM_DA_Complete} l 8388678
+.dcl 47 {MSM_Serial_Mode} l 8388680
+.dcl 48 {MSM_Image_Mode} l 8388682
+.dcl 49 {MSM_Sort} l 8388684
+.dcl 50 {MSM_Pointnum} l 8388686
+.dcl 51 {MSM_SC_Address} l 8388688
+.dcl 52 {MSM_PIA_Out} l 8388692
+.dcl 53 {MSM_StreakMode} l 8388694
+.dcl 54 {MSM_PIA_In} l 8388696
+.dcl 55 {MSM_Cooler_Status} l 8388700
+.dcl 56 {MSM_Shutter_ID} l 8388704
+.dcl 57 {MSM_Detector_ID} l 8388708
+.dcl 58 {VTABLE} l 0
+.dcl 59 {RESET.SP} l 0
+.dcl 60 {STACK.START} l #5f0
+.dcl 61 {RESET.PC} l 4
+.dcl 62 {STARTUP} l #4666
+.dcl 63 {V.BERR} l 8
+.dcl 64 {V.AERR} l 12
+.dcl 65 {V.ILLG} l 16
+.dcl 66 {V.ZRDV} l 20
+.dcl 67 {V.CHKI} l 24
+.dcl 68 {V.TRAPV} l 28
+.dcl 69 {V.PRIVIO} l 32
+.dcl 70 {V.TRACE} l 36
+.dcl 71 {V.L1010} l 40
+.dcl 72 {V.L1111} l 44
+.dcl 73 {V.MISC1} l 48
+.dcl 74 {EX_DFLT} l #491e
+.dcl 75 {V.SPURI} l 80
+.dcl 76 {V.IRQ1} l 84
+.dcl 77 {V.IRQ2} l 88
+.dcl 78 {V.IRQ3} l 92
+.dcl 79 {V.IRQ4} l 96
+.dcl 80 {V.IRQ5} l 100
+.dcl 81 {V.IRQ6} l 104
+.dcl 82 {V.IRQ7} l 108
+.dcl 83 {V.TRAP0} l 112
+.dcl 84 {V.TRAP1} l 116
+.dcl 85 {V.TRAP2} l 120
+.dcl 86 {V.TRAP3} l 124
+.dcl 87 {V.TRAP4} l 128
+.dcl 88 {V.TRAP5} l 132
+.dcl 89 {V.TRAP6} l 136
+.dcl 90 {V.TRAP7} l 140
+.dcl 91 {V.TRAP8} l 144
+.dcl 92 {V.TRAP9} l 148
+.dcl 93 {V.TRAP10} l 152
+.dcl 94 {V.TRAP11} l 156
+.dcl 95 {V.TRAP12} l 160
+.dcl 96 {V.TRAP13} l 164
+.dcl 97 {V.TRAP14} l 168
+.dcl 98 {V.TRAP15} l 172
+.dcl 99 {V.MISC2} l 176
+.dcl 100 {STACK} l #3f0
+.dcl 101 {stackend} l #3f0
+.dcl 102 {POINTERS} l #700
+.dcl 103 {FCTBL} l #838
+.dcl 104 {DCTBL} l #1008
+.dcl 105 {DACTBL} l #17d8
+.dcl 106 {DACLIST} l #4928
+.dcl 107 {LCTBL} l #1fa8
+.dcl 108 {DATAADDR} l #716
+.dcl 109 {BGNDADDR} l #71a
+.dcl 110 {VERSION_LABEL} l #71e
+.dcl 111 {DATA} l #738
+.dcl 112 {RESFLG} l #738
+.dcl 113 {INITPATT} l #73a
+.dcl 114 {PATT} l #73e
+.dcl 115 {QUIKTEST} l #742
+.dcl 116 {SUCCESS} l #744
+.dcl 117 {LOOPSTACK} l #746
+.dcl 118 {LOOPTR} l #836
+.dcl 119 {FCEND} l #1008
+.dcl 120 {DMAEND} l #17d8
+.dcl 121 {DACEND} l #1fa8
+.dcl 122 {LCEND} l #2778
+.dcl 123 {IN_DA} l #2778
+.dcl 124 {PC_INPROG} l #277a
+.dcl 125 {PC_MAILBOX} l #277c
+.dcl 126 {CODE} l #4000
+.dcl 127 {_ADDIB} l #4000
+.dcl 128 {_ADDIW} l #400a
+.dcl 129 {_ADDIL} l #4014
+.dcl 130 {_ADDIBN} l #401e
+.dcl 131 {_ADDIWN} l #402a
+.dcl 132 {_ADDILN} l #4036
+.dcl 133 {_ADDAB} l #4042
+.dcl 134 {_ADDAW} l #404e
+.dcl 135 {_ADDAL} l #405a
+.dcl 136 {_ADDABTN} l #4066
+.dcl 137 {_ADDAWTN} l #4074
+.dcl 138 {_ADDALTN} l #4082
+.dcl 139 {_ADDABFN} l #4090
+.dcl 140 {_ADDAWFN} l #409e
+.dcl 141 {_ADDALFN} l #40ac
+.dcl 142 {_ADDABDN} l #40ba
+.dcl 143 {_ADDAWDN} l #40ca
+.dcl 144 {_ADDALDN} l #40da
+.dcl 145 {_SUBIB} l #40ea
+.dcl 146 {_SUBIW} l #40f4
+.dcl 147 {_SUBIL} l #40fe
+.dcl 148 {_SUBIBN} l #4108
+.dcl 149 {_SUBIWN} l #4114
+.dcl 150 {_SUBILN} l #4120
+.dcl 151 {_SUBAB} l #412c
+.dcl 152 {_SUBAW} l #4138
+.dcl 153 {_SUBAL} l #4144
+.dcl 154 {_SUBABTN} l #4150
+.dcl 155 {_SUBAWTN} l #415e
+.dcl 156 {_SUBALTN} l #416c
+.dcl 157 {_SUBABFN} l #417a
+.dcl 158 {_SUBAWFN} l #4188
+.dcl 159 {_SUBALFN} l #4196
+.dcl 160 {_SUBABDN} l #41a4
+.dcl 161 {_SUBAWDN} l #41b4
+.dcl 162 {_SUBALDN} l #41c4
+.dcl 163 {_ANDIB} l #41d4
+.dcl 164 {_ANDIW} l #41de
+.dcl 165 {_ANDIL} l #41e8
+.dcl 166 {_ANDAB} l #41f2
+.dcl 167 {_ANDAW} l #41fe
+.dcl 168 {_ANDAL} l #420a
+.dcl 169 {_BEQ} l #4216
+.dcl 170 {GO} l #4224
+.dcl 171 {_BGT} l #422a
+.dcl 172 {_BLT} l #4238
+.dcl 173 {CLRFLG} l #4246
+.dcl 174 {MINFLG} l #4250
+.dcl 175 {PLSFLG} l #425c
+.dcl 176 {_CMPRIL} l #4268
+.dcl 177 {_CMPRIW} l #4274
+.dcl 178 {_CMPRIB} l #4280
+.dcl 179 {_CMPRL} l #428c
+.dcl 180 {_CMPRW} l #4298
+.dcl 181 {_CMPRB} l #42a4
+.dcl 182 {_TEST} l #42b0
+.dcl 183 {_MOVELI} l #42ba
+.dcl 184 {_MOVEWI} l #42c4
+.dcl 185 {_MOVEBI} l #42ce
+.dcl 186 {_MOVELIN} l #42d8
+.dcl 187 {_MOVEWIN} l #42e4
+.dcl 188 {_MOVEBIN} l #42f0
+.dcl 189 {_MOVELIA} l #42fc
+.dcl 190 {_MOVEWIA} l #4312
+.dcl 191 {_MOVEBIA} l #4322
+.dcl 192 {_MOVEL} l #432c
+.dcl 193 {_MOVEW} l #4336
+.dcl 194 {_MOVEB} l #4340
+.dcl 195 {_MOVELA} l #434a
+.dcl 196 {_MOVEWA} l #4362
+.dcl 197 {_MOVEBA} l #4374
+.dcl 198 {_MOVELFN} l #437e
+.dcl 199 {_MOVEWFN} l #438a
+.dcl 200 {_MOVEBFN} l #4396
+.dcl 201 {_MOVELNA} l #43a2
+.dcl 202 {_MOVEWNA} l #43bc
+.dcl 203 {_MOVEBNA} l #43d0
+.dcl 204 {_MOVELTN} l #43de
+.dcl 205 {_MOVEWTN} l #43ea
+.dcl 206 {_MOVEBTN} l #43f6
+.dcl 207 {_MOVELDN} l #4402
+.dcl 208 {_MOVEWDN} l #4410
+.dcl 209 {_MOVEBDN} l #441e
+.dcl 210 {_ORIB} l #442c
+.dcl 211 {_ORIW} l #4436
+.dcl 212 {_ORIL} l #4440
+.dcl 213 {_ORAB} l #444a
+.dcl 214 {_ORAW} l #4456
+.dcl 215 {_ORAL} l #4462
+.dcl 216 {_WAIT_FC} l #446e
+.dcl 217 {WAIT1} l #4474
+.dcl 218 {_WAIT_DMA} l #447e
+.dcl 219 {WAIT2} l #4484
+.dcl 220 {_DOI} l #448e
+.dcl 221 {_DOAT} l #4498
+.dcl 222 {_DOATN} l #44a4
+.dcl 223 {_LOOP} l #44b2
+.dcl 224 {NOLOOP} l #44be
+.dcl 225 {_GOTO} l #44c6
+.dcl 226 {_DONOT} l #44cc
+.dcl 227 {FBASE.AD} l #44d0
+.dcl 228 {_RAPSCAN} l #44d4
+.dcl 229 {SCANLOOP} l #44f8
+.dcl 230 {LOOPER} l #44fc
+.dcl 231 {READ_TBL1} l #4502
+.dcl 232 {READ_TBL2} l #4530
+.dcl 233 {LOOP_END} l #4562
+.dcl 234 {WAIT_DC} l #4534
+.dcl 235 {_TESTMEM} l #456c
+.dcl 236 {TMEM0} l #4582
+.dcl 237 {TMEM1} l #458c
+.dcl 238 {TMEM1A} l #4596
+.dcl 239 {TMEM2} l #45a4
+.dcl 240 {TMEMERR} l #45ca
+.dcl 241 {TMEM1B} l #45b0
+.dcl 242 {_CLRMEM} l #45ce
+.dcl 243 {CLRMEM0} l #45d6
+.dcl 244 {_SORTTRK} l #45e0
+.dcl 245 {SORTTRK0} l #45fa
+.dcl 246 {INIT_DAC} l #460c
+.dcl 247 {DASTART1} l #46f2
+.dcl 248 {DA_SWITCH} l #465e
+.dcl 249 {DA_START} l #46cc
+.dcl 250 {ETABLE} l #277e
+.dcl 251 {EX_INIT} l #468a
+.dcl 252 {EXINIT2} l #4696
+.dcl 253 {RESTART} l #469a
+.dcl 254 {DASTART2} l #46ea
+.dcl 255 {_DONE} l #4708
+.dcl 256 {PC_ISR} l #471a
+.dcl 257 {ISR_GETRPL} l #4772
+.dcl 258 {ISR_DO_ACT} l #475c
+.dcl 259 {ISR_ERR} l #4746
+.dcl 260 {ENDISR0} l #475a
+.dcl 261 {EX_ERR} l #4796
+.dcl 262 {SAVREGS} l #2808
+.dcl 263 {ECODE} l #2806
+.dcl 264 {PMSG0} l #47b4
+.dcl 265 {DFLTMSG} l #2a33
+.dcl 266 {PMSG1} l #47be
+.dcl 267 {EMSGTBL} l #2a46
+.dcl 268 {EMSGBUF} l #2848
+.dcl 269 {PRINTMSG} l #47c4
+.dcl 270 {EX_ERR2} l #47d4
+.dcl 271 {PMSG2} l #47cc
+.dcl 272 {EX_BERR} l #47d8
+.dcl 273 {EX_AERR} l #47e0
+.dcl 274 {EX_ILLG} l #47e8
+.dcl 275 {EX_ZRDV} l #47f0
+.dcl 276 {EX_CHKI} l #47f8
+.dcl 277 {EX_TRAPV} l #4800
+.dcl 278 {EX_PRIVIO} l #4808
+.dcl 279 {EX_TRACE} l #4810
+.dcl 280 {EX_L1010} l #481a
+.dcl 281 {EX_L1111} l #4824
+.dcl 282 {EX_SPURI} l #482e
+.dcl 283 {EX_IRQ1} l #4838
+.dcl 284 {EX_IRQ2} l #4842
+.dcl 285 {EX_IRQ3} l #484c
+.dcl 286 {EX_IRQ4} l #4856
+.dcl 287 {EX_IRQ5} l #4860
+.dcl 288 {EX_IRQ6} l #486a
+.dcl 289 {EX_IRQ7} l #4874
+.dcl 290 {EX_TRAP0} l #487e
+.dcl 291 {EX_TRAP1} l #4888
+.dcl 292 {EX_TRAP2} l #4892
+.dcl 293 {EX_TRAP3} l #489c
+.dcl 294 {EX_TRAP4} l #48a6
+.dcl 295 {EX_TRAP5} l #48b0
+.dcl 296 {EX_TRAP6} l #48ba
+.dcl 297 {EX_TRAP7} l #48c4
+.dcl 298 {EX_TRAP8} l #48ce
+.dcl 299 {EX_TRAP9} l #48d8
+.dcl 300 {EX_TRAP10} l #48e2
+.dcl 301 {EX_TRAP11} l #48ec
+.dcl 302 {EX_TRAP12} l #48f6
+.dcl 303 {EX_TRAP13} l #4900
+.dcl 304 {EX_TRAP14} l #490a
+.dcl 305 {EX_TRAP15} l #4914
+.dcl 306 {EMSGS} l #2868
+.dcl 307 {EMSG0} l #2868
+.dcl 308 {EMSG1} l #2872
+.dcl 309 {EMSG2} l #2880
+.dcl 310 {EMSG3} l #2894
+.dcl 311 {EMSG4} l #28a0
+.dcl 312 {EMSG5} l #28b0
+.dcl 313 {EMSG6} l #28c1
+.dcl 314 {EMSG7} l #28d5
+.dcl 315 {EMSG8} l #28e5
+.dcl 316 {EMSG9} l #28ef
+.dcl 317 {EMSG10} l #28f9
+.dcl 318 {EMSG11} l #290c
+.dcl 319 {EMSG12} l #2923
+.dcl 320 {EMSG13} l #293a
+.dcl 321 {EMSG14} l #2951
+.dcl 322 {EMSG15} l #2968
+.dcl 323 {EMSG16} l #297f
+.dcl 324 {EMSG17} l #2996
+.dcl 325 {EMSG18} l #29ad
+.dcl 326 {EMSG19} l #29b5
+.dcl 327 {EMSG20} l #29bd
+.dcl 328 {EMSG21} l #29c5
+.dcl 329 {EMSG22} l #29cd
+.dcl 330 {EMSG23} l #29d5
+.dcl 331 {EMSG24} l #29dd
+.dcl 332 {EMSG25} l #29e5
+.dcl 333 {EMSG26} l #29ed
+.dcl 334 {EMSG27} l #29f5
+.dcl 335 {EMSG28} l #29fd
+.dcl 336 {EMSG29} l #2a06
+.dcl 337 {EMSG30} l #2a0f
+.dcl 338 {EMSG31} l #2a18
+.dcl 339 {EMSG32} l #2a21
+.dcl 340 {EMSG33} l #2a2a
+.dcl 341 {VERYLAST} l #50f8
+.end
+.end

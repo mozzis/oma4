@@ -1,0 +1,32 @@
+;************************************************************************
+;*                                                                      *
+;*      This program NG will read data from the CCD in Simple Mode. It  *
+;*      will take one background followed by two memories.              *
+;*                                                                      *
+;************************************************************************
+
+SPIKES  DAC_BLOCK
+
+        SET_MEM_0                          ;Set memory pointer to 0
+        INIT_CNTRS                         ;Set initial counter vals
+        SUB W #1, ICNTR                    ;Does 1 rep outside of loop
+        DO_PREPS                           ;Amount set by front panel.
+
+        MOVE W #FCOHNS, FC_OHMODE
+        MOVE W #DCOH, DC_OHMODE
+        SHUTTER_EXPOSE                   ;Get Background frame.
+        ACQ_TRACKS DC_REPMODE            ;Replace a frame
+        INC_MEM                          ;Inc memory pointer
+        ADD W #1, J1ADDR                 ;Let PC track da seq.
+
+        MOVE W #FCOH, FC_OHMODE
+        MOVE W #DCOH, DC_OHMODE
+        SHUTTER_EXPOSE                   ;Get real frame.      
+        ACQ_TRACKS DC_REPMODE            ;Replace a frame
+        INC_MEM                          ;Inc memory pointer
+        ADD W #1, J1ADDR                 ;Let PC track da seq.
+
+        SET_LCI
+        KEEP_CLEAN
+        DONE
+

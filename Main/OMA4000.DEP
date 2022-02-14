@@ -1,0 +1,380 @@
+#UPDATE#
+#start uniqdep processing#
+
+oma4000.obj:	oma4000.h macruntm.h primtype.h tempdata.h di_util.h filemsg.h \
+		formtype.h formwind.h oma4driv.h oma4scan.h gpibcom.h spgraph.h \
+		curvdraw.h device.h live.h multi.h fkeyfunc.h barmenu.h \
+		graphops.h omaform.h omameth.h handy.h detinfo.h cursor.h \
+		macrecor.h grafmous.h baslnsub.h points.h calib.h coolstat.h \
+		filestuf.h livedisk.h runforms.h pltsetup.h omamenu.h syserror.h \
+		omaerror.h omazoom.h formtabs.h basepath.h plotbox.h curvedir.h \
+		crventry.h curvbufr.h crvheadr.h forms.h cache386.h fileform.h \
+		splitfrm.h 
+
+live.obj:	live.h primtype.h forms.h formtype.h runforms.h doplot.h \
+		device.h points.h calib.h tempdata.h curvedir.h crventry.h \
+		handy.h di_util.h cursor.h omaform.h fkeyfunc.h barmenu.h \
+		backgrnd.h macrecor.h multi.h fcolor.h oma4driv.h oma4scan.h \
+		coolstat.h formwind.h omazoom.h pltsetup.h omamenu.h syserror.h \
+		omameth.h detinfo.h omaerror.h plotbox.h curvbufr.h crvheadr.h \
+		curvdraw.h graphops.h lineplot.h 
+
+omaform1.obj:	omaform.h primtype.h formtype.h formtabs.h curvdraw.h change.h \
+		helpindx.h omameth.h handy.h detinfo.h cursor.h ksindex.h \
+		livedisk.h macrecor.h di_util.h fileform.h barmenu.h graphops.h \
+		basepath.h filemsg.h formwind.h omaerror.h forms.h plotbox.h \
+		syserror.h pltsetup.h oma4driv.h oma4scan.h coolstat.h spgraph.h \
+		mathform.h 
+
+formtabs.obj:	formtabs.h formtype.h omaform.h primtype.h runsetup.h spgraph.h \
+		baslnsub.h points.h calib.h ycalib.h macruntm.h tagcurve.h \
+		config.h scanset.h rapset.h runforms.h pltsetup.h fileform.h \
+		mathform.h statform.h backgrnd.h macrofrm.h 
+
+curvdraw.obj:	curvdraw.h primtype.h device.h hline.h tempdata.h multi.h \
+		cursor.h curvbufr.h crvheadr.h baslnsub.h points.h ycalib.h \
+		fcolor.h autopeak.h wintags.h forms.h formtype.h tagcurve.h \
+		pltsetup.h splitfrm.h crventry.h handy.h doplot.h plotbox.h \
+		curvedir.h 
+
+macres2.obj:	macres2.h primtype.h macruntm.h macnres.h macrores.h tempdata.h \
+		points.h curvedir.h crventry.h handy.h curvbufr.h crvheadr.h \
+		filestuf.h mathops.h curvdraw.h fkeyfunc.h barmenu.h formtype.h \
+		cursor.h di_util.h oma4000.h omaform.h live.h formwind.h \
+		runforms.h pltsetup.h mdatstak.h syserror.h omaerror.h omameth.h \
+		detinfo.h plotbox.h forms.h 
+
+tagcurve.obj:	tagcurve.h primtype.h wintags.h helpindx.h ksindex.h cursor.h \
+		doplot.h device.h omaform.h formtype.h graphops.h fkeyfunc.h \
+		barmenu.h multi.h macrecor.h macruntm.h live.h di_util.h \
+		tempdata.h formwind.h baslnsub.h points.h pltsetup.h omamenu.h \
+		formtabs.h omaerror.h syserror.h crventry.h handy.h curvedir.h \
+		curvdraw.h plotbox.h forms.h 
+
+omamenu.obj:	primtype.h omamenu.h barmenu.h formtype.h device.h dosshell.h \
+		fkeyfunc.h graphops.h helpindx.h ksindex.h tagcurve.h runforms.h \
+		formtabs.h omaform.h omaerror.h forms.h macruntm.h handy.h \
+		coolstat.h 
+
+device.obj:	device.h primtype.h doplot.h multi.h cursor.h baslnsub.h \
+		points.h plotbox.h formwind.h forms.h formtype.h calib.h \
+		pltsetup.h syserror.h spgraph.h omaform.h omaerror.h tagcurve.h \
+		curvedir.h crventry.h handy.h curvdraw.h 
+
+lineplot.obj:	lineplot.h device.h primtype.h 
+
+macrores.obj:	macrores.h primtype.h macnres2.h macruntm.h macnres.h crvheadr.h \
+		mathops.h gpibcom.h oma4driv.h oma4scan.h macrecor.h config.h \
+		macrofrm.h mdatstak.h macres2.h maccomp.h macparse.h syserror.h \
+		omaerror.h curvedir.h crventry.h handy.h graphops.h live.h \
+		omazoom.h autoscal.h cursor.h tagcurve.h autopeak.h omaform.h \
+		formtype.h oma4000.h baslnsub.h points.h forms.h spgraph.h \
+		dosshell.h statform.h mathform.h curvbufr.h curvdraw.h ycalib.h \
+		runforms.h di_util.h multi.h 
+
+baslnsub.obj:	baslnsub.h primtype.h points.h tempdata.h doplot.h fkeyfunc.h \
+		barmenu.h formtype.h graphops.h spline-3.h helpindx.h cursor.h \
+		lineplot.h curvdraw.h device.h omaform.h di_util.h curvedir.h \
+		crventry.h handy.h omazoom.h ksindex.h macrecor.h multi.h \
+		plotbox.h syserror.h omaerror.h formtabs.h crvheadr.h forms.h \
+		splitfrm.h 
+
+macnres.obj:	macnres.h primtype.h forms.h formtype.h oma4driv.h oma4scan.h \
+		multi.h curvdraw.h device.h crventry.h handy.h doplot.h \
+		oma4000.h cursor.h calib.h change.h backgrnd.h curvedir.h \
+		di_util.h pltsetup.h mdatstak.h macruntm.h syserror.h omaerror.h \
+		filestuf.h curvbufr.h crvheadr.h plotbox.h omameth.h detinfo.h \
+		tempdata.h 
+
+livedisk.obj:	livedisk.h forms.h primtype.h formtype.h barmenu.h filestuf.h \
+		tempdata.h curvedir.h crventry.h handy.h live.h oma4driv.h \
+		oma4scan.h curvdraw.h access4.h counters.h cntrloma.h oma4000.h \
+		cursor.h formwind.h pltsetup.h syserror.h omaerror.h omaform.h \
+		omameth.h detinfo.h curvbufr.h crvheadr.h plotbox.h 
+
+macnres2.obj:	macnres2.h primtype.h macnres.h macrecor.h forms.h formtype.h \
+		formwind.h macruntm.h tempdata.h points.h mathops.h device.h \
+		filestuf.h di_util.h macrofrm.h mdatstak.h macres2.h macnres3.h \
+		syserror.h omaerror.h crventry.h handy.h curvbufr.h crvheadr.h \
+		curvedir.h omaform.h 
+
+cache386.obj:	primtype.h d16mphys.h cache386.h 
+
+graphops.obj:	graphops.h primtype.h omazoom.h fkeyfunc.h barmenu.h formtype.h \
+		device.h cursor.h live.h multi.h calib.h baslnsub.h \
+		points.h autopeak.h omaform.h macrecor.h macruntm.h di_util.h \
+		pltsetup.h omamenu.h doplot.h plotbox.h curvdraw.h curvedir.h \
+		crventry.h handy.h forms.h splitfrm.h 
+
+fileform.obj:	fileform.h primtype.h forms.h formtype.h runforms.h omamenu.h \
+		barmenu.h curvedir.h crventry.h handy.h filestuf.h tempdata.h \
+		helpindx.h di_util.h ksindex.h backgrnd.h live.h curvdraw.h \
+		omameth.h detinfo.h omaform.h formwind.h macnres.h syserror.h \
+		omaerror.h formtabs.h plotbox.h 
+
+grafmous.obj:	grafmous.h primtype.h fkeyfunc.h barmenu.h formtype.h multi.h \
+		cursor.h omazoom.h macrecor.h graphops.h calib.h autopeak.h \
+		tagcurve.h wintags.h plotbox.h baslnsub.h points.h live.h \
+		pltsetup.h ksindex.h formtabs.h omaform.h spgraph.h omaerror.h \
+		forms.h splitfrm.h 
+
+omazoom.obj:	omazoom.h primtype.h plotbox.h fkeyfunc.h barmenu.h formtype.h \
+		graphops.h doplot.h curvdraw.h device.h cursor.h multi.h \
+		macrecor.h live.h baslnsub.h points.h omamenu.h syserror.h \
+		handy.h omaform.h forms.h 
+
+omameth.obj:	omameth.h handy.h detinfo.h primtype.h filestuf.h oma4driv.h \
+		oma4scan.h syserror.h omaerror.h oma4000.h basepath.h plotbox.h 
+
+access4.obj:	driverrs.h access4.h primtype.h oma4scan.h monitor.h counters.h \
+		oma4driv.h asicodes.h cache386.h cntrloma.h d16mphys.h himem.h 
+
+fkeyfunc.obj:	fkeyfunc.h primtype.h barmenu.h formtype.h device.h live.h \
+		helpindx.h cursor.h omaform.h macrecor.h macruntm.h formwind.h \
+		omamenu.h syserror.h omaerror.h ksindex.h graphops.h tagcurve.h \
+		omazoom.h autopeak.h handy.h crventry.h autoscal.h curvedir.h \
+		forms.h macrofrm.h coolstat.h 
+
+calib.obj:	calib.h primtype.h spgraph.h forms.h formtype.h tempdata.h \
+		points.h helpindx.h curvdraw.h device.h cursor.h graphops.h \
+		ksindex.h multi.h oma4000.h omaform.h formwind.h syserror.h \
+		omaerror.h formtabs.h crventry.h handy.h omameth.h detinfo.h \
+		autoscal.h plotbox.h curvedir.h crvheadr.h curvbufr.h 
+
+autopeak.obj:	autopeak.h primtype.h points.h device.h doplot.h cursor.h \
+		macrecor.h forms.h formtype.h di_util.h calib.h multi.h \
+		baslnsub.h omameth.h handy.h detinfo.h omaerror.h curvdraw.h \
+		plotbox.h crvheadr.h curvedir.h crventry.h omaform.h 
+
+macrecor.obj:	macrecor.h primtype.h barmenu.h formtype.h omaform.h di_util.h \
+		crvheadr.h handy.h macruntm.h cursor.h ksindex.h helpindx.h \
+		formwind.h mdatstak.h macrores.h macsymbl.h macparse.h syserror.h \
+		omaerror.h fkeyfunc.h formtabs.h basepath.h forms.h 
+
+mathform.obj:	mathform.h primtype.h tempdata.h di_util.h curvedir.h crventry.h \
+		handy.h mathops.h helpindx.h ksindex.h fileform.h formwind.h \
+		macres2.h syserror.h omaerror.h formtabs.h formtype.h omaform.h \
+		crvheadr.h curvbufr.h forms.h points.h plotbox.h splitfrm.h \
+		curvdraw.h cursor.h 
+
+runforms.obj:	runforms.h primtype.h handy.h ksindex.h livedisk.h helpindx.h \
+		curvedir.h crventry.h live.h omaform.h formtype.h fkeyfunc.h \
+		barmenu.h formtabs.h forms.h omaerror.h syserror.h di_util.h \
+		fileform.h formwind.h macnres3.h macruntm.h tempdata.h crvheadr.h \
+		curvbufr.h oma4driv.h oma4scan.h omameth.h detinfo.h 
+
+cursor.obj:	cursor.h primtype.h forms.h formtype.h barmenu.h tempdata.h \
+		points.h device.h multi.h di_util.h macrecor.h oma4000.h \
+		live.h calib.h ksindex.h omameth.h handy.h detinfo.h \
+		doplot.h curvdraw.h crventry.h crvheadr.h plotbox.h curvedir.h \
+		tagcurve.h 
+
+change.obj:	change.h primtype.h filestuf.h tempdata.h points.h curvedir.h \
+		crventry.h handy.h di_util.h oma4000.h oma4driv.h oma4scan.h \
+		formwind.h calib.h curvdraw.h syserror.h omaerror.h fileform.h \
+		omaform.h formtype.h crvheadr.h omameth.h detinfo.h plotbox.h \
+		forms.h curvbufr.h oma4tiff.h 
+
+config.obj:	config.h primtype.h formtabs.h formtype.h helpindx.h gpibcom.h \
+		points.h ksindex.h coolstat.h oma4000.h formwind.h live.h \
+		syserror.h omaerror.h omameth.h handy.h detinfo.h oma4driv.h \
+		oma4scan.h tempdata.h filestuf.h curvedir.h crventry.h curvbufr.h \
+		crvheadr.h forms.h 
+
+gpibcom.obj:	primtype.h gpibcom.h 
+
+backgrnd.obj:	backgrnd.h primtype.h tempdata.h di_util.h live.h oma4000.h \
+		formwind.h omamenu.h barmenu.h formtype.h fileform.h ksindex.h \
+		helpindx.h formtabs.h omaform.h macres2.h mathops.h syserror.h \
+		omaerror.h omameth.h handy.h detinfo.h crventry.h curvedir.h \
+		forms.h 
+
+macruntm.obj:	macruntm.h primtype.h forms.h formtype.h basepath.h crvheadr.h \
+		macnres.h macrecor.h mdatstak.h macparse.h macrores.h macsymbl.h \
+		syserror.h omaerror.h ksindex.h omaform.h macres2.h formwind.h \
+		macrofrm.h 
+
+macnres3.obj:	macnres3.h macruntm.h primtype.h points.h tempdata.h omaerror.h \
+		syserror.h oma4driv.h oma4scan.h mdatstak.h macrofrm.h macnres.h \
+		macres2.h macnres2.h crventry.h handy.h crvheadr.h curvedir.h \
+		filestuf.h fileform.h di_util.h 
+
+spgraph.obj:	spgraph.h primtype.h calib.h di_util.h curvdraw.h device.h \
+		cursor.h oma4driv.h oma4scan.h ksindex.h helpindx.h multi.h \
+		formwind.h gpibcom.h formtabs.h formtype.h omaform.h omameth.h \
+		handy.h detinfo.h omaerror.h crvheadr.h curvbufr.h plotbox.h \
+		forms.h splitfrm.h 
+
+fcolor.obj:	fcolor.h primtype.h device.h points.h doplot.h symbol.h \
+		di_util.h calib.h forms.h formtype.h omameth.h handy.h \
+		detinfo.h crvheadr.h plotbox.h 
+
+doplot.obj:	doplot.h primtype.h symbol.h lineplot.h tempdata.h di_util.h \
+		device.h fcolor.h forms.h formtype.h calib.h multi.h \
+		omameth.h handy.h detinfo.h plotbox.h crvheadr.h points.h 
+
+detdriv.obj:	oma4driv.h primtype.h oma4scan.h driverrs.h counters.h cntrloma.h \
+		access4.h loadoma.h 
+
+points.obj:	points.h primtype.h tempdata.h di_util.h calib.h curvbufr.h \
+		crvheadr.h omameth.h handy.h detinfo.h crventry.h curvedir.h 
+
+tempdata.obj:	tempdata.h primtype.h curvbufr.h crvheadr.h crventry.h handy.h \
+		filestuf.h syserror.h omaerror.h crvhdr35.h curvedir.h oma4driv.h \
+		oma4scan.h 
+
+macrofrm.obj:	macrofrm.h primtype.h fkeyfunc.h barmenu.h formtype.h omaform.h \
+		cursor.h live.h macsymbl.h macruntm.h ksindex.h helpindx.h \
+		macparse.h forms.h formtabs.h 
+
+hline.obj:	hline.h primtype.h doplot.h tempdata.h points.h di_util.h \
+		calib.h omameth.h handy.h detinfo.h syserror.h curvdraw.h \
+		device.h omaerror.h plotbox.h crvheadr.h 
+
+runsetup.obj:	runsetup.h ksindex.h helpindx.h oma4driv.h primtype.h oma4scan.h \
+		config.h formtabs.h formtype.h omaform.h omaerror.h forms.h \
+		curvbufr.h crvheadr.h 
+
+pltsetup.obj:	pltsetup.h primtype.h ksindex.h helpindx.h cursor.h curvdraw.h \
+		device.h doplot.h multi.h formtabs.h formtype.h calib.h \
+		omaform.h omameth.h handy.h detinfo.h omaerror.h crvheadr.h \
+		plotbox.h tagcurve.h forms.h 
+
+macparse.obj:	macparse.h omaform.h primtype.h formtype.h di_util.h crvheadr.h \
+		forms.h macruntm.h macnres.h macprodx.h formwind.h maccomp.h \
+		macsymbl.h syserror.h omaerror.h 
+
+mdatstak.obj:	mdatstak.h primtype.h macruntm.h macnres2.h cursor.h tempdata.h \
+		points.h di_util.h oma4000.h omaerror.h crventry.h handy.h \
+		crvheadr.h curvedir.h curvdraw.h 
+
+coolstat.obj:	coolstat.h primtype.h forms.h formtype.h oma4000.h device.h \
+		oma4driv.h oma4scan.h 
+
+filedos.obj:	filestuf.h primtype.h crvhdr35.h di_util.h tempdata.h oma4driv.h \
+		oma4scan.h syserror.h omaerror.h curvbufr.h crvheadr.h crventry.h \
+		handy.h omameth.h detinfo.h curvedir.h live.h 
+
+plotbox.obj:	plotbox.h primtype.h omameth.h handy.h detinfo.h cursor.h \
+		pltsetup.h multi.h device.h 
+
+maccomp.obj:	maccomp.h macruntm.h primtype.h di_util.h crvheadr.h forms.h \
+		formtype.h macnres.h macprodx.h mdatstak.h macsymbl.h syserror.h \
+		omaerror.h 
+
+omaerror.obj:	omaerror.h primtype.h basepath.h filemsg.h formtype.h formwind.h \
+		syserror.h macruntm.h device.h oma4driv.h oma4scan.h driverrs.h \
+		forms.h 
+
+scanset.obj:	scanset.h omaform.h primtype.h formtype.h oma4driv.h oma4scan.h \
+		helpindx.h ksindex.h formtabs.h omaerror.h driverrs.h forms.h 
+
+multi.obj:	multi.h primtype.h plotbox.h 
+
+curvedir.obj:	curvedir.h primtype.h crventry.h handy.h filestuf.h tempdata.h \
+		di_util.h syserror.h omaerror.h curvbufr.h crvheadr.h multi.h \
+		fileform.h 
+
+macsymbl.obj:	macsymbl.h macruntm.h primtype.h di_util.h macnres.h macrecor.h \
+		syserror.h omaerror.h filestuf.h crvheadr.h handy.h 
+
+formwind.obj:	formwind.h primtype.h omaform.h formtype.h device.h forms.h 
+
+scrngss.obj:	forms.h primtype.h formtype.h coolstat.h 
+
+wintags.obj:	wintags.h primtype.h oma4000.h cursor.h omaerror.h curvedir.h \
+		crventry.h handy.h curvdraw.h 
+
+di_util.obj:	di_util.h primtype.h crventry.h handy.h 
+
+mousegss.obj:	device.h primtype.h forms.h formtype.h 
+
+proclist.obj:	handy.h macruntm.h primtype.h macsymbl.h crvheadr.h 
+
+forms.obj:	syserror.h ksindex.h omaform.h primtype.h formtype.h forms.h 
+
+keyibmpc.obj:	di_util.h primtype.h forms.h formtype.h 
+
+mousefrm.obj:	ksindex.h formwind.h primtype.h barmenu.h formtype.h forms.h 
+
+barmenu.obj:	fkeyfunc.h primtype.h barmenu.h formtype.h omaform.h forms.h 
+
+filemsg.obj:	primtype.h filemsg.h formtype.h formwind.h forms.h 
+
+intfld.obj:	omaform.h primtype.h formtype.h forms.h 
+
+fltfld.obj:	omaform.h primtype.h formtype.h forms.h 
+
+scfltfld.obj:	forms.h primtype.h formtype.h 
+
+hxintfld.obj:	forms.h primtype.h formtype.h 
+
+unintfld.obj:	omaform.h primtype.h formtype.h forms.h 
+
+d16mphys.obj:	d16mphys.h 
+
+symbol.obj:	symbol.h primtype.h device.h 
+
+scrlform.obj:	forms.h primtype.h formtype.h 
+
+tglfld.obj:	forms.h primtype.h formtype.h 
+
+frmatfld.obj:	forms.h primtype.h formtype.h 
+
+selctfld.obj:	forms.h primtype.h formtype.h 
+
+spline-3.obj:	spline-3.h primtype.h 
+
+formlist.obj:	primtype.h ksindex.h 
+
+crvhdr35.obj:	crvhdr35.h primtype.h syserror.h crvheadr.h 
+
+curvbufr.obj:	curvbufr.h crvheadr.h primtype.h tempdata.h points.h oma4driv.h \
+		oma4scan.h syserror.h omaerror.h live.h calib.h omameth.h \
+		handy.h detinfo.h crventry.h curvedir.h spgraph.h 
+
+detinfo.obj:	detinfo.h primtype.h oma4scan.h oma4driv.h syserror.h omaerror.h 
+
+crventry.obj:	crventry.h handy.h primtype.h 
+
+basepath.obj:	basepath.h 
+
+autoscal.obj:	autoscal.h primtype.h tempdata.h di_util.h calib.h formwind.h \
+		pltsetup.h live.h cursor.h multi.h omaform.h formtype.h \
+		crventry.h handy.h omameth.h detinfo.h baslnsub.h points.h \
+		macrecor.h doplot.h plotbox.h curvedir.h curvbufr.h crvheadr.h \
+		tagcurve.h curvdraw.h forms.h 
+
+rapset.obj:	rapset.h omaform.h primtype.h formtype.h oma4driv.h oma4scan.h \
+		helpindx.h ksindex.h formtabs.h omaerror.h driverrs.h forms.h 
+
+cntrloma.obj:	primtype.h omaregs.h monitor.h oma4scan.h asicodes.h cache386.h \
+		counters.h cntrloma.h d16mphys.h himem.h 
+
+loadoma.obj:	primtype.h omaregs.h loadoma.h loadrec.h monitor.h oma4scan.h \
+		counters.h himem.h cntrloma.h 
+
+splitfrm.obj:	splitfrm.h primtype.h formtype.h forms.h plotbox.h device.h \
+		cursor.h multi.h curvdraw.h omaform.h graphops.h barmenu.h \
+		calib.h spgraph.h 
+
+statform.obj:	statform.h primtype.h mathform.h mathops.h tempdata.h curvedir.h \
+		crventry.h handy.h helpindx.h ksindex.h formwind.h omaerror.h \
+		formtabs.h formtype.h crvheadr.h forms.h splitfrm.h di_util.h \
+		macres2.h fileform.h 
+
+ycalib.obj:	ycalib.h primtype.h curvdraw.h points.h doplot.h spline-3.h \
+		helpindx.h cursor.h device.h omaform.h formtype.h di_util.h \
+		curvedir.h crventry.h handy.h ksindex.h macrecor.h multi.h \
+		plotbox.h syserror.h omaerror.h crvheadr.h forms.h formwind.h \
+		splitfrm.h omazoom.h fkeyfunc.h barmenu.h formtabs.h oma4driv.h \
+		oma4scan.h fileform.h mathops.h tempdata.h 
+
+oma4tiff.obj:	change.h primtype.h tempdata.h points.h curvedir.h crventry.h \
+		handy.h syserror.h omaerror.h crvheadr.h plotbox.h curvbufr.h \
+		oma4tiff.h hidris.h 
+
+cmdtbl.obj:     primtype.h oma4driv.h
+
+#ENDUPDATE#
+#end of uniqdep processing#

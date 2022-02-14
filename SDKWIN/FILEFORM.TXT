@@ -1,0 +1,57 @@
+Option Explicit
+Dim SelectingFile As Integer
+
+Sub Btn_Cancel_Click ()
+  Unload Me
+End Sub
+
+Sub Btn_OK_Click ()
+  Unload Me
+End Sub
+
+Sub Form_Load ()
+ SelectingFile = False
+End Sub
+
+Sub Lst_Dirs_Change ()
+  ' Update File listbox to sync with Dir listbox.
+  Lst_Files.Path = Lst_Dirs.Path
+End Sub
+
+Sub Lst_Dirs_Click ()
+  Lst_Files.Path = Lst_Dirs.List(Lst_Dirs.ListIndex)
+End Sub
+
+Sub Lst_Dirs_LostFocus ()
+    Lst_Dirs.Path = Lst_Dirs.List(Lst_Dirs.ListIndex)
+End Sub
+
+Sub Lst_Drives_Change ()
+    On Error GoTo DriveHandler
+    Lst_Dirs.Path = Lst_Drives.Drive
+    Exit Sub
+
+DriveHandler:
+    Lst_Drives.Drive = Lst_Dirs.Path
+    Exit Sub
+
+End Sub
+
+Sub Lst_Files_Click ()
+  SelectingFile = True
+  Txt_FileSpec.Text = Lst_Files.FileName
+  SelectingFile = False
+End Sub
+
+Sub Txt_FileSpec_Change ()
+' Update file list box if user changes pattern.
+    If SelectingFile = False Then
+    Lst_Files.Pattern = Txt_FileSpec.Text
+    End If
+End Sub
+
+Sub Txt_FileSpec_GotFocus ()
+    Txt_FileSpec.SelStart = 0      ' Highlight the current entry.
+    Txt_FileSpec.SelLength = Len(Txt_FileSpec.Text)
+End Sub
+

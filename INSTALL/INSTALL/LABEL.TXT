@@ -1,0 +1,28 @@
+%co      Label text for 5.25" 1.2M Install Diskette
+%co      Not for customer use
+%co
+%version 3.1
+%pntype 4
+%spacing 30
+INSTALL  Disk 1            PN 221903
+%white 11
+EG&G PARC Install Software
+%white 11
+%pnttype 15
+%spacing 15
+COPYRIGHT 1985-1992
+EG&G INSTRUMENTS INC., ALL RIGHTS RESERVED
+%white 6
+PORTIONS COPYRIGHT 1991-1992
+Knowledge Dynamics Corp., ALL RIGHTS RESERVED
+%white 6
+PORTIONS COPYRIGHT 1981-1992
+GSS Inc., ALL RIGHTS RESERVED
+%white 6
+PORTIONS COPYRIGHT 1985-1992
+NATIONAL INSTRUMENTS, ALL RIGHTS RESERVED
+%PNTTYPE 4
+%spacing 20
+%white 30
+%ser&rev1
+
